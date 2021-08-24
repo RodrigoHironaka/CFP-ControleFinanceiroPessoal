@@ -1,0 +1,9 @@
+﻿<Application x:Class="CFP.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CFP.App"
+             StartupUri="Formularios/Principais/MainWindow.xaml">
+    <Application.Resources>
+       
+    </Application.Resources>
+</Application>
