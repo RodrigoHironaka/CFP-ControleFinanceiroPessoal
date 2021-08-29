@@ -64,6 +64,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Formularios\Cadastros\CadastroFormaPagamento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\Cadastros\PageCadastroFormaPagamento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\ModeloBase\UserControls\UserControlCadastros.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\ModeloBase\UserControls\UserControlFinanceiros.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\ModeloBase\UserControls\UserControlInicio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\ModeloBase\UserControls\UserControlRelatorios.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Principais\Principal.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -71,6 +95,24 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Formularios\Cadastros\CadastroFormaPagamento.xaml.cs">
+      <DependentUpon>CadastroFormaPagamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Cadastros\PageCadastroFormaPagamento.xaml.cs">
+      <DependentUpon>PageCadastroFormaPagamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\ModeloBase\UserControls\UserControlCadastros.xaml.cs">
+      <DependentUpon>UserControlCadastros.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\ModeloBase\UserControls\UserControlFinanceiros.xaml.cs">
+      <DependentUpon>UserControlFinanceiros.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\ModeloBase\UserControls\UserControlInicio.xaml.cs">
+      <DependentUpon>UserControlInicio.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\ModeloBase\UserControls\UserControlRelatorios.xaml.cs">
+      <DependentUpon>UserControlRelatorios.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Principais\Principal.xaml.cs">
       <DependentUpon>Principal.xaml</DependentUpon>
@@ -105,10 +147,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Formularios\Cadastros\" />
     <Folder Include="Formularios\Configuracoes\" />
     <Folder Include="Formularios\Financeiros\" />
-    <Folder Include="Formularios\ModeloBase\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets')" />

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CFP.App.Formularios.ModeloBase;
+using CFP.App.Formularios.ModeloBase.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,6 +42,33 @@ namespace CFP.App
         {
             ButtonOpenMenu.Visibility = Visibility.Visible;
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
+        }
+
+        private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int indexOpcoesMenu = ListViewMenu.SelectedIndex;
+
+            switch (indexOpcoesMenu)
+            {
+                case 0:
+                    GridPrincipal.Children.Clear();
+                    GridPrincipal.Children.Add(new UserControlInicio());
+                    break;
+                case 1:
+                    GridPrincipal.Children.Clear();
+                    GridPrincipal.Children.Add(new UserControlFinanceiro());
+                    break;
+                case 2:
+                    GridPrincipal.Children.Clear();
+                    GridPrincipal.Children.Add(new UserControlCadastros());
+                    break;
+                case 3:
+                    GridPrincipal.Children.Clear();
+                    GridPrincipal.Children.Add(new UserControlRelatorios());
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

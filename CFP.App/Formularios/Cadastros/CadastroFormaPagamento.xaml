@@ -1,0 +1,26 @@
+﻿<Window x:Class="CFP.App.Formularios.Cadastros.CadastroFormaPagamento"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CFP.App.Formularios.Cadastros"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="CadastroFormaPagamento" Height="315.284" Width="426.327" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" >
+    <Grid>
+        <Grid Background="#FF1368BD" Height="50" VerticalAlignment="Top" >
+            <Button Content="..." Margin="10,10,0,8" Style="{StaticResource MaterialDesignFlatAccentBgButton}" HorizontalAlignment="Left" Background="#FF1F3D68" Width="45" />
+            <TextBox Margin="60,10,200,8" materialDesign:HintAssist.Hint="Código" Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontFamily="Champagne &amp; Limousines" FontSize="12" Foreground="White"  VerticalAlignment="Top"/>
+        </Grid>
+        <Grid Background="#FF1368BD" Width="140" HorizontalAlignment="Right">
+            <StackPanel Width="150" HorizontalAlignment="Right">
+                <Button x:Name="btOk" Content="Ok" Style="{StaticResource MaterialDesignFlatAccentBgButton}" Margin="20 10 10 0" Background="#FF1F3D68" />
+                <Button x:Name="btExcluir" Content="Excluir" Style="{StaticResource MaterialDesignFlatAccentBgButton}" Margin="20 10 10 0" Background="#FF1F3D68" />
+                <Button x:Name="btCancelar" Content="Cancelar" Style="{StaticResource MaterialDesignFlatAccentBgButton}" Margin="20 10 10 0" Background="#FF1F3D68" />
+            </StackPanel>
+        </Grid>
+        <Grid  x:Name="gridDadosFormulario" >
+
+        </Grid>
+    </Grid>
+</Window>
