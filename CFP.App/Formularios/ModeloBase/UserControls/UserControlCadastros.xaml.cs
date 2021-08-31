@@ -26,11 +26,20 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
             InitializeComponent();
         }
 
+        private void ControleAcesso()
+        {
+            //btPessoa.IsEnabled = !btPessoa.IsEnabled;
+            //btTipoRenda.IsEnabled = !btTipoRenda.IsEnabled;
+            //btUsuario.IsEnabled = !btUsuario.IsEnabled;
+            //btTipoGasto.IsEnabled = !btTipoGasto.IsEnabled;
+            GridBotoesCadastros.IsEnabled = !GridBotoesCadastros.IsEnabled;
+        }
+
         private void btFormaPagamento_Click(object sender, RoutedEventArgs e)
         {
-            
-            CadastroFormaPagamento janela = new CadastroFormaPagamento();
-            janela.ShowDialog();
+            panelCadastros.Children.Clear();
+            panelCadastros.Children.Add(new UserControlCadastroFormaPagamento());
+            ControleAcesso();
         }
     }
 }

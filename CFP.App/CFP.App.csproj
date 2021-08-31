@@ -72,6 +72,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Cadastros\UserControlCadastroFormaPagamento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\ModeloBase\UserControls\UserControlCadastros.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -101,6 +105,9 @@
     </Compile>
     <Compile Include="Formularios\Cadastros\PageCadastroFormaPagamento.xaml.cs">
       <DependentUpon>PageCadastroFormaPagamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Cadastros\UserControlCadastroFormaPagamento.xaml.cs">
+      <DependentUpon>UserControlCadastroFormaPagamento.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\ModeloBase\UserControls\UserControlCadastros.xaml.cs">
       <DependentUpon>UserControlCadastros.xaml</DependentUpon>
@@ -149,6 +156,16 @@
   <ItemGroup>
     <Folder Include="Formularios\Configuracoes\" />
     <Folder Include="Formularios\Financeiros\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CFP.Dominio\CFP.Dominio.csproj">
+      <Project>{e96c2843-48f7-4491-b51d-3c21739861c2}</Project>
+      <Name>CFP.Dominio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CFP.Repositorio\CFP.Repositorio.csproj">
+      <Project>{b1c6ef45-06f7-4605-9e63-fa14cee9224d}</Project>
+      <Name>CFP.Repositorio</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets')" />
