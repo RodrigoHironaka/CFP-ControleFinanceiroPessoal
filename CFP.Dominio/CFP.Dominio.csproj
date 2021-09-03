@@ -73,6 +73,7 @@
     <Compile Include="Dominio\TipoRenda.cs" />
     <Compile Include="Dominio\Usuario.cs" />
     <Compile Include="IEntidade\IEntidade.cs" />
+    <Compile Include="ObjetoValor\NomeTelas.cs" />
     <Compile Include="ObjetoValor\PessoaTipoRenda.cs" />
     <Compile Include="ObjetoValor\Situacao.cs" />
     <Compile Include="ObjetoValor\SituacaoCaixa.cs" />

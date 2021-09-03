@@ -1,11 +1,12 @@
-﻿<UserControl x:Class="CFP.App.Formularios.Cadastros.UserControlCadastroFormaPagamento"
+﻿<UserControl x:Class="CFP.App.Formularios.Cadastros.UserControlTipoGasto"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:CFP.App.Formularios.Cadastros"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" d:DesignWidth="800" Height="600">
+             xmlns:local="clr-namespace:CFP.App.Formularios.Cadastros"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
     <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -68,7 +69,7 @@
             </Button>
         </Grid>
         <Grid x:Name="GridCampos" Background="LightGray" Grid.Row="1" >
-            <TextBlock x:Name="lblNomeTela" Text="Forma de Pagamento" 
+            <TextBlock x:Name="lblNomeTela" Text="Tipo de Gasto" 
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Top" 
                        FontSize="12"
@@ -83,33 +84,16 @@
                      FontSize="22" 
                      Foreground="#FF1F3D68"  
                      VerticalAlignment="Top"/>
-                <TextBox  
-                    x:Name="txtQtdParcelas"
-                     materialDesign:HintAssist.Hint="Qtd Parcelas" 
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                     FontSize="22" 
-                     Foreground="#FF1F3D68" Margin="0,54,0,274"  
-                     />
-                <TextBox 
-                    x:Name="txtDiasVencimento"
-                     materialDesign:HintAssist.Hint="Dias para Vencimento" 
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                     FontSize="22" 
-                     Foreground="#FF1F3D68" Margin="0,121,10,207"  
-                     />
+               
                 <ComboBox 
                     x:Name="cmbSituacao"
                      materialDesign:HintAssist.Hint="Situação" 
                      Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="22" 
-                     Foreground="#FF1F3D68" Margin="0,188,0,148"  
+                     Foreground="#FF1F3D68" Margin="0,59,0,277"  
                      />
             </Grid>
-
-
         </Grid>
     </Grid>
 </UserControl>

@@ -34,8 +34,8 @@
     </Window.Triggers>
 
     <Grid Background="LightGray">
-        <Grid Height="60" VerticalAlignment="Top" Background="#FF1368BD" >
-            <TextBlock Text="Menu Principal" 
+        <Grid x:Name="GridCabecalho" Height="60" VerticalAlignment="Top" Background="#FF1368BD" >
+            <TextBlock x:Name="lblTitulo" Text="CONTROLE FINANCEIRO PESSOAL" 
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center" 
                        FontSize="22" />
@@ -61,7 +61,7 @@
                     <ColumnDefinition Width="379*"/>
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Grid x:Name="GridPrincipal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,0" Height="539" Width="1020" Grid.ColumnSpan="2"/>
+                <Grid x:Name="GridPrincipal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Height="539" Width="1020" Grid.ColumnSpan="2"/>
             </Grid>
 
         </Grid>

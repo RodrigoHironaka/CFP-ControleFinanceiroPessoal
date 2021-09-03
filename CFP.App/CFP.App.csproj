@@ -64,15 +64,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Formularios\Cadastros\CadastroFormaPagamento.xaml">
+    <Page Include="Formularios\Cadastros\Testes\CadastroFormaPagamento.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Formularios\Cadastros\PageCadastroFormaPagamento.xaml">
+    <Page Include="Formularios\Cadastros\Testes\PageCadastroFormaPagamento.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Formularios\Cadastros\UserControlCadastroFormaPagamento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\Cadastros\UserControlTipoGasto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\ModeloBase\UserControls\userControlBaseFormularios.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -100,14 +108,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Formularios\Cadastros\CadastroFormaPagamento.xaml.cs">
+    <Compile Include="Formularios\Cadastros\Testes\CadastroFormaPagamento.xaml.cs">
       <DependentUpon>CadastroFormaPagamento.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\Cadastros\PageCadastroFormaPagamento.xaml.cs">
+    <Compile Include="Formularios\Cadastros\Testes\PageCadastroFormaPagamento.xaml.cs">
       <DependentUpon>PageCadastroFormaPagamento.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Cadastros\UserControlCadastroFormaPagamento.xaml.cs">
       <DependentUpon>UserControlCadastroFormaPagamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Cadastros\UserControlTipoGasto.xaml.cs">
+      <DependentUpon>UserControlTipoGasto.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\ModeloBase\UserControls\userControlBaseFormularios.xaml.cs">
+      <DependentUpon>userControlBaseFormularios.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\ModeloBase\UserControls\UserControlCadastros.xaml.cs">
       <DependentUpon>UserControlCadastros.xaml</DependentUpon>

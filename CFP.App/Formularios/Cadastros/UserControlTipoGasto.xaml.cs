@@ -1,6 +1,4 @@
-﻿using CFP.App.Formularios.ModeloBase.UserControls;
-using Dominio.Dominio;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,18 +16,18 @@ using System.Windows.Shapes;
 namespace CFP.App.Formularios.Cadastros
 {
     /// <summary>
-    /// Interação lógica para UserControlCadastroFormaPagamento.xam
+    /// Interação lógica para UserControlTipoGasto.xam
     /// </summary>
-    public partial class UserControlCadastroFormaPagamento : UserControl
+    public partial class UserControlTipoGasto : UserControl
     {
-        public UserControlCadastroFormaPagamento()
+        public UserControlTipoGasto()
         {
             InitializeComponent();
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
         {
-           if(GridCampos.IsEnabled)
+            if (GridCampos.IsEnabled)
             {
                 GridCampos.IsEnabled = !GridCampos.IsEnabled;
                 btOk.IsEnabled = !btOk.IsEnabled;
