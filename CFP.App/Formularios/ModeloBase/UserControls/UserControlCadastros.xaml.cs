@@ -37,5 +37,29 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
             panelCadastros.Children.Clear();
             panelCadastros.Children.Add(new UserControlTipoGasto());
         }
+
+        private void btTipoRenda_Click(object sender, RoutedEventArgs e)
+        {
+            panelCadastros.Children.Clear();
+            panelCadastros.Children.Add(new UserControlTipoRenda());
+        }
+
+        private void btUsuario_Click(object sender, RoutedEventArgs e)
+        {
+            panelCadastros.Children.Clear();
+            panelCadastros.Children.Add(new UserControlUsuario());
+        }
+
+        private void btPessoa_Click(object sender, RoutedEventArgs e)
+        {
+            panelCadastros.Children.Clear();
+            panelCadastros.Children.Add(new UserControlPessoa());
+        }
+
+        private void btBanco_Click(object sender, RoutedEventArgs e)
+        {
+            panelCadastros.Children.Clear();
+            panelCadastros.Children.Add(new UserControlBanco());
+        }
     }
 }

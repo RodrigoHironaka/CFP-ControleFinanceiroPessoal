@@ -72,11 +72,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Cadastros\UserControlBanco.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Cadastros\UserControlCadastroFormaPagamento.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Cadastros\UserControlPessoa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Cadastros\UserControlTipoGasto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\Cadastros\UserControlTipoRenda.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\Cadastros\UserControlUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Formularios\Financeiros\UserControlContas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -114,11 +134,26 @@
     <Compile Include="Formularios\Cadastros\Testes\PageCadastroFormaPagamento.xaml.cs">
       <DependentUpon>PageCadastroFormaPagamento.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Cadastros\UserControlBanco.xaml.cs">
+      <DependentUpon>UserControlBanco.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Cadastros\UserControlCadastroFormaPagamento.xaml.cs">
       <DependentUpon>UserControlCadastroFormaPagamento.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Cadastros\UserControlPessoa.xaml.cs">
+      <DependentUpon>UserControlPessoa.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Cadastros\UserControlTipoGasto.xaml.cs">
       <DependentUpon>UserControlTipoGasto.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Cadastros\UserControlTipoRenda.xaml.cs">
+      <DependentUpon>UserControlTipoRenda.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Cadastros\UserControlUsuario.xaml.cs">
+      <DependentUpon>UserControlUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Financeiros\UserControlContas.xaml.cs">
+      <DependentUpon>UserControlContas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\ModeloBase\UserControls\userControlBaseFormularios.xaml.cs">
       <DependentUpon>userControlBaseFormularios.xaml</DependentUpon>
@@ -169,7 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Formularios\Configuracoes\" />
-    <Folder Include="Formularios\Financeiros\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CFP.Dominio\CFP.Dominio.csproj">

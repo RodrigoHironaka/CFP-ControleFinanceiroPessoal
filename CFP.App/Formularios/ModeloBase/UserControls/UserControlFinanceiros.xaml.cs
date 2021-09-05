@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CFP.App.Formularios.Financeiros;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
         public UserControlFinanceiro()
         {
             InitializeComponent();
+        }
+
+        private void BtConta_Click(object sender, RoutedEventArgs e)
+        {
+            panelCadastros.Children.Clear();
+            panelCadastros.Children.Add(new UserControlContas());
         }
     }
 }

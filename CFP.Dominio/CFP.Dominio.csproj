@@ -80,7 +80,7 @@
     <Compile Include="ObjetoValor\SituacaoCofre.cs" />
     <Compile Include="ObjetoValor\SituacaoConta.cs" />
     <Compile Include="ObjetoValor\TipoConta.cs" />
-    <Compile Include="ObjetoValor\TipoConta2.cs" />
+    <Compile Include="ObjetoValor\TipoPeriodo.cs" />
     <Compile Include="ObjetoValor\TipoContaBanco.cs" />
     <Compile Include="ObjetoValor\TipoUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

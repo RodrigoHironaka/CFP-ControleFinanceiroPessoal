@@ -7,11 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid x:Name="GridGeral">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="7*"/>
-            <RowDefinition Height="218*"/>
-        </Grid.RowDefinitions>
-        <Grid x:Name="GridBotoesCadastros" VerticalAlignment="Center" Height="100" Grid.RowSpan="2" >
+       
+        <Grid x:Name="GridBotoesCadastros"  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -21,20 +24,23 @@
             </Grid.ColumnDefinitions>
 
             <Button x:Name="btPessoa" 
-                Margin="5,10,5,9.8" Grid.Column="0" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Pessoas" Foreground="#FFFCF9F9" Height="Auto" />
+                Margin="5,10,5,9.8" Grid.Column="0" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
+                FontSize="16" Content="Pessoas" Foreground="#FFFCF9F9" Height="Auto" Click="btPessoa_Click" />
             <Button x:Name="btTipoRenda" 
-                Margin="5,10,5,9.8" Grid.Column="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Tipos de Renda" Foreground="#FFFCF9F9" Height="Auto"/>
+                Margin="5,10,5,9.8" Grid.Column="1" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
+                FontSize="16" Content="Tipos de Renda" Foreground="#FFFCF9F9" Height="Auto" Click="btTipoRenda_Click"/>
             <Button x:Name="btTipoGasto"
-                Margin="5,10.2,5,9.6" Grid.Column="3" Grid.Row="0" Background="#FF1B3861" VerticalAlignment="Stretch" 
+                Margin="5,10.2,5,9.6" Grid.Column="3" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
                 FontSize="16" Content="Tipos de Gasto" Foreground="#FFFCF9F9" Height="Auto" Click="btTipoGasto_Click" />
             <Button x:Name="btFormaPagamento"
-                Margin="5,10.2,5,9.6" Grid.Column="4" Grid.Row="0" Background="#FF1B3861" VerticalAlignment="Stretch" 
+                Margin="5,10.2,5,9.6" Grid.Column="4" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
                 FontSize="16" Content="Formas de Pagamento" Foreground="#FFFCF9F9" Click="btFormaPagamento_Click" Height="Auto" />
             <Button x:Name="btUsuario"
-                Margin="5,10,5,9.8" Grid.Column="2" Grid.Row="0" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Usuários" Foreground="#FFFCF9F9" Height="Auto" />
+                Margin="5,10,5,9.8" Grid.Column="2" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
+                FontSize="16" Content="Usuários" Foreground="#FFFCF9F9" Height="Auto" Click="btUsuario_Click" />
+            <Button x:Name="btBanco"
+                Margin="5,10,5,9.8" Grid.Column="0" Grid.Row="2" Background="#FF1B3861" VerticalAlignment="Stretch" 
+                FontSize="16" Content="Bancos" Foreground="#FFFCF9F9" Height="Auto" Click="btBanco_Click"  />
         </Grid>
         <StackPanel x:Name="panelCadastros" Width="auto" Height="auto" Grid.RowSpan="2"/>
     </Grid>

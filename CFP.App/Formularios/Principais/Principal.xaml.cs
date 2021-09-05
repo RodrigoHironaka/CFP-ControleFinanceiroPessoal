@@ -25,6 +25,7 @@ namespace CFP.App
         public MainWindow()
         {
             InitializeComponent();
+            GridPrincipal.Children.Add(new UserControlInicio());
         }
 
         private void ButtonPopUpSair_Click(object sender, RoutedEventArgs e)

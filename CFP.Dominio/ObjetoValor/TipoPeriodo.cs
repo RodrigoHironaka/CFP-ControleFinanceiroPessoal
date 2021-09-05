@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.ObejtoValor
 {
-    public enum TipoConta2
+    public enum TipoPeriodo
     {
         Unica,
         Periodica,

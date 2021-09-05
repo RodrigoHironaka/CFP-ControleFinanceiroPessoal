@@ -7,8 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -20,35 +20,19 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="Botao1"
-                Margin="5" Grid.Column="0" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao2"
-                Margin="5" Grid.Column="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao3"
-                Margin="5" Grid.Column="2" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao4"
-                Margin="5" Grid.Column="3" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao5"
-                Margin="5" Grid.Column="4" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao6"
+        <Button x:Name="btCaixa"
                 Margin="5" Grid.Column="0" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao7"
+                FontSize="16" Content="Caixa" Foreground="#FFFCF9F9" Height="auto" />
+        <Button x:Name="btCofre"
                 Margin="5" Grid.Column="1" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao8"
+                FontSize="16" Content="Cofre" Foreground="#FFFCF9F9"  Height="auto" />
+        <Button x:Name="BtConta"
                 Margin="5" Grid.Column="2" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao9"
+                FontSize="16" Content="Contas" Foreground="#FFFCF9F9"  Height="auto" Click="BtConta_Click"/>
+        <Button x:Name="btHorasTrabalho"
                 Margin="5" Grid.Column="3" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao10"
-                Margin="5" Grid.Column="4" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
+                FontSize="16" Content="Horas de Trabalho" Foreground="#FFFCF9F9"  Height="auto" />
+        </Grid>
+        <StackPanel x:Name="panelCadastros" Width="auto" Height="auto" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>
