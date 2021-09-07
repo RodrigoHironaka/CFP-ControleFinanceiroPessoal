@@ -22,6 +22,8 @@ namespace Repositorio.Mapeamentos
             });
 
             Property(x => x.Nome, m => m.Length(70));
+            Property(x => x.QtdParcelas, m => m.Length(3));
+            Property(x => x.DiasParaVencimento, m => m.Length(3));
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
             Property(x => x.Situacao, m => m.Type<EnumType<Situacao>>());

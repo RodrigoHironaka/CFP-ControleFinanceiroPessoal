@@ -95,7 +95,8 @@
                           Foreground="White" 
                           BorderBrush="#FF1F3D68" SelectionChanged="ListViewMenu_SelectionChanged">
                     <ListViewItem Height="60">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" 
+                                ToolTip="Início">
                             <materialDesign:PackIcon 
                                 Kind="Home" 
                                 Width="25" 
@@ -108,7 +109,8 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem x:Name="ListVIewItemFinanceiro" Height="60" >
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" 
+                                ToolTip="Financeiro">
                             <materialDesign:PackIcon 
                                 Kind="Calculator" 
                                 Width="25" 
@@ -121,7 +123,8 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem Height="60">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" 
+                                ToolTip="Cadastros em Geral">
                             <materialDesign:PackIcon 
                                 Kind="Add" 
                                 Width="25" 
@@ -134,7 +137,8 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem Height="60">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal"
+                                ToolTip="Relatórios">
                             <materialDesign:PackIcon 
                                 Kind="FileReport" 
                                 Width="25" 
