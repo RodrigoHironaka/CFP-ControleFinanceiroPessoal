@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="CFP.App.Formularios.Pesquisas.UserControlPesquisas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CFP.App.Formularios.Pesquisas"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" d:DesignWidth="800" Loaded="UserControl_Loaded" Height="460.308" >
+    <Grid>
+        <DataGrid x:Name="DataGridPesquisa" 
+                  Width="800" Margin="0,-2,0,224"/>
+        <Button x:Name="btFechar" 
+                Content="Fechar"
+                Style="{StaticResource MaterialDesignFlatAccentBgButton}"
+                Background="#FF1F3D68"
+                HorizontalAlignment="Left" 
+                Margin="-10,241,0,0"
+                Width="800" Height="34" VerticalAlignment="Top"/>
+
+    </Grid>
+</UserControl>

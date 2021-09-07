@@ -25,7 +25,7 @@ namespace SGE.Repositorio.Configuracao
                         db.Dialect<NHibernate.Dialect.MySQL55InnoDBDialect>();
                         db.Driver<NHibernate.Driver.MySqlDataDriver>();
                         //db.ConnectionString = "Server=" + configuracoes[0] + ";Port=" + configuracoes[1] + ";Database=" + configuracoes[2] + ";Uid=" + configuracoes[3] + ";Pwd=" + configuracoes[4] + ";";
-                        db.ConnectionString = "Server=localhost;Port=3306;Database=cfp;Uid=root;Pwd=hiro;";
+                        db.ConnectionString = "Server=localhost;Port=3306;Database=cfp;Uid=root;Pwd=123456;";
                         db.Timeout = 10;
 
                         db.LogFormattedSql = false;
@@ -52,7 +52,7 @@ namespace SGE.Repositorio.Configuracao
 
         private static void BuildSchema(Configuration config)
         {
-            new SchemaExport(config).SetOutputFile(@"D:\Projetos\DESKTOP\ControleFinanceiroPessoal\Doc\cfp.sql").SetDelimiter(";").Create(false, false);
+            new SchemaExport(config).SetOutputFile(@"D:\Projetos\ControleFinanceiroPessoal\Doc\cfp.sql").SetDelimiter(";").Create(false, false);
         }
 
        

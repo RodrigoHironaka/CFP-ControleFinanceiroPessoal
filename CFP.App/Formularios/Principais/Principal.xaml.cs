@@ -1,5 +1,6 @@
 ﻿using CFP.App.Formularios.ModeloBase;
 using CFP.App.Formularios.ModeloBase.UserControls;
+using SGE.Repositorio.Configuracao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace CFP.App
         {
             InitializeComponent();
             GridPrincipal.Children.Add(new UserControlInicio());
+            
         }
 
         private void ButtonPopUpSair_Click(object sender, RoutedEventArgs e)
@@ -70,6 +72,11 @@ namespace CFP.App
                 default:
                     break;
             }
+        }
+
+        private void Principal_Loaded(object sender, RoutedEventArgs e)
+        {
+           // NHibernateHelper.GetSession();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CFP.App.Formularios.ModeloBase.UserControls;
+using CFP.App.Formularios.Pesquisas;
 using Dominio.Dominio;
 using Dominio.ObjetoValor;
 using System;
@@ -151,6 +152,13 @@ namespace CFP.App.Formularios.Cadastros
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
+        }
+
+        private void btPesquisar_Click(object sender, RoutedEventArgs e)
+        {
+            //GridCampos.Children.Add( new UserControlPesquisas());
+            JanelaPesquisas p = new JanelaPesquisas();
+            p.ShowDialog();
         }
     }
 }

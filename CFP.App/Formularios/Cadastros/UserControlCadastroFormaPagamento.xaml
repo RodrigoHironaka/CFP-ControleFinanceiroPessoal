@@ -21,7 +21,7 @@
                     Width="60" 
                     HorizontalAlignment="Left" 
                     Background="#FF1F3D68"
-                    ToolTip="Pesquisar">
+                    ToolTip="Pesquisar" Click="btPesquisar_Click">
                 <materialDesign:PackIcon 
                     Kind="Search"  
                     Width="50" 
