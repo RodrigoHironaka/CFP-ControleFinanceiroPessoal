@@ -1,10 +1,17 @@
-﻿using Dominio.ObjetoValor;
+﻿using Dominio.Dominio;
+using Dominio.ObjetoValor;
 using LinqKit;
 using NHibernate;
 using Repositorio.Repositorios;
 using SGE.Repositorio.Configuracao;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace CFP.App.Formularios.Pesquisas
 {
@@ -85,7 +92,7 @@ namespace CFP.App.Formularios.Pesquisas
                         session.Dispose();
 
                     session = NHibernateHelper.GetSession();
-                    
+
                 }
                 return session;
             }
@@ -106,11 +113,20 @@ namespace CFP.App.Formularios.Pesquisas
         }
         #endregion
 
+        private bool UserFilter(object item)
+        {
+            if (String.IsNullOrEmpty(txtPesquisa.Text))
+                return true;
+            else
+            {
+                return ((item as FormaPagamento).Nome.IndexOf(txtPesquisa.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                
+            }
+                
+        }
         private void CarregaDados()
         {
-            var predicado = Repositorio.CriarPredicado();
-            predicado = predicado.And(x => x.Situacao == Situacao.Ativo);
-            DataGridPesquisa.ItemsSource = Repositorio.ObterPorParametros(predicado);
+            DataGridPesquisa.ItemsSource = Repositorio.ObterTodos();
         }
 
         public JanelaPesquisas()
@@ -121,6 +137,68 @@ namespace CFP.App.Formularios.Pesquisas
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CarregaDados();
+        }
+
+        private void txtName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //recebe todos os dados do dataGrid
+            ICollectionView cv = CollectionViewSource.GetDefaultView(DataGridPesquisa.ItemsSource);
+            //verifica se campo de pesquisa é esta vazio, se sim, filtro é nulo
+            if (txtPesquisa.Text == string.Empty)
+                cv.Filter = null;
+            else
+            {
+                //senão filtro o objeto (neste caso 'FormaPagamento') por Nome e Id
+                cv.Filter = o =>
+                {
+                    FormaPagamento p = o as FormaPagamento;
+                    return p.Nome.Contains(txtPesquisa.Text)
+                            || p.Id.ToString().Contains(txtPesquisa.Text);
+                };
+            }
+            //TextBox t = (TextBox)sender;
+            //string filter = t.Text;
+            //ICollectionView cv = CollectionViewSource.GetDefaultView(DataGridPesquisa.ItemsSource);
+            //if (filter == "")
+            //    cv.Filter = null;
+            //else
+            //{
+            //    cv.Filter = o =>
+            //    {
+            //        FormaPagamento p = o as FormaPagamento;
+            //        if (t.Name == "txtId")
+            //            return (p.Id == Convert.ToInt32(filter));
+            //        return (p.Nome.ToUpper().StartsWith(filter.ToUpper()));
+            //    };
+            //}
+        }
+
+        private void txtName_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            //var textBox = sender as TextBox;
+            //e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
+        private void txtName1_TextChanged(object sender, TextChangedEventArgs e)
+        { }
+
+        private void txtPesquisa_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //recebe todos os dados do dataGrid
+            ICollectionView cv = CollectionViewSource.GetDefaultView(DataGridPesquisa.ItemsSource);
+            //verifica se campo de pesquisa é esta vazio, se sim, filtro é nulo
+            if (txtPesquisa.Text == string.Empty)
+                cv.Filter = null;
+            else
+            {
+                //senão filtro o objeto (neste caso 'FormaPagamento') por Nome e Id
+                cv.Filter = o =>
+                {
+                    FormaPagamento p = o as FormaPagamento;
+                    return p.Nome.Contains(txtPesquisa.Text)
+                            || p.Id.ToString().Contains(txtPesquisa.Text);
+                };
+            }
         }
     }
 }

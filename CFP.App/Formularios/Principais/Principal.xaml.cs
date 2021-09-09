@@ -76,7 +76,7 @@ namespace CFP.App
 
         private void Principal_Loaded(object sender, RoutedEventArgs e)
         {
-           // NHibernateHelper.GetSession();
+           //NHibernateHelper.GetSession();
         }
     }
 }
