@@ -1,4 +1,7 @@
 ﻿using CFP.App.Formularios.Cadastros;
+using Dominio.Dominio;
+using NHibernate;
+using SGE.Repositorio.Configuracao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +24,23 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
     /// </summary>
     public partial class UserControlCadastros : UserControl
     {
+        #region Session
+        private static ISession session;
+        protected static ISession Session
+        {
+            get
+            {
+                if (session == null || !session.IsOpen)
+                {
+                    if (session != null)
+                        session.Dispose();
+                    session = NHibernateHelper.GetSession();
+                }
+                return session;
+            }
+        }
+        #endregion
+
         public UserControlCadastros()
         {
             InitializeComponent();
@@ -29,7 +49,7 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
         private void btFormaPagamento_Click(object sender, RoutedEventArgs e)
         {
             panelCadastros.Children.Clear();
-            panelCadastros.Children.Add(new UserControlCadastroFormaPagamento());
+            panelCadastros.Children.Add(new UserControlCadastroFormaPagamento(new FormaPagamento(), Session));
         }
 
         private void btTipoGasto_Click(object sender, RoutedEventArgs e)

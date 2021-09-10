@@ -59,7 +59,7 @@
                     Background="#FF1F3D68" 
                     Margin="0,5,137,5"
                     HorizontalAlignment="Right"
-                    ToolTip="Salvar">
+                    ToolTip="Salvar" Click="btSalvar_Click">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 

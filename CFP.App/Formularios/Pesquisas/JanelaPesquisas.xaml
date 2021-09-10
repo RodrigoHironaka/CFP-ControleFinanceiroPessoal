@@ -18,24 +18,8 @@
                   AutoGenerateColumns="False"
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="">
-                    <DataGridTextColumn.HeaderTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Content, RelativeSource=
-                                         {RelativeSource Mode=TemplatedParent}}"/>
-                                <TextBox x:Name="txtPesquisa" 
-                                         Width="100" 
-                                         TextChanged="txtName_TextChanged" 
-                                         PreviewTextInput="txtName_PreviewTextInput" 
-                                         materiadesign:HintAssist.Hint="Pesquisa"
-                                         Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTextColumn.HeaderTemplate>
-                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Código"/>
                 <DataGridTextColumn Binding="{Binding Nome}" Header="Nome"/>
-
                 <DataGridTextColumn Binding="{Binding QtdParcelas}" Header="Parcelas"/>
                 <DataGridTextColumn Binding="{Binding DiasParaVencimento}" Header="Dias p/ Vencer"/>
                 <DataGridTextColumn Binding="{Binding Situacao}" Header="Situação"/>
