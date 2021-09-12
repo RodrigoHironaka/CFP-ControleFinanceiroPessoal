@@ -15,7 +15,7 @@
                   Margin="0,64,-2,0"
                   VerticalAlignment="Top"
                   Width="794"
-                  AutoGenerateColumns="False"
+                  AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="DataGridPesquisa_MouseDoubleClick"
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Id}" Header="Código"/>

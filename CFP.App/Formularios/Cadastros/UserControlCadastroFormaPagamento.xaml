@@ -21,7 +21,7 @@
                     Width="60" 
                     HorizontalAlignment="Left" 
                     Background="#FF1F3D68"
-                    ToolTip="Pesquisar" Click="btPesquisar_Click">
+                    ToolTip="Pesquisar" Click="btPesquisar_Click" BorderBrush="#FF1F3D68" TabIndex="9">
                 <materialDesign:PackIcon 
                     Kind="Search"  
                     Width="50" 
@@ -38,7 +38,7 @@
                      KeyDown="txtCodigo_KeyDown" 
                      PreviewTextInput="txtCodigo_PreviewTextInput" 
                      PreviewKeyDown="txtCodigo_PreviewKeyDown" 
-                     MaxLength="10"/>
+                     MaxLength="10" TabIndex="8"/>
             <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="60" 
@@ -47,7 +47,7 @@
                     Margin="0,5,72,0" 
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Top"
-                    ToolTip="Excluir">
+                    ToolTip="Excluir" BorderBrush="#FF1F3D68" Click="btExcluir_Click" TabIndex="6">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
@@ -59,7 +59,7 @@
                     Background="#FF1F3D68" 
                     Margin="0,5,137,5"
                     HorizontalAlignment="Right"
-                    ToolTip="Salvar" Click="btSalvar_Click">
+                    ToolTip="Salvar" Click="btSalvar_Click" BorderBrush="#FF1F3D68" TabIndex="5">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -72,7 +72,7 @@
                     Margin="0,5,4,5" 
                     HorizontalAlignment="Right" 
                     Click="btCancelar_Click"
-                    ToolTip="Cancelar/Sair">
+                    ToolTip="Cancelar/Sair" TabIndex="7" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 
@@ -95,7 +95,7 @@
                      FontSize="22" 
                      Foreground="#FF1F3D68"  
                      VerticalAlignment="Top"
-                     MaxLength="70"/>
+                     MaxLength="70" TabIndex="1"/>
                 <TextBox  
                     x:Name="txtQtdParcelas"
                      materialDesign:HintAssist.Hint="Qtd Parcelas" 
@@ -103,7 +103,7 @@
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="22" 
                      Foreground="#FF1F3D68" Margin="0,54,0,274" PreviewTextInput="txtQtdParcelas_PreviewTextInput" PreviewKeyDown="txtQtdParcelas_PreviewKeyDown"  
-                     MaxLength="3"
+                     MaxLength="3" TabIndex="2"
                     />
                 <TextBox 
                     x:Name="txtDiasVencimento"
@@ -112,7 +112,7 @@
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="22" 
                      Foreground="#FF1F3D68" Margin="0,121,0,206.6" PreviewTextInput="txtDiasVencimento_PreviewTextInput" PreviewKeyDown="txtDiasVencimento_PreviewKeyDown"  
-                     MaxLength="3"
+                     MaxLength="3" TabIndex="3"
                     />
                 <ComboBox 
                     x:Name="cmbSituacao"
@@ -120,7 +120,7 @@
                      Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="22" 
-                     Foreground="#FF1F3D68" Margin="0,188,0,148">
+                     Foreground="#FF1F3D68" Margin="0,188,0,148" TabIndex="4">
                 </ComboBox>
             </Grid>
 

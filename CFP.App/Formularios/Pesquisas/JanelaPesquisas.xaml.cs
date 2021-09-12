@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Data;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -53,6 +54,17 @@ namespace CFP.App.Formularios.Pesquisas
         }
         #endregion
 
+        public FormaPagamento objeto;
+
+        private void SelecionaeFecha()
+        {
+            if (DataGridPesquisa.Items.Count != 0)
+            {
+                objeto = DataGridPesquisa.SelectedItem as FormaPagamento;
+                Close();
+            }
+        }
+
         private void CarregaDados()
         {
             DataGridPesquisa.ItemsSource = Repositorio.ObterTodos();
@@ -92,6 +104,9 @@ namespace CFP.App.Formularios.Pesquisas
             PesquisarDados();
         }
 
-        
+        private void DataGridPesquisa_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            SelecionaeFecha();
+        }
     }
 }

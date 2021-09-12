@@ -20,7 +20,7 @@
                     Height="60" 
                     Width="60" 
                     HorizontalAlignment="Left" 
-                    Background="#FF1F3D68">
+                    Background="#FF1F3D68" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="Search"  
                     Width="50" 
@@ -33,24 +33,24 @@
                      FontSize="15" 
                      Foreground="White"  
                      VerticalAlignment="Top"/>
-            <Button x:Name="btOk" 
+            <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="60" 
                     Width="60"
                     Background="#FF1F3D68" 
                     Margin="0,5,72,5" 
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
                     Height="50"/>
             </Button>
-            <Button x:Name="btExcluir"
+            <Button x:Name="btSalvar"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,137,5"
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -61,7 +61,7 @@
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,4,5" 
-                    HorizontalAlignment="Right" Click="btCancelar_Click">
+                    HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 

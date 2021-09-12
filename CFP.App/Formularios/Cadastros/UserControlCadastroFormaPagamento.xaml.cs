@@ -1,24 +1,14 @@
-﻿using CFP.App.Formularios.ModeloBase.UserControls;
-using CFP.App.Formularios.Pesquisas;
+﻿using CFP.App.Formularios.Pesquisas;
 using Dominio.Dominio;
 using Dominio.ObjetoValor;
 using NHibernate;
 using Repositorio.Repositorios;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CFP.App.Formularios.Cadastros
 {
@@ -29,6 +19,14 @@ namespace CFP.App.Formularios.Cadastros
     {
         ISession Session;
         FormaPagamento formaPagamento;
+
+        #region Carrega Combos
+        private void CarregaCombos()
+        {
+            //carrega combo Situacao e define Ativo 
+            cmbSituacao.ItemsSource = Enum.GetValues(typeof(Situacao));
+        }
+        #endregion
 
         #region Repositorio
         private RepositorioFormaPagamento _repositorio;
@@ -56,26 +54,13 @@ namespace CFP.App.Formularios.Cadastros
             //Desbloqueando
             btPesquisar.IsEnabled = true;
             txtCodigo.IsEnabled = true;
+
+            txtCodigo.Focus();
+            txtCodigo.SelectAll();
         }
 
         private void ControleAcessoCadastro()
         {
-            if (String.IsNullOrEmpty(txtCodigo.Text))
-            {
-                formaPagamento = new FormaPagamento();
-
-                // limpando campos
-                LimpaCampos();
-
-                //carrega combo Situacao e define Ativo 
-                cmbSituacao.ItemsSource = Enum.GetValues(typeof(Situacao));
-                cmbSituacao.SelectedIndex = 0;
-            }
-            else
-            {
-                PreencheCampos();
-            }
-
             //Bloqueando
             btPesquisar.IsEnabled = !btPesquisar.IsEnabled;
             txtCodigo.IsEnabled = !txtCodigo.IsEnabled;
@@ -87,6 +72,8 @@ namespace CFP.App.Formularios.Cadastros
 
             //define o foco no primeiro campo
             txtNome.Focus();
+            txtNome.Select(txtNome.Text.Length, 0);
+            
         }
         #endregion
 
@@ -137,12 +124,15 @@ namespace CFP.App.Formularios.Cadastros
         #region Preenche campos no user control
         private void PreencheCampos()
         {
-            txtNome.Text = formaPagamento.Nome;
-            txtQtdParcelas.Text = formaPagamento.QtdParcelas.ToString();
-            txtDiasVencimento.Text = formaPagamento.DiasParaVencimento.ToString();
-            cmbSituacao.SelectedIndex = formaPagamento.Situacao.GetHashCode();
+            if(formaPagamento != null)
+            {
+                txtCodigo.Text = formaPagamento.Id.ToString();
+                txtNome.Text = formaPagamento.Nome;
+                txtQtdParcelas.Text = formaPagamento.QtdParcelas.ToString();
+                txtDiasVencimento.Text = formaPagamento.DiasParaVencimento.ToString();
+                cmbSituacao.SelectedIndex = formaPagamento.Situacao.GetHashCode();
+            }
         }
-
         #endregion
 
         public UserControlCadastroFormaPagamento(FormaPagamento _formapagamento, ISession _session)
@@ -172,7 +162,7 @@ namespace CFP.App.Formularios.Cadastros
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             ControleAcessoInicial();
-
+            CarregaCombos();
         }
 
         //ao teclar em enter é verificado se campo codigo esta digitado e libera campos para inclusao ou alteração
@@ -180,7 +170,41 @@ namespace CFP.App.Formularios.Cadastros
         {
             if (e.Key == Key.Enter)
             {
-                ControleAcessoCadastro();
+                // verifico se campo codigo esta preenchido para incluir novos dados ou carregar um existente
+                if (String.IsNullOrEmpty(txtCodigo.Text))
+                {
+                    formaPagamento = new FormaPagamento();
+                    LimpaCampos();
+                    ControleAcessoCadastro();
+                    var converter = new System.Windows.Media.BrushConverter();
+                    var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
+                    btPesquisar.Background = HexaToBrush;
+                }
+                else
+                {
+                    try
+                    {
+                        formaPagamento = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
+                        if (formaPagamento != null)
+                        {
+                            PreencheCampos();
+                            ControleAcessoCadastro();
+                            var converter = new System.Windows.Media.BrushConverter();
+                            var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
+                            btPesquisar.Background = HexaToBrush;
+                        }
+                        else
+                        {
+                            txtCodigo.SelectAll();
+                            txtCodigo.Focus();
+                            btPesquisar.Background = Brushes.DarkRed;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        formaPagamento = null;
+                    }
+                }
             }
         }
 
@@ -225,9 +249,14 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btPesquisar_Click(object sender, RoutedEventArgs e)
         {
-            //GridCampos.Children.Add( new UserControlPesquisas());
             JanelaPesquisas p = new JanelaPesquisas();
             p.ShowDialog();
+            if(p.objeto != null)
+            {
+                formaPagamento = p.objeto;
+                PreencheCampos();
+                ControleAcessoCadastro();
+            }
         }
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
@@ -249,6 +278,22 @@ namespace CFP.App.Formularios.Cadastros
                 ControleAcessoInicial();
                 FocoNoCampoCodigo();
             }
+        }
+
+        private void btExcluir_Click(object sender, RoutedEventArgs e)
+        {
+            if(formaPagamento != null)
+            {
+                MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + formaPagamento.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (d == MessageBoxResult.Yes)
+                {
+                    Repositorio.Excluir(formaPagamento);
+                    LimpaCampos();
+                    ControleAcessoInicial();
+                   
+                }
+            }
+  
         }
     }
 }
