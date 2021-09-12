@@ -67,7 +67,7 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
         private void btUsuario_Click(object sender, RoutedEventArgs e)
         {
             panelCadastros.Children.Clear();
-            panelCadastros.Children.Add(new UserControlUsuario());
+            panelCadastros.Children.Add(new UserControlUsuario(new Usuario(), Session));
         }
 
         private void btPessoa_Click(object sender, RoutedEventArgs e)

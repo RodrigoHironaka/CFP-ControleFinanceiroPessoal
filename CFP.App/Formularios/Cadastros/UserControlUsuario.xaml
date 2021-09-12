@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.Cadastros"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -20,37 +20,38 @@
                     Height="60" 
                     Width="60" 
                     HorizontalAlignment="Left" 
-                    Background="#FF1F3D68">
+                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" Click="btPesquisar_Click">
                 <materialDesign:PackIcon 
                     Kind="Search"  
                     Width="50" 
                     Height="50"/>
             </Button>
-            <TextBox Margin="75,10,636,0" 
+            <TextBox x:Name="txtCodigo"
+                     Margin="75,10,636,0" 
                      materialDesign:HintAssist.Hint="Código" 
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="15" 
                      Foreground="White"  
-                     VerticalAlignment="Top"/>
-            <Button x:Name="btOk" 
+                     VerticalAlignment="Top" KeyDown="txtCodigo_KeyDown" PreviewTextInput="txtCodigo_PreviewTextInput" PreviewKeyDown="txtCodigo_PreviewKeyDown"/>
+            <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="60" 
                     Width="60"
                     Background="#FF1F3D68" 
                     Margin="0,5,72,5" 
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
                     Height="50"/>
             </Button>
-            <Button x:Name="btExcluir"
+            <Button x:Name="btSalvar"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,137,5"
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -61,7 +62,7 @@
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,4,5" 
-                    HorizontalAlignment="Right" Click="btCancelar_Click">
+                    HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 
@@ -75,7 +76,7 @@
                        FontSize="12"
                       Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
-            <Grid Margin="70">
+            <Grid x:Name="GridControls" Margin="70">
                 <TextBox
                     x:Name="txtNome"
                      materialDesign:HintAssist.Hint="Nome" 
@@ -84,7 +85,7 @@
                      FontSize="22" 
                      Foreground="#FF1F3D68"  
                      VerticalAlignment="Top"/>
-                
+
                 <PasswordBox
                     x:Name="txtSenha"
                      materialDesign:HintAssist.Hint="Senha" 
@@ -103,12 +104,21 @@
                      Margin="0,119,0,215.6"/>
 
                 <ComboBox 
+                    x:Name="cmbTipoUsuario"
+                     materialDesign:HintAssist.Hint="Tipo de Usuário" 
+                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                     FontFamily="Champagne &amp; Limousines" 
+                     FontSize="22" 
+                     Foreground="#FF1F3D68" Margin="0,174,0,162.6"  
+                     />
+
+                <ComboBox 
                     x:Name="cmbSituacao"
                      materialDesign:HintAssist.Hint="Situação" 
                      Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="22" 
-                     Foreground="#FF1F3D68" Margin="0,179,0,156.6"  
+                     Foreground="#FF1F3D68" Margin="0,227,0,109.6"  
                      />
             </Grid>
         </Grid>

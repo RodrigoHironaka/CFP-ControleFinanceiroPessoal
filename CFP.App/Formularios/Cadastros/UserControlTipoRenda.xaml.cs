@@ -263,7 +263,6 @@ namespace CFP.App.Formularios.Cadastros
                     Repositorio.Excluir(tipoRenda);
                     LimpaCampos();
                     ControleAcessoInicial();
-
                 }
             }
         }
