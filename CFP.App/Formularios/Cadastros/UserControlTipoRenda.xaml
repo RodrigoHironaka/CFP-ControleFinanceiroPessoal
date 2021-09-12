@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.Cadastros"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -20,26 +20,27 @@
                     Height="60" 
                     Width="60" 
                     HorizontalAlignment="Left" 
-                    Background="#FF1F3D68" BorderBrush="#FF1F3D68">
+                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" Click="btPesquisar_Click">
                 <materialDesign:PackIcon 
                     Kind="Search"  
                     Width="50" 
                     Height="50"/>
             </Button>
-            <TextBox Margin="75,10,636,0" 
+            <TextBox x:Name="txtCodigo"
+                     Margin="75,10,636,0" 
                      materialDesign:HintAssist.Hint="Código" 
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="15" 
                      Foreground="White"  
-                     VerticalAlignment="Top"/>
+                     VerticalAlignment="Top" KeyDown="txtCodigo_KeyDown" PreviewTextInput="txtCodigo_PreviewTextInput" PreviewKeyDown="txtCodigo_PreviewKeyDown"/>
             <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="60" 
                     Width="60"
                     Background="#FF1F3D68" 
                     Margin="0,5,72,5" 
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
@@ -50,7 +51,7 @@
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,137,5"
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -68,14 +69,14 @@
                     Height="50"/>
             </Button>
         </Grid>
-        <Grid x:Name="GridCampos" Background="LightGray" Grid.Row="1" >
+        <Grid x:Name="GridCampos" Background="LightGray" Margin="0,70,0,0" Grid.RowSpan="2" >
             <TextBlock x:Name="lblNomeTela" Text="Tipo de Renda" 
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Top" 
                        FontSize="12"
                       Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
-            <Grid Margin="70">
+            <Grid x:Name="GridControls" Margin="70,70,60,65">
                 <TextBox
                     x:Name="txtNome"
                      materialDesign:HintAssist.Hint="Nome" 

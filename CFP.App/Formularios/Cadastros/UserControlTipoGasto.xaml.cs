@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NHibernate;
+using System;
+using Dominio.Dominio;
+using Repositorio.Repositorios;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +15,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Dominio.ObjetoValor;
+using System.Text.RegularExpressions;
+using CFP.App.Formularios.Pesquisas;
 
 namespace CFP.App.Formularios.Cadastros
 {
@@ -20,23 +26,245 @@ namespace CFP.App.Formularios.Cadastros
     /// </summary>
     public partial class UserControlTipoGasto : UserControl
     {
-        public UserControlTipoGasto()
+        ISession Session;
+        GrupoGasto grupoGasto;
+
+        #region Carrega Combos
+        private void CarregaCombos()
+        {
+            //carrega combo Situacao e define Ativo 
+            cmbSituacao.ItemsSource = Enum.GetValues(typeof(Situacao));
+        }
+        #endregion
+
+        #region Repositorio
+        private RepositorioGrupo _repositorio;
+        public RepositorioGrupo Repositorio
+        {
+            get
+            {
+                if (_repositorio == null)
+                    _repositorio = new RepositorioGrupo(Session);
+
+                return _repositorio;
+            }
+            set { _repositorio = value; }
+        }
+        #endregion
+
+        #region Controle de acessos Inicial e Cadastro
+        private void ControleAcessoInicial()
+        {
+            //Bloqueando
+            GridCampos.IsEnabled = !GridCampos.IsEnabled;
+            btSalvar.IsEnabled = !btSalvar.IsEnabled;
+            btExcluir.IsEnabled = !btExcluir.IsEnabled;
+
+            //Desbloqueando
+            btPesquisar.IsEnabled = true;
+            txtCodigo.IsEnabled = true;
+
+            txtCodigo.Focus();
+            txtCodigo.SelectAll();
+        }
+
+        private void ControleAcessoCadastro()
+        {
+            //Bloqueando
+            btPesquisar.IsEnabled = !btPesquisar.IsEnabled;
+            txtCodigo.IsEnabled = !txtCodigo.IsEnabled;
+
+            //Desbloqueando
+            GridCampos.IsEnabled = true;
+            btSalvar.IsEnabled = true;
+            btExcluir.IsEnabled = true;
+
+            //define o foco no primeiro campo
+            txtNome.Focus();
+            txtNome.Select(txtNome.Text.Length, 0);
+
+        }
+        #endregion
+
+        #region Selecão e Foco no campo Codigo 
+        private void FocoNoCampoCodigo()
+        {
+            txtCodigo.SelectAll();
+            txtCodigo.Focus();
+        }
+        #endregion
+
+        #region Limpa os campos do Cadastro
+        public void LimpaCampos()
+        {
+            foreach (var item in GridControls.Children)
+            {
+                if (item is TextBox)
+                    (item as TextBox).Text = string.Empty;
+                if (item is ComboBox)
+                    (item as ComboBox).SelectedIndex = -1;
+                if (item is CheckBox)
+                    (item as CheckBox).IsChecked = false;
+                if (item is RadioButton)
+                    (item as RadioButton).IsChecked = false;
+            }
+        }
+        #endregion
+
+        #region Preenche Objeto para Salvar
+        private bool PreencheObjeto()
+        {
+            try
+            {
+                grupoGasto.Nome = txtNome.Text;
+                grupoGasto.Situacao = (Situacao)cmbSituacao.SelectedIndex;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+        #endregion
+
+        #region Preenche campos no user control
+        private void PreencheCampos()
+        {
+            if (grupoGasto != null)
+            {
+                txtCodigo.Text = grupoGasto.Id.ToString();
+                txtNome.Text = grupoGasto.Nome;
+                cmbSituacao.SelectedIndex = grupoGasto.Situacao.GetHashCode();
+            }
+        }
+        #endregion
+
+        public UserControlTipoGasto(GrupoGasto _grupoGasto, ISession _session)
         {
             InitializeComponent();
+            Session = _session;
+            grupoGasto = _grupoGasto;
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
         {
             if (GridCampos.IsEnabled)
             {
-                GridCampos.IsEnabled = !GridCampos.IsEnabled;
-                btOk.IsEnabled = !btOk.IsEnabled;
-                btExcluir.IsEnabled = !btExcluir.IsEnabled;
-                //Limpracontroles()
+                ControleAcessoInicial();
+                FocoNoCampoCodigo();
+                LimpaCampos();
             }
             else
             {
                 (this.Parent as StackPanel).Children.Remove(this);
+            }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            ControleAcessoInicial();
+            CarregaCombos();
+        }
+
+        private void txtCodigo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                // verifico se campo codigo esta preenchido para incluir novos dados ou carregar um existente
+                if (String.IsNullOrEmpty(txtCodigo.Text))
+                {
+                    grupoGasto = new GrupoGasto();
+                    LimpaCampos();
+                    ControleAcessoCadastro();
+                    var converter = new System.Windows.Media.BrushConverter();
+                    var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
+                    btPesquisar.Background = HexaToBrush;
+                }
+                else
+                {
+                    try
+                    {
+                        grupoGasto = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
+                        if (grupoGasto != null)
+                        {
+                            PreencheCampos();
+                            ControleAcessoCadastro();
+                            var converter = new System.Windows.Media.BrushConverter();
+                            var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
+                            btPesquisar.Background = HexaToBrush;
+                        }
+                        else
+                        {
+                            txtCodigo.SelectAll();
+                            txtCodigo.Focus();
+                            btPesquisar.Background = Brushes.DarkRed;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        grupoGasto = null;
+                    }
+                }
+            }
+        }
+
+        private void txtCodigo_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
+        private void txtCodigo_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void btPesquisar_Click(object sender, RoutedEventArgs e)
+        {
+            PesquisaGrupoGasto p = new PesquisaGrupoGasto();
+            p.ShowDialog();
+            if (p.objeto != null)
+            {
+                grupoGasto = p.objeto;
+                PreencheCampos();
+                ControleAcessoCadastro();
+            }
+        }
+
+        private void btSalvar_Click(object sender, RoutedEventArgs e)
+        {
+            if (PreencheObjeto())
+            {
+                if ((grupoGasto.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
+                {
+                    grupoGasto.DataGeracao = DateTime.Now;
+                    Repositorio.Salvar(grupoGasto);
+                    txtCodigo.Text = grupoGasto.Id.ToString();
+                }
+                else
+                {
+                    grupoGasto.DataAlteracao = DateTime.Now;
+                    Repositorio.Alterar(grupoGasto);
+                }
+
+                ControleAcessoInicial();
+                FocoNoCampoCodigo();
+            }
+        }
+
+        private void btExcluir_Click(object sender, RoutedEventArgs e)
+        {
+            if (grupoGasto != null)
+            {
+                MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + grupoGasto.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (d == MessageBoxResult.Yes)
+                {
+                    Repositorio.Excluir(grupoGasto);
+                    LimpaCampos();
+                    ControleAcessoInicial();
+
+                }
             }
         }
     }

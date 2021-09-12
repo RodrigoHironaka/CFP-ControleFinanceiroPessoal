@@ -55,13 +55,13 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
         private void btTipoGasto_Click(object sender, RoutedEventArgs e)
         {
             panelCadastros.Children.Clear();
-            panelCadastros.Children.Add(new UserControlTipoGasto());
+            panelCadastros.Children.Add(new UserControlTipoGasto(new GrupoGasto(), Session));
         }
 
         private void btTipoRenda_Click(object sender, RoutedEventArgs e)
         {
             panelCadastros.Children.Clear();
-            panelCadastros.Children.Add(new UserControlTipoRenda());
+            panelCadastros.Children.Add(new UserControlTipoRenda(new TipoRenda(), Session));
         }
 
         private void btUsuario_Click(object sender, RoutedEventArgs e)
