@@ -1,13 +1,16 @@
-﻿<UserControl
+﻿<UserControl x:Class="CFP.App.Formularios.Cadastros.UserControlCadastroFormaPagamento"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:CFP.App.Formularios.Cadastros"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:ObjetoValor="clr-namespace:Dominio.ObjetoValor;assembly=CFP.Dominio" x:Class="CFP.App.Formularios.Cadastros.UserControlCadastroFormaPagamento"
-             mc:Ignorable="d" d:DesignWidth="800" Height="600" Loaded="UserControl_Loaded">
-    <Grid  >
+             xmlns:ObjetoValor="clr-namespace:Dominio.ObjetoValor;assembly=CFP.Dominio" 
+             mc:Ignorable="d" 
+             d:DesignWidth="800" 
+             Height="600" 
+             Loaded="UserControl_Loaded">
+
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="530"/>
@@ -87,15 +90,18 @@
                       Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
             <Grid x:Name="GridControls" Margin="70">
+
                 <TextBox
                     x:Name="txtNome"
-                     materialDesign:HintAssist.Hint="Nome" 
+                     materialDesign:HintAssist.Hint="Nome"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="22" 
                      Foreground="#FF1F3D68"  
                      VerticalAlignment="Top"
-                     MaxLength="70" TabIndex="1"/>
+                     MaxLength="70" TabIndex="1">
+                </TextBox>
+              
                 <TextBox  
                     x:Name="txtQtdParcelas"
                      materialDesign:HintAssist.Hint="Qtd Parcelas" 

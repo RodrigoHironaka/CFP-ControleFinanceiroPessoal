@@ -19,6 +19,7 @@ namespace Dominio.Dominio
         //se não clicar no botao calcular, o valor liquido sera o  mesmo do bruto;
         public virtual Double RendaLiquida { get; set; }
         public virtual TipoRenda TipoRenda { get; set; }
+        public virtual Decimal ValorTotal { get; set; }
         public virtual Pessoa Pessoa { get; set; }
     }
 }

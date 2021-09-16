@@ -148,6 +148,15 @@ namespace CFP.App.Formularios.Cadastros
             }
         }
         #endregion
+
+        #region Definindo Cor Padrão do botão Pesquisar #FF1F3D68 
+        public void CorPadrãoBotaoPesquisar()
+        {
+            var converter = new System.Windows.Media.BrushConverter();
+            var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
+            btPesquisar.Background = HexaToBrush;
+        }
+        #endregion
         public UserControlUsuario(Usuario _usuario, ISession _session)
         {
             InitializeComponent();
@@ -185,9 +194,7 @@ namespace CFP.App.Formularios.Cadastros
                     usuario = new Usuario();
                     LimpaCampos();
                     ControleAcessoCadastro();
-                    var converter = new System.Windows.Media.BrushConverter();
-                    var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
-                    btPesquisar.Background = HexaToBrush;
+                    CorPadrãoBotaoPesquisar();
                 }
                 else
                 {
@@ -198,9 +205,7 @@ namespace CFP.App.Formularios.Cadastros
                         {
                             PreencheCampos();
                             ControleAcessoCadastro();
-                            var converter = new System.Windows.Media.BrushConverter();
-                            var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
-                            btPesquisar.Background = HexaToBrush;
+                            CorPadrãoBotaoPesquisar();
                         }
                         else
                         {
@@ -237,6 +242,7 @@ namespace CFP.App.Formularios.Cadastros
                 usuario = p.objeto;
                 PreencheCampos();
                 ControleAcessoCadastro();
+                CorPadrãoBotaoPesquisar();
             }
         }
 

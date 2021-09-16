@@ -30,7 +30,7 @@ namespace CFP.App.Formularios.Cadastros
             if (GridCampos.IsEnabled)
             {
                 GridCampos.IsEnabled = !GridCampos.IsEnabled;
-                btOk.IsEnabled = !btOk.IsEnabled;
+                btSalvar.IsEnabled = !btSalvar.IsEnabled;
                 btExcluir.IsEnabled = !btExcluir.IsEnabled;
                 //Limpracontroles()
             }

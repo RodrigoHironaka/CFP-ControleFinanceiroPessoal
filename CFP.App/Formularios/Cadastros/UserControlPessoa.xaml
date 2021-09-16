@@ -20,37 +20,38 @@
                     Height="60" 
                     Width="60" 
                     HorizontalAlignment="Left" 
-                    Background="#FF1F3D68">
+                    Background="#FF1F3D68" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="Search"  
                     Width="50" 
                     Height="50"/>
             </Button>
-            <TextBox Margin="75,10,636,0" 
+            <TextBox x:Name="txtCodigo" 
+                     Margin="75,10,636,0" 
                      materialDesign:HintAssist.Hint="Código" 
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="15" 
                      Foreground="White"  
                      VerticalAlignment="Top"/>
-            <Button x:Name="btOk" 
+            <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="60" 
                     Width="60"
                     Background="#FF1F3D68" 
                     Margin="0,5,72,5" 
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
                     Height="50"/>
             </Button>
-            <Button x:Name="btExcluir"
+            <Button x:Name="btSalvar"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,137,5"
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -61,7 +62,7 @@
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,4,5" 
-                    HorizontalAlignment="Right" Click="btCancelar_Click">
+                    HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 
@@ -75,7 +76,8 @@
                        FontSize="12"
                        Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
-            <Grid Margin="30">
+            <Grid x:Name="GridControls" 
+                  Margin="30">
                 <TextBox
                     x:Name="txtNome"
                      materialDesign:HintAssist.Hint="Nome" 
@@ -104,23 +106,13 @@
                      FontSize="22" 
                      Foreground="#FF1F3D68" Margin="0,116,0,300.6"  
                      />
-                
+
                 <DataGrid 
                     x:Name="DataGridRendas" 
                      Style="{StaticResource MaterialDesignDataGrid}"
                     Margin="0,174,0,0" 
-                    Height="166" 
+                    Height="231" 
                     VerticalAlignment="Top"/>
-
-                <TextBox
-                    x:Name="txtTotalRenda"
-                     materialDesign:HintAssist.Hint="Total de Renda" 
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                     FontSize="22" 
-                     Foreground="#FF1F3D68"  
-                     VerticalAlignment="Bottom"
-                    IsReadOnly="True" Margin="0,0,0,69.6"/>
 
             </Grid>
         </Grid>

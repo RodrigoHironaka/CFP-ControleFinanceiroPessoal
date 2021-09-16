@@ -79,7 +79,7 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
         private void btBanco_Click(object sender, RoutedEventArgs e)
         {
             panelCadastros.Children.Clear();
-            panelCadastros.Children.Add(new UserControlBanco());
+            panelCadastros.Children.Add(new UserControlBanco(new Banco(), Session));
         }
     }
 }

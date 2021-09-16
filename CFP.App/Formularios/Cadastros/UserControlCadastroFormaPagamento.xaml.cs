@@ -25,6 +25,7 @@ namespace CFP.App.Formularios.Cadastros
         {
             //carrega combo Situacao e define Ativo 
             cmbSituacao.ItemsSource = Enum.GetValues(typeof(Situacao));
+            cmbSituacao.SelectedIndex = 0;
         }
         #endregion
 
@@ -93,7 +94,7 @@ namespace CFP.App.Formularios.Cadastros
                 if (item is TextBox)
                     (item as TextBox).Text = string.Empty;
                 if (item is ComboBox)
-                    (item as ComboBox).SelectedIndex = -1;
+                    (item as ComboBox).SelectedIndex = 0;
                 if (item is CheckBox)
                     (item as CheckBox).IsChecked = false;
                 if (item is RadioButton)
@@ -132,6 +133,15 @@ namespace CFP.App.Formularios.Cadastros
                 txtDiasVencimento.Text = formaPagamento.DiasParaVencimento.ToString();
                 cmbSituacao.SelectedIndex = formaPagamento.Situacao.GetHashCode();
             }
+        }
+        #endregion
+
+        #region Definindo Cor Padrão do botão Pesquisar #FF1F3D68 
+        public void CorPadrãoBotaoPesquisar()
+        {
+            var converter = new System.Windows.Media.BrushConverter();
+            var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
+            btPesquisar.Background = HexaToBrush;
         }
         #endregion
 
@@ -176,9 +186,7 @@ namespace CFP.App.Formularios.Cadastros
                     formaPagamento = new FormaPagamento();
                     LimpaCampos();
                     ControleAcessoCadastro();
-                    var converter = new System.Windows.Media.BrushConverter();
-                    var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
-                    btPesquisar.Background = HexaToBrush;
+                    CorPadrãoBotaoPesquisar();
                 }
                 else
                 {
@@ -189,9 +197,7 @@ namespace CFP.App.Formularios.Cadastros
                         {
                             PreencheCampos();
                             ControleAcessoCadastro();
-                            var converter = new System.Windows.Media.BrushConverter();
-                            var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
-                            btPesquisar.Background = HexaToBrush;
+                            CorPadrãoBotaoPesquisar();
                         }
                         else
                         {
@@ -256,6 +262,7 @@ namespace CFP.App.Formularios.Cadastros
                 formaPagamento = p.objeto;
                 PreencheCampos();
                 ControleAcessoCadastro();
+                CorPadrãoBotaoPesquisar();
             }
         }
 

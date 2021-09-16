@@ -154,6 +154,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Formularios\Pesquisas\PesquisaBancos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Formularios\Pesquisas\PesquisaGrupoGasto.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -178,6 +182,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Domain\NotEmptyValidationRule.cs" />
     <Compile Include="Formularios\Cadastros\Testes\CadastroFormaPagamento.xaml.cs">
       <DependentUpon>CadastroFormaPagamento.xaml</DependentUpon>
     </Compile>
@@ -223,6 +228,9 @@
     <Compile Include="Formularios\Pesquisas\JanelaPesquisas.xaml.cs">
       <DependentUpon>JanelaPesquisas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Pesquisas\PesquisaBancos.xaml.cs">
+      <DependentUpon>PesquisaBancos.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Pesquisas\PesquisaGrupoGasto.xaml.cs">
       <DependentUpon>PesquisaGrupoGasto.xaml</DependentUpon>
     </Compile>
@@ -241,6 +249,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formularios\Validacoes\ValidacaoFormaPagamento.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
