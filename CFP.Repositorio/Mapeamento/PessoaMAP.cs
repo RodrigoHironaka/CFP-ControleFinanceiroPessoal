@@ -25,7 +25,6 @@ namespace Repositorio.Mapeamentos
             Property(x => x.Nome, m => m.Length(70));
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
-            Property(x => x.TotalRenda);
             Property(x => x.Situacao, m => m.Type<EnumType<Situacao>>());
 
             Bag(x => x.PessoaTipoRendas, m =>

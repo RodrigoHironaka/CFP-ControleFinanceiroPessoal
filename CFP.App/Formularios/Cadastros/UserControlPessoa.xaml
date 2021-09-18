@@ -6,12 +6,11 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.Cadastros"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="530"/>
-
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="#FF1F3D68">
             <Button x:Name="btPesquisar" 
@@ -87,8 +86,6 @@
                      Foreground="#FF1F3D68"  
                      VerticalAlignment="Top"/>
 
-
-
                 <ComboBox 
                     x:Name="cmbSituacao"
                      materialDesign:HintAssist.Hint="Situação" 
@@ -104,17 +101,55 @@
                      Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="22" 
-                     Foreground="#FF1F3D68" Margin="0,116,0,300.6"  
+                     Foreground="#FF1F3D68" Margin="0,116,0,301" MouseDoubleClick="cmbRenda_MouseDoubleClick"  
                      />
 
-                <DataGrid 
-                    x:Name="DataGridRendas" 
-                     Style="{StaticResource MaterialDesignDataGrid}"
-                    Margin="0,174,0,0" 
-                    Height="231" 
-                    VerticalAlignment="Top"/>
+                <TextBox
+                    x:Name="txtValorBruto"
+                     materialDesign:HintAssist.Hint="Valor Bruto" 
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                     FontFamily="Champagne &amp; Limousines" 
+                     FontSize="22" 
+                     Foreground="#FF1F3D68"  
+                     VerticalAlignment="Top" Margin="0,174,534,0"/>
 
+                <Button x:Name="btCalcular" 
+                    Margin="0,169,469,241" 
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="60" 
+                    Width="60" 
+                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" HorizontalAlignment="Right">
+                    <materialDesign:PackIcon 
+                    Kind="Calculator"  
+                    Width="50" 
+                    Height="50"/>
+                </Button>
+                <DataGrid 
+                        x:Name="DataGridRendas" 
+                        Style="{StaticResource MaterialDesignDataGrid}"
+                        Margin="0,234,0,0" 
+                        Height="183" 
+                        VerticalAlignment="Top"/>
+                <Button x:Name="btAdd" 
+                    Margin="0,174,0,236" 
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="60" 
+                    Width="60" 
+                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" HorizontalAlignment="Right">
+                    <materialDesign:PackIcon 
+                        Kind="Add"  
+                        Width="50" 
+                        Height="50"/>
+                </Button>
             </Grid>
+            <TextBox
+                x:Name="txtValorLiquido"
+                materialDesign:HintAssist.Hint="Valor Líquido" 
+                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="22" 
+                Foreground="#FF1F3D68"  
+                VerticalAlignment="Top" Margin="524,204,95,0"/>
         </Grid>
     </Grid>
 </UserControl>

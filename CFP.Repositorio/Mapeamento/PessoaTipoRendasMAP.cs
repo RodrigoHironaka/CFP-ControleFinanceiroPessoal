@@ -23,6 +23,7 @@ namespace Repositorio.Mapeamentos
             
             Property(x => x.RendaBruta);
             Property(x => x.RendaLiquida);
+            Property(x => x.ValorTotal);
             ManyToOne(x => x.TipoRenda, m=>m.Column("TipoRenda"));
             ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
         }

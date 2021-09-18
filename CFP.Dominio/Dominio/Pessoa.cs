@@ -12,12 +12,16 @@ namespace Dominio.Dominio
 {
     public class Pessoa : Base
     {
+        public override string ToString()
+        {
+            return Nome;
+        }
+
         public Pessoa()
         {
             PessoaTipoRendas = new List<PessoaTipoRendas>();
         }
  
-        public virtual Double TotalRenda { get; set; }
         public virtual Situacao Situacao { get; set; }
         public virtual IList<PessoaTipoRendas> PessoaTipoRendas { get; set; }
 

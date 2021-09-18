@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Dominio.Dominio;
+using Dominio.ObjetoValor;
+using NHibernate;
+using Repositorio.Repositorios;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +24,20 @@ namespace CFP.App.Formularios.Cadastros
     /// </summary>
     public partial class UserControlPessoa : UserControl
     {
-        public UserControlPessoa()
+        ISession Session;
+        Pessoa pessoa;
+        private void CarregaComboRenda()
+        {
+            cmbRenda.ItemsSource = new RepositorioTipoRenda(Session)
+                .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+                .OrderBy(x => x.Nome)
+                .ToList<TipoRenda>();
+        }
+        public UserControlPessoa(Pessoa _pessoa, ISession _session)
         {
             InitializeComponent();
+            Session = _session;
+            pessoa = _pessoa;
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -38,6 +53,17 @@ namespace CFP.App.Formularios.Cadastros
             {
                 (this.Parent as StackPanel).Children.Remove(this);
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            CarregaComboRenda();
+        }
+
+        private void cmbRenda_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+           
+           //.Children.Add(new UserControlPessoasValorRenda());
         }
     }
 }
