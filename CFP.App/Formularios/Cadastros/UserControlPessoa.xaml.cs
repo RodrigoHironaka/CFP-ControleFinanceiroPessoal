@@ -1,21 +1,17 @@
-﻿using Dominio.Dominio;
+﻿using CFP.App.Formularios.Pesquisas;
+using Dominio.Dominio;
 using Dominio.ObjetoValor;
+using LinqKit;
 using NHibernate;
 using Repositorio.Repositorios;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CFP.App.Formularios.Cadastros
 {
@@ -26,28 +22,259 @@ namespace CFP.App.Formularios.Cadastros
     {
         ISession Session;
         Pessoa pessoa;
-        private void CarregaComboRenda()
+
+        #region Carrega Combos
+        private void CarregaCombos()
         {
+            //carrega combo Situacao e define Ativo 
+            cmbSituacao.ItemsSource = Enum.GetValues(typeof(Situacao));
+            cmbSituacao.SelectedIndex = 0;
+
             cmbRenda.ItemsSource = new RepositorioTipoRenda(Session)
                 .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
                 .OrderBy(x => x.Nome)
                 .ToList<TipoRenda>();
+
         }
+        #endregion
+
+        #region Repositorio
+        private RepositorioPessoa _repositorio;
+        public RepositorioPessoa Repositorio
+        {
+            get
+            {
+                if (_repositorio == null)
+                    _repositorio = new RepositorioPessoa(Session);
+
+                return _repositorio;
+            }
+            set { _repositorio = value; }
+        }
+
+        private RepositorioPessoaTipoRendas _repositorioPessoasTipoRenda;
+        public RepositorioPessoaTipoRendas RepositorioPessoasTipoRenda
+        {
+            get
+            {
+                if (_repositorioPessoasTipoRenda == null)
+                    _repositorioPessoasTipoRenda = new RepositorioPessoaTipoRendas(Session);
+
+                return _repositorioPessoasTipoRenda;
+            }
+            set { _repositorioPessoasTipoRenda = value; }
+        }
+        #endregion
+
+        #region Controle de acessos Inicial e Cadastro
+        private void ControleAcessoInicial()
+        {
+            //Bloqueando
+            GridCampos.IsEnabled = !GridCampos.IsEnabled;
+            btSalvar.IsEnabled = !btSalvar.IsEnabled;
+            btExcluir.IsEnabled = !btExcluir.IsEnabled;
+
+            //Desbloqueando
+            btPesquisar.IsEnabled = true;
+            txtCodigo.IsEnabled = true;
+
+            txtCodigo.Focus();
+            txtCodigo.SelectAll();
+        }
+
+        private void ControleAcessoCadastro()
+        {
+            //Bloqueando
+            btPesquisar.IsEnabled = !btPesquisar.IsEnabled;
+            txtCodigo.IsEnabled = !txtCodigo.IsEnabled;
+
+            //Desbloqueando
+            GridCampos.IsEnabled = true;
+            btSalvar.IsEnabled = true;
+            btExcluir.IsEnabled = true;
+
+            //define o foco no primeiro campo
+            txtNome.Focus();
+            txtNome.Select(txtNome.Text.Length, 0);
+
+        }
+        #endregion
+
+        #region Selecão e Foco no campo Codigo 
+        private void FocoNoCampoCodigo()
+        {
+            txtCodigo.SelectAll();
+            txtCodigo.Focus();
+        }
+        #endregion
+
+        #region Limpa os campos do Cadastro
+        public void LimpaCampos()
+        {
+            foreach (var item in GridControls.Children)
+            {
+                if (item is TextBox)
+                    (item as TextBox).Text = string.Empty;
+                if (item is ComboBox)
+                    (item as ComboBox).SelectedIndex = 0;
+                if (item is CheckBox)
+                    (item as CheckBox).IsChecked = false;
+                if (item is RadioButton)
+                    (item as RadioButton).IsChecked = false;
+               
+                if (item is GroupBox)
+                {
+                    foreach (var groupBox in StackPanelCamposRenda.Children)
+                    {
+                        if (groupBox is TextBox)
+                            (groupBox as TextBox).Text = string.Empty;
+                        if (groupBox is ComboBox)
+                            (groupBox as ComboBox).SelectedIndex = 0;
+                    }
+                }
+                if (item is Grid)
+                {
+                    foreach (var grid in GridTotais.Children)
+                    {
+                        if (grid is TextBox)
+                            (grid as TextBox).Text = string.Empty;
+                        if (grid is ListView)
+                            pessoaTipoRenda.Clear();
+                    }
+                }
+
+            }
+        }
+        #endregion
+
+        #region PreencheGrid
+        private ObservableCollection<PessoaTipoRendas> pessoaTipoRenda;
+        
+        public void PreencheDataGrid()
+        {
+            pessoaTipoRenda = new ObservableCollection<PessoaTipoRendas>();
+            lstRendas.ItemsSource = pessoaTipoRenda;
+            //DataGridRendas.ItemsSource = new ObservableCollection<PessoaTipoRendas>(pessoa.PessoaTipoRendas);
+        }
+        #endregion
+
+        #region Preenche Objeto para Salvar
+        private bool PreencheObjeto()
+        {
+            try
+            {
+                pessoa.Nome = txtNome.Text;
+                pessoa.Situacao = (Situacao)cmbSituacao.SelectedIndex;
+                pessoa.ValorTotalBruto = Decimal.Parse(txtTotalBruto.Text);
+                pessoa.ValorTotalLiquido = Decimal.Parse(txtTotalLiquido.Text);
+                pessoa.PessoaTipoRendas = (System.Collections.Generic.IList<PessoaTipoRendas>)lstRendas.ItemsSource;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+        private void PreencheObjetoComListaDadaGrid()
+        {
+            if (pessoa.PessoaTipoRendas.Count != 0)
+            {
+                foreach (var item in pessoa.PessoaTipoRendas)
+                {
+                    PessoaTipoRendas pessoaTipoRendas = new PessoaTipoRendas();
+                    pessoaTipoRendas.Pessoa = item.Pessoa;
+                    pessoaTipoRendas.TipoRenda = item.TipoRenda;
+                    pessoaTipoRendas.RendaBruta = item.RendaBruta;
+                    pessoaTipoRendas.RendaLiquida = item.RendaLiquida;
+                }
+            }
+
+        }
+        #endregion
+
+        #region Preenche campos no user control
+        private void PreencheCampos()
+        {
+            if (pessoa != null)
+            {
+                txtCodigo.Text = pessoa.Id.ToString();
+                txtNome.Text = pessoa.Nome;
+                cmbSituacao.SelectedIndex = pessoa.Situacao.GetHashCode();
+            }
+        }
+        #endregion
+
+        #region Definindo Cor Padrão do botão Pesquisar #FF1F3D68 
+        public void CorPadrãoBotaoPesquisar()
+        {
+            var converter = new System.Windows.Media.BrushConverter();
+            var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
+            btPesquisar.Background = HexaToBrush;
+        }
+        #endregion
+
+        #region Soma Total renda bruta e liquida
+        Decimal somaRendaBruta = 0;
+        Decimal somaRendaLiquida = 0;
+        private void SomaTotalBrutoeLiquido()
+        {
+            somaRendaBruta = pessoaTipoRenda.Sum(c => c.RendaBruta);
+            txtTotalBruto.Text = somaRendaBruta.ToString("N2");
+            somaRendaLiquida = pessoaTipoRenda.Sum(c => c.RendaLiquida);
+            txtTotalLiquido.Text = somaRendaLiquida.ToString("N2");
+        }
+        #endregion
+
+        #region Adicionar e Remover item do listview
+        //Adicionar
+        
+        public void AdicionarItemLista()
+        {
+            if (cmbRenda.SelectedItem != null)
+            {
+                pessoaTipoRenda.Add(new PessoaTipoRendas()
+                {
+                    TipoRenda = (TipoRenda)cmbRenda.SelectedItem,
+                    RendaBruta = txtRendaBruto.Text != string.Empty ? Decimal.Parse(txtRendaBruto.Text) : 0,
+                    RendaLiquida = txtRendaLiquida.Text != string.Empty ? Decimal.Parse(txtRendaLiquida.Text) : 0
+                });
+                SomaTotalBrutoeLiquido();
+            }
+        }
+
+        //Remover
+        public void RemoverItemLista()
+        {
+            var selecao = lstRendas.SelectedItem;
+            foreach (var item in pessoaTipoRenda)
+            {
+                if (item == selecao)
+                {
+                    pessoaTipoRenda.Remove(item);
+                    break;
+                }
+            }
+            SomaTotalBrutoeLiquido();
+        }
+        #endregion
+
         public UserControlPessoa(Pessoa _pessoa, ISession _session)
         {
             InitializeComponent();
             Session = _session;
             pessoa = _pessoa;
+            PreencheDataGrid();
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
         {
             if (GridCampos.IsEnabled)
             {
-                GridCampos.IsEnabled = !GridCampos.IsEnabled;
-                btSalvar.IsEnabled = !btSalvar.IsEnabled;
-                btExcluir.IsEnabled = !btExcluir.IsEnabled;
-                //Limpracontroles()
+                ControleAcessoInicial();
+                FocoNoCampoCodigo();
+                LimpaCampos();
             }
             else
             {
@@ -57,13 +284,143 @@ namespace CFP.App.Formularios.Cadastros
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            CarregaComboRenda();
+            ControleAcessoInicial();
+            CarregaCombos();
+
         }
 
-        private void cmbRenda_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void txtCodigo_KeyDown(object sender, KeyEventArgs e)
         {
-           
-           //.Children.Add(new UserControlPessoasValorRenda());
+            if (e.Key == Key.Enter)
+            {
+                // verifico se campo codigo esta preenchido para incluir novos dados ou carregar um existente
+                if (String.IsNullOrEmpty(txtCodigo.Text))
+                {
+                    pessoa = new Pessoa();
+                    LimpaCampos();
+                    ControleAcessoCadastro();
+                    CorPadrãoBotaoPesquisar();
+                }
+                else
+                {
+                    try
+                    {
+                        pessoa = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
+                        if (pessoa != null)
+                        {
+                            PreencheCampos();
+                            ControleAcessoCadastro();
+                            CorPadrãoBotaoPesquisar();
+                        }
+                        else
+                        {
+                            txtCodigo.SelectAll();
+                            txtCodigo.Focus();
+                            btPesquisar.Background = Brushes.DarkRed;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        pessoa = null;
+                    }
+                }
+            }
+        }
+
+        private void txtCodigo_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
+        private void txtCodigo_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void btSalvar_Click(object sender, RoutedEventArgs e)
+        {
+            if (PreencheObjeto())
+            {
+                if ((pessoa.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
+                {
+                    pessoa.DataGeracao = DateTime.Now;
+                    pessoa.PessoaTipoRendas.ToList().ForEach(x => x.Pessoa = pessoa);
+                    Repositorio.Salvar(pessoa);
+                    PreencheObjetoComListaDadaGrid();
+                    txtCodigo.Text = pessoa.Id.ToString();
+                }
+                else
+                {
+                    //pessoa.DataAlteracao = DateTime.Now;
+                    //Repositorio.Alterar(pessoa);
+                }
+
+                ControleAcessoInicial();
+                FocoNoCampoCodigo();
+            }
+        }
+
+        private void btExcluir_Click(object sender, RoutedEventArgs e)
+        {
+            //if (pessoa != null)
+            //{
+            //    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + pessoa.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            //    if (d == MessageBoxResult.Yes)
+            //    {
+            //        Repositorio.Excluir(pessoa);
+            //        LimpaCampos();
+            //        ControleAcessoInicial();
+
+            //    }
+            //}
+        }
+
+        private void btAdd_Click(object sender, RoutedEventArgs e)
+        {
+            AdicionarItemLista();
+            cmbRenda.Focus();
+        }
+
+        private void btRem_Click(object sender, RoutedEventArgs e)
+        {
+            RemoverItemLista();
+            cmbRenda.Focus();
+        }
+
+        private void txtRendaBruto_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
+        private void txtRendaBruto_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void txtRendaLiquida_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
+        private void txtRendaLiquida_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void btPesquisar_Click(object sender, RoutedEventArgs e)
+        {
+            PesquisaPessoas p = new PesquisaPessoas();
+            p.ShowDialog();
+            if (p.objeto != null)
+            {
+                pessoa = p.objeto;
+                PreencheCampos();
+                ControleAcessoCadastro();
+                CorPadrãoBotaoPesquisar();
+            }
         }
     }
 }

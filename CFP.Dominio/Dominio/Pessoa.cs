@@ -21,7 +21,9 @@ namespace Dominio.Dominio
         {
             PessoaTipoRendas = new List<PessoaTipoRendas>();
         }
- 
+
+        public virtual Decimal ValorTotalBruto { get; set; }
+        public virtual Decimal ValorTotalLiquido { get; set; }
         public virtual Situacao Situacao { get; set; }
         public virtual IList<PessoaTipoRendas> PessoaTipoRendas { get; set; }
 

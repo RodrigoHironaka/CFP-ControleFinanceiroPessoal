@@ -7,19 +7,19 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" Loaded="UserControl_Loaded">
-    <Grid  >
+    <Grid x:Name="GridPrincipal" Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="530"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="#FF1F3D68">
             <Button x:Name="btPesquisar" 
-                    Margin="10,2,0,8" 
+                    Margin="10,2,0,0" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" 
                     Width="60" 
                     HorizontalAlignment="Left" 
-                    Background="#FF1F3D68" BorderBrush="#FF1F3D68">
+                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" VerticalAlignment="Top" Click="btPesquisar_Click">
                 <materialDesign:PackIcon 
                     Kind="Search"  
                     Width="50" 
@@ -32,14 +32,14 @@
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="15" 
                      Foreground="White"  
-                     VerticalAlignment="Top"/>
+                     VerticalAlignment="Top" KeyDown="txtCodigo_KeyDown" PreviewTextInput="txtCodigo_PreviewTextInput" PreviewKeyDown="txtCodigo_PreviewKeyDown"/>
             <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="60" 
                     Width="60"
                     Background="#FF1F3D68" 
-                    Margin="0,5,72,5" 
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68">
+                    Margin="0,5,72,0" 
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" VerticalAlignment="Top" Click="btExcluir_Click">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
@@ -47,10 +47,10 @@
             </Button>
             <Button x:Name="btSalvar"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
-                    Height="60" Width="60" 
+                    Height="Auto" Width="60" 
                     Background="#FF1F3D68" 
-                    Margin="0,5,137,5"
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68">
+                    Margin="0,5,137,5.4"
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -68,15 +68,18 @@
                     Height="50"/>
             </Button>
         </Grid>
-        <Grid x:Name="GridCampos" Background="LightGray" Grid.Row="1" >
+        <Grid x:Name="GridCampos" Grid.Row="1">
             <TextBlock x:Name="lblNomeTela" Text="Pessoa" 
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Top" 
                        FontSize="12"
                        Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
-            <Grid x:Name="GridControls" 
-                  Margin="30">
+            <Grid x:Name="GridControls" Margin="50">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 <TextBox
                     x:Name="txtNome"
                      materialDesign:HintAssist.Hint="Nome" 
@@ -84,7 +87,7 @@
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="22" 
                      Foreground="#FF1F3D68"  
-                     VerticalAlignment="Top"/>
+                     VerticalAlignment="Top" Height="49" Margin="0,-2,0.4,0"/>
 
                 <ComboBox 
                     x:Name="cmbSituacao"
@@ -92,64 +95,134 @@
                      Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="22" 
-                     Foreground="#FF1F3D68" Margin="0,59,0,358.6"  
+                     Foreground="#FF1F3D68" Margin="0,48,0.4,329.6"  
                      />
+                <GroupBox x:Name="GroupBoxRendas"
+                    Header="Defina sua Renda" 
+                    Height="285" 
+                    Margin="0,105,0.4,0"
+                    VerticalAlignment="Top"
+                    Style="{StaticResource MaterialDesignGroupBox}"
+                          Background="Transparent">
 
-                <ComboBox 
-                    x:Name="cmbRenda"
-                     materialDesign:HintAssist.Hint="Renda" 
-                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                     FontSize="22" 
-                     Foreground="#FF1F3D68" Margin="0,116,0,301" MouseDoubleClick="cmbRenda_MouseDoubleClick"  
-                     />
+                    <StackPanel x:Name="StackPanelCamposRenda" >
+                        <ComboBox  x:Name="cmbRenda"
+                                   materialDesign:HintAssist.Hint="Renda" 
+                                   Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                   FontFamily="Champagne &amp; Limousines" 
+                                   FontSize="22" 
+                                   Foreground="#FF1F3D68"
+                                   VerticalAlignment="Top"/>
 
-                <TextBox
-                    x:Name="txtValorBruto"
-                     materialDesign:HintAssist.Hint="Valor Bruto" 
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                     FontSize="22" 
-                     Foreground="#FF1F3D68"  
-                     VerticalAlignment="Top" Margin="0,174,534,0"/>
+                        <TextBox x:Name="txtRendaBruto"
+                                 materialDesign:HintAssist.Hint="Renda Bruto" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 FontFamily="Champagne &amp; Limousines" 
+                                 FontSize="22" 
+                                 Foreground="#FF1F3D68"  
+                                 VerticalAlignment="Top" PreviewTextInput="txtRendaBruto_PreviewTextInput" PreviewKeyDown="txtRendaBruto_PreviewKeyDown"/>
 
-                <Button x:Name="btCalcular" 
-                    Margin="0,169,469,241" 
-                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
-                    Height="60" 
-                    Width="60" 
-                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" HorizontalAlignment="Right">
-                    <materialDesign:PackIcon 
-                    Kind="Calculator"  
-                    Width="50" 
-                    Height="50"/>
-                </Button>
-                <DataGrid 
-                        x:Name="DataGridRendas" 
-                        Style="{StaticResource MaterialDesignDataGrid}"
-                        Margin="0,234,0,0" 
-                        Height="183" 
-                        VerticalAlignment="Top"/>
-                <Button x:Name="btAdd" 
-                    Margin="0,174,0,236" 
-                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
-                    Height="60" 
-                    Width="60" 
-                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" HorizontalAlignment="Right">
-                    <materialDesign:PackIcon 
-                        Kind="Add"  
-                        Width="50" 
-                        Height="50"/>
-                </Button>
+                        <TextBox
+                                 x:Name="txtRendaLiquida"
+                                 materialDesign:HintAssist.Hint="Renda Líquida" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 FontFamily="Champagne &amp; Limousines" 
+                                 FontSize="22" 
+                                 Foreground="#FF1F3D68"  
+                                 VerticalAlignment="Top" PreviewTextInput="txtRendaLiquida_PreviewTextInput" PreviewKeyDown="txtRendaLiquida_PreviewKeyDown"/>
+
+                        <Grid x:Name="GridBotoesGroupBoxRendas" Height="79" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="120"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="btCalcular" Grid.Column="0"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                                    Height="55" 
+                                    Width="55" 
+                                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" HorizontalAlignment="Left">
+                                <materialDesign:PackIcon 
+                                        VerticalAlignment="Center"
+                                        Kind="Calculator"  
+                                        Width="45" 
+                                        Height="45"/>
+                            </Button>
+
+                            <Button x:Name="btAdd" Grid.Column="1"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                                    Height="55" 
+                                    Width="55"
+                                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" HorizontalAlignment="Left" Click="btAdd_Click">
+                                <materialDesign:PackIcon 
+                                        Kind="Add"  
+                                        Width="45" 
+                                        Height="45"/>
+                            </Button>
+
+                            <Button x:Name="btRem" Grid.Column="1"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                                    Height="55" 
+                                    Width="55"
+                                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" VerticalAlignment="Center" HorizontalAlignment="Right" Click="btRem_Click">
+                                <materialDesign:PackIcon 
+                                        Kind="Remove"  
+                                        Width="45" 
+                                        Height="45"/>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+
+                <Grid x:Name="GridTotais" Grid.Column="1" Margin="9.6,0,10,39.6" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="266"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <ListView x:Name="lstRendas" Grid.Column="1" Grid.Row="0" 
+                          FontFamily="Champagne &amp; Limousines" 
+                          FontSize="15" 
+                          Foreground="#FF1F3D68"
+                          Style="{StaticResource MaterialDesignChoiceChipAccentListBox}">
+                        <ListView.View>
+                            <GridView x:Name="grdNomes">
+                                <GridViewColumn Header="Tipo de Renda"  DisplayMemberBinding="{Binding TipoRenda}"/>
+                                <GridViewColumn Header="Renda Bruta"  DisplayMemberBinding="{Binding RendaBruta}"/>
+                                <GridViewColumn Header="Renda Liquida"  DisplayMemberBinding="{Binding RendaLiquida}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <TextBox
+                        x:Name="txtTotalBruto" Grid.Row="1"
+                        materialDesign:HintAssist.Hint="Total Renda Bruta" 
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        FontFamily="Champagne &amp; Limousines" 
+                        FontSize="22" 
+                        Foreground="#FF1F3D68"  
+                        VerticalAlignment="Top"
+                        IsReadOnly="True" Margin="-1,14.4,0,0"
+                    />
+
+                    <TextBox
+                        x:Name="txtTotalLiquido" Grid.Row="1"
+                        materialDesign:HintAssist.Hint="Total Renda Líquida" 
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                        FontFamily="Champagne &amp; Limousines" 
+                        FontSize="22" 
+                        Foreground="#FF1F3D68"  
+                        VerticalAlignment="Top" Margin="0,67.4,0,0"
+                        IsReadOnly="True" Height="56"/>
+                </Grid>
+
+
+
+
+
+
+
             </Grid>
-            <TextBox
-                x:Name="txtValorLiquido"
-                materialDesign:HintAssist.Hint="Valor Líquido" 
-                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="22" 
-                Foreground="#FF1F3D68"  
-                VerticalAlignment="Top" Margin="524,204,95,0"/>
         </Grid>
     </Grid>
 </UserControl>
