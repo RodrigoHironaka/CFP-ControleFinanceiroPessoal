@@ -49,8 +49,8 @@ create table ContasPagamento (ID BIGINT not null, Conta BIGINT, JurosPorcentual 
 create table FormasPagamento (Id BIGINT not null, Nome VARCHAR(70), QtdParcelas INTEGER, DiasParaVencimento INTEGER, Situacao INTEGER, DataGeracao DATETIME, DataAlteracao DATETIME, primary key (Id)) ENGINE=InnoDB;
 create table GrupoGastos (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
 create table HorasExtra (ID BIGINT not null, Pessoa BIGINT, Data DATETIME, HoraInicioManha BIGINT, HoraFinalManha BIGINT, TotalManha BIGINT, HoraInicioTarde BIGINT, HoraFinalTarde BIGINT, TotalTarde BIGINT, HoraFinalDia BIGINT, primary key (ID)) ENGINE=InnoDB;
-create table Pessoas (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, TotalRenda DOUBLE, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
-create table PessoaTipoRendas (ID BIGINT not null, RendaBruta DOUBLE, RendaLiquida DOUBLE, TipoRenda BIGINT, Pessoa BIGINT, primary key (ID)) ENGINE=InnoDB;
+create table Pessoas (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, ValorTotalBruto DECIMAL(19,5), ValorTotalLiquido DECIMAL(19,5), Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
+create table PessoaTipoRendas (ID BIGINT not null, RendaBruta DECIMAL(19,5), RendaLiquida DECIMAL(19,5), TipoRenda BIGINT, Pessoa BIGINT, primary key (ID)) ENGINE=InnoDB;
 create table TiposRenda (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
 create table Usuarios (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, Senha VARCHAR(100), ConfirmaSenha VARCHAR(100), TipoUsuario INTEGER, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
 alter table Caixas add index (Pessoa), add constraint FK_1DD50A06 foreign key (Pessoa) references Pessoas (Id);

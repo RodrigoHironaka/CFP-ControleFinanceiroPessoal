@@ -4,7 +4,9 @@ using Dominio.ObjetoValor;
 using LinqKit;
 using NHibernate;
 using Repositorio.Repositorios;
+using SGE.Repositorio.Configuracao;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -20,7 +22,22 @@ namespace CFP.App.Formularios.Cadastros
     /// </summary>
     public partial class UserControlPessoa : UserControl
     {
-        ISession Session;
+        #region Session
+        private static ISession session;
+        protected static ISession Session
+        {
+            get
+            {
+                if (session == null || !session.IsOpen)
+                {
+                    if (session != null)
+                        session.Dispose();
+                    session = NHibernateHelper.GetSession();
+                }
+                return session;
+            }
+        }
+        #endregion
         Pessoa pessoa;
 
         #region Carrega Combos
@@ -38,7 +55,7 @@ namespace CFP.App.Formularios.Cadastros
         }
         #endregion
 
-        #region Repositorio
+        #region Repositorios
         private RepositorioPessoa _repositorio;
         public RepositorioPessoa Repositorio
         {
@@ -52,17 +69,19 @@ namespace CFP.App.Formularios.Cadastros
             set { _repositorio = value; }
         }
 
-        private RepositorioPessoaTipoRendas _repositorioPessoasTipoRenda;
-        public RepositorioPessoaTipoRendas RepositorioPessoasTipoRenda
+        private RepositorioPessoaTipoRendas _repositorioTipoRendas;
+        public RepositorioPessoaTipoRendas RepositorioPessoaTipoRenda
         {
+
             get
             {
-                if (_repositorioPessoasTipoRenda == null)
-                    _repositorioPessoasTipoRenda = new RepositorioPessoaTipoRendas(Session);
+                if (_repositorioTipoRendas == null)
+                    _repositorioTipoRendas = new RepositorioPessoaTipoRendas(Session);
 
-                return _repositorioPessoasTipoRenda;
+                return _repositorioTipoRendas;
             }
-            set { _repositorioPessoasTipoRenda = value; }
+            set { _repositorioTipoRendas = value; }
+
         }
         #endregion
 
@@ -121,7 +140,7 @@ namespace CFP.App.Formularios.Cadastros
                     (item as CheckBox).IsChecked = false;
                 if (item is RadioButton)
                     (item as RadioButton).IsChecked = false;
-               
+
                 if (item is GroupBox)
                 {
                     foreach (var groupBox in StackPanelCamposRenda.Children)
@@ -149,7 +168,7 @@ namespace CFP.App.Formularios.Cadastros
 
         #region PreencheGrid
         private ObservableCollection<PessoaTipoRendas> pessoaTipoRenda;
-        
+
         public void PreencheDataGrid()
         {
             pessoaTipoRenda = new ObservableCollection<PessoaTipoRendas>();
@@ -190,7 +209,6 @@ namespace CFP.App.Formularios.Cadastros
                     pessoaTipoRendas.RendaLiquida = item.RendaLiquida;
                 }
             }
-
         }
         #endregion
 
@@ -202,6 +220,14 @@ namespace CFP.App.Formularios.Cadastros
                 txtCodigo.Text = pessoa.Id.ToString();
                 txtNome.Text = pessoa.Nome;
                 cmbSituacao.SelectedIndex = pessoa.Situacao.GetHashCode();
+                txtTotalBruto.Text = pessoa.ValorTotalBruto.ToString("N2");
+                txtTotalLiquido.Text = pessoa.ValorTotalLiquido.ToString("N2");
+                var listaPessoaRendas = pessoa.PessoaTipoRendas;
+                foreach (var item in listaPessoaRendas)
+                {
+                    pessoaTipoRenda.Add(item);
+                }
+
             }
         }
         #endregion
@@ -229,7 +255,6 @@ namespace CFP.App.Formularios.Cadastros
 
         #region Adicionar e Remover item do listview
         //Adicionar
-        
         public void AdicionarItemLista()
         {
             if (cmbRenda.SelectedItem != null)
@@ -238,7 +263,7 @@ namespace CFP.App.Formularios.Cadastros
                 {
                     TipoRenda = (TipoRenda)cmbRenda.SelectedItem,
                     RendaBruta = txtRendaBruto.Text != string.Empty ? Decimal.Parse(txtRendaBruto.Text) : 0,
-                    RendaLiquida = txtRendaLiquida.Text != string.Empty ? Decimal.Parse(txtRendaLiquida.Text) : 0
+                    RendaLiquida = txtRendaLiquida.Text != string.Empty ? Decimal.Parse(txtRendaLiquida.Text) : Decimal.Parse(txtRendaBruto.Text)
                 });
                 SomaTotalBrutoeLiquido();
             }
@@ -253,6 +278,7 @@ namespace CFP.App.Formularios.Cadastros
                 if (item == selecao)
                 {
                     pessoaTipoRenda.Remove(item);
+                    RepositorioPessoaTipoRenda.Excluir(item);
                     break;
                 }
             }
@@ -260,12 +286,9 @@ namespace CFP.App.Formularios.Cadastros
         }
         #endregion
 
-        public UserControlPessoa(Pessoa _pessoa, ISession _session)
+        public UserControlPessoa()
         {
             InitializeComponent();
-            Session = _session;
-            pessoa = _pessoa;
-            PreencheDataGrid();
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -286,6 +309,7 @@ namespace CFP.App.Formularios.Cadastros
         {
             ControleAcessoInicial();
             CarregaCombos();
+            PreencheDataGrid();
 
         }
 
@@ -352,8 +376,18 @@ namespace CFP.App.Formularios.Cadastros
                 }
                 else
                 {
-                    //pessoa.DataAlteracao = DateTime.Now;
-                    //Repositorio.Alterar(pessoa);
+                    IList<PessoaTipoRendas> ptr = new List<PessoaTipoRendas>(pessoa.PessoaTipoRendas.Count);
+                    foreach (var item in (IList<PessoaTipoRendas>)lstRendas.ItemsSource)
+                        ptr.Add(item);
+
+                    pessoa.PessoaTipoRendas.Clear();
+                    foreach (var item in ptr)
+                    {
+                        if (item.Pessoa == null)
+                            item.Pessoa = this.pessoa;
+                        pessoa.PessoaTipoRendas.Add(item);
+                    }
+                    Repositorio.Alterar(pessoa);
                 }
 
                 ControleAcessoInicial();
@@ -363,17 +397,28 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
         {
-            //if (pessoa != null)
-            //{
-            //    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + pessoa.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            //    if (d == MessageBoxResult.Yes)
-            //    {
-            //        Repositorio.Excluir(pessoa);
-            //        LimpaCampos();
-            //        ControleAcessoInicial();
-
-            //    }
-            //}
+            if (pessoa != null)
+            {
+                MessageBoxResult d = MessageBox.Show("Deseja realmente excluir o registro: " + pessoa.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (d == MessageBoxResult.Yes)
+                {
+                    //if(pessoa.PessoaTipoRendas.Count > 0)
+                    //{
+                    //    foreach (var item in pessoa.PessoaTipoRendas)
+                    //    {
+                    //        if (item.Pessoa == pessoa)
+                    //        {
+                    //            RepositorioPessoaTipoRenda.Excluir(item);
+                                
+                    //        }
+                    //    }
+                    //}
+                  
+                    Repositorio.Excluir(pessoa);
+                    LimpaCampos();
+                    ControleAcessoInicial();
+                }
+            }
         }
 
         private void btAdd_Click(object sender, RoutedEventArgs e)
