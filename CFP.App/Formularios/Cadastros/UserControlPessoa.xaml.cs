@@ -22,22 +22,7 @@ namespace CFP.App.Formularios.Cadastros
     /// </summary>
     public partial class UserControlPessoa : UserControl
     {
-        #region Session
-        private static ISession session;
-        protected static ISession Session
-        {
-            get
-            {
-                if (session == null || !session.IsOpen)
-                {
-                    if (session != null)
-                        session.Dispose();
-                    session = NHibernateHelper.GetSession();
-                }
-                return session;
-            }
-        }
-        #endregion
+        ISession Session;
         Pessoa pessoa;
 
         #region Carrega Combos
@@ -168,7 +153,6 @@ namespace CFP.App.Formularios.Cadastros
 
         #region PreencheGrid
         private ObservableCollection<PessoaTipoRendas> pessoaTipoRenda;
-
         public void PreencheDataGrid()
         {
             pessoaTipoRenda = new ObservableCollection<PessoaTipoRendas>();
@@ -286,9 +270,11 @@ namespace CFP.App.Formularios.Cadastros
         }
         #endregion
 
-        public UserControlPessoa()
+        public UserControlPessoa(Pessoa _pessoa, ISession _session)
         {
             InitializeComponent();
+            Session = _session;
+            pessoa = _pessoa;
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -343,8 +329,9 @@ namespace CFP.App.Formularios.Cadastros
                             btPesquisar.Background = Brushes.DarkRed;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        throw new Exception(ex.ToString());
                         pessoa = null;
                     }
                 }
@@ -457,7 +444,7 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btPesquisar_Click(object sender, RoutedEventArgs e)
         {
-            PesquisaPessoas p = new PesquisaPessoas();
+            PesquisaPessoas p = new PesquisaPessoas(Session);
             p.ShowDialog();
             if (p.objeto != null)
             {

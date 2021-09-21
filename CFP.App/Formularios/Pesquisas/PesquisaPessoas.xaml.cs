@@ -22,22 +22,23 @@ namespace CFP.App.Formularios.Pesquisas
     public partial class PesquisaPessoas : Window
     {
         #region Session
-        private ISession session;
-        protected ISession Session
-        {
-            get
-            {
-                if (session == null || !session.IsOpen)
-                {
-                    if (session != null)
-                        session.Dispose();
+        ISession Session;
+        //private ISession session;
+        //protected ISession Session
+        //{
+        //    get
+        //    {
+        //        if (session == null || !session.IsOpen)
+        //        {
+        //            if (session != null)
+        //                session.Dispose();
 
-                    session = NHibernateHelper.GetSession();
+        //            session = NHibernateHelper.GetSession();
 
-                }
-                return session;
-            }
-        }
+        //        }
+        //        return session;
+        //    }
+        //}
         #endregion
 
         #region Repositório
@@ -89,9 +90,10 @@ namespace CFP.App.Formularios.Pesquisas
             }
         }
 
-        public PesquisaPessoas()
+        public PesquisaPessoas(ISession _session)
         {
             InitializeComponent();
+            Session = _session;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
