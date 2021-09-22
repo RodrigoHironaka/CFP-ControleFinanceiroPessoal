@@ -170,7 +170,7 @@ namespace CFP.App.Formularios.Cadastros
                 pessoa.Situacao = (Situacao)cmbSituacao.SelectedIndex;
                 pessoa.ValorTotalBruto = Decimal.Parse(txtTotalBruto.Text);
                 pessoa.ValorTotalLiquido = Decimal.Parse(txtTotalLiquido.Text);
-                pessoa.PessoaTipoRendas = (System.Collections.Generic.IList<PessoaTipoRendas>)lstRendas.ItemsSource;
+                pessoa.PessoaTipoRendas = (IList<PessoaTipoRendas>)lstRendas.ItemsSource;
                 return true;
             }
             catch
@@ -262,6 +262,8 @@ namespace CFP.App.Formularios.Cadastros
                 if (item == selecao)
                 {
                     pessoaTipoRenda.Remove(item);
+                    pessoa.PessoaTipoRendas.Remove(item);
+                    //pessoa.PessoaTipoRendas = (IList<PessoaTipoRendas>)lstRendas.ItemsSource;
                     RepositorioPessoaTipoRenda.Excluir(item);
                     break;
                 }
@@ -313,11 +315,13 @@ namespace CFP.App.Formularios.Cadastros
                 }
                 else
                 {
+                    
                     try
                     {
                         pessoa = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
                         if (pessoa != null)
                         {
+                            PreencheDataGrid();
                             PreencheCampos();
                             ControleAcessoCadastro();
                             CorPadrãoBotaoPesquisar();
@@ -367,7 +371,7 @@ namespace CFP.App.Formularios.Cadastros
                     foreach (var item in (IList<PessoaTipoRendas>)lstRendas.ItemsSource)
                         ptr.Add(item);
 
-                    pessoa.PessoaTipoRendas.Clear();
+                    pessoa.PessoaTipoRendas = new List<PessoaTipoRendas>();
                     foreach (var item in ptr)
                     {
                         if (item.Pessoa == null)
@@ -389,18 +393,6 @@ namespace CFP.App.Formularios.Cadastros
                 MessageBoxResult d = MessageBox.Show("Deseja realmente excluir o registro: " + pessoa.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (d == MessageBoxResult.Yes)
                 {
-                    //if(pessoa.PessoaTipoRendas.Count > 0)
-                    //{
-                    //    foreach (var item in pessoa.PessoaTipoRendas)
-                    //    {
-                    //        if (item.Pessoa == pessoa)
-                    //        {
-                    //            RepositorioPessoaTipoRenda.Excluir(item);
-                                
-                    //        }
-                    //    }
-                    //}
-                  
                     Repositorio.Excluir(pessoa);
                     LimpaCampos();
                     ControleAcessoInicial();
