@@ -151,6 +151,19 @@ namespace CFP.App.Formularios.Cadastros
         }
         #endregion
 
+        #region Limpa os campos do GroupBox
+        public void LimpaCamposGroupBox()
+        {
+            foreach (var groupBox in StackPanelCamposRenda.Children)
+            {
+                if (groupBox is TextBox)
+                    (groupBox as TextBox).Text = string.Empty;
+                if (groupBox is ComboBox)
+                    (groupBox as ComboBox).SelectedIndex = 0;
+            }
+        }
+        #endregion
+
         #region PreencheGrid
         private ObservableCollection<PessoaTipoRendas> pessoaTipoRenda;
         public void PreencheDataGrid()
@@ -250,6 +263,7 @@ namespace CFP.App.Formularios.Cadastros
                     RendaLiquida = txtRendaLiquida.Text != string.Empty ? Decimal.Parse(txtRendaLiquida.Text) : Decimal.Parse(txtRendaBruto.Text)
                 });
                 SomaTotalBrutoeLiquido();
+                LimpaCamposGroupBox();
             }
         }
 
@@ -263,7 +277,6 @@ namespace CFP.App.Formularios.Cadastros
                 {
                     pessoaTipoRenda.Remove(item);
                     pessoa.PessoaTipoRendas.Remove(item);
-                    //pessoa.PessoaTipoRendas = (IList<PessoaTipoRendas>)lstRendas.ItemsSource;
                     RepositorioPessoaTipoRenda.Excluir(item);
                     break;
                 }
@@ -298,7 +311,6 @@ namespace CFP.App.Formularios.Cadastros
             ControleAcessoInicial();
             CarregaCombos();
             PreencheDataGrid();
-
         }
 
         private void txtCodigo_KeyDown(object sender, KeyEventArgs e)
@@ -315,7 +327,6 @@ namespace CFP.App.Formularios.Cadastros
                 }
                 else
                 {
-                    
                     try
                     {
                         pessoa = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
@@ -335,8 +346,8 @@ namespace CFP.App.Formularios.Cadastros
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception(ex.ToString());
                         pessoa = null;
+                        throw new Exception(ex.ToString());
                     }
                 }
             }
@@ -371,7 +382,7 @@ namespace CFP.App.Formularios.Cadastros
                     foreach (var item in (IList<PessoaTipoRendas>)lstRendas.ItemsSource)
                         ptr.Add(item);
 
-                    pessoa.PessoaTipoRendas = new List<PessoaTipoRendas>();
+                    pessoa.PessoaTipoRendas.Clear();
                     foreach (var item in ptr)
                     {
                         if (item.Pessoa == null)
@@ -408,13 +419,24 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btRem_Click(object sender, RoutedEventArgs e)
         {
-            RemoverItemLista();
-            cmbRenda.Focus();
+            if(lstRendas.Items.Count > 0)
+            {
+                RemoverItemLista();
+                cmbRenda.Focus();
+            }
+           
         }
 
         private void txtRendaBruto_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+            //var regex = new Regex(@"^[0-9]*(?:\,[0-9]{1,2})?");
+            //if (regex.IsMatch(e.Text) && !(e.Text == "." && ((TextBox)sender).Text.Contains(e.Text)))
+            //    e.Handled = false;
+
+            //else
+            //    e.Handled = true;
+            // e.Handled = Regex.IsMatch(e.Text, @"^(?:0?\.[0-9]+|1\.0)$");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
         }
 
         private void txtRendaBruto_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -425,7 +447,7 @@ namespace CFP.App.Formularios.Cadastros
 
         private void txtRendaLiquida_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9,-]+");
         }
 
         private void txtRendaLiquida_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -441,6 +463,7 @@ namespace CFP.App.Formularios.Cadastros
             if (p.objeto != null)
             {
                 pessoa = p.objeto;
+                PreencheDataGrid();
                 PreencheCampos();
                 ControleAcessoCadastro();
                 CorPadrãoBotaoPesquisar();

@@ -28,8 +28,16 @@ namespace Repositorio.Mapeamentos
           
             Property(x => x.Nome, m => m.Length(70));
             ManyToOne(x => x.GrupoGasto, m => m.Column("GrupoGasto"));
-            Property(x => x.ValorTotal);
-            Property(x => x.ValorParcela);
+            Property(x => x.ValorTotal, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
+            Property(x => x.ValorParcela, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
             Property(x => x.DataEmissao);
             Property(x => x.DataVencimento);
             Property(x => x.NumeroDocumento);

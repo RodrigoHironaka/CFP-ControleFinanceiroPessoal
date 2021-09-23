@@ -21,8 +21,16 @@ namespace Repositorio.Mapeamentos
                 m.Generator(Generators.HighLow, g => g.Params(new { max_lo = 0}));
             });
             
-            Property(x => x.RendaBruta);
-            Property(x => x.RendaLiquida);
+            Property(x => x.RendaBruta, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
+            Property(x => x.RendaLiquida, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
             ManyToOne(x => x.TipoRenda, m=>m.Column("TipoRenda"));
             ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
         }

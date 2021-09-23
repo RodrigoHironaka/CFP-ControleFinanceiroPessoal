@@ -12,7 +12,7 @@ namespace Dominio.Dominio
     {
         public override string ToString()
         {
-            return string.Format("{0} - Renda Bruta: {1} - Renda Liquida: {2}", TipoRenda.Nome, RendaBruta, RendaLiquida);
+            return string.Format("{0} - Renda Bruta: {1} - Renda Liquida: {2}", TipoRenda.Nome, RendaBruta.ToString("N2"), RendaLiquida.ToString("N2"));
         }
         public virtual Int64 ID { get; set; }
 

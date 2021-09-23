@@ -21,10 +21,22 @@ namespace Repositorio.Mapeamentos
             });
             ManyToOne(x => x.Conta, m => m.Column("Conta"));
             Property(x => x.JurosPorcentual);
-            Property(x => x.JurosValor);
+            Property(x => x.JurosValor, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
             Property(x => x.DescontoPorcentual); 
-            Property(x => x.DescontoValor);
-            Property(x => x.ValorReajustado);
+            Property(x => x.DescontoValor, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
+            Property(x => x.ValorReajustado, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
             ManyToOne(x => x.FormaPagamento, m => m.Column("FormaPagamento"));
             
 

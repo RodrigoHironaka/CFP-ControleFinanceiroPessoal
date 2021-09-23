@@ -19,9 +19,9 @@ namespace Dominio.Dominio
         public virtual SituacaoConta Situacao { get; set; }
         public virtual DateTime DataEmissao { get; set; }
         public virtual DateTime DataVencimento { get; set; }
-        public virtual Double ValorTotal { get; set; }
+        public virtual Decimal ValorTotal { get; set; }
         public virtual Int64 QtdParcelas { get; set; }
-        public virtual Double ValorParcela { get; set; }
+        public virtual Decimal ValorParcela { get; set; }
         public virtual Int64 NumeroDocumento { get; set; }
         public virtual FormaPagamento TipoFormaPagamento { get; set; }
         public virtual Pessoa Pessoa { get; set; }
