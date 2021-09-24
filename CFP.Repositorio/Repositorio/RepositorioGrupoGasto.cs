@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Repositorio.Repositorios
 {
-    public class RepositorioGrupo : RepositorioBase<GrupoGasto>
+    public class RepositorioGrupoGasto : RepositorioBase<GrupoGasto>
     {
-        public RepositorioGrupo(ISession session) : base(session) { }
+        public RepositorioGrupoGasto(ISession session) : base(session) { }
     }
 }

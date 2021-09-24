@@ -41,13 +41,13 @@ namespace CFP.App.Formularios.Pesquisas
         #endregion
 
         #region Repositório
-        private RepositorioGrupo _repositorio;
-        public RepositorioGrupo Repositorio
+        private RepositorioGrupoGasto _repositorio;
+        public RepositorioGrupoGasto Repositorio
         {
             get
             {
                 if (_repositorio == null)
-                    _repositorio = new RepositorioGrupo(Session);
+                    _repositorio = new RepositorioGrupoGasto(Session);
                 return _repositorio;
             }
             set { _repositorio = value; }

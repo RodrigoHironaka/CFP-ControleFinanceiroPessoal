@@ -254,7 +254,7 @@ namespace CFP.App.Formularios.Cadastros
         //Adicionar
         public void AdicionarItemLista()
         {
-            if (cmbRenda.SelectedItem != null)
+            if (cmbRenda.SelectedItem != null && !String.IsNullOrEmpty(txtRendaBruto.Text))
             {
                 pessoaTipoRenda.Add(new PessoaTipoRendas()
                 {
@@ -264,6 +264,13 @@ namespace CFP.App.Formularios.Cadastros
                 });
                 SomaTotalBrutoeLiquido();
                 LimpaCamposGroupBox();
+            }
+            else
+            {
+                if (cmbRenda.SelectedItem != null)
+                    txtRendaBruto.Focus();
+                else
+                    cmbRenda.Focus();
             }
         }
 
@@ -414,7 +421,6 @@ namespace CFP.App.Formularios.Cadastros
         private void btAdd_Click(object sender, RoutedEventArgs e)
         {
             AdicionarItemLista();
-            cmbRenda.Focus();
         }
 
         private void btRem_Click(object sender, RoutedEventArgs e)

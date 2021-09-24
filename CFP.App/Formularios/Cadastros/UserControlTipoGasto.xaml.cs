@@ -38,13 +38,13 @@ namespace CFP.App.Formularios.Cadastros
         #endregion
 
         #region Repositorio
-        private RepositorioGrupo _repositorio;
-        public RepositorioGrupo Repositorio
+        private RepositorioGrupoGasto _repositorio;
+        public RepositorioGrupoGasto Repositorio
         {
             get
             {
                 if (_repositorio == null)
-                    _repositorio = new RepositorioGrupo(Session);
+                    _repositorio = new RepositorioGrupoGasto(Session);
 
                 return _repositorio;
             }

@@ -10,6 +10,10 @@ namespace Dominio.Dominio
 {
     public class GrupoGasto : Base
     {
+        public override string ToString()
+        {
+            return Nome;
+        }
         public virtual Situacao Situacao { get; set; }
     }
 }

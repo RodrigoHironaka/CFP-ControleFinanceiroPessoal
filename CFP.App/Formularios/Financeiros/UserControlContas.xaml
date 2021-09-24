@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -20,37 +20,38 @@
                     Height="60" 
                     Width="60" 
                     HorizontalAlignment="Left" 
-                    Background="#FF1F3D68">
+                    Background="#FF1F3D68" BorderBrush="#FF1F3D68" Click="btPesquisar_Click">
                 <materialDesign:PackIcon 
                     Kind="Search"  
                     Width="50" 
                     Height="50"/>
             </Button>
-            <TextBox Margin="75,10,636,0" 
+            <TextBox x:Name="txtCodigo"
+                     Margin="75,10,636,0" 
                      materialDesign:HintAssist.Hint="Código" 
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="15" 
                      Foreground="White"  
-                     VerticalAlignment="Top"/>
-            <Button x:Name="btOk" 
+                     VerticalAlignment="Top" KeyDown="txtCodigo_KeyDown" PreviewTextInput="txtCodigo_PreviewTextInput" PreviewKeyDown="txtCodigo_PreviewKeyDown"/>
+            <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                    Height="60" 
+                    Height="Auto" 
                     Width="60"
                     Background="#FF1F3D68" 
-                    Margin="0,5,72,5" 
-                    HorizontalAlignment="Right">
+                    Margin="0,5,72,5.4" 
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
                     Height="50"/>
             </Button>
-            <Button x:Name="btExcluir"
+            <Button x:Name="btSalvar"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
-                    Height="60" Width="60" 
+                    Height="Auto" Width="60" 
                     Background="#FF1F3D68" 
-                    Margin="0,5,137,5"
-                    HorizontalAlignment="Right">
+                    Margin="0,5,137,5.4"
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -61,14 +62,14 @@
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,4,5" 
-                    HorizontalAlignment="Right" Click="btCancelar_Click">
+                    HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 
                     Height="50"/>
             </Button>
         </Grid>
-        <Grid x:Name="GridCampos" Background="LightGray" Grid.Row="1" >
+        <Grid x:Name="GridCampos" Background="LightGray" Margin="0,70,0,82" Grid.RowSpan="2" >
             <TextBlock x:Name="lblNomeTela" Text="Conta" 
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Top" 
@@ -76,144 +77,275 @@
                       Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
             <Grid Margin="70,25,70,25" >
-                <TextBox
-                    x:Name="txtNome"
-                     materialDesign:HintAssist.Hint="Nome" 
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                     FontSize="18"
-                     Foreground="#FF1F3D68"  
-                     VerticalAlignment="Top" />
+                <TabControl x:Name="tabContas" Margin="0,0,0,-20">
+                    <TabItem x:Name="tabItemGeral" Header="Geral">
+                        <Grid x:Name="GridControls" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBox
+                                 x:Name="txtNome"
+                                 Grid.Row="0"
+                                 materialDesign:HintAssist.Hint="Nome" 
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                 FontFamily="Champagne &amp; Limousines" 
+                                 FontSize="18"
+                                 Foreground="#FF1F3D68"  
+                                 VerticalAlignment="Stretch" />
 
-                <ComboBox
-                    x:Name="cmbTipoConta"
-                     materialDesign:HintAssist.Hint="Tipo de Conta" 
-                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                    FontSize="18"
-                     Foreground="#FF1F3D68" Margin="0,46,460,388.6" />
+                            <ComboBox
+                                    x:Name="cmbTipoConta"
+                                    Grid.Row="1"
+                                    materialDesign:HintAssist.Hint="Tipo de Conta" 
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                    FontFamily="Champagne &amp; Limousines" 
+                                    FontSize="18"
+                                    Foreground="#FF1F3D68"  VerticalAlignment="Stretch" Margin="0 0 450 0"  />
 
-                <ComboBox
-                    x:Name="cmbTipoGasto"
-                     materialDesign:HintAssist.Hint="Tipo de Gasto" 
-                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                     FontFamily="Champagne &amp; Limousines"
-                    FontSize="18"
-                     Foreground="#FF1F3D68" Margin="435,46,0,388.6"/>
+                            <ComboBox
+                                    x:Name="cmbTipoGasto"
+                                    Grid.Row="1"
+                                    materialDesign:HintAssist.Hint="Tipo de Gasto" 
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                    FontFamily="Champagne &amp; Limousines"
+                                    FontSize="18"
+                                    Foreground="#FF1F3D68"
+                                    VerticalAlignment="Stretch"
+                                    Margin="450 0 0 0 "/>
 
-                <ComboBox
-                    x:Name="cmbTipoPeriodo"
-                     materialDesign:HintAssist.Hint="Período" 
-                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                    FontSize="18"
-                     Foreground="#FF1F3D68" Margin="0,97,460,337.6"/>
+                            <ComboBox
+                                x:Name="cmbTipoPeriodo"
+                                Grid.Row="2"
+                                materialDesign:HintAssist.Hint="Período" 
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                FontFamily="Champagne &amp; Limousines" 
+                                FontSize="18"
+                                Foreground="#FF1F3D68" 
+                                VerticalAlignment="Stretch"
+                                Margin="0 0 450 0"/>
 
-                <ComboBox 
-                    x:Name="cmbSituacao"
-                     materialDesign:HintAssist.Hint="Situação" 
-                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                    FontSize="18"
-                     Foreground="#FF1F3D68" Margin="435,97,0,337.6"/>
+                            <ComboBox 
+                                x:Name="cmbSituacao"
+                                Grid.Row="2"
+                                materialDesign:HintAssist.Hint="Situação" 
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                FontFamily="Champagne &amp; Limousines" 
+                                FontSize="18"
+                                Foreground="#FF1F3D68" 
+                                VerticalAlignment="Stretch"
+                                Margin="450 0 0 0 "/>
 
-                <DatePicker
-                    x:Name="txtEmissao"
-                     materialDesign:HintAssist.Hint="Emissão" 
-                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                     FontSize="18" 
-                     Foreground="#FF1F3D68"
-                     VerticalAlignment="Top" Margin="0,143,460,0" />
+                            <DatePicker
+                                x:Name="txtEmissao"
+                                Grid.Row="3"
+                                materialDesign:HintAssist.Hint="Emissão" 
+                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                                FontFamily="Champagne &amp; Limousines" 
+                                FontSize="18" 
+                                Foreground="#FF1F3D68"
+                                VerticalAlignment="Stretch"
+                                Margin="0 0 450 0"/>
 
-                <DatePicker
-                    x:Name="txtVencimento"
-                     materialDesign:HintAssist.Hint="Vencimento" 
-                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                     FontSize="18"
-                     Foreground="#FF1F3D68"
-                     VerticalAlignment="Top" Margin="435,142,0,0"/>
+                            <DatePicker
+                                     x:Name="txtVencimento"
+                                     Grid.Row="3"
+                                     materialDesign:HintAssist.Hint="Vencimento" 
+                                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                                     FontFamily="Champagne &amp; Limousines" 
+                                     FontSize="18"
+                                     Foreground="#FF1F3D68"
+                                     VerticalAlignment="Stretch" 
+                                     Margin="450 0 0 0 "/>
+                            <Grid x:Name="GridRow4" Grid.Row="4" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox
+                                    x:Name="txtValorTotal"
+                                    Grid.Row="4"
+                                    Grid.Column="0"
+                                    materialDesign:HintAssist.Hint="Valor Total" 
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    FontFamily="Champagne &amp; Limousines" 
+                                    FontSize="18"
+                                    Foreground="#FF1F3D68"
+                                    VerticalAlignment="Stretch" 
+                                    Margin="0 0 45 0"/>
 
-                <TextBox
-                    x:Name="txtValorTotal"
-                     materialDesign:HintAssist.Hint="Valor Total" 
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                    FontSize="18"
-                     Foreground="#FF1F3D68"
-                     VerticalAlignment="Top" Margin="0,189,505,0" />
+                                <Button x:Name="btParcelas" 
+                                    Grid.Row="4"
+                                        Grid.Column="0"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                                    Height="40" Width="40" 
+                                    Background="#FF1F3D68"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Right">
+                                    <materialDesign:PackIcon 
+                                        Kind="Divide"  
+                                        Width="40" 
+                                        Height="40"/>
+                                </Button>
 
-                <Button x:Name="btParcelas" 
-                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                    Height="40" Width="40" 
-                    Background="#FF1F3D68" 
-                    Margin="0,195,460,244.6" HorizontalAlignment="Right" >
-                    <materialDesign:PackIcon 
-                    Kind="Divide"  
-                    Width="40" 
-                    Height="40"/>
-                </Button>
+                                <TextBox
+                                    x:Name="txtQtdParcelas"
+                                    Grid.Row="3"
+                                    Grid.Column="1"
+                                    materialDesign:HintAssist.Hint="Qtd Parcelas" 
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    FontFamily="Champagne &amp; Limousines"
+                                    FontSize="18"
+                                    Foreground="#FF1F3D68"
+                                    VerticalAlignment="Stretch" 
+                                    Margin="10 0 10 0"/>
 
-                <TextBox
-                    x:Name="txtQtdParcelas"
-                     materialDesign:HintAssist.Hint="Qtd Parcelas" 
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     FontFamily="Champagne &amp; Limousines"
-                    FontSize="18"
-                     Foreground="#FF1F3D68"
-                     VerticalAlignment="Top" Margin="0,188,230,0" 
-                    HorizontalAlignment="Right" 
-                    Width="215" />
+                                <TextBox
+                                    x:Name="txtValorParcela"
+                                    Grid.Row="3"
+                                    Grid.Column="2"
+                                    materialDesign:HintAssist.Hint="Valor Parcela" 
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    FontFamily="Champagne &amp; Limousines"
+                                    FontSize="18"
+                                    Foreground="#FF1F3D68"
+                                    VerticalAlignment="Stretch" />
+                            </Grid>
+                            <Grid x:Name="GridRow5" Grid.Row="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox 
+                                    x:Name="cmbReferenciaPessoa"
+                                    Grid.Row="5"
+                                    Grid.Column="0"
+                                    materialDesign:HintAssist.Hint="Referenciado a" 
+                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                    FontFamily="Champagne &amp; Limousines" 
+                                    FontSize="18"
+                                    Foreground="#FF1F3D68" 
+                                    VerticalAlignment="Stretch"/>
 
-                <TextBox
-                    x:Name="txtValorParcela"
-                    materialDesign:HintAssist.Hint="Valor Parcela" 
-                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                    FontFamily="Champagne &amp; Limousines"
-                    FontSize="18"
-                    Foreground="#FF1F3D68"
-                    VerticalAlignment="Top" Margin="0,188,0,0" HorizontalAlignment="Right" Width="225" />
+                                <TextBox
+                                    x:Name="txtNumDocumento"
+                                    Grid.Row="5"
+                                    Grid.Column="1"
+                                    materialDesign:HintAssist.Hint="Número Documento" 
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    FontFamily="Champagne &amp; Limousines" 
+                                    FontSize="18"
+                                    Foreground="#FF1F3D68"
+                                    VerticalAlignment="Stretch" 
+                                    Margin="10 0 10 0"/>
 
-                <TextBox
-                    x:Name="txtNumDocumento"
-                     materialDesign:HintAssist.Hint="Número Documento" 
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                    FontSize="18"
-                     Foreground="#FF1F3D68"
-                     VerticalAlignment="Top" Margin="0,234,230,0"
-                    HorizontalAlignment="Right"
-                    Width="215"/>
+                                <ComboBox 
+                                     x:Name="cmbTipoPagamento"
+                                     Grid.Row="5"
+                                    Grid.Column="2"
+                                     materialDesign:HintAssist.Hint="Tipo da Pagamento" 
+                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                     FontFamily="Champagne &amp; Limousines" 
+                                     FontSize="18"
+                                     Foreground="#FF1F3D68" 
+                                     VerticalAlignment="Stretch"/>
+                            </Grid>
+                            <TextBox
+                                     x:Name="txtObservacao"
+                                     Grid.Row="6" Grid.RowSpan="2"
+                                     materialDesign:HintAssist.Hint="Observacão" 
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                     FontFamily="Champagne &amp; Limousines" 
+                                     FontSize="18"
+                                     Foreground="#FF1F3D68"
+                                     VerticalAlignment="Stretch"
+                                     TextWrapping="Wrap"
+                                     AcceptsReturn="True"
+                                     VerticalScrollBarVisibility="Visible"/>
+                        </Grid>
 
-                <ComboBox 
-                    x:Name="cmbReferenciaPessoa"
-                     materialDesign:HintAssist.Hint="Referenciado a" 
-                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                    FontSize="18"
-                     Foreground="#FF1F3D68" Margin="0,235,460,198.6"/>
+                    </TabItem>
+                    <TabItem x:Name="tabItemPagamento" Header="Pagamento">
+                        <Grid x:Name="GridItemPagamento" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="70"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid x:Name="gridBotesPagamento" Grid.Row="0" Background="#FF1F3D68" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="btPagar" 
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                                    Height="60" Width="60" 
+                                    Background="#FF1F3D68"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68">
+                                    <materialDesign:PackIcon 
+                                        Kind="Payment"  
+                                        Width="50" 
+                                        Height="50"/>
+                                </Button>
 
-                <ComboBox 
-                    x:Name="cmbTipoPagamento"
-                     materialDesign:HintAssist.Hint="Tipo da Pagamento" 
-                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                    FontSize="18"
-                     Foreground="#FF1F3D68" Margin="0,234,0,199.6" HorizontalAlignment="Right" Width="225"/>
+                                <Button x:Name="btReceber" 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                                    Height="60" Width="60" 
+                                    Background="#FF1F3D68"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68">
+                                    <materialDesign:PackIcon 
+                                        Kind="Money"  
+                                        Width="50" 
+                                        Height="50"/>
+                                </Button>
+                            </Grid>
+                            <Grid x:Name="GridListaDataGrid" Grid.Row="1">
+                                <DataGrid x:Name="DataGridContaPagamento" AutoGenerateColumns="False">
+                                    <DataGrid.Columns>
 
-                <TextBox
-                    x:Name="txtObservacao"
-                     materialDesign:HintAssist.Hint="Observacão" 
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                    FontSize="18"
-                     Foreground="#FF1F3D68"
-                     VerticalAlignment="Top" 
-                    Height="138"
-                    TextWrapping="Wrap"
-                    AcceptsReturn="True"
-                    VerticalScrollBarVisibility="Visible" Margin="0,280,0,0" />
+                                        <DataGridTextColumn Header="Conta" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Total ($)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Juros (%)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Juros ($)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Desconto (%)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Desconto ($)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Valor Reajustado" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Forma de Pagamento" Binding="{Binding Conta}" />
+                                        <DataGridTemplateColumn Header="Birthday">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <DatePicker SelectedDate="{Binding Birthday}" BorderThickness="0" />
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Grid>
+
+                    </TabItem>
+                </TabControl>
             </Grid>
 
 

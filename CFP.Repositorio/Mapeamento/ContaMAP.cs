@@ -17,7 +17,7 @@ namespace Repositorio.Mapeamentos
         public ContaMAP()
         {
             Table("Contas");
-            Id(x => x.ID, m =>
+            Id(x => x.Id, m =>
             {
                 m.Generator(Generators.HighLow, g => g.Params(new { max_lo = 0 }));
             });
@@ -43,6 +43,8 @@ namespace Repositorio.Mapeamentos
             Property(x => x.NumeroDocumento);
             Property(x => x.Observacao, m => m.Length(400));
             Property(x => x.Situacao, m => m.Type<EnumType<SituacaoConta>>());
+            Property(x => x.DataGeracao);
+            Property(x => x.DataAlteracao);
 
         }
     }

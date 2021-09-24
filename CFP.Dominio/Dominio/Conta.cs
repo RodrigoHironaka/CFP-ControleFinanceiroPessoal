@@ -1,4 +1,5 @@
-﻿using Dominio.Interfaces;
+﻿using CFP.Dominio.Dominio;
+using Dominio.Interfaces;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
 using System;
@@ -9,10 +10,8 @@ using System.Threading.Tasks;
 
 namespace Dominio.Dominio
 {
-    public class Conta : IEntidade
+    public class Conta : Base
     {
-        public virtual Int64 ID { get; set; }
-        public virtual String Nome { get; set; }
         public virtual TipoConta TipoConta { get; set; }
         public virtual GrupoGasto GrupoGasto { get; set; }
         public virtual TipoPeriodo TipoPeriodo { get; set; }
