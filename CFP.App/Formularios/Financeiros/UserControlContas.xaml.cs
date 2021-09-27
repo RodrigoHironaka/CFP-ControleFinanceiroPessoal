@@ -5,6 +5,7 @@ using NHibernate;
 using Repositorio.Repositorios;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -32,13 +33,11 @@ namespace CFP.App.Formularios.Financeiros
         #region Carrega Combos
         private void CarregaCombos()
         {
-            //carrega combo Situacao e define Ativo 
-            cmbSituacao.ItemsSource = Enum.GetValues(typeof(SituacaoConta));
-            cmbSituacao.SelectedIndex = 0;
+            lblSituacao.Text = SituacaoConta.Finalizado.ToString();
             cmbTipoConta.ItemsSource = Enum.GetValues(typeof(TipoConta));
             cmbTipoConta.SelectedIndex = 0;
             cmbTipoPeriodo.ItemsSource = Enum.GetValues(typeof(TipoPeriodo));
-            cmbTipoConta.SelectedIndex = 0;
+            cmbTipoPeriodo.SelectedIndex = 0;
 
             cmbTipoGasto.ItemsSource = new RepositorioGrupoGasto(Session)
                 .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
@@ -46,17 +45,16 @@ namespace CFP.App.Formularios.Financeiros
                 .ToList<GrupoGasto>();
             cmbTipoGasto.SelectedIndex = 0;
 
-            cmbTipoPagamento.ItemsSource = new RepositorioFormaPagamento(Session)
+            cmbFormaCompra.ItemsSource = new RepositorioFormaPagamento(Session)
                .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
                .OrderBy(x => x.Nome)
                .ToList<FormaPagamento>();
-            cmbTipoPagamento.SelectedIndex = 0;
+            cmbFormaCompra.SelectedIndex = 0;
 
             cmbReferenciaPessoa.ItemsSource = new RepositorioPessoa(Session)
                .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
                .OrderBy(x => x.Nome)
                .ToList<Pessoa>();
-            cmbReferenciaPessoa.SelectedIndex = 0;
 
 
         }
@@ -122,40 +120,42 @@ namespace CFP.App.Formularios.Financeiros
         #region Limpa os campos do Cadastro
         public void LimpaCampos()
         {
+            lblSituacao.Text = SituacaoConta.Pendente.ToString();
             foreach (var item in GridControls.Children)
             {
-                if (item is TextBox)
-                    (item as TextBox).Text = string.Empty;
-                if (item is ComboBox)
-                    (item as ComboBox).SelectedIndex = 0;
-                if (item is CheckBox)
-                    (item as CheckBox).IsChecked = false;
-                if (item is RadioButton)
-                    (item as RadioButton).IsChecked = false;
-                if (item is DatePicker)
-                    (item as DatePicker).Text = string.Empty;
-                if (item is Grid)
+                if (item is TabControl)
                 {
-                    foreach (var grid in GridRow4.Children)
+                    tabItemGeral.IsSelected = true;
+                    foreach (var gridControls2 in GridControls2.Children)
                     {
-                        if (grid is TextBox)
-                            (grid as TextBox).Text = string.Empty;
-                        if (item is ComboBox)
-                            (item as ComboBox).SelectedIndex = 0;
-                    }
-                    foreach (var grid in GridRow5.Children)
-                    {
-                        if (grid is TextBox)
-                            (grid as TextBox).Text = string.Empty;
-                        if (item is ComboBox)
-                            (item as ComboBox).SelectedIndex = 0;
-                    }
+                        if (gridControls2 is TextBox)
+                            (gridControls2 as TextBox).Text = string.Empty;
+                        if (gridControls2 is ComboBox)
+                            (gridControls2 as ComboBox).SelectedIndex = 0;
+                        if (gridControls2 is CheckBox)
+                            (gridControls2 as CheckBox).IsChecked = false;
+                        if (gridControls2 is RadioButton)
+                            (gridControls2 as RadioButton).IsChecked = false;
+                        if (gridControls2 is DatePicker)
+                            (gridControls2 as DatePicker).Text = string.Empty;
 
-                    foreach (var grid in GridListaDataGrid.Children)
-                    {
-                        if (grid is DataGrid)
-                            (grid as DataGrid).Items.Clear();
-
+                        if (gridControls2 is Grid)
+                        {
+                            foreach (var gridRow4 in GridRow4.Children)
+                            {
+                                if (gridRow4 is TextBox)
+                                    (gridRow4 as TextBox).Text = string.Empty;
+                                if (gridRow4 is ComboBox)
+                                    (gridRow4 as ComboBox).SelectedIndex = 0;
+                            }
+                            foreach (var gridRow5 in GridRow5.Children)
+                            {
+                                if (gridRow5 is TextBox)
+                                    (gridRow5 as TextBox).Text = string.Empty;
+                                if (gridRow5 is ComboBox)
+                                    (gridRow5 as ComboBox).SelectedIndex = 0;
+                            }
+                        }
                     }
                 }
             }
@@ -172,21 +172,22 @@ namespace CFP.App.Formularios.Financeiros
                 conta.TipoConta = (TipoConta)cmbTipoConta.SelectedIndex;
                 conta.GrupoGasto = (GrupoGasto)cmbTipoGasto.SelectedItem;
                 conta.TipoPeriodo = (TipoPeriodo)cmbTipoPeriodo.SelectedIndex;
-                conta.Situacao = (SituacaoConta)cmbSituacao.SelectedIndex;
-                conta.DataEmissao = (DateTime)(txtEmissao.Text != string.Empty ? txtEmissao.SelectedDate : null);
-                conta.DataVencimento = (DateTime)(txtVencimento.Text != string.Empty ? txtVencimento.SelectedDate : null);
+                conta.Situacao = ((SituacaoConta)Enum.Parse(typeof(SituacaoConta), lblSituacao.Text));
+                conta.DataEmissao = (DateTime)(txtEmissao.Text != string.Empty ? txtEmissao.SelectedDate : conta.DataEmissao.GetValueOrDefault());
+                conta.DataVencimento = (DateTime)(txtVencimento.Text != string.Empty ? txtVencimento.SelectedDate : conta.DataVencimento.GetValueOrDefault());
                 conta.ValorTotal = txtValorTotal.Text != string.Empty ? Decimal.Parse(txtValorTotal.Text) : 0;
                 conta.QtdParcelas = txtQtdParcelas.Text != string.Empty ? Int64.Parse(txtQtdParcelas.Text) : 0;
                 conta.ValorParcela = txtValorParcela.Text != string.Empty ? Decimal.Parse(txtValorParcela.Text) : 0;
                 conta.Pessoa = (Pessoa)(cmbReferenciaPessoa.SelectedItem ?? null);
-                conta.NumeroDocumento = Int64.Parse(txtNumDocumento.Text);
-                conta.TipoFormaPagamento = (FormaPagamento)cmbTipoPagamento.SelectedItem;
+                conta.NumeroDocumento = txtNumDocumento.Text != string.Empty ? Int64.Parse(txtNumDocumento.Text) : 0;
+                conta.FormaCompra = (FormaPagamento)cmbFormaCompra.SelectedItem;
                 conta.Observacao = txtObservacao.Text;
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(ex.ToString());
+                //return false;
             }
 
         }
@@ -202,15 +203,15 @@ namespace CFP.App.Formularios.Financeiros
                 cmbTipoConta.SelectedIndex = conta.TipoConta.GetHashCode();
                 cmbTipoConta.SelectedItem = conta.GrupoGasto;
                 cmbTipoConta.SelectedIndex = conta.TipoPeriodo.GetHashCode();
-                cmbSituacao.SelectedIndex = conta.Situacao.GetHashCode();
-                txtEmissao.Text = conta.DataEmissao.ToString();
-                txtVencimento.Text = conta.DataVencimento.ToString();
-                txtValorTotal.Text = conta.ValorTotal.ToString();
-                txtQtdParcelas.Text = conta.QtdParcelas.ToString();
-                txtValorParcela.Text = conta.ValorParcela.ToString();
+                lblSituacao.Text = conta.Situacao.ToString();
+                txtEmissao.Text = conta.DataEmissao != DateTime.MinValue ? conta.DataEmissao.ToString() : string.Empty;
+                txtVencimento.Text = conta.DataVencimento != DateTime.MinValue ? conta.DataVencimento.ToString() : string.Empty;
+                txtValorTotal.Text = conta.ValorTotal > 0 ? conta.ValorTotal.ToString() : string.Empty;
+                txtQtdParcelas.Text = conta.QtdParcelas > 0 ? conta.QtdParcelas.ToString() : string.Empty;
+                txtValorParcela.Text = conta.ValorParcela > 0 ? conta.ValorParcela.ToString() : string.Empty;
                 cmbReferenciaPessoa.SelectedItem = conta.Pessoa;
-                txtNumDocumento.Text = conta.NumeroDocumento.ToString();
-                cmbTipoPagamento.SelectedItem = conta.TipoFormaPagamento;
+                txtNumDocumento.Text = conta.NumeroDocumento > 0 ? conta.NumeroDocumento.ToString() : string.Empty;
+                cmbFormaCompra.SelectedItem = conta.FormaCompra;
                 txtObservacao.Text = conta.Observacao;
             }
         }
@@ -222,6 +223,75 @@ namespace CFP.App.Formularios.Financeiros
             var converter = new System.Windows.Media.BrushConverter();
             var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
             btPesquisar.Background = HexaToBrush;
+        }
+        #endregion
+
+        #region Vericando Tipo de Periodo
+        private void VerificaTipoPeriodo()
+        {
+            switch (cmbTipoPeriodo.SelectedIndex)
+            {
+                case 0:
+                    txtQtdParcelas.IsEnabled = false;
+                    txtValorParcela.IsEnabled = false;
+                    txtValorParcela.IsReadOnly = true;
+                    btParcelas.IsEnabled = false;
+                    txtQtdParcelas.Clear();
+                    txtValorParcela.Clear();
+                    break;
+                case 1:
+                    txtQtdParcelas.IsEnabled = true;
+                    txtValorParcela.IsEnabled = true;
+                    txtValorParcela.IsReadOnly = true;
+                    btParcelas.IsEnabled = true;
+                    break;
+                case 2:
+                    txtQtdParcelas.IsEnabled = false;
+                    txtValorParcela.IsEnabled = false;
+                    txtValorParcela.IsReadOnly = true;
+                    btParcelas.IsEnabled = false;
+                    txtQtdParcelas.Clear();
+                    txtValorParcela.Clear();
+                    break;
+                default:
+                    break;
+            }
+        }
+        #endregion
+
+        #region Divisao Valor Total e Qtd de Parcelas
+        private decimal DivisaoTotalPorQtd(Decimal total, Int64 qtd)
+        {
+            var resultado = total / qtd;
+            return resultado;
+        }
+        #endregion
+
+        #region Gerar Parcelas
+        private void GerarParcelas()
+        {
+            //if (!String.IsNullOrEmpty(txtQtdParcelas.Text) || !txtQtdParcelas.Text.Equals(0))
+            //{
+            //    PreencheDataGrid();
+            //    for (int i = 0; i < Int64.Parse(txtQtdParcelas.Text); i++)
+            //    {
+            //        contaPagamento.Add(new ContaPagamento()
+            //        {
+            //            SituacaoParcelas = SituacaoConta.Pendente,
+                        
+
+            //        });
+
+            //    }
+            //}
+        }
+
+        #region PreencheDataGrid
+        private ObservableCollection<ContaPagamento> contaPagamento;
+        public void PreencheDataGrid()
+        {
+            contaPagamento = new ObservableCollection<ContaPagamento>();
+            DataGridContaPagamento.ItemsSource = contaPagamento;
         }
         #endregion
         public UserControlContas(Conta _conta, ISession _session)
@@ -238,6 +308,7 @@ namespace CFP.App.Formularios.Financeiros
                 ControleAcessoInicial();
                 FocoNoCampoCodigo();
                 LimpaCampos();
+                cmbReferenciaPessoa.SelectedIndex = -1;
             }
             else
             {
@@ -260,6 +331,8 @@ namespace CFP.App.Formularios.Financeiros
                 {
                     conta = new Conta();
                     LimpaCampos();
+                    cmbReferenciaPessoa.SelectedIndex = -1;
+                    VerificaTipoPeriodo();
                     ControleAcessoCadastro();
                     CorPadrãoBotaoPesquisar();
                 }
@@ -347,6 +420,52 @@ namespace CFP.App.Formularios.Financeiros
 
                 }
             }
+        }
+
+        private void cmbTipoPeriodo_LostFocus(object sender, RoutedEventArgs e)
+        {
+            VerificaTipoPeriodo();
+        }
+
+        private void txtQtdParcelas_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
+        private void txtQtdParcelas_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void txtValorTotal_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            //e.Handled = Regex.IsMatch(e.Text, @"[0-9]*[\,]\d{2}");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+            //e.Handled = Regex.IsMatch(e.Text, @"^-?[0-9][0-9,\.]+$");
+           
+        }
+
+        private void txtValorParcela_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+        }
+
+        private void txtValorParcela_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void txtValorTotal_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void btParcelas_Click(object sender, RoutedEventArgs e)
+        {
+            txtValorParcela.Text = DivisaoTotalPorQtd(Decimal.Parse(txtValorTotal.Text), Int64.Parse(txtQtdParcelas.Text)).ToString("N2");
         }
     }
 }

@@ -21,13 +21,19 @@ namespace Repositorio.Mapeamentos
             {
                 m.Generator(Generators.HighLow, g => g.Params(new { max_lo = 0 }));
             });
+           
+            Property(x => x.QtdParcelas, m => m.Length(3));
+            Property(x => x.Nome, m => m.Length(70));
+            Property(x => x.Observacao, m => m.Length(400));
+            Property(x => x.DataEmissao);
+            Property(x => x.DataVencimento);
+            Property(x => x.NumeroDocumento, m => m.Length(20));
+            Property(x => x.DataGeracao);
+            Property(x => x.DataAlteracao);
+            Property(x => x.Situacao, m => m.Type<EnumType<SituacaoConta>>());
             Property(x => x.TipoConta, m => m.Type<EnumType<TipoConta>>());
             Property(x => x.TipoPeriodo, m => m.Type<EnumType<TipoPeriodo>>());
-            Property(x => x.QtdParcelas);
-            ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
-          
-            Property(x => x.Nome, m => m.Length(70));
-            ManyToOne(x => x.GrupoGasto, m => m.Column("GrupoGasto"));
+
             Property(x => x.ValorTotal, m =>
             {
                 m.Precision(10);
@@ -38,14 +44,10 @@ namespace Repositorio.Mapeamentos
                 m.Precision(10);
                 m.Scale(2);
             });
-            Property(x => x.DataEmissao);
-            Property(x => x.DataVencimento);
-            Property(x => x.NumeroDocumento);
-            Property(x => x.Observacao, m => m.Length(400));
-            Property(x => x.Situacao, m => m.Type<EnumType<SituacaoConta>>());
-            Property(x => x.DataGeracao);
-            Property(x => x.DataAlteracao);
 
+            ManyToOne(x => x.FormaCompra, m => m.Column("FormaCompra"));
+            ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
+            ManyToOne(x => x.GrupoGasto, m => m.Column("GrupoGasto"));
         }
     }
 }

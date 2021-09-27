@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros"
+             xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800" Loaded="UserControl_Loaded">
@@ -40,7 +41,7 @@
                     Width="60"
                     Background="#FF1F3D68" 
                     Margin="0,5,72,5.4" 
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click" TabIndex="16">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
@@ -51,7 +52,7 @@
                     Height="Auto" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,137,5.4"
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click" TabIndex="15">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -62,7 +63,7 @@
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,4,5" 
-                    HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68">
+                    HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68" TabIndex="17">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 
@@ -73,13 +74,19 @@
             <TextBlock x:Name="lblNomeTela" Text="Conta" 
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Top" 
-                       FontSize="12"
+                       FontSize="15"
                       Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
-            <Grid Margin="70,25,70,25" >
+            <TextBlock x:Name="lblSituacao" Text="Situação" 
+                       HorizontalAlignment="Right" 
+                       VerticalAlignment="Top" 
+                       FontSize="15"
+                      Foreground="#FF1F3D68"
+                       Margin="0,5,5,0"/>
+            <Grid x:Name="GridControls" Margin="30,25,30,25" >
                 <TabControl x:Name="tabContas" Margin="0,0,0,-20">
                     <TabItem x:Name="tabItemGeral" Header="Geral">
-                        <Grid x:Name="GridControls" >
+                        <Grid x:Name="GridControls2" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -98,7 +105,8 @@
                                  FontFamily="Champagne &amp; Limousines" 
                                  FontSize="18"
                                  Foreground="#FF1F3D68"  
-                                 VerticalAlignment="Stretch" />
+                                 VerticalAlignment="Stretch" 
+                                 MaxLength="70" TabIndex="0"/>
 
                             <ComboBox
                                     x:Name="cmbTipoConta"
@@ -107,7 +115,7 @@
                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                                     FontFamily="Champagne &amp; Limousines" 
                                     FontSize="18"
-                                    Foreground="#FF1F3D68"  VerticalAlignment="Stretch" Margin="0 0 450 0"  />
+                                    Foreground="#FF1F3D68"  VerticalAlignment="Stretch" Margin="0 0 480 0" TabIndex="1"  />
 
                             <ComboBox
                                     x:Name="cmbTipoGasto"
@@ -118,7 +126,7 @@
                                     FontSize="18"
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch"
-                                    Margin="450 0 0 0 "/>
+                                    Margin="480 0 0 0 " TabIndex="2"/>
 
                             <ComboBox
                                 x:Name="cmbTipoPeriodo"
@@ -129,19 +137,18 @@
                                 FontSize="18"
                                 Foreground="#FF1F3D68" 
                                 VerticalAlignment="Stretch"
-                                Margin="0 0 450 0"/>
+                                Margin="0 0 480 0" LostFocus="cmbTipoPeriodo_LostFocus" TabIndex="3"/>
 
                             <ComboBox 
-                                x:Name="cmbSituacao"
-                                Grid.Row="2"
-                                materialDesign:HintAssist.Hint="Situação" 
-                                Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                FontFamily="Champagne &amp; Limousines" 
-                                FontSize="18"
-                                Foreground="#FF1F3D68" 
-                                VerticalAlignment="Stretch"
-                                Margin="450 0 0 0 "/>
-
+                                     x:Name="cmbFormaCompra"
+                                     Grid.Row="2"
+                                     materialDesign:HintAssist.Hint="Forma de Compra" 
+                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                     FontFamily="Champagne &amp; Limousines" 
+                                     FontSize="18"
+                                     Foreground="#FF1F3D68" 
+                                     VerticalAlignment="Stretch"
+                                     TabIndex="13" Margin="480,0,0,0"/>
                             <DatePicker
                                 x:Name="txtEmissao"
                                 Grid.Row="3"
@@ -151,7 +158,7 @@
                                 FontSize="18" 
                                 Foreground="#FF1F3D68"
                                 VerticalAlignment="Stretch"
-                                Margin="0 0 450 0"/>
+                                Margin="0 0 480 0" TabIndex="5"/>
 
                             <DatePicker
                                      x:Name="txtVencimento"
@@ -162,7 +169,7 @@
                                      FontSize="18"
                                      Foreground="#FF1F3D68"
                                      VerticalAlignment="Stretch" 
-                                     Margin="450 0 0 0 "/>
+                                     Margin="480 0 0 0 " TabIndex="6"/>
                             <Grid x:Name="GridRow4" Grid.Row="4" >
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -179,7 +186,9 @@
                                     FontSize="18"
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch" 
-                                    Margin="0 0 45 0"/>
+                                    Margin="0 0 45 0" TabIndex="7" 
+                                    PreviewTextInput="txtValorTotal_PreviewTextInput" PreviewKeyDown="txtValorTotal_PreviewKeyDown" 
+                                    />
 
                                 <Button x:Name="btParcelas" 
                                     Grid.Row="4"
@@ -188,7 +197,7 @@
                                     Height="40" Width="40" 
                                     Background="#FF1F3D68"
                                     VerticalAlignment="Stretch"
-                                    HorizontalAlignment="Right">
+                                    HorizontalAlignment="Right" IsEnabled="False" TabIndex="8" Click="btParcelas_Click">
                                     <materialDesign:PackIcon 
                                         Kind="Divide"  
                                         Width="40" 
@@ -205,7 +214,8 @@
                                     FontSize="18"
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch" 
-                                    Margin="10 0 10 0"/>
+                                    Margin="10 0 10 0" IsEnabled="False" 
+                                    MaxLength="3" TabIndex="9" PreviewTextInput="txtQtdParcelas_PreviewTextInput" PreviewKeyDown="txtQtdParcelas_PreviewKeyDown"/>
 
                                 <TextBox
                                     x:Name="txtValorParcela"
@@ -216,11 +226,10 @@
                                     FontFamily="Champagne &amp; Limousines"
                                     FontSize="18"
                                     Foreground="#FF1F3D68"
-                                    VerticalAlignment="Stretch" />
+                                    VerticalAlignment="Stretch" IsEnabled="False" TabIndex="10" PreviewTextInput="txtValorParcela_PreviewTextInput" PreviewKeyDown="txtValorParcela_PreviewKeyDown" />
                             </Grid>
                             <Grid x:Name="GridRow5" Grid.Row="5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
@@ -233,7 +242,7 @@
                                     FontFamily="Champagne &amp; Limousines" 
                                     FontSize="18"
                                     Foreground="#FF1F3D68" 
-                                    VerticalAlignment="Stretch"/>
+                                    VerticalAlignment="Stretch" TabIndex="11"/>
 
                                 <TextBox
                                     x:Name="txtNumDocumento"
@@ -245,18 +254,8 @@
                                     FontSize="18"
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch" 
-                                    Margin="10 0 10 0"/>
-
-                                <ComboBox 
-                                     x:Name="cmbTipoPagamento"
-                                     Grid.Row="5"
-                                    Grid.Column="2"
-                                     materialDesign:HintAssist.Hint="Tipo da Pagamento" 
-                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                     FontFamily="Champagne &amp; Limousines" 
-                                     FontSize="18"
-                                     Foreground="#FF1F3D68" 
-                                     VerticalAlignment="Stretch"/>
+                                    Margin="10 0 0 0" 
+                                    MaxLength="20" TabIndex="12"/>
                             </Grid>
                             <TextBox
                                      x:Name="txtObservacao"
@@ -269,7 +268,8 @@
                                      VerticalAlignment="Stretch"
                                      TextWrapping="Wrap"
                                      AcceptsReturn="True"
-                                     VerticalScrollBarVisibility="Visible"/>
+                                     VerticalScrollBarVisibility="Visible" 
+                                     MaxLength="400" TabIndex="17"/>
                         </Grid>
 
                     </TabItem>
@@ -320,25 +320,18 @@
                                 </Button>
                             </Grid>
                             <Grid x:Name="GridListaDataGrid" Grid.Row="1">
-                                <DataGrid x:Name="DataGridContaPagamento" AutoGenerateColumns="False">
+                                <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto">
                                     <DataGrid.Columns>
 
-                                        <DataGridTextColumn Header="Conta" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Total ($)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoPagamento}" />
+                                        <DataGridTextColumn Header="Parcela ($)" Binding="{Binding Conta}" />
                                         <DataGridTextColumn Header="Juros (%)" Binding="{Binding Conta}" />
                                         <DataGridTextColumn Header="Juros ($)" Binding="{Binding Conta}" />
                                         <DataGridTextColumn Header="Desconto (%)" Binding="{Binding Conta}" />
                                         <DataGridTextColumn Header="Desconto ($)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Valor Pago" Binding="{Binding Conta}" />
                                         <DataGridTextColumn Header="Valor Reajustado" Binding="{Binding Conta}" />
                                         <DataGridTextColumn Header="Forma de Pagamento" Binding="{Binding Conta}" />
-                                        <DataGridTemplateColumn Header="Birthday">
-                                            <DataGridTemplateColumn.CellTemplate>
-                                                <DataTemplate>
-                                                    <DatePicker SelectedDate="{Binding Birthday}" BorderThickness="0" />
-                                                </DataTemplate>
-                                            </DataGridTemplateColumn.CellTemplate>
-                                        </DataGridTemplateColumn>
-
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>

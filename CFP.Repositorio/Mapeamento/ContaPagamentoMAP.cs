@@ -1,6 +1,8 @@
 ﻿using Dominio.Dominio;
+using Dominio.ObjetoValor;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
+using NHibernate.Type;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +39,8 @@ namespace Repositorio.Mapeamentos
                 m.Precision(10);
                 m.Scale(2);
             });
+
+            Property(x => x.SituacaoParcelas, m => m.Type<EnumType<SituacaoConta>>());
             ManyToOne(x => x.FormaPagamento, m => m.Column("FormaPagamento"));
             
 

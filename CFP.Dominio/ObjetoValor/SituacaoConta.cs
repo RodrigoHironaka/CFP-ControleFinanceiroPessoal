@@ -12,6 +12,7 @@ namespace Dominio.ObjetoValor
         Atrasado,
         Pago,
         Cancelado,
-        Recebido
+        Recebido,
+        Finalizado
     }
 }

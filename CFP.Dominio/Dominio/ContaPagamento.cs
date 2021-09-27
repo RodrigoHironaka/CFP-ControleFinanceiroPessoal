@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dominio.ObjetoValor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,5 +20,6 @@ namespace Dominio.Dominio
         //Na forma de pagamento pode haver situações onde uma pessoa transfere o dinheiro para outra pessoa pagar;
         //Neste caso, a forma de pagamento não pode subtrair da pessoa que esta cadastrada a conta, teria que verificar quem é a pessoa que recebeu a transferencia e subtrair dela, sem alterar o dono da conta;
         public virtual FormaPagamento FormaPagamento { get; set; }
+        public virtual SituacaoConta SituacaoParcelas { get; set; }
     }
 }
