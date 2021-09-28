@@ -1,4 +1,5 @@
 ﻿using CFP.App.Formularios.Cadastros;
+using CFP.Dominio.Dominio;
 using Dominio.Dominio;
 using NHibernate;
 using SGE.Repositorio.Configuracao;
@@ -80,6 +81,12 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
         {
             panelCadastros.Children.Clear();
             panelCadastros.Children.Add(new UserControlBanco(new Banco(), Session));
+        }
+
+        private void btTipoSubGasto_Click(object sender, RoutedEventArgs e)
+        {
+            panelCadastros.Children.Clear();
+            panelCadastros.Children.Add(new UserControlTipoSubGasto(new SubGrupoGasto(), Session));
         }
     }
 }

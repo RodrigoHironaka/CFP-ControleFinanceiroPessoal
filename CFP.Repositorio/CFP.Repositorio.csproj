@@ -89,6 +89,7 @@
     <Compile Include="Mapeamento\HoraExtraMAP.cs" />
     <Compile Include="Mapeamento\PessoaMAP.cs" />
     <Compile Include="Mapeamento\PessoaTipoRendasMAP.cs" />
+    <Compile Include="Mapeamento\SubGrupoGastoMAP.cs" />
     <Compile Include="Mapeamento\TipoRendaMAP.cs" />
     <Compile Include="Mapeamento\UsuarioMAP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Repositorio\RepositorioHoraExtra.cs" />
     <Compile Include="Repositorio\RepositorioPessoa.cs" />
     <Compile Include="Repositorio\RepositorioPessoaTipoRendas.cs" />
+    <Compile Include="Repositorio\RepositorioSubGrupoGasto.cs" />
     <Compile Include="Repositorio\RepositorioTipoRenda.cs" />
     <Compile Include="Repositorio\RepositorioUsuario.cs" />
   </ItemGroup>

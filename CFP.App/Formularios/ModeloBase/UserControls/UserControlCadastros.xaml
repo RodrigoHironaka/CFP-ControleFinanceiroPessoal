@@ -32,8 +32,11 @@
             <Button x:Name="btTipoGasto"
                 Margin="5,10.2,5,9.6" Grid.Column="3" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
                 FontSize="16" Content="Tipos de Gasto" Foreground="#FFFCF9F9" Height="Auto" Click="btTipoGasto_Click" />
-            <Button x:Name="btFormaPagamento"
+            <Button x:Name="btTipoSubGasto"
                 Margin="5,10.2,5,9.6" Grid.Column="4" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
+                FontSize="16" Content="Tipos SubGasto" Foreground="#FFFCF9F9" Height="Auto" Click="btTipoSubGasto_Click" />
+            <Button x:Name="btFormaPagamento"
+                Margin="5,10.2,5,9.6" Grid.Column="1" Grid.Row="2" Background="#FF1B3861" VerticalAlignment="Stretch" 
                 FontSize="16" Content="Formas de Pagamento" Foreground="#FFFCF9F9" Click="btFormaPagamento_Click" Height="Auto" />
             <Button x:Name="btUsuario"
                 Margin="5,10,5,9.8" Grid.Column="2" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 

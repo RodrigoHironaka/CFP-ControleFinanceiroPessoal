@@ -1,0 +1,20 @@
+﻿using Dominio.Dominio;
+using Dominio.ObjetoValor;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CFP.Dominio.Dominio
+{
+    public class SubGrupoGasto : Base
+    {
+        public override string ToString()
+        {
+            return Nome;
+        }
+        public virtual GrupoGasto GrupoGasto { get; set; }
+        public virtual Situacao Situacao { get; set; }
+    }
+}

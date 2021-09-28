@@ -71,6 +71,7 @@
     <Compile Include="Dominio\HoraExtra.cs" />
     <Compile Include="Dominio\Pessoa.cs" />
     <Compile Include="Dominio\PessoaTipoRendas.cs" />
+    <Compile Include="Dominio\SubGrupoGasto.cs" />
     <Compile Include="Dominio\TipoRenda.cs" />
     <Compile Include="Dominio\Usuario.cs" />
     <Compile Include="IEntidade\IEntidade.cs" />

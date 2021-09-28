@@ -46,7 +46,7 @@ namespace CFP.App.Formularios.Financeiros
             cmbTipoGasto.SelectedIndex = 0;
 
             cmbFormaCompra.ItemsSource = new RepositorioFormaPagamento(Session)
-               .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+               .ObterPorParametros(x => x.Situacao == Situacao.Ativo && x.QtdParcelas > 0)
                .OrderBy(x => x.Nome)
                .ToList<FormaPagamento>();
             cmbFormaCompra.SelectedIndex = 0;
@@ -186,8 +186,8 @@ namespace CFP.App.Formularios.Financeiros
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
-                //return false;
+                //throw new Exception(ex.ToString());
+                return false;
             }
 
         }
@@ -260,31 +260,64 @@ namespace CFP.App.Formularios.Financeiros
         #endregion
 
         #region Divisao Valor Total e Qtd de Parcelas
-        private decimal DivisaoTotalPorQtd(Decimal total, Int64 qtd)
+        private decimal DivisaoTotalPorQtd(string total, string qtd)
         {
-            var resultado = total / qtd;
-            return resultado;
+            Decimal valortotal = total != string.Empty ? Decimal.Parse(total) : 0;
+            Int64 quantidade = qtd != string.Empty ? Int64.Parse(qtd) : 0;
+            try
+            {
+                if (!String.IsNullOrEmpty(txtValorTotal.Text) || !String.IsNullOrEmpty(txtQtdParcelas.Text))
+                {
+                    var resultado = valortotal / quantidade;
+                    return resultado;
+                }
+                else
+                {
+                    MessageBox.Show("Verifique se os campos foram preeenchidos corretamente!");
+                    return 0;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Verifique se os campos foram preeenchidos corretamente!");
+                return 0;
+            }
+
+        }
+        #endregion
+
+        #region ValidaCampos
+        public bool ValidaCampos()
+        {
+            if (String.IsNullOrEmpty(txtNome.Text) || String.IsNullOrEmpty(txtEmissao.Text) || String.IsNullOrEmpty(txtVencimento.Text))
+            {
+                MessageBox.Show(" Os campos  Nome, Data emissão e Data Vencimento são Obrigatorios, por favor verifique!");
+                return false;
+            }
+            return true;
+                
         }
         #endregion
 
         #region Gerar Parcelas
         private void GerarParcelas()
         {
-            //if (!String.IsNullOrEmpty(txtQtdParcelas.Text) || !txtQtdParcelas.Text.Equals(0))
-            //{
-            //    PreencheDataGrid();
-            //    for (int i = 0; i < Int64.Parse(txtQtdParcelas.Text); i++)
-            //    {
-            //        contaPagamento.Add(new ContaPagamento()
-            //        {
-            //            SituacaoParcelas = SituacaoConta.Pendente,
+            if (!String.IsNullOrEmpty(txtQtdParcelas.Text) || !txtQtdParcelas.Text.Equals(0))
+            {
+                PreencheDataGrid();
+                for (int i = 0; i < Int64.Parse(txtQtdParcelas.Text); i++)
+                {
+                    contaPagamento.Add(new ContaPagamento()
+                    {
+                        SituacaoParcelas = SituacaoConta.Pendente,
+                        Conta = conta
                         
+                    });
 
-            //        });
-
-            //    }
-            //}
+                }
+            }
         }
+        #endregion
 
         #region PreencheDataGrid
         private ObservableCollection<ContaPagamento> contaPagamento;
@@ -294,6 +327,7 @@ namespace CFP.App.Formularios.Financeiros
             DataGridContaPagamento.ItemsSource = contaPagamento;
         }
         #endregion
+
         public UserControlContas(Conta _conta, ISession _session)
         {
             InitializeComponent();
@@ -388,23 +422,27 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
         {
-            if (PreencheObjeto())
+            if (ValidaCampos())
             {
-                if ((conta.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
+                if (PreencheObjeto())
                 {
-                    conta.DataGeracao = DateTime.Now;
-                    Repositorio.Salvar(conta);
-                    txtCodigo.Text = conta.Id.ToString();
+                    if ((conta.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
+                    {
+                        conta.DataGeracao = DateTime.Now;
+                        Repositorio.Salvar(conta);
+                        txtCodigo.Text = conta.Id.ToString();
+                    }
+                    else
+                    {
+                        conta.DataAlteracao = DateTime.Now;
+                        Repositorio.Alterar(conta);
+                    }
+                    
+                    ControleAcessoInicial();
+                    FocoNoCampoCodigo();
                 }
-                else
-                {
-                    conta.DataAlteracao = DateTime.Now;
-                    Repositorio.Alterar(conta);
-                }
-
-                ControleAcessoInicial();
-                FocoNoCampoCodigo();
             }
+          
         }
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
@@ -443,7 +481,7 @@ namespace CFP.App.Formularios.Financeiros
             //e.Handled = Regex.IsMatch(e.Text, @"[0-9]*[\,]\d{2}");
             e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
             //e.Handled = Regex.IsMatch(e.Text, @"^-?[0-9][0-9,\.]+$");
-           
+
         }
 
         private void txtValorParcela_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -465,7 +503,14 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btParcelas_Click(object sender, RoutedEventArgs e)
         {
-            txtValorParcela.Text = DivisaoTotalPorQtd(Decimal.Parse(txtValorTotal.Text), Int64.Parse(txtQtdParcelas.Text)).ToString("N2");
+            txtValorParcela.Text = DivisaoTotalPorQtd(txtValorTotal.Text, txtQtdParcelas.Text).ToString("N2");
+           
+        }
+
+        private void txtVencimento_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtVencimento.SelectedDate < txtEmissao.SelectedDate)
+                MessageBox.Show(" data de vencimento nao pode ser menor que data de emissão!");
         }
     }
 }

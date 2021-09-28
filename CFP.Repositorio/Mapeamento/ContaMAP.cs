@@ -21,7 +21,7 @@ namespace Repositorio.Mapeamentos
             {
                 m.Generator(Generators.HighLow, g => g.Params(new { max_lo = 0 }));
             });
-           
+
             Property(x => x.QtdParcelas, m => m.Length(3));
             Property(x => x.Nome, m => m.Length(70));
             Property(x => x.Observacao, m => m.Length(400));
