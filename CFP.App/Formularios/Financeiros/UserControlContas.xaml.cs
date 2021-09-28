@@ -174,10 +174,9 @@ namespace CFP.App.Formularios.Financeiros
                 conta.TipoPeriodo = (TipoPeriodo)cmbTipoPeriodo.SelectedIndex;
                 conta.Situacao = ((SituacaoConta)Enum.Parse(typeof(SituacaoConta), lblSituacao.Text));
                 conta.DataEmissao = (DateTime)(txtEmissao.Text != string.Empty ? txtEmissao.SelectedDate : conta.DataEmissao.GetValueOrDefault());
-                conta.DataVencimento = (DateTime)(txtVencimento.Text != string.Empty ? txtVencimento.SelectedDate : conta.DataVencimento.GetValueOrDefault());
+                conta.DataPrimeiroVencimento = (DateTime)(txtVencimento.Text != string.Empty ? txtVencimento.SelectedDate : conta.DataPrimeiroVencimento.GetValueOrDefault());
                 conta.ValorTotal = txtValorTotal.Text != string.Empty ? Decimal.Parse(txtValorTotal.Text) : 0;
                 conta.QtdParcelas = txtQtdParcelas.Text != string.Empty ? Int64.Parse(txtQtdParcelas.Text) : 0;
-                conta.ValorParcela = txtValorParcela.Text != string.Empty ? Decimal.Parse(txtValorParcela.Text) : 0;
                 conta.Pessoa = (Pessoa)(cmbReferenciaPessoa.SelectedItem ?? null);
                 conta.NumeroDocumento = txtNumDocumento.Text != string.Empty ? Int64.Parse(txtNumDocumento.Text) : 0;
                 conta.FormaCompra = (FormaPagamento)cmbFormaCompra.SelectedItem;
@@ -205,10 +204,9 @@ namespace CFP.App.Formularios.Financeiros
                 cmbTipoConta.SelectedIndex = conta.TipoPeriodo.GetHashCode();
                 lblSituacao.Text = conta.Situacao.ToString();
                 txtEmissao.Text = conta.DataEmissao != DateTime.MinValue ? conta.DataEmissao.ToString() : string.Empty;
-                txtVencimento.Text = conta.DataVencimento != DateTime.MinValue ? conta.DataVencimento.ToString() : string.Empty;
+                txtVencimento.Text = conta.DataPrimeiroVencimento != DateTime.MinValue ? conta.DataPrimeiroVencimento.ToString() : string.Empty;
                 txtValorTotal.Text = conta.ValorTotal > 0 ? conta.ValorTotal.ToString() : string.Empty;
                 txtQtdParcelas.Text = conta.QtdParcelas > 0 ? conta.QtdParcelas.ToString() : string.Empty;
-                txtValorParcela.Text = conta.ValorParcela > 0 ? conta.ValorParcela.ToString() : string.Empty;
                 cmbReferenciaPessoa.SelectedItem = conta.Pessoa;
                 txtNumDocumento.Text = conta.NumeroDocumento > 0 ? conta.NumeroDocumento.ToString() : string.Empty;
                 cmbFormaCompra.SelectedItem = conta.FormaCompra;
@@ -233,25 +231,17 @@ namespace CFP.App.Formularios.Financeiros
             {
                 case 0:
                     txtQtdParcelas.IsEnabled = false;
-                    txtValorParcela.IsEnabled = false;
-                    txtValorParcela.IsReadOnly = true;
-                    btParcelas.IsEnabled = false;
+                    btGerarParcelas.IsEnabled = false;
                     txtQtdParcelas.Clear();
-                    txtValorParcela.Clear();
                     break;
                 case 1:
                     txtQtdParcelas.IsEnabled = true;
-                    txtValorParcela.IsEnabled = true;
-                    txtValorParcela.IsReadOnly = true;
-                    btParcelas.IsEnabled = true;
+                    btGerarParcelas.IsEnabled = true;
                     break;
                 case 2:
                     txtQtdParcelas.IsEnabled = false;
-                    txtValorParcela.IsEnabled = false;
-                    txtValorParcela.IsReadOnly = true;
-                    btParcelas.IsEnabled = false;
+                    btGerarParcelas.IsEnabled = false;
                     txtQtdParcelas.Clear();
-                    txtValorParcela.Clear();
                     break;
                 default:
                     break;
@@ -300,20 +290,32 @@ namespace CFP.App.Formularios.Financeiros
         #endregion
 
         #region Gerar Parcelas
-        private void GerarParcelas()
+        private void GerarParcelas(string vTotal, string qtd, DateTime primeiroVencimento)
         {
-            if (!String.IsNullOrEmpty(txtQtdParcelas.Text) || !txtQtdParcelas.Text.Equals(0))
+            Decimal valorTotal = Decimal.Parse(vTotal);
+            Int32 qtdParcelas = Int32.Parse(qtd);
+            DateTime dataPrimeiroVencimento = primeiroVencimento;
+            if (!valorTotal.Equals(0) || !qtdParcelas.Equals(0))
             {
+
+                Decimal valorParcela = Math.Round(valorTotal / qtdParcelas, 2);
+                Decimal valorDiferenca = valorTotal - valorParcela * qtdParcelas;
+
                 PreencheDataGrid();
-                for (int i = 0; i < Int64.Parse(txtQtdParcelas.Text); i++)
+                for (int i = 0; i < qtdParcelas; i++)
                 {
+                    String numeroParcela = (i + 1).ToString().PadLeft(2, '0');
+                    String valorParcelaCorrigido = !(i + 1 == qtdParcelas) ? valorParcela.ToString() : (valorParcela + valorDiferenca).ToString();
+                    String dataVencimento = dataPrimeiroVencimento.AddMonths(i).ToShortDateString();
+
                     contaPagamento.Add(new ContaPagamento()
                     {
                         SituacaoParcelas = SituacaoConta.Pendente,
-                        Conta = conta
-                        
+                        Numero = Int32.Parse(numeroParcela),
+                        ValorParcela = Decimal.Parse(valorParcelaCorrigido),
+                        DataVencimento = Convert.ToDateTime(dataVencimento)
                     });
-
+                    DataGridContaPagamento.Items.Refresh();
                 }
             }
         }
@@ -501,16 +503,15 @@ namespace CFP.App.Formularios.Financeiros
                 e.Handled = true;
         }
 
-        private void btParcelas_Click(object sender, RoutedEventArgs e)
-        {
-            txtValorParcela.Text = DivisaoTotalPorQtd(txtValorTotal.Text, txtQtdParcelas.Text).ToString("N2");
-           
-        }
-
         private void txtVencimento_LostFocus(object sender, RoutedEventArgs e)
         {
             if (txtVencimento.SelectedDate < txtEmissao.SelectedDate)
-                MessageBox.Show(" data de vencimento nao pode ser menor que data de emissão!");
+                MessageBox.Show("Data de vencimento não pode ser menor que data de emissão!");
+        }
+
+        private void btGerarParcelas_Click(object sender, RoutedEventArgs e)
+        {
+            GerarParcelas(txtValorTotal.Text, txtQtdParcelas.Text, txtVencimento.SelectedDate.Value);
         }
     }
 }

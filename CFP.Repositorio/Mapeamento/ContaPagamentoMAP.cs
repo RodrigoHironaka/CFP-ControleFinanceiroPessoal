@@ -21,7 +21,13 @@ namespace Repositorio.Mapeamentos
                 m.Generator(Generators.HighLow, g => g.Params(new { max_lo = 0 }));
                 
             });
-            ManyToOne(x => x.Conta, m => m.Column("Conta"));
+            Property(x => x.Numero, m => m.Length(10));
+            Property(x => x.ValorParcela, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
+            Property(x => x.DataVencimento);
             Property(x => x.JurosPorcentual);
             Property(x => x.JurosValor, m =>
             {
@@ -39,10 +45,10 @@ namespace Repositorio.Mapeamentos
                 m.Precision(10);
                 m.Scale(2);
             });
-
             Property(x => x.SituacaoParcelas, m => m.Type<EnumType<SituacaoConta>>());
             ManyToOne(x => x.FormaPagamento, m => m.Column("FormaPagamento"));
-            
+            ManyToOne(x => x.Conta, m => m.Column("Conta"));
+
 
         }
     }

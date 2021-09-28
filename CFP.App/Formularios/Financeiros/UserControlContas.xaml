@@ -174,7 +174,6 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox
                                     x:Name="txtValorTotal"
@@ -190,14 +189,14 @@
                                     PreviewTextInput="txtValorTotal_PreviewTextInput" PreviewKeyDown="txtValorTotal_PreviewKeyDown" 
                                     />
 
-                                <Button x:Name="btParcelas" 
+                                <Button x:Name="btGerarParcelas" 
                                     Grid.Row="4"
                                         Grid.Column="1"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                                     Height="40" Width="40" 
                                     Background="#FF1F3D68"
                                     VerticalAlignment="Stretch"
-                                    HorizontalAlignment="Right" IsEnabled="False" TabIndex="8" Click="btParcelas_Click">
+                                    HorizontalAlignment="Right" IsEnabled="False" TabIndex="8" Click="btGerarParcelas_Click" >
                                     <materialDesign:PackIcon 
                                         Kind="Divide"  
                                         Width="40" 
@@ -216,17 +215,6 @@
                                     VerticalAlignment="Stretch" 
                                     Margin="10 0 45 0" IsEnabled="False" 
                                     MaxLength="3" TabIndex="9" PreviewTextInput="txtQtdParcelas_PreviewTextInput" PreviewKeyDown="txtQtdParcelas_PreviewKeyDown"/>
-
-                                <TextBox
-                                    x:Name="txtValorParcela"
-                                    Grid.Row="3"
-                                    Grid.Column="2"
-                                    materialDesign:HintAssist.Hint="Valor Parcela" 
-                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                    FontFamily="Champagne &amp; Limousines"
-                                    FontSize="18"
-                                    Foreground="#FF1F3D68"
-                                    VerticalAlignment="Stretch" IsEnabled="False" TabIndex="10" PreviewTextInput="txtValorParcela_PreviewTextInput" PreviewKeyDown="txtValorParcela_PreviewKeyDown" />
                             </Grid>
                             <Grid x:Name="GridRow5" Grid.Row="5">
                                 <Grid.ColumnDefinitions>
@@ -323,15 +311,17 @@
                                 <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto">
                                     <DataGrid.Columns>
 
-                                        <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoPagamento}" />
-                                        <DataGridTextColumn Header="Parcela ($)" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Juros (%)" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Juros ($)" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Desconto (%)" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Desconto ($)" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Valor Pago" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Valor Reajustado" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Forma de Pagamento" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoParcelas}" />
+                                        <DataGridTextColumn Header="Número" Binding="{Binding Numero}" />
+                                        <DataGridTextColumn Header="Parcela ($)" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="Vencimento" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="J (%)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="J ($)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Desc (%)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Desc ($)" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="V.Pago" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="V.Reajustado" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="Pagamento" Binding="{Binding Conta}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>

@@ -26,7 +26,7 @@ namespace Repositorio.Mapeamentos
             Property(x => x.Nome, m => m.Length(70));
             Property(x => x.Observacao, m => m.Length(400));
             Property(x => x.DataEmissao);
-            Property(x => x.DataVencimento);
+            Property(x => x.DataPrimeiroVencimento);
             Property(x => x.NumeroDocumento, m => m.Length(20));
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
@@ -39,12 +39,7 @@ namespace Repositorio.Mapeamentos
                 m.Precision(10);
                 m.Scale(2);
             });
-            Property(x => x.ValorParcela, m =>
-            {
-                m.Precision(10);
-                m.Scale(2);
-            });
-
+         
             ManyToOne(x => x.FormaCompra, m => m.Column("FormaCompra"));
             ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
             ManyToOne(x => x.GrupoGasto, m => m.Column("GrupoGasto"));
