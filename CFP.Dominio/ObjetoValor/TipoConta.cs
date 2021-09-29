@@ -8,7 +8,7 @@ namespace Dominio.ObjetoValor
 {
     public enum TipoConta
     {
-        ContaPagar,
-        ContaReceber
+        Pagar,
+        Receber
     }
 }

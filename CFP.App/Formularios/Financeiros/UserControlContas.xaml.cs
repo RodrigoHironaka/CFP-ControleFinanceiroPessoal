@@ -1,4 +1,6 @@
-﻿using Dominio.Dominio;
+﻿using CFP.Dominio.Dominio;
+using CFP.Repositorio.Repositorio;
+using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
 using NHibernate;
@@ -44,6 +46,16 @@ namespace CFP.App.Formularios.Financeiros
                 .OrderBy(x => x.Nome)
                 .ToList<GrupoGasto>();
             cmbTipoGasto.SelectedIndex = 0;
+
+            if(conta.Id != 0)
+            {
+                cmbTipoSubGasto.ItemsSource = new RepositorioSubGrupoGasto(Session)
+               .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+               .Where(x => x.GrupoGasto == conta.GrupoGasto)
+               .OrderBy(x => x.Nome)
+               .ToList<SubGrupoGasto>();
+            }
+           
 
             cmbFormaCompra.ItemsSource = new RepositorioFormaPagamento(Session)
                .ObterPorParametros(x => x.Situacao == Situacao.Ativo && x.QtdParcelas > 0)
@@ -141,12 +153,38 @@ namespace CFP.App.Formularios.Financeiros
 
                         if (gridControls2 is Grid)
                         {
+                            foreach (var gridRow1 in GridRow1.Children)
+                            {
+                                if (gridRow1 is TextBox)
+                                    (gridRow1 as TextBox).Text = string.Empty;
+                                if (gridRow1 is ComboBox)
+                                    (gridRow1 as ComboBox).SelectedIndex = 0;
+
+                            }
+                            foreach (var gridRow2 in GridRow2.Children)
+                            {
+                                if (gridRow2 is TextBox)
+                                    (gridRow2 as TextBox).Text = string.Empty;
+                                if (gridRow2 is ComboBox)
+                                    (gridRow2 as ComboBox).SelectedIndex = 0;
+                            }
+                            foreach (var gridRow3 in GridRow3.Children)
+                            {
+                                if (gridRow3 is TextBox)
+                                    (gridRow3 as TextBox).Text = string.Empty;
+                                if (gridRow3 is ComboBox)
+                                    (gridRow3 as ComboBox).SelectedIndex = 0;
+                                if (gridRow3 is DatePicker)
+                                    (gridRow3 as DatePicker).Text = string.Empty;
+                            }
                             foreach (var gridRow4 in GridRow4.Children)
                             {
                                 if (gridRow4 is TextBox)
                                     (gridRow4 as TextBox).Text = string.Empty;
                                 if (gridRow4 is ComboBox)
                                     (gridRow4 as ComboBox).SelectedIndex = 0;
+                                txtQtdParcelas.IsEnabled = false;
+                                btGerarParcelas.IsEnabled = false;
                             }
                             foreach (var gridRow5 in GridRow5.Children)
                             {
@@ -171,10 +209,11 @@ namespace CFP.App.Formularios.Financeiros
                 conta.Nome = txtNome.Text;
                 conta.TipoConta = (TipoConta)cmbTipoConta.SelectedIndex;
                 conta.GrupoGasto = (GrupoGasto)cmbTipoGasto.SelectedItem;
+                conta.SubGrupoGasto = cmbTipoSubGasto.SelectedItem != null ? (SubGrupoGasto)cmbTipoSubGasto.SelectedItem : null;
                 conta.TipoPeriodo = (TipoPeriodo)cmbTipoPeriodo.SelectedIndex;
                 conta.Situacao = ((SituacaoConta)Enum.Parse(typeof(SituacaoConta), lblSituacao.Text));
                 conta.DataEmissao = (DateTime)(txtEmissao.Text != string.Empty ? txtEmissao.SelectedDate : conta.DataEmissao.GetValueOrDefault());
-                conta.DataPrimeiroVencimento = (DateTime)(txtVencimento.Text != string.Empty ? txtVencimento.SelectedDate : conta.DataPrimeiroVencimento.GetValueOrDefault());
+                conta.DataPrimeiroVencimento = (DateTime)(txtPrimeiroVencimento.Text != string.Empty ? txtPrimeiroVencimento.SelectedDate : conta.DataPrimeiroVencimento.GetValueOrDefault());
                 conta.ValorTotal = txtValorTotal.Text != string.Empty ? Decimal.Parse(txtValorTotal.Text) : 0;
                 conta.QtdParcelas = txtQtdParcelas.Text != string.Empty ? Int64.Parse(txtQtdParcelas.Text) : 0;
                 conta.Pessoa = (Pessoa)(cmbReferenciaPessoa.SelectedItem ?? null);
@@ -200,13 +239,19 @@ namespace CFP.App.Formularios.Financeiros
                 txtCodigo.Text = conta.Id.ToString();
                 txtNome.Text = conta.Nome.ToString();
                 cmbTipoConta.SelectedIndex = conta.TipoConta.GetHashCode();
-                cmbTipoConta.SelectedItem = conta.GrupoGasto;
-                cmbTipoConta.SelectedIndex = conta.TipoPeriodo.GetHashCode();
+                cmbTipoGasto.SelectedItem = conta.GrupoGasto;
+                cmbTipoSubGasto.SelectedItem = conta.SubGrupoGasto;
+                cmbTipoPeriodo.SelectedIndex = conta.TipoPeriodo.GetHashCode();
                 lblSituacao.Text = conta.Situacao.ToString();
                 txtEmissao.Text = conta.DataEmissao != DateTime.MinValue ? conta.DataEmissao.ToString() : string.Empty;
-                txtVencimento.Text = conta.DataPrimeiroVencimento != DateTime.MinValue ? conta.DataPrimeiroVencimento.ToString() : string.Empty;
+                txtPrimeiroVencimento.Text = conta.DataPrimeiroVencimento != DateTime.MinValue ? conta.DataPrimeiroVencimento.ToString() : string.Empty;
                 txtValorTotal.Text = conta.ValorTotal > 0 ? conta.ValorTotal.ToString() : string.Empty;
                 txtQtdParcelas.Text = conta.QtdParcelas > 0 ? conta.QtdParcelas.ToString() : string.Empty;
+                if (!String.IsNullOrEmpty(txtQtdParcelas.Text))
+                {
+                    txtQtdParcelas.IsEnabled = true;
+                    btGerarParcelas.IsEnabled = true;
+                }
                 cmbReferenciaPessoa.SelectedItem = conta.Pessoa;
                 txtNumDocumento.Text = conta.NumeroDocumento > 0 ? conta.NumeroDocumento.ToString() : string.Empty;
                 cmbFormaCompra.SelectedItem = conta.FormaCompra;
@@ -279,9 +324,14 @@ namespace CFP.App.Formularios.Financeiros
         #region ValidaCampos
         public bool ValidaCampos()
         {
-            if (String.IsNullOrEmpty(txtNome.Text) || String.IsNullOrEmpty(txtEmissao.Text) || String.IsNullOrEmpty(txtVencimento.Text))
+            if (String.IsNullOrEmpty(txtNome.Text) || String.IsNullOrEmpty(txtEmissao.Text) || String.IsNullOrEmpty(txtPrimeiroVencimento.Text))
             {
                 MessageBox.Show(" Os campos  Nome, Data emissão e Data Vencimento são Obrigatorios, por favor verifique!");
+                return false;
+            }
+            if (txtPrimeiroVencimento.SelectedDate < txtEmissao.SelectedDate)
+            {
+                MessageBox.Show("Data de vencimento não pode ser menor que data de emissão!");
                 return false;
             }
             return true;
@@ -379,6 +429,7 @@ namespace CFP.App.Formularios.Financeiros
                         conta = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
                         if (conta != null)
                         {
+                            CarregaCombos();
                             PreencheCampos();
                             ControleAcessoCadastro();
                             CorPadrãoBotaoPesquisar();
@@ -503,15 +554,44 @@ namespace CFP.App.Formularios.Financeiros
                 e.Handled = true;
         }
 
-        private void txtVencimento_LostFocus(object sender, RoutedEventArgs e)
+        private void txtPrimeiroVencimento_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (txtVencimento.SelectedDate < txtEmissao.SelectedDate)
+            if (txtPrimeiroVencimento.SelectedDate < txtEmissao.SelectedDate)
+            {
                 MessageBox.Show("Data de vencimento não pode ser menor que data de emissão!");
+                return;
+            }
         }
 
         private void btGerarParcelas_Click(object sender, RoutedEventArgs e)
         {
-            GerarParcelas(txtValorTotal.Text, txtQtdParcelas.Text, txtVencimento.SelectedDate.Value);
+            if(!String.IsNullOrEmpty(txtPrimeiroVencimento.Text))
+                GerarParcelas(txtValorTotal.Text, txtQtdParcelas.Text, txtPrimeiroVencimento.SelectedDate.Value);
+        }
+
+        private void btPagar_Click(object sender, RoutedEventArgs e)
+        {
+            if (lblSituacao.Text != SituacaoConta.Cancelado.ToString() || lblSituacao.Text != SituacaoConta.Finalizado.ToString())
+                DataGridContaPagamento.IsReadOnly = false;
+        }
+
+        private void btReceber_Click(object sender, RoutedEventArgs e)
+        {
+            if (lblSituacao.Text != SituacaoConta.Cancelado.ToString() || lblSituacao.Text != SituacaoConta.Finalizado.ToString())
+                DataGridContaPagamento.IsReadOnly = false;
+        }
+
+        private void cmbTipoGasto_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if(cmbTipoGasto.SelectedIndex != -1)
+            {
+                cmbTipoSubGasto.ItemsSource = new RepositorioSubGrupoGasto(Session)
+               .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+               .Where(x => x.GrupoGasto == cmbTipoGasto.SelectedItem)
+               .OrderBy(x => x.Nome)
+               .ToList<SubGrupoGasto>();
+            }
+            
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Dominio.ObejtoValor
     public enum TipoPeriodo
     {
         Unica,
-        Periodica,
+        Mensal,
         Fixa
 
     }
