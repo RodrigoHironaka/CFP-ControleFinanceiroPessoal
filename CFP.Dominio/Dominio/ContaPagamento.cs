@@ -18,8 +18,9 @@ namespace Dominio.Dominio
         public virtual Decimal DescontoPorcentual { get; set; }
         public virtual Decimal DescontoValor { get; set; }
         public virtual Decimal ValorReajustado { get; set; }
-        public virtual FormaPagamento FormaPagamento { get; set; }
+        public virtual Decimal ValorPago { get; set; }
         public virtual SituacaoConta SituacaoParcelas { get; set; }
+        public virtual FormaPagamento FormaPagamento { get; set; }
         public virtual Conta Conta { get; set; }
 
         //Na forma de pagamento pode haver situações onde uma pessoa transfere o dinheiro para outra pessoa pagar;

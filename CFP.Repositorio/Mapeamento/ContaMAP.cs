@@ -44,6 +44,13 @@ namespace Repositorio.Mapeamentos
             ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
             ManyToOne(x => x.GrupoGasto, m => m.Column("GrupoGasto"));
             ManyToOne(x => x.SubGrupoGasto, m => m.Column("SubGrupoGasto"));
+
+            Bag(x => x.ContaPagamentos, m =>
+            {
+                m.Cascade(Cascade.All);
+                m.Key(k => k.Column("Conta"));
+                m.Inverse(true);
+            }, map => map.OneToMany(a => a.Class(typeof(ContaPagamento))));
         }
     }
 }

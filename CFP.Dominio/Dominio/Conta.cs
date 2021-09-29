@@ -25,6 +25,7 @@ namespace Dominio.Dominio
         public virtual FormaPagamento FormaCompra { get; set; }
         public virtual Pessoa Pessoa { get; set; }
         public virtual string Observacao { get; set; }
+        public virtual IList<ContaPagamento> ContaPagamentos { get; set; }
        
     }
 }

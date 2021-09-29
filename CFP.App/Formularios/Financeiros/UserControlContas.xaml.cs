@@ -35,7 +35,7 @@ namespace CFP.App.Formularios.Financeiros
         #region Carrega Combos
         private void CarregaCombos()
         {
-            lblSituacao.Text = SituacaoConta.Finalizado.ToString();
+            lblSituacao.Text = SituacaoConta.Pendente.ToString();
             cmbTipoConta.ItemsSource = Enum.GetValues(typeof(TipoConta));
             cmbTipoConta.SelectedIndex = 0;
             cmbTipoPeriodo.ItemsSource = Enum.GetValues(typeof(TipoPeriodo));
@@ -62,6 +62,11 @@ namespace CFP.App.Formularios.Financeiros
                .OrderBy(x => x.Nome)
                .ToList<FormaPagamento>();
             cmbFormaCompra.SelectedIndex = 0;
+
+            DatagridCmbFormaPagamento.ItemsSource = new RepositorioFormaPagamento(Session)
+               .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+               .OrderBy(x => x.Nome)
+               .ToList<FormaPagamento>();
 
             cmbReferenciaPessoa.ItemsSource = new RepositorioPessoa(Session)
                .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
@@ -220,6 +225,9 @@ namespace CFP.App.Formularios.Financeiros
                 conta.NumeroDocumento = txtNumDocumento.Text != string.Empty ? Int64.Parse(txtNumDocumento.Text) : 0;
                 conta.FormaCompra = (FormaPagamento)cmbFormaCompra.SelectedItem;
                 conta.Observacao = txtObservacao.Text;
+
+                //tab Pagamento
+                conta.ContaPagamentos = (IList<ContaPagamento>)DataGridContaPagamento.ItemsSource;
                 return true;
             }
             catch (Exception ex)
@@ -227,7 +235,29 @@ namespace CFP.App.Formularios.Financeiros
                 //throw new Exception(ex.ToString());
                 return false;
             }
+        }
 
+        private void PreencheObjetoComListaDadaGrid()
+        {
+            if (conta.ContaPagamentos.Count != 0)
+            {
+                foreach (var item in conta.ContaPagamentos)
+                {
+                    ContaPagamento contaPagamento = new ContaPagamento();
+                    contaPagamento.Numero = item.Numero;
+                    contaPagamento.ValorParcela = item.ValorParcela;
+                    contaPagamento.DataVencimento = item.DataVencimento;
+                    contaPagamento.JurosPorcentual = item.JurosPorcentual;
+                    contaPagamento.JurosValor = item.JurosValor;
+                    contaPagamento.DescontoPorcentual = item.DescontoPorcentual;
+                    contaPagamento.DescontoValor = item.DescontoValor;
+                    contaPagamento.ValorReajustado = item.ValorReajustado;
+                    contaPagamento.ValorPago = item.ValorPago;
+                    contaPagamento.SituacaoParcelas = item.SituacaoParcelas;
+                    contaPagamento.FormaPagamento = item.FormaPagamento;
+                    contaPagamento.Conta = item.Conta;
+                }
+            }
         }
         #endregion
 
@@ -482,7 +512,9 @@ namespace CFP.App.Formularios.Financeiros
                     if ((conta.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
                     {
                         conta.DataGeracao = DateTime.Now;
+                        conta.ContaPagamentos.ToList().ForEach(x => x.Conta = conta);
                         Repositorio.Salvar(conta);
+                        PreencheObjetoComListaDadaGrid();
                         txtCodigo.Text = conta.Id.ToString();
                     }
                     else
@@ -572,7 +604,12 @@ namespace CFP.App.Formularios.Financeiros
         private void btPagar_Click(object sender, RoutedEventArgs e)
         {
             if (lblSituacao.Text != SituacaoConta.Cancelado.ToString() || lblSituacao.Text != SituacaoConta.Finalizado.ToString())
-                DataGridContaPagamento.IsReadOnly = false;
+            {
+                if(DataGridContaPagamento.IsReadOnly == false)
+                    DataGridContaPagamento.IsReadOnly = true;
+                else
+                    DataGridContaPagamento.IsReadOnly = false;
+            }
         }
 
         private void btReceber_Click(object sender, RoutedEventArgs e)

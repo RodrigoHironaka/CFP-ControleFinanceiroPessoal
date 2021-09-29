@@ -473,9 +473,11 @@
                                         <DataGridTextColumn Header="J ($)" Binding="{Binding Conta}" />
                                         <DataGridTextColumn Header="Desc (%)" Binding="{Binding Conta}" />
                                         <DataGridTextColumn Header="Desc ($)" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="V.Pago" Binding="{Binding Conta}" />
                                         <DataGridTextColumn Header="V.Reajustado" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Pagamento" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="V.Pago" Binding="{Binding Conta}" />
+                                        <DataGridComboBoxColumn x:Name="DatagridCmbFormaPagamento" Header="Pagamento" 
+                                                                SelectedValueBinding="{Binding FormaPagamento, Mode=TwoWay}" 
+                                                                DisplayMemberPath="{Binding FormaPagamento}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>
