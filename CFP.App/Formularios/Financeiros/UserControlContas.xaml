@@ -121,7 +121,7 @@
                                     FontFamily="Champagne &amp; Limousines" 
                                     FontSize="18"
                                     Foreground="#FF1F3D68" 
-                                    VerticalAlignment="Stretch"  TabIndex="1"/>
+                                    VerticalAlignment="Stretch"  TabIndex="1" LostFocus="cmbTipoConta_LostFocus"/>
 
                                 <ComboBox
                                 x:Name="cmbTipoPeriodo"
@@ -462,19 +462,20 @@
                                 </Grid>
                             </Grid>
                             <Grid x:Name="GridListaDataGrid" Grid.Row="1">
-                                <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" IsReadOnly="True">
+                                <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" IsEnabled="False">
                                     <DataGrid.Columns>
 
                                         <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoParcelas}" />
                                         <DataGridTextColumn Header="Número" Binding="{Binding Numero}" />
                                         <DataGridTextColumn Header="Parcela ($)" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                         <DataGridTextColumn Header="Vencimento" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
-                                        <DataGridTextColumn Header="J (%)" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="J ($)" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Desc (%)" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="Desc ($)" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="V.Reajustado" Binding="{Binding Conta}" />
-                                        <DataGridTextColumn Header="V.Pago" Binding="{Binding Conta}" />
+                                        <DataGridTextColumn Header="J (%)" Binding="{Binding JurosPorcentual}" />
+                                        <DataGridTextColumn Header="J ($)" Binding="{Binding JurosValor}" />
+                                        <DataGridTextColumn Header="Desc (%)" Binding="{Binding DescontoPorcentual}" />
+                                        <DataGridTextColumn Header="Desc ($)" Binding="{Binding DescontoValor}" />
+                                        <DataGridTextColumn Header="V.Reajustado" Binding="{Binding ValorReajustado}" />
+                                        <DataGridTextColumn Header="Data Pagamento" Binding="{Binding DataPagamento, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="V.Pago" Binding="{Binding ValorPago}" />
                                         <DataGridComboBoxColumn x:Name="DatagridCmbFormaPagamento" Header="Pagamento" 
                                                                 SelectedValueBinding="{Binding FormaPagamento, Mode=TwoWay}" 
                                                                 DisplayMemberPath="{Binding FormaPagamento}" />

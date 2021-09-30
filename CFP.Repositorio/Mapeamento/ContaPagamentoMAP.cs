@@ -28,6 +28,7 @@ namespace Repositorio.Mapeamentos
                 m.Scale(2);
             });
             Property(x => x.DataVencimento);
+            Property(x => x.DataPagamento);
             Property(x => x.JurosPorcentual);
             Property(x => x.JurosValor, m =>
             {

@@ -396,6 +396,7 @@ namespace CFP.App.Formularios.Cadastros
                             item.Pessoa = this.pessoa;
                         pessoa.PessoaTipoRendas.Add(item);
                     }
+                    pessoa.DataAlteracao = DateTime.Now;
                     Repositorio.Alterar(pessoa);
                 }
 

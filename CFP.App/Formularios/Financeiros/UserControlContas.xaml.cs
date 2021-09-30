@@ -143,6 +143,7 @@ namespace CFP.App.Formularios.Financeiros
                 if (item is TabControl)
                 {
                     tabItemGeral.IsSelected = true;
+                    DataGridContaPagamento.IsEnabled = false;
                     foreach (var gridControls2 in GridControls2.Children)
                     {
                         if (gridControls2 is TextBox)
@@ -230,7 +231,7 @@ namespace CFP.App.Formularios.Financeiros
                 conta.ContaPagamentos = (IList<ContaPagamento>)DataGridContaPagamento.ItemsSource;
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //throw new Exception(ex.ToString());
                 return false;
@@ -239,25 +240,48 @@ namespace CFP.App.Formularios.Financeiros
 
         private void PreencheObjetoComListaDadaGrid()
         {
-            if (conta.ContaPagamentos.Count != 0)
+            try
             {
-                foreach (var item in conta.ContaPagamentos)
+                if (conta.ContaPagamentos.Count != 0)
                 {
-                    ContaPagamento contaPagamento = new ContaPagamento();
-                    contaPagamento.Numero = item.Numero;
-                    contaPagamento.ValorParcela = item.ValorParcela;
-                    contaPagamento.DataVencimento = item.DataVencimento;
-                    contaPagamento.JurosPorcentual = item.JurosPorcentual;
-                    contaPagamento.JurosValor = item.JurosValor;
-                    contaPagamento.DescontoPorcentual = item.DescontoPorcentual;
-                    contaPagamento.DescontoValor = item.DescontoValor;
-                    contaPagamento.ValorReajustado = item.ValorReajustado;
-                    contaPagamento.ValorPago = item.ValorPago;
-                    contaPagamento.SituacaoParcelas = item.SituacaoParcelas;
-                    contaPagamento.FormaPagamento = item.FormaPagamento;
-                    contaPagamento.Conta = item.Conta;
+                    foreach (var item in conta.ContaPagamentos)
+                    {
+                        ContaPagamento contaPagamento = new ContaPagamento();
+                        contaPagamento.Numero = item.Numero;
+                        contaPagamento.ValorParcela = item.ValorParcela;
+                        contaPagamento.DataVencimento = item.DataVencimento;
+                        contaPagamento.DataPagamento = item.DataPagamento;
+                        contaPagamento.JurosPorcentual = item.JurosPorcentual;
+                        contaPagamento.JurosValor = item.JurosValor;
+                        contaPagamento.DescontoPorcentual = item.DescontoPorcentual;
+                        contaPagamento.DescontoValor = item.DescontoValor;
+                        contaPagamento.ValorReajustado = item.ValorReajustado;
+                        contaPagamento.ValorPago = item.ValorPago;
+                        contaPagamento.SituacaoParcelas = item.SituacaoParcelas;
+                        contaPagamento.FormaPagamento = item.FormaPagamento;
+                        contaPagamento.Conta = item.Conta;
+                        //ContaPagamento contaPagamento = new ContaPagamento();
+                        //contaPagamento.Numero = item.Numero.ToString() != string.Empty ? item.Numero : 0;
+                        //contaPagamento.ValorParcela = item.ValorParcela.ToString() != string.Empty ? item.ValorParcela: 0;
+                        //contaPagamento.DataVencimento = item.DataVencimento != null ? item.DataVencimento : null;
+                        //contaPagamento.DataPagamento = item.DataPagamento != null ? item.DataPagamento : null;
+                        //contaPagamento.JurosPorcentual = item.JurosPorcentual.ToString() != string.Empty ? item.JurosPorcentual : 0;
+                        //contaPagamento.JurosValor = item.JurosValor.ToString() != string.Empty ? item.JurosValor : 0;
+                        //contaPagamento.DescontoPorcentual = item.DescontoPorcentual.ToString() != string.Empty ? item.DescontoPorcentual : 0;
+                        //contaPagamento.DescontoValor = item.DescontoValor.ToString() != string.Empty ? item.DescontoValor : 0;
+                        //contaPagamento.ValorReajustado = item.ValorReajustado.ToString() != string.Empty ? item.ValorReajustado : 0;
+                        //contaPagamento.ValorPago = item.ValorPago.ToString() != string.Empty ? item.ValorPago : 0;
+                        //contaPagamento.SituacaoParcelas = item.SituacaoParcelas;
+                        //contaPagamento.FormaPagamento = item.FormaPagamento;
+                        //contaPagamento.Conta = item.Conta;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
         }
         #endregion
 
@@ -286,6 +310,11 @@ namespace CFP.App.Formularios.Financeiros
                 txtNumDocumento.Text = conta.NumeroDocumento > 0 ? conta.NumeroDocumento.ToString() : string.Empty;
                 cmbFormaCompra.SelectedItem = conta.FormaCompra;
                 txtObservacao.Text = conta.Observacao;
+                var listaContaPagamentos = conta.ContaPagamentos;
+                foreach (var item in listaContaPagamentos)
+                {
+                    contaPagamento.Add(item);
+                }
             }
         }
         #endregion
@@ -372,6 +401,9 @@ namespace CFP.App.Formularios.Financeiros
         #region Gerar Parcelas
         private void GerarParcelas(string vTotal, string qtd, DateTime primeiroVencimento)
         {
+            //Excluir parcelas ja criadas no banco
+            //colocar o valor da diferenca em primeiro
+
             Decimal valorTotal = Decimal.Parse(vTotal);
             Int32 qtdParcelas = Int32.Parse(qtd);
             DateTime dataPrimeiroVencimento = primeiroVencimento;
@@ -394,6 +426,15 @@ namespace CFP.App.Formularios.Financeiros
                         Numero = Int32.Parse(numeroParcela),
                         ValorParcela = Decimal.Parse(valorParcelaCorrigido),
                         DataVencimento = Convert.ToDateTime(dataVencimento)
+                        //DataPagamento = null,
+                        //JurosPorcentual = 0,
+                        //JurosValor = 0,
+                        //DescontoPorcentual = 0,
+                        //DescontoValor = 0,
+                        //ValorReajustado = 0,
+                        //ValorPago = 0,
+                        //FormaPagamento = null,
+                        //Conta = conta
                     });
                     DataGridContaPagamento.Items.Refresh();
                 }
@@ -436,6 +477,8 @@ namespace CFP.App.Formularios.Financeiros
         {
             ControleAcessoInicial();
             CarregaCombos();
+            PreencheDataGrid();
+            cmbTipoConta_LostFocus(sender, e);
         }
 
         private void txtCodigo_KeyDown(object sender, KeyEventArgs e)
@@ -459,7 +502,8 @@ namespace CFP.App.Formularios.Financeiros
                         conta = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
                         if (conta != null)
                         {
-                            CarregaCombos();
+                            LimpaCampos();
+                            PreencheDataGrid();
                             PreencheCampos();
                             ControleAcessoCadastro();
                             CorPadrãoBotaoPesquisar();
@@ -519,6 +563,18 @@ namespace CFP.App.Formularios.Financeiros
                     }
                     else
                     {
+                        IList<ContaPagamento> novoContaPagamentos = new List<ContaPagamento>(conta.ContaPagamentos.Count);
+                        foreach (var item in (IList<ContaPagamento>)DataGridContaPagamento.ItemsSource)
+                            novoContaPagamentos.Add(item);
+
+                        conta.ContaPagamentos.Clear();
+
+                        foreach (var item in novoContaPagamentos)
+                        {
+                            if (item.Conta == null)
+                                item.Conta = this.conta;
+                            conta.ContaPagamentos.Add(item);
+                        }
                         conta.DataAlteracao = DateTime.Now;
                         Repositorio.Alterar(conta);
                     }
@@ -532,17 +588,44 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
         {
-            if (conta != null)
+            Boolean BloquearExclusao = false;
+            foreach (var item in conta.ContaPagamentos)
             {
-                MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + conta.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (d == MessageBoxResult.Yes)
+                if (item.SituacaoParcelas != SituacaoConta.Pendente)
                 {
-                    Repositorio.Excluir(conta);
-                    LimpaCampos();
-                    ControleAcessoInicial();
-
+                    BloquearExclusao = true;
+                    break;
                 }
             }
+            if (!BloquearExclusao)
+            {
+                if (conta != null)
+                {
+                    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + conta.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                        Repositorio.Excluir(conta);
+                        LimpaCampos();
+                        ControleAcessoInicial();
+
+                    }
+                }
+            }
+            else
+            {
+                if (conta != null)
+                {
+                    MessageBoxResult d = MessageBox.Show("Essa Conta não pode ser excluída!!! Deseja cancelar?!", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                        conta.Situacao = SituacaoConta.Cancelado;
+                        Repositorio.Alterar(conta);
+                        LimpaCampos();
+                        ControleAcessoInicial();
+                    }
+                }
+            }
+         
         }
 
         private void cmbTipoPeriodo_LostFocus(object sender, RoutedEventArgs e)
@@ -605,17 +688,22 @@ namespace CFP.App.Formularios.Financeiros
         {
             if (lblSituacao.Text != SituacaoConta.Cancelado.ToString() || lblSituacao.Text != SituacaoConta.Finalizado.ToString())
             {
-                if(DataGridContaPagamento.IsReadOnly == false)
-                    DataGridContaPagamento.IsReadOnly = true;
+                if(DataGridContaPagamento.IsEnabled == false)
+                    DataGridContaPagamento.IsEnabled = true;
                 else
-                    DataGridContaPagamento.IsReadOnly = false;
+                    DataGridContaPagamento.IsEnabled = false;
             }
         }
 
         private void btReceber_Click(object sender, RoutedEventArgs e)
         {
             if (lblSituacao.Text != SituacaoConta.Cancelado.ToString() || lblSituacao.Text != SituacaoConta.Finalizado.ToString())
-                DataGridContaPagamento.IsReadOnly = false;
+            {
+                if (DataGridContaPagamento.IsEnabled == false)
+                    DataGridContaPagamento.IsEnabled = true;
+                else
+                    DataGridContaPagamento.IsEnabled = false;
+            }
         }
 
         private void cmbTipoGasto_LostFocus(object sender, RoutedEventArgs e)
@@ -629,6 +717,21 @@ namespace CFP.App.Formularios.Financeiros
                .ToList<SubGrupoGasto>();
             }
             
+        }
+
+        private void cmbTipoConta_LostFocus(object sender, RoutedEventArgs e)
+        {
+            switch (cmbTipoConta.SelectedIndex)
+            {
+                case 0:
+                    btReceber.IsEnabled = false;
+                    btPagar.IsEnabled = true;
+                    break;
+                case 1:
+                    btReceber.IsEnabled = true;
+                    btPagar.IsEnabled = false;
+                    break;
+            }
         }
     }
 }

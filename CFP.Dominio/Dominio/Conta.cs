@@ -12,6 +12,10 @@ namespace Dominio.Dominio
 {
     public class Conta : Base
     {
+        public override string ToString()
+        {
+            return "";
+        }
         public virtual TipoConta TipoConta { get; set; }
         public virtual TipoPeriodo TipoPeriodo { get; set; }
         public virtual SituacaoConta Situacao { get; set; }

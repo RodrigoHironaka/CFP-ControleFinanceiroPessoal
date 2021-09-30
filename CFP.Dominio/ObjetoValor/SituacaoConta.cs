@@ -11,8 +11,9 @@ namespace Dominio.ObjetoValor
         Pendente,
         Atrasado,
         Pago,
+        Parcial,
         Cancelado,
         Recebido,
-        Finalizado
+        Finalizado,
     }
 }

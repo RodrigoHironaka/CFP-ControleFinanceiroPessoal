@@ -34,7 +34,9 @@ namespace CFP.App.Formularios.Cadastros
         private void CarregaCombos()
         {
             cmbTipoUsuario.ItemsSource = Enum.GetValues(typeof(TipoUsuario));
+            cmbTipoUsuario.SelectedIndex = 0;
             cmbSituacao.ItemsSource = Enum.GetValues(typeof(Situacao));
+            cmbSituacao.SelectedIndex = 0;
         }
         #endregion
 
@@ -103,7 +105,7 @@ namespace CFP.App.Formularios.Cadastros
                 if (item is TextBox)
                     (item as TextBox).Text = string.Empty;
                 if (item is ComboBox)
-                    (item as ComboBox).SelectedIndex = -1;
+                    (item as ComboBox).SelectedIndex = 0;
                 if (item is CheckBox)
                     (item as CheckBox).IsChecked = false;
                 if (item is RadioButton)

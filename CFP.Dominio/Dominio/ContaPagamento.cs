@@ -9,10 +9,15 @@ namespace Dominio.Dominio
 {
     public class ContaPagamento
     {
+        public override string ToString()
+        {
+            return " ";
+        }
         public virtual Int64 ID { get; set; }
         public virtual Int32 Numero { get; set; }
         public virtual Decimal ValorParcela { get; set; }
         public virtual DateTime? DataVencimento { get; set; }
+        public virtual DateTime? DataPagamento { get; set; }
         public virtual Decimal JurosPorcentual { get; set; }
         public virtual Decimal JurosValor { get; set; } 
         public virtual Decimal DescontoPorcentual { get; set; }
