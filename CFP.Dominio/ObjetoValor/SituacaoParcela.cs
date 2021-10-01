@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dominio.ObjetoValor
+namespace CFP.Dominio.ObjetoValor
 {
-    public enum SituacaoConta
+    public enum SituacaoParcela
     {
-        Aberto,
-        Finalizado,
+        Pendente,
+        Atrasado,
+        Pago,
+        Parcial,
         Cancelado
     }
 }

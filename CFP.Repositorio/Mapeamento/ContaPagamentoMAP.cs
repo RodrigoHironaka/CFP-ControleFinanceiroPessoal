@@ -51,6 +51,11 @@ namespace Repositorio.Mapeamentos
                 m.Precision(10);
                 m.Scale(2);
             });
+            Property(x => x.ValorRestante, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
             Property(x => x.SituacaoParcelas, m => m.Type<EnumType<SituacaoConta>>());
             ManyToOne(x => x.FormaPagamento, m => m.Column("FormaPagamento"));
             ManyToOne(x => x.Conta, m => m.Column("Conta"));

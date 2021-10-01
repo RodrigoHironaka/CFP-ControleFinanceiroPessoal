@@ -81,6 +81,7 @@
     <Compile Include="ObjetoValor\SituacaoCaixa.cs" />
     <Compile Include="ObjetoValor\SituacaoCofre.cs" />
     <Compile Include="ObjetoValor\SituacaoConta.cs" />
+    <Compile Include="ObjetoValor\SituacaoParcela.cs" />
     <Compile Include="ObjetoValor\TipoConta.cs" />
     <Compile Include="ObjetoValor\TipoPeriodo.cs" />
     <Compile Include="ObjetoValor\TipoContaBanco.cs" />

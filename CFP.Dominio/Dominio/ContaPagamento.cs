@@ -1,4 +1,5 @@
-﻿using Dominio.ObjetoValor;
+﻿using CFP.Dominio.ObjetoValor;
+using Dominio.ObjetoValor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,8 @@ namespace Dominio.Dominio
         public virtual Decimal DescontoValor { get; set; }
         public virtual Decimal ValorReajustado { get; set; }
         public virtual Decimal ValorPago { get; set; }
-        public virtual SituacaoConta SituacaoParcelas { get; set; }
+        public virtual Decimal ValorRestante { get; set; }
+        public virtual SituacaoParcela SituacaoParcelas { get; set; }
         public virtual FormaPagamento FormaPagamento { get; set; }
         public virtual Conta Conta { get; set; }
 
