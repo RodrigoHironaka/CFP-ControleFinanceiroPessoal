@@ -468,11 +468,10 @@
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellEditingTemplate>
                                         </DataGridTemplateColumn>
-                                        <!--<DataGridTextColumn Header="Vencimento" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />-->
-                                        <DataGridTextColumn Header="J (%)" Binding="{Binding JurosPorcentual, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
-                                        <DataGridTextColumn Header="J ($)" Binding="{Binding JurosValor, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
-                                        <DataGridTextColumn Header="Desc (%)" Binding="{Binding DescontoPorcentual, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
-                                        <DataGridTextColumn Header="Desc ($)" Binding="{Binding DescontoValor, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="J(%)" Binding="{Binding JurosPorcentual, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="J($)" Binding="{Binding JurosValor, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="Desc(%)" Binding="{Binding DescontoPorcentual, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="Desc($)" Binding="{Binding DescontoValor, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
                                         <DataGridTextColumn Header="V.Reajustado" Binding="{Binding ValorReajustado, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                         <DataGridTemplateColumn Header="Pagamento">
                                             <DataGridTemplateColumn.CellTemplate>
@@ -486,19 +485,19 @@
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellEditingTemplate>
                                         </DataGridTemplateColumn>
-                                        <!--<DataGridTextColumn Header="Data Pagamento" Binding="{Binding DataPagamento, StringFormat=d,  ConverterCulture='pt-BR'}" />-->
                                         <DataGridTextColumn Header="V.Pago" Binding="{Binding ValorPago, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                                        <DataGridTextColumn Header="V. Restante" Binding="{Binding ValorRestante, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="V.Restante" Binding="{Binding ValorRestante, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                         <DataGridComboBoxColumn x:Name="DatagridCmbFormaPagamento" Header="Forma Pagamento" 
                                                                 SelectedValueBinding="{Binding FormaPagamento, Mode=TwoWay}" 
-                                                                DisplayMemberPath="{Binding FormaPagamento}" />
+                                                                DisplayMemberPath="{Binding FormaPagamento}"
+                                                                />
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>
                         </Grid>
 
                     </TabItem>
-                    <TabItem x:Name="tabItemImagens" Header="Imagens">
+                    <TabItem x:Name="tabItemArquivos" Header="Arquivos">
                         
                     </TabItem>
                 </TabControl>

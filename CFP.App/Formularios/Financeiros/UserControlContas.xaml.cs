@@ -399,6 +399,7 @@ namespace CFP.App.Formularios.Financeiros
             if ((TipoPeriodo)cmbTipoPeriodo.SelectedIndex == TipoPeriodo.Unica)
             {
                 GerarParcelas(txtValorTotal.Text, "1", txtPrimeiroVencimento.SelectedDate.Value);
+                DataGridContaPagamento.Items.Refresh();
             }
             return true;
 
@@ -520,16 +521,6 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
-        #region Adiciona uma parcela se o tipo do periodo for Única
-        private void AdicionaUnicaParcela()
-        {
-            if ((TipoPeriodo)cmbTipoPeriodo.SelectedIndex == TipoPeriodo.Unica)
-            {
-                GerarParcelas(txtValorTotal.Text, "1", txtPrimeiroVencimento.SelectedDate.Value);
-            }
-        }
-        #endregion
-
         #region Iniciando o Form Cancelado
         private void VerificandoSituacaoConta()
         {
@@ -595,7 +586,7 @@ namespace CFP.App.Formularios.Financeiros
                     conta = new Conta();
                     LimpaCampos();
                     cmbReferenciaPessoa.SelectedIndex = -1;
-                    lblSituacao.Text = SituacaoConta.Aberto.ToString();
+                    //lblSituacao.Text = SituacaoConta.Aberto.ToString();
                     VerificaTipoPeriodo();
                     ControleAcessoCadastro();
                     CorPadrãoBotaoPesquisar();
@@ -607,7 +598,7 @@ namespace CFP.App.Formularios.Financeiros
                         conta = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
                         if (conta != null)
                         {
-                            LimpaCampos();
+                            //LimpaCampos();
                             PreencheDataGrid();
                             PreencheCampos();
                             ControleAcessoCadastro();
