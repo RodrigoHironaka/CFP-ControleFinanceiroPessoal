@@ -399,7 +399,6 @@ namespace CFP.App.Formularios.Financeiros
             if ((TipoPeriodo)cmbTipoPeriodo.SelectedIndex == TipoPeriodo.Unica)
             {
                 GerarParcelas(txtValorTotal.Text, "1", txtPrimeiroVencimento.SelectedDate.Value);
-                DataGridContaPagamento.Items.Refresh();
             }
             return true;
 
@@ -598,7 +597,6 @@ namespace CFP.App.Formularios.Financeiros
                         conta = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
                         if (conta != null)
                         {
-                            //LimpaCampos();
                             PreencheDataGrid();
                             PreencheCampos();
                             ControleAcessoCadastro();
