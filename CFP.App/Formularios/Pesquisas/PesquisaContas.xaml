@@ -1,0 +1,40 @@
+﻿<Window x:Class="CFP.App.Formularios.Pesquisas.PesquisaContas"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CFP.App.Formularios.Pesquisas"
+        xmlns:materiadesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Pesquisas" Height="450" Width="800" WindowStyle="ToolWindow"  WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" >
+    <Grid>
+        <DataGrid x:Name="DataGridPesquisa"
+                  Style="{StaticResource MaterialDesignDataGrid}"
+                  HorizontalAlignment="Left" 
+                  Height="356" 
+                  Margin="0,64,-2,0"
+                  VerticalAlignment="Top"
+                  Width="794"
+                  AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="DataGridPesquisa_MouseDoubleClick"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Código"/>
+				<DataGridTextColumn Binding="{Binding Situacao}" Header="Situação"/>
+                <DataGridTextColumn Binding="{Binding Nome}" Header="Nome"/>
+				<DataGridTextColumn Binding="{Binding ValorTotal}" Header="Valor"/>
+				<DataGridTextColumn Binding="{Binding Vencimento}" Header="Vencimento"/>
+                
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBox x:Name="txtPesquisa"
+                 materiadesign:HintAssist.Hint="Pesquisa"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 FontFamily="Champagne &amp; Limousines" 
+                 FontSize="22" 
+                 Foreground="#FF1F3D68" 
+                 VerticalAlignment="Top"
+                 MaxLength="70" TextChanged="txtPesquisa_TextChanged"
+                 />
+
+    </Grid>
+</Window>

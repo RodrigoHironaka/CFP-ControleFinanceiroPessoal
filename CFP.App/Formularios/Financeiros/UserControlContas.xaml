@@ -451,7 +451,7 @@
                                 </Grid>
                             </Grid>
                             <Grid x:Name="GridListaDataGrid" Grid.Row="1">
-                                <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" IsEnabled="False">
+                                <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" IsEnabled="False" CellEditEnding="DataGridContaPagamento_CellEditEnding">
                                     <DataGrid.Columns>
 
                                         <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoParcelas}" />

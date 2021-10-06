@@ -162,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Formularios\Pesquisas\PesquisaContas.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Formularios\Pesquisas\PesquisaGrupoGasto.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -244,6 +248,9 @@
     </Compile>
     <Compile Include="Formularios\Pesquisas\PesquisaBancos.xaml.cs">
       <DependentUpon>PesquisaBancos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Pesquisas\PesquisaContas.xaml.cs">
+      <DependentUpon>PesquisaContas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Pesquisas\PesquisaGrupoGasto.xaml.cs">
       <DependentUpon>PesquisaGrupoGasto.xaml</DependentUpon>

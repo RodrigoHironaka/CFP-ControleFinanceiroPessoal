@@ -1,4 +1,5 @@
-﻿using CFP.Dominio.Dominio;
+﻿using CFP.App.Formularios.Pesquisas;
+using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
@@ -9,6 +10,7 @@ using Repositorio.Repositorios;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -631,16 +633,17 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btPesquisar_Click(object sender, RoutedEventArgs e)
         {
-            //PesquisaContas p = new PesquisaContas();
-            //p.ShowDialog();
-            //if (p.objeto != null)
-            //{
-            //    conta = p.objeto;
-            //    PreencheCampos();
-            //    ControleAcessoCadastro();
-            //    CorPadrãoBotaoPesquisar();
-            //    VerificandoSituacaoConta();
-            //}
+            PesquisaContas p = new PesquisaContas();
+            p.ShowDialog();
+            if (p.objeto != null)
+            {
+                conta = p.objeto;
+                PreencheDataGrid();
+                PreencheCampos();
+                ControleAcessoCadastro();
+                CorPadrãoBotaoPesquisar();
+                VerificandoSituacaoConta();
+            }
         }
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
@@ -820,6 +823,18 @@ namespace CFP.App.Formularios.Financeiros
             }
             else
                 MessageBox.Show("Habilite a tela para selecionar uma parcela!", "Informativo", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void DataGridContaPagamento_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            //Neste exemplo pego o valor de uma coluna
+            if (DataGridContaPagamento.SelectedItem != null)
+            {
+                ContaPagamento id = (ContaPagamento)DataGridContaPagamento.SelectedItem;
+                MessageBox.Show(id.ValorParcela.ToString());
+
+            }
+
         }
     }
 }
