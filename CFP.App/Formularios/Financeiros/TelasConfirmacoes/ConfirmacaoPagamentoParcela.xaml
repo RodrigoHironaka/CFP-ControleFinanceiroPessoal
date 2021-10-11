@@ -1,0 +1,15 @@
+﻿<Window x:Class="CFP.App.Formularios.Financeiros.TelasConfirmacoes.ConfirmacaoPagamentoParcela"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros.TelasConfirmacoes"
+        mc:Ignorable="d"
+        Title="ConfirmacaoPagamentoParcela" Height="500" Width="450" WindowStartupLocation="CenterScreen" Topmost="True" WindowStyle="None" Opacity="0.5">
+    <Grid  Background="#FF1F3D68">
+        <Button Background="Red" Foreground="White" Content="teste">
+
+        </Button>
+    </Grid>
+
+</Window>

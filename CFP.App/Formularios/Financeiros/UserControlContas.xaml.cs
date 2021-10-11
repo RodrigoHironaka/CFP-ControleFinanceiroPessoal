@@ -1,4 +1,5 @@
-﻿using CFP.App.Formularios.Pesquisas;
+﻿using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
+using CFP.App.Formularios.Pesquisas;
 using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
@@ -43,6 +44,7 @@ namespace CFP.App.Formularios.Financeiros
             cmbTipoConta.SelectedIndex = 0;
             cmbTipoPeriodo.ItemsSource = Enum.GetValues(typeof(TipoPeriodo));
             cmbTipoPeriodo.SelectedIndex = 0;
+
 
             cmbTipoGasto.ItemsSource = new RepositorioGrupoGasto(Session)
                 .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
@@ -835,6 +837,12 @@ namespace CFP.App.Formularios.Financeiros
 
             }
 
+        }
+
+        private void DataGridContaPagamento_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela();
+            janela.ShowDialog();
         }
     }
 }
