@@ -4,12 +4,207 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros.TelasConfirmacoes"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="ConfirmacaoPagamentoParcela" Height="500" Width="450" WindowStartupLocation="CenterScreen" Topmost="True" WindowStyle="None" Opacity="0.5">
-    <Grid  Background="#FF1F3D68">
-        <Button Background="Red" Foreground="White" Content="teste">
+        Title="ConfirmacaoPagamentoParcela" Height="400" Width="350" WindowStartupLocation="CenterScreen" WindowStyle="None" Loaded="Window_Loaded" >
+    <Grid x:Name="GridCOntrolsPagamento" Background="#FF1F3D68">
+        <Grid Background="LightGray" Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox
+                  x:Name="txtCodigoConta"
+                  Grid.Column="0"
+                  materialDesign:HintAssist.Hint="Códido Conta" 
+                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center" IsReadOnly="True" 
+                 />
+            <TextBox
+                  x:Name="txtNumeroParcela"
+                  Grid.Column="1"
+                  materialDesign:HintAssist.Hint="Numero Parcela" 
+                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center" IsReadOnly="True"/>
+        </Grid>
 
-        </Button>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox
+                  x:Name="txtValorParcela"
+                  Grid.Column="0"
+                  materialDesign:HintAssist.Hint="Valor Parcela" 
+                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center"/>
+
+            <DatePicker
+                  x:Name="txtDataPagamento"
+                  Grid.Column="1"
+                  materialDesign:HintAssist.Hint="Data Pagamento" 
+                  Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center" />
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox
+                  x:Name="txtJurosPorcentagem"
+                  Grid.Column="0"
+                  materialDesign:HintAssist.Hint="Juros (%)" 
+                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center" LostFocus="txtJurosPorcentagem_LostFocus" 
+                 />
+            <TextBox
+                  x:Name="txtJurosValor"
+                  Grid.Column="1"
+                  materialDesign:HintAssist.Hint="Juros ($)" 
+                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center" LostFocus="txtJurosValor_LostFocus"/>
+        </Grid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox
+                  x:Name="txtDescontoPorcentagem"
+                  Grid.Column="0"
+                  materialDesign:HintAssist.Hint="Desconto (%)" 
+                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center" LostFocus="txtDescontoPorcentagem_LostFocus" 
+                 />
+            <TextBox
+                  x:Name="txtDescontoValor"
+                  Grid.Column="1"
+                  materialDesign:HintAssist.Hint="Desconto ($)" 
+                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center" LostFocus="txtDescontoValor_LostFocus"/>
+        </Grid>
+
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox
+                  x:Name="txtValorReajustado"
+                  Grid.Column="0"
+                  materialDesign:HintAssist.Hint="Valor Reajustado" 
+                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center" 
+                 />
+            <TextBox
+                  x:Name="txtValorPago"
+                  Grid.Column="1"
+                  materialDesign:HintAssist.Hint="Valor Pago" 
+                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center" KeyDown="txtValorPago_KeyDown"/>
+        </Grid>
+
+        <Grid Grid.Row="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBox
+                  x:Name="txtValorRestante"
+                  Grid.Column="0"
+                  materialDesign:HintAssist.Hint="Valor Restante" 
+                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="18"
+                  Foreground="#FF1F3D68"
+                  VerticalAlignment="Center" IsReadOnly="True" 
+                 />
+
+            <ComboBox 
+                   x:Name="cmbFormaPagamento"
+                   Grid.Column="1"
+                   materialDesign:HintAssist.Hint="Forma de Pagamento" 
+                   Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                   FontFamily="Champagne &amp; Limousines" 
+                   FontSize="18"
+                   Foreground="#FF1F3D68" 
+                   VerticalAlignment="Center"/>
+        </Grid>
+
+
+        <Grid Grid.Row="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="btConfirmar"
+                    Grid.Column="0"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="50" Width="50" 
+                    Background="#FF1F3D68" 
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btConfirmar_Click" >
+                <materialDesign:PackIcon 
+                    Kind="Check"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
+            <Button x:Name="btCancelar"
+                    Grid.Column="1"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="50" Width="50" 
+                    Background="#FF1F3D68" 
+                    HorizontalAlignment="Left" BorderBrush="#FF1F3D68" RenderTransformOrigin="0.5,0.504" Click="btCancelar_Click" >
+                <materialDesign:PackIcon 
+                    Kind="ExitToApp"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
+        </Grid>
+        </Grid>
     </Grid>
 
 </Window>

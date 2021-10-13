@@ -12,23 +12,23 @@
             <ColumnDefinition Width="*"/>
           
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             
-        </Grid.RowDefinitions>
-        <Border Margin="5" Grid.Column="0" Background="#FF15990D" VerticalAlignment="Stretch" CornerRadius="50 50 50 50">
+        </Grid.RowDefinitions>-->
+        <Border Margin="5" Grid.Column="0" Background="LightSlateGray" VerticalAlignment="Stretch" CornerRadius="50 50 50 50">
 
         </Border>
-        <Border Margin="5" Grid.Column="1" Background="#FF082D94" VerticalAlignment="Stretch" CornerRadius="50 50 50 50">
+        <Border Margin="5" Grid.Column="1" Background="LightSlateGray" VerticalAlignment="Stretch" CornerRadius="50 50 50 50">
 
         </Border>
-        <Border Margin="5" Grid.Row="2" Background="#FFE4F614" VerticalAlignment="Stretch" CornerRadius="50 50 50 50">
+        <!--<Border Margin="5" Grid.Row="2" Background="LightGray" VerticalAlignment="Stretch" CornerRadius="50 50 50 50">
 
         </Border>
-        <Border Margin="5" Grid.Column="2" Grid.Row="2" Background="#FFFC3425" VerticalAlignment="Stretch" CornerRadius="50 50 50 50">
+        <Border Margin="5" Grid.Column="2" Grid.Row="2" Background="LightGray" VerticalAlignment="Stretch" CornerRadius="50 50 50 50">
 
-        </Border>
+        </Border>-->
 
     </Grid>
 </UserControl>

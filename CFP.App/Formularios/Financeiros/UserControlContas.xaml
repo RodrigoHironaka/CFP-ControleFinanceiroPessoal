@@ -328,7 +328,7 @@
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btEditar_Click" >
                                     <materialDesign:PackIcon 
-                                        Kind="Edit"  
+                                        Kind="CashCheck"  
                                         Width="50" 
                                         Height="50"/>
                                 </Button>
@@ -342,7 +342,7 @@
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btCancelarParcela_Click"  >
                                     <materialDesign:PackIcon 
-                                        Kind="Remove"  
+                                        Kind="CashRemove"  
                                         Width="50" 
                                         Height="50"/>
                                 </Button>
@@ -452,7 +452,7 @@
                              
                             </Grid>
                             <Grid x:Name="GridListaDataGrid" Grid.Row="1">
-                                <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" IsEnabled="False" CellEditEnding="DataGridContaPagamento_CellEditEnding" IsReadOnly="True" MouseDoubleClick="DataGridContaPagamento_MouseDoubleClick">
+                                <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" CellEditEnding="DataGridContaPagamento_CellEditEnding" IsReadOnly="True" MouseDoubleClick="DataGridContaPagamento_MouseDoubleClick">
                                     <DataGrid.Columns>
 
                                         <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoParcelas}" />

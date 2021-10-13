@@ -33,6 +33,20 @@ namespace CFP.App.Formularios.Financeiros
     /// </summary>
     public partial class UserControlContas : UserControl
     {
+        #region EXEMPLOS DE CODIGOS NAO APAGAR   
+        //ContaPagamento linhaContaPagamento = (ContaPagamento)DataGridContaPagamento.SelectedItem;
+        //if (linhaContaPagamento.SituacaoParcelas == SituacaoParcela.Pendente || linhaContaPagamento.SituacaoParcelas == SituacaoParcela.Parcial)
+        //{
+        //    ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhaContaPagamento, Session);
+        //    janela.ShowDialog();
+        //    DataGridContaPagamento.Items.Refresh();
+        //}
+        //else
+        //    MessageBox.Show("Situacao da parcela está " + linhaContaPagamento.SituacaoParcelas + "!", "Mensagem", MessageBoxButton.OK, MessageBoxImage.Information);
+        #endregion
+
+        //--------------------------------------------------------------------------------------------------------------------------------
+
         ISession Session;
         Conta conta;
 
@@ -164,7 +178,6 @@ namespace CFP.App.Formularios.Financeiros
                 if (item is TabControl)
                 {
                     tabItemGeral.IsSelected = true;
-                    DataGridContaPagamento.IsEnabled = false;
                     foreach (var gridControls2 in GridControls2.Children)
                     {
                         if (gridControls2 is TextBox)
@@ -427,7 +440,7 @@ namespace CFP.App.Formularios.Financeiros
         #region Remove todos os itens da lista Conta Pagamento e do Banco
         private void RemoveTodosOsItensDaListaEBanco()
         {
-            if(conta.ContaPagamentos != null)
+            if (conta.ContaPagamentos != null)
             {
                 var lista = new List<ContaPagamento>(contaPagamento);
                 foreach (var item in lista)
@@ -527,7 +540,7 @@ namespace CFP.App.Formularios.Financeiros
         #region Iniciando o Form Cancelado
         private void VerificandoSituacaoConta()
         {
-            switch(lblSituacao.Text)
+            switch (lblSituacao.Text)
             {
                 case "Aberto":
                     GridControls2.IsEnabled = true;
@@ -576,7 +589,7 @@ namespace CFP.App.Formularios.Financeiros
             ControleAcessoInicial();
             CarregaCombos();
             PreencheDataGrid();
-            
+
         }
 
         private void txtCodigo_KeyDown(object sender, KeyEventArgs e)
@@ -676,7 +689,7 @@ namespace CFP.App.Formularios.Financeiros
                                 item.Conta = this.conta;
                             conta.ContaPagamentos.Add(item);
                         }
-                       
+
                         conta.DataAlteracao = DateTime.Now;
                         Repositorio.Alterar(conta);
                     }
@@ -791,19 +804,31 @@ namespace CFP.App.Formularios.Financeiros
         {
             if (lblSituacao.Text != SituacaoConta.Cancelado.ToString() || lblSituacao.Text != SituacaoConta.Finalizado.ToString())
             {
-                if (DataGridContaPagamento.IsEnabled == false)
-                    DataGridContaPagamento.IsEnabled = true;
-                else
-                    DataGridContaPagamento.IsEnabled = false;
+                IList<ContaPagamento> linhasContaPagamento = new List<ContaPagamento>();
+                foreach (var selecao in DataGridContaPagamento.SelectedItems)
+                {
+                    linhasContaPagamento.Add((ContaPagamento)selecao);
+                }
+                foreach (var linha in linhasContaPagamento)
+                {
+                    if (linha.SituacaoParcelas != SituacaoParcela.Pendente && linha.SituacaoParcelas != SituacaoParcela.Parcial)
+                    {
+                        MessageBox.Show("Situacao da parcela numero " + linha.Numero + " - " + linha.SituacaoParcelas + "!", "Mensagem", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
+                }
+
+                ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhasContaPagamento, Session);
+                janela.ShowDialog();
+                DataGridContaPagamento.Items.Refresh();
             }
         }
 
         private void btCancelarParcela_Click(object sender, RoutedEventArgs e)
         {
-            if (DataGridContaPagamento.IsEnabled)
-            {
+           
                 var selecao = DataGridContaPagamento.SelectedItem;
-                if(selecao != null)
+                if (selecao != null)
                 {
                     MessageBoxResult d = MessageBox.Show("Deseja cancelar esta Parcela?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (d == MessageBoxResult.Yes)
@@ -822,27 +847,24 @@ namespace CFP.App.Formularios.Financeiros
                 }
                 else
                     MessageBox.Show("Selecione uma parcela!", "Informativo", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-                MessageBox.Show("Habilite a tela para selecionar uma parcela!", "Informativo", MessageBoxButton.OK, MessageBoxImage.Information);
+           
         }
 
         private void DataGridContaPagamento_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             //Neste exemplo pego o valor de uma coluna
-            if (DataGridContaPagamento.SelectedItem != null)
-            {
-                ContaPagamento id = (ContaPagamento)DataGridContaPagamento.SelectedItem;
-                MessageBox.Show(id.ValorParcela.ToString());
+            //if (DataGridContaPagamento.SelectedItem != null)
+            //{
+            //    ContaPagamento id = (ContaPagamento)DataGridContaPagamento.SelectedItem;
+            //    MessageBox.Show(id.ValorParcela.ToString());
 
-            }
-
+            //}
+           
         }
 
         private void DataGridContaPagamento_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela();
-            janela.ShowDialog();
+            btEditar_Click(sender, e);
         }
     }
 }

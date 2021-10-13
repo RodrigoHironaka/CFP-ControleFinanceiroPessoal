@@ -3,52 +3,285 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:CFP.App.Formularios.ModeloBase.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Button x:Name="Botao1"
-                Margin="5" Grid.Column="0" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao2"
-                Margin="5" Grid.Column="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao3"
-                Margin="5" Grid.Column="2" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao4"
-                Margin="5" Grid.Column="3" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao5"
-                Margin="5" Grid.Column="4" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao6"
-                Margin="5" Grid.Column="0" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao7"
-                Margin="5" Grid.Column="1" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao8"
-                Margin="5" Grid.Column="2" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao9"
-                Margin="5" Grid.Column="3" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
-        <Button x:Name="Botao10"
-                Margin="5" Grid.Column="4" Grid.Row="1" Background="#FF1B3861" VerticalAlignment="Stretch" 
-                FontSize="16" Content="Botão1" Foreground="#FFFCF9F9" />
+    <Grid x:Name="GridGeral">
+
+        <Grid x:Name="GridBotoesCadastros"  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Button x:Name="btRelPessoa" 
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="0" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    ToolTip="Relatórios de Pessoas"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="PeopleAdd"
+                     Width="80"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="0" Grid.Row="1" 
+                Content="Pessoas" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btRelTipoRenda" 
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="1" Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    ToolTip="Relatórios de Rendas"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="Payment"
+                      Width="80"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="1" Grid.Row="1" 
+                Content="Rendas" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btRelUsuario"
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="2" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    ToolTip="Relatórios de Usuários"
+                     Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="UserAdd"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="2" Grid.Row="1" 
+                Content="Usuários" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btRelTipoGasto"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="3" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                     ToolTip="Relatórios de Gastos"
+                     Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="Group"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="3" Grid.Row="1" 
+                Content="Gastos" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btRelTipoSubGasto"
+               Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="4" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Relatórios de SubGastos"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="Group"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="4" Grid.Row="1" 
+                Content="SubGastos" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btRelFormaPagamento"
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="5" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                     ToolTip="Relatórios de Formas de Pagamento"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="CurrencyUsd"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="5" Grid.Row="1" 
+                Content="F. Pagamentos" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btRelBanco"
+                Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="6" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"  
+                     ToolTip="Relatórios de Bancos"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="Bank"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="6" Grid.Row="1" 
+                Content="Bancos" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btRelCaixa"
+                Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="1" Grid.Row="2" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Relatórios de Bancos"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="CashRegister"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="1" Grid.Row="2" 
+                Content="Caixa" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btRelCofre"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="2" Grid.Row="2" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Relatórios de Bancos"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="SafeSquare"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+                
+            </Button>
+            <Label 
+                Grid.Column="2" Grid.Row="2" 
+                Content="Cofre" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="BtRelConta"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="3" Grid.Row="2" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Relatórios de Bancos"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="AccountCash"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="3" Grid.Row="2" 
+                Content="Contas" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btRelHorasTrabalho"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="4" Grid.Row="2" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Relatórios de Bancos"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="PointOfSale"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="4" Grid.Row="2" 
+                Content="Hora Extra" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+ 
+        </Grid>
+        <StackPanel x:Name="panelCadastros" Width="auto" Height="auto" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>
