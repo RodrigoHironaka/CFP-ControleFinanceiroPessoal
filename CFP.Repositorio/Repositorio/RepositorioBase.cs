@@ -1,6 +1,8 @@
 ﻿using Dominio.Interfaces;
 using LinqKit;
 using NHibernate;
+using NHibernate.Criterion;
+using SGE.Repositorio.Configuracao;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -108,5 +110,6 @@ namespace Repositorio.Repositorios
         {
             return PredicateBuilder.True<T>();
         }
+
     }
 }

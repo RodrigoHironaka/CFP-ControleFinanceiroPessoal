@@ -6,6 +6,7 @@ using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
+using LinqKit;
 using NHibernate;
 using Repositorio.Repositorios;
 using System;
@@ -170,7 +171,6 @@ namespace CFP.App.Formularios.Financeiros
         public void LimpaCampos()
         {
             lblSituacao.Text = SituacaoConta.Aberto.ToString();
-            contaPagamento.Clear();
             btSalvar.Visibility = Visibility.Visible;
             btExcluir.Visibility = Visibility.Visible;
             foreach (var item in GridControls.Children)
@@ -437,6 +437,45 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
+        #region Metodo para salvar
+        private void Salvar()
+        {
+            if (ValidaCampos())
+            {
+                if (PreencheObjeto())
+                {
+                    if ((conta.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
+                    {
+                        conta.DataGeracao = DateTime.Now;
+                        conta.ContaPagamentos.ToList().ForEach(x => x.Conta = conta);
+                        Repositorio.Salvar(conta);
+                        PreencheObjetoComListaDadaGrid();
+                        txtCodigo.Text = conta.Id.ToString();
+                    }
+                    else
+                    {
+                        IList<ContaPagamento> novoContaPagamentos = new List<ContaPagamento>(conta.ContaPagamentos.Count);
+                        foreach (var item in (IList<ContaPagamento>)DataGridContaPagamento.ItemsSource)
+                            novoContaPagamentos.Add(item);
+
+                        conta.ContaPagamentos.Clear();
+
+                        foreach (var item in novoContaPagamentos)
+                        {
+                            if (item.Conta == null)
+                                item.Conta = this.conta;
+                            conta.ContaPagamentos.Add(item);
+                        }
+
+                        conta.DataAlteracao = DateTime.Now;
+                        Repositorio.Alterar(conta);
+                    }
+                }
+                DataGridContaPagamento.Items.Refresh();
+            }
+        }
+        #endregion
+
         #region Remove todos os itens da lista Conta Pagamento e do Banco
         private void RemoveTodosOsItensDaListaEBanco()
         {
@@ -562,6 +601,24 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
+        #region Filtro Situação Parcelas
+        private void FiltroSituacaoParcelas()
+        {
+             var predicado = RepositorioContaPagamento.CriarPredicado();
+            predicado = predicado.And(x => x.Conta.Id == conta.Id);
+            if ((bool)chkPagos.IsChecked)
+                predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Pago);
+            if ((bool)chkPendentes.IsChecked)
+                predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Pendente);
+            if ((bool)chkParciais.IsChecked)
+                predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Parcial);
+            if ((bool)chkCancelados.IsChecked)
+                predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Cancelado);
+            DataGridContaPagamento.ItemsSource = RepositorioContaPagamento.ObterPorParametros(predicado);
+
+        }
+        #endregion
+
         public UserControlContas(Conta _conta, ISession _session)
         {
             InitializeComponent();
@@ -596,21 +653,24 @@ namespace CFP.App.Formularios.Financeiros
         {
             if (e.Key == Key.Enter)
             {
-                // verifico se campo codigo esta preenchido para incluir novos dados ou carregar um existente
-                if (String.IsNullOrEmpty(txtCodigo.Text))
+                try
                 {
-                    conta = new Conta();
-                    LimpaCampos();
-                    cmbReferenciaPessoa.SelectedIndex = -1;
-                    //lblSituacao.Text = SituacaoConta.Aberto.ToString();
-                    VerificaTipoPeriodo();
-                    ControleAcessoCadastro();
-                    CorPadrãoBotaoPesquisar();
-                }
-                else
-                {
-                    try
+                    // verifico se campo codigo esta preenchido para incluir novos dados ou carregar um existente
+                    if (String.IsNullOrEmpty(txtCodigo.Text))
                     {
+                        #region Nova Conta
+                        conta = new Conta();
+                        LimpaCampos();
+                        PreencheDataGrid();
+                        cmbReferenciaPessoa.SelectedIndex = -1;
+                        VerificaTipoPeriodo();
+                        ControleAcessoCadastro();
+                        CorPadrãoBotaoPesquisar();
+                        #endregion
+                    }
+                    else
+                    {
+                        #region Conta existente
                         conta = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
                         if (conta != null)
                         {
@@ -626,11 +686,12 @@ namespace CFP.App.Formularios.Financeiros
                             txtCodigo.Focus();
                             btPesquisar.Background = Brushes.DarkRed;
                         }
+                        #endregion
                     }
-                    catch (Exception)
-                    {
-                        conta = null;
-                    }
+                }
+                catch (Exception)
+                {
+                    conta = null;
                 }
             }
         }
@@ -663,42 +724,10 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidaCampos())
-            {
-                if (PreencheObjeto())
-                {
-                    if ((conta.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
-                    {
-                        conta.DataGeracao = DateTime.Now;
-                        conta.ContaPagamentos.ToList().ForEach(x => x.Conta = conta);
-                        Repositorio.Salvar(conta);
-                        PreencheObjetoComListaDadaGrid();
-                        txtCodigo.Text = conta.Id.ToString();
-                    }
-                    else
-                    {
-                        IList<ContaPagamento> novoContaPagamentos = new List<ContaPagamento>(conta.ContaPagamentos.Count);
-                        foreach (var item in (IList<ContaPagamento>)DataGridContaPagamento.ItemsSource)
-                            novoContaPagamentos.Add(item);
-
-                        conta.ContaPagamentos.Clear();
-
-                        foreach (var item in novoContaPagamentos)
-                        {
-                            if (item.Conta == null)
-                                item.Conta = this.conta;
-                            conta.ContaPagamentos.Add(item);
-                        }
-
-                        conta.DataAlteracao = DateTime.Now;
-                        Repositorio.Alterar(conta);
-                    }
-
-                    ControleAcessoInicial();
-                    FocoNoCampoCodigo();
-                }
-            }
-
+            Salvar();
+            tabItemGeral.IsSelected = true;
+            ControleAcessoInicial();
+            FocoNoCampoCodigo();
         }
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
@@ -731,7 +760,6 @@ namespace CFP.App.Formularios.Financeiros
                     }
                 }
             }
-
         }
 
         private void cmbTipoPeriodo_LostFocus(object sender, RoutedEventArgs e)
@@ -797,57 +825,70 @@ namespace CFP.App.Formularios.Financeiros
                .OrderBy(x => x.Nome)
                .ToList<SubGrupoGasto>();
             }
-
         }
 
         private void btEditar_Click(object sender, RoutedEventArgs e)
         {
-            if (lblSituacao.Text != SituacaoConta.Cancelado.ToString() || lblSituacao.Text != SituacaoConta.Finalizado.ToString())
+            if(DataGridContaPagamento.SelectedItem != null)
             {
-                IList<ContaPagamento> linhasContaPagamento = new List<ContaPagamento>();
-                foreach (var selecao in DataGridContaPagamento.SelectedItems)
+                if (lblSituacao.Text != SituacaoConta.Cancelado.ToString() || lblSituacao.Text != SituacaoConta.Finalizado.ToString())
                 {
-                    linhasContaPagamento.Add((ContaPagamento)selecao);
-                }
-                foreach (var linha in linhasContaPagamento)
-                {
-                    if (linha.SituacaoParcelas != SituacaoParcela.Pendente && linha.SituacaoParcelas != SituacaoParcela.Parcial)
+                    IList<ContaPagamento> linhasContaPagamento = new List<ContaPagamento>();
+                    foreach (var selecao in DataGridContaPagamento.SelectedItems)
                     {
-                        MessageBox.Show("Situacao da parcela numero " + linha.Numero + " - " + linha.SituacaoParcelas + "!", "Mensagem", MessageBoxButton.OK, MessageBoxImage.Information);
-                        return;
-                    }
-                }
 
-                ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhasContaPagamento, Session);
-                janela.ShowDialog();
-                DataGridContaPagamento.Items.Refresh();
+                        linhasContaPagamento.Add((ContaPagamento)selecao);
+                    }
+                    foreach (var linha in linhasContaPagamento)
+                    {
+                        if (linha.SituacaoParcelas != SituacaoParcela.Pendente && linha.SituacaoParcelas != SituacaoParcela.Parcial)
+                        {
+                            MessageBox.Show("Situacao da parcela numero " + linha.Numero + " - " + linha.SituacaoParcelas + "!", "Mensagem", MessageBoxButton.OK, MessageBoxImage.Information);
+                            return;
+                        }
+                    }
+
+                    ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhasContaPagamento, Session);
+                    bool? res = janela.ShowDialog();
+                    if ((bool)res)
+                    {
+                        foreach (var parcelaAtualizada in janela.contaPagamentoAtualizado)
+                        {
+                            if (!linhasContaPagamento.Contains(parcelaAtualizada))
+                                contaPagamento.Add(parcelaAtualizada);
+                        }
+                    }
+                    DataGridContaPagamento.Items.Refresh();
+                    Salvar();
+                }
             }
+            else
+                MessageBox.Show("Selecione uma ou mais Parcelas!", "Mensagem", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void btCancelarParcela_Click(object sender, RoutedEventArgs e)
         {
-           
-                var selecao = DataGridContaPagamento.SelectedItem;
-                if (selecao != null)
+            var selecao = DataGridContaPagamento.SelectedItem;
+            if (selecao != null)
+            {
+                MessageBoxResult d = MessageBox.Show("Deseja cancelar esta Parcela?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (d == MessageBoxResult.Yes)
                 {
-                    MessageBoxResult d = MessageBox.Show("Deseja cancelar esta Parcela?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (d == MessageBoxResult.Yes)
+                    foreach (var item in conta.ContaPagamentos)
                     {
-                        foreach (var item in conta.ContaPagamentos)
+                        if (item == selecao)
                         {
-                            if (item == selecao)
-                            {
-                                item.SituacaoParcelas = SituacaoParcela.Cancelado;
-                                RepositorioContaPagamento.Alterar(item);
-                                break;
-                            }
+                            item.SituacaoParcelas = SituacaoParcela.Cancelado;
+                            RepositorioContaPagamento.Alterar(item);
+                            break;
                         }
-                        DataGridContaPagamento.Items.Refresh();
                     }
+                    DataGridContaPagamento.Items.Refresh();
                 }
-                else
-                    MessageBox.Show("Selecione uma parcela!", "Informativo", MessageBoxButton.OK, MessageBoxImage.Information);
-           
+            }
+            else
+                MessageBox.Show("Selecione uma parcela!", "Informativo", MessageBoxButton.OK, MessageBoxImage.Information);
+
         }
 
         private void DataGridContaPagamento_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -859,12 +900,32 @@ namespace CFP.App.Formularios.Financeiros
             //    MessageBox.Show(id.ValorParcela.ToString());
 
             //}
-           
+
         }
 
         private void DataGridContaPagamento_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             btEditar_Click(sender, e);
+        }
+
+        private void chkPagos_Checked(object sender, RoutedEventArgs e)
+        {
+            FiltroSituacaoParcelas();
+        }
+
+        private void chkPendentes_Checked(object sender, RoutedEventArgs e)
+        {
+            FiltroSituacaoParcelas();
+        }
+
+        private void chkParciais_Checked(object sender, RoutedEventArgs e)
+        {
+            FiltroSituacaoParcelas();
+        }
+
+        private void chkCancelados_Checked(object sender, RoutedEventArgs e)
+        {
+            FiltroSituacaoParcelas();
         }
     }
 }

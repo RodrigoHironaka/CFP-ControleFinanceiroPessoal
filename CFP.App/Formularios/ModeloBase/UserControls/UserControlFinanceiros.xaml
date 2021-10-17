@@ -29,7 +29,7 @@
                     Grid.Column="1" Grid.Row="1" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch" 
-                    ToolTip="Cadastro de Bancos"
+                    ToolTip="Visualização do Caixa"
                     Margin="10 0 10 0">
                 <materialDesign:PackIcon
                     Kind="CashRegister"
@@ -52,7 +52,7 @@
                     Grid.Column="2" Grid.Row="1" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch" 
-                    ToolTip="Cadastro de Bancos"
+                    ToolTip="Visualização do Cofre"
                     Margin="10 0 10 0">
                 <materialDesign:PackIcon
                     Kind="SafeSquare"
@@ -76,7 +76,7 @@
                     Grid.Column="3" Grid.Row="1" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch" 
-                    ToolTip="Cadastro de Bancos"
+                    ToolTip="Cadastro de Contas"
                     Margin="10 0 10 0"
                     Click="BtConta_Click">
                 <materialDesign:PackIcon
@@ -100,7 +100,7 @@
                     Grid.Column="4" Grid.Row="1" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch" 
-                    ToolTip="Cadastro de Bancos"
+                    ToolTip="Cadastro de Hora Extra"
                     Margin="10 0 10 0">
                 <materialDesign:PackIcon
                     Kind="PointOfSale"

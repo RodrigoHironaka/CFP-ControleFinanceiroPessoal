@@ -5,8 +5,10 @@ using NHibernate;
 using Repositorio.Repositorios;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,6 +28,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
     {
         ISession Session;
         IList<ContaPagamento> linhaContaPagemento;
+        public ObservableCollection<ContaPagamento> contaPagamentoAtualizado = new ObservableCollection<ContaPagamento>();
 
         #region Carrega Combos
         private void CarregaCombos()
@@ -34,7 +37,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
                .OrderBy(x => x.Nome)
                .ToList<FormaPagamento>();
-            cmbFormaPagamento.SelectedIndex = 0;
+            cmbFormaPagamento.SelectedItem = 0;
         }
         #endregion
 
@@ -49,7 +52,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 somaValorParcela = somaValorParcela + linha.ValorParcela;
 
                 txtCodigoConta.Text = linha.Conta.Id.ToString();
-                txtNumeroParcela.Text =  numParcela;
+                txtNumeroParcela.Text = numParcela;
                 txtValorParcela.Text = somaValorParcela.ToString("N2");
                 txtDataPagamento.SelectedDate = linha.DataPagamento != null ? linha.DataPagamento : DateTime.Now;
                 txtJurosPorcentagem.Text = linha.JurosPorcentual != 0 ? linha.JurosPorcentual.ToString("N3") : string.Empty;
@@ -59,9 +62,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 txtValorReajustado.Text = linha.ValorReajustado != 0 ? linha.ValorReajustado.ToString("N2") : txtValorParcela.Text;
                 txtValorPago.Text = linha.ValorPago != 0 ? linha.ValorPago.ToString("N2") : string.Empty;
                 txtValorRestante.Text = linha.ValorRestante != 0 ? linha.ValorRestante.ToString("N2") : string.Empty;
-                cmbFormaPagamento.SelectedValue = linha.FormaPagamento;
+                cmbFormaPagamento.SelectedIndex = 0;
             }
-            
+
         }
         #endregion
 
@@ -133,40 +136,52 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         #endregion
 
         #region Preenche Objeto para salvar
+       DateTime dataVencimento = DateTime.Now;
         private bool PreencheObjeto()
         {
+            var qtdlinhaSelecionadas = linhaContaPagemento.Count();
+            var valorPago = Decimal.Parse(txtValorPago.Text);
             try
             {
-                if(linhaContaPagemento.Count > 0)
+                if (qtdlinhaSelecionadas > 0)
                 {
-                    foreach (var linha in linhaContaPagemento)
+                    foreach (var linha in linhaContaPagemento.OrderBy(x => x.Numero))
                     {
                         linha.DataPagamento = txtDataPagamento.SelectedDate;
-                        if (linhaContaPagemento.Count() == 1)
+                        linha.FormaPagamento = (FormaPagamento)cmbFormaPagamento.SelectedItem;
+                        if (qtdlinhaSelecionadas == 1)
                         {
                             linha.JurosPorcentual = txtJurosPorcentagem.Text != string.Empty ? Decimal.Parse(txtJurosPorcentagem.Text) : 0;
                             linha.JurosValor = txtJurosValor.Text != string.Empty ? Decimal.Parse(txtJurosValor.Text) : 0;
                             linha.DescontoPorcentual = txtDescontoPorcentagem.Text != string.Empty ? Decimal.Parse(txtDescontoPorcentagem.Text) : 0;
                             linha.DescontoValor = txtDescontoValor.Text != string.Empty ? Decimal.Parse(txtDescontoValor.Text) : 0;
-                            linha.ValorReajustado = txtValorReajustado.Text != string.Empty ? Decimal.Parse(txtValorReajustado.Text) : 0;
-                            linha.ValorPago = txtValorPago.Text != string.Empty ? Decimal.Parse(txtValorPago.Text) : 0;
-                            linha.ValorRestante = txtValorRestante.Text != string.Empty ? Decimal.Parse(txtValorRestante.Text) : 0;
                         }
                         else
                         {
-                            linha.JurosPorcentual = txtJurosPorcentagem.Text != string.Empty ? Decimal.Parse(txtJurosPorcentagem.Text) / 2 : 0;
-                            linha.JurosValor = txtJurosValor.Text != string.Empty ? Decimal.Parse(txtJurosValor.Text) / 2 : 0;
-                            linha.DescontoPorcentual = txtDescontoPorcentagem.Text != string.Empty ? Decimal.Parse(txtDescontoPorcentagem.Text) / 2 : 0;
-                            linha.DescontoValor = txtDescontoValor.Text != string.Empty ? Decimal.Parse(txtDescontoValor.Text) / 2 : 0;
-                            linha.ValorReajustado = txtValorReajustado.Text != string.Empty ? Decimal.Parse(txtValorReajustado.Text) / 2 : 0;
-                            linha.ValorPago = txtValorPago.Text != string.Empty ? Decimal.Parse(txtValorPago.Text) / 2 : 0;
-                            linha.ValorRestante = txtValorRestante.Text != string.Empty ? Decimal.Parse(txtValorRestante.Text) / 2 : 0;
+                            linha.JurosPorcentual = txtJurosPorcentagem.Text != string.Empty ? Decimal.Parse(txtJurosPorcentagem.Text) / qtdlinhaSelecionadas : 0;
+                            linha.JurosValor = txtJurosValor.Text != string.Empty ? Decimal.Parse(txtJurosValor.Text) / qtdlinhaSelecionadas : 0;
+                            linha.DescontoPorcentual = txtDescontoPorcentagem.Text != string.Empty ? Decimal.Parse(txtDescontoPorcentagem.Text) / qtdlinhaSelecionadas : 0;
+                            linha.DescontoValor = txtDescontoValor.Text != string.Empty ? Decimal.Parse(txtDescontoValor.Text) / qtdlinhaSelecionadas : 0;
+
                         }
-                        if (txtValorRestante.Text == string.Empty || txtValorRestante.Equals(0))
-                            linha.SituacaoParcelas = SituacaoParcela.Pago;
+                        var parcela = linha.ValorParcela + linha.JurosValor - linha.DescontoValor;
+
+                        decimal res = 0;
+                        if (valorPago >= parcela)
+                        {
+                            valorPago -= parcela;
+                            linha.ValorReajustado = txtValorReajustado.Text != string.Empty ? parcela : 0;
+                            linha.ValorPago = txtValorPago.Text != string.Empty ? parcela : 0;
+                            linha.ValorRestante = 0;
+                        }
                         else
-                            linha.SituacaoParcelas = SituacaoParcela.Parcial;
-                        linha.FormaPagamento = (FormaPagamento)cmbFormaPagamento.SelectedItem;
+                        {
+                            res = parcela - valorPago;
+                            linha.ValorReajustado = txtValorReajustado.Text != string.Empty ? parcela : 0;
+                            linha.ValorPago = txtValorPago.Text != string.Empty ? valorPago : 0;
+                            linha.ValorRestante = res;
+                            dataVencimento = linha.DataVencimento.Value;
+                        }
                     }
                     return true;
                 }
@@ -265,7 +280,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            if(String.IsNullOrEmpty(txtValorPago.Text))
+            if (String.IsNullOrEmpty(txtValorPago.Text))
             {
                 MessageBox.Show("Digite o valor Pago!", "Mensagem", MessageBoxButton.OK, MessageBoxImage.Information);
                 txtValorPago.SelectAll();
@@ -283,7 +298,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 txtDataPagamento.Focus();
                 return;
             }
-            if(cmbFormaPagamento.SelectedItem == null)
+            if (cmbFormaPagamento.SelectedItem == null)
             {
                 MessageBox.Show("Defina a forma de pagamento!", "Mensagem", MessageBoxButton.OK, MessageBoxImage.Information);
                 cmbFormaPagamento.Focus();
@@ -292,12 +307,80 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
             if (PreencheObjeto())
             {
-                foreach (var item in linhaContaPagemento)
+                var numeroUltimaParcela = 0;
+                foreach (var item in linhaContaPagemento.OrderBy(x => x.Numero))
                 {
-                    new RepositorioContaPagamento(Session).Alterar(item);
+                    numeroUltimaParcela = item.Conta.ContaPagamentos.Count() + 1;
+                    item.SituacaoParcelas = SituacaoParcela.Pago;
+                    contaPagamentoAtualizado.Add(item);
                 }
+                if (!String.IsNullOrEmpty(txtValorRestante.Text))
+                {
+                    contaPagamentoAtualizado.Add(new ContaPagamento()
+                    {
+                        SituacaoParcelas = SituacaoParcela.Parcial,
+                        Numero = numeroUltimaParcela,
+                        ValorParcela = Decimal.Parse(txtValorRestante.Text),
+                        DataVencimento = dataVencimento
+                    });
+                }
+                this.DialogResult = true;
             }
-            this.Close();
+        }
+
+        private void txtJurosPorcentagem_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+        }
+
+        private void txtJurosValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+        }
+
+        private void txtDescontoPorcentagem_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+        }
+
+        private void txtDescontoValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+        }
+
+        private void txtValorPago_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+        }
+
+        private void txtJurosPorcentagem_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void txtJurosValor_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void txtDescontoPorcentagem_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void txtDescontoValor_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void txtValorPago_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
         }
     }
 }

@@ -49,10 +49,10 @@
             </Button>
             <Button x:Name="btSalvar"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
-                    Height="Auto" Width="60" 
+                    Height="60" Width="60" 
                     Background="#FF1F3D68" 
-                    Margin="0,5,137,5.4"
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click" TabIndex="15">
+                    Margin="0,5,137,0"
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click" TabIndex="7" VerticalAlignment="Top">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -132,7 +132,7 @@
                                 FontSize="18"
                                 Foreground="#FF1F3D68" 
                                 VerticalAlignment="Stretch"
-                                LostFocus="cmbTipoPeriodo_LostFocus" TabIndex="3"
+                                LostFocus="cmbTipoPeriodo_LostFocus" TabIndex="2"
                                 Margin="10 0 0 0" />
                             </Grid>
 
@@ -151,7 +151,7 @@
                                     FontSize="18"
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch"
-                                    TabIndex="2" LostFocus="cmbTipoGasto_LostFocus"/>
+                                    TabIndex="3" LostFocus="cmbTipoGasto_LostFocus"/>
 
                                 <ComboBox
                                     x:Name="cmbTipoSubGasto"
@@ -162,7 +162,7 @@
                                     FontSize="18"
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch"
-                                    TabIndex="2"
+                                    TabIndex="4"
                                     Margin="10 0 0 0"/>
 
                                 <ComboBox 
@@ -174,7 +174,7 @@
                                      FontSize="18"
                                      Foreground="#FF1F3D68" 
                                      VerticalAlignment="Stretch"
-                                     TabIndex="13" Margin="10,0,0,0"/>
+                                     TabIndex="5" Margin="10,0,0,0"/>
                             </Grid>
 
                             <Grid x:Name="GridRow3" Grid.Row="3">
@@ -192,7 +192,7 @@
                                 FontSize="18" 
                                 Foreground="#FF1F3D68"
                                 VerticalAlignment="Stretch"
-                                TabIndex="5"/>
+                                TabIndex="6"/>
 
                                 <DatePicker
                                      x:Name="txtPrimeiroVencimento"
@@ -203,7 +203,7 @@
                                      FontSize="18"
                                      Foreground="#FF1F3D68"
                                      VerticalAlignment="Stretch" 
-                                     Margin="10 0 0 0 " TabIndex="6" 
+                                     Margin="10 0 0 0 " TabIndex="7" 
                                     LostFocus="txtPrimeiroVencimento_LostFocus"/>
                             </Grid>
 
@@ -223,7 +223,7 @@
                                     FontSize="18"
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch" 
-                                    TabIndex="7" 
+                                    TabIndex="8" 
                                     PreviewTextInput="txtValorTotal_PreviewTextInput" PreviewKeyDown="txtValorTotal_PreviewKeyDown" 
                                     />
 
@@ -235,7 +235,7 @@
                                     Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                                     Background="#FF1F3D68"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Stretch" IsEnabled="False" TabIndex="8" Click="btGerarParcelas_Click" >
+                                    HorizontalAlignment="Stretch" IsEnabled="False" TabIndex="10" Click="btGerarParcelas_Click" >
                                     <materialDesign:PackIcon 
                                         Kind="Money"  
                                         Width="30" 
@@ -296,7 +296,7 @@
                                      TextWrapping="Wrap"
                                      AcceptsReturn="True"
                                      VerticalScrollBarVisibility="Visible" 
-                                     MaxLength="400" TabIndex="17"/>
+                                     MaxLength="400" TabIndex="13"/>
                         </Grid>
 
                     </TabItem>
@@ -326,7 +326,7 @@
                                     Height="60" Width="60" 
                                     Background="#FF1F3D68"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btEditar_Click" >
+                                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btEditar_Click" TabIndex="0" >
                                     <materialDesign:PackIcon 
                                         Kind="CashCheck"  
                                         Width="50" 
@@ -340,7 +340,7 @@
                                     Height="60" Width="60" 
                                     Background="#FF1F3D68"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btCancelarParcela_Click"  >
+                                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btCancelarParcela_Click" TabIndex="1"  >
                                     <materialDesign:PackIcon 
                                         Kind="CashRemove"  
                                         Width="50" 
@@ -358,7 +358,7 @@
                                           FontSize="15"
                                           Foreground="White"
                                           VerticalAlignment="Center"
-                                              HorizontalAlignment="Center">
+                                              HorizontalAlignment="Center" TabIndex="3" Checked="chkPendentes_Checked">
                                     </CheckBox>
                                     <Label x:Name="lblTotalPendentes" Content="000.000,00"
                                            Grid.Row="1"
@@ -384,7 +384,7 @@
                                           FontSize="15"
                                           Foreground="White"
                                           VerticalAlignment="Center"
-                                              HorizontalAlignment="Center">
+                                              HorizontalAlignment="Center" TabIndex="2" Checked="chkPagos_Checked">
 
                                     </CheckBox>
                                     <Label x:Name="lblTotalPagos" Content="000.000,00"
@@ -411,7 +411,7 @@
                                           FontSize="15"
                                           Foreground="White"
                                           VerticalAlignment="Center"
-                                              HorizontalAlignment="Center">
+                                              HorizontalAlignment="Center" TabIndex="4" Checked="chkParciais_Checked">
                                     </CheckBox>
                                     <Label x:Name="lblTotalParceiais" Content="000.000,00"
                                            Grid.Row="1"
@@ -436,7 +436,7 @@
                                           FontSize="15"
                                           Foreground="White"
                                           VerticalAlignment="Center"
-                                              HorizontalAlignment="Center">
+                                              HorizontalAlignment="Center" TabIndex="5" Checked="chkCancelados_Checked">
                                     </CheckBox>
                                     <Label x:Name="lblTotalCancelados" Content="000.000,00"
                                            Grid.Row="1"
@@ -449,10 +449,10 @@
 
                                     </Label>
                                 </Grid>
-                             
+
                             </Grid>
                             <Grid x:Name="GridListaDataGrid" Grid.Row="1">
-                                <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" CellEditEnding="DataGridContaPagamento_CellEditEnding" IsReadOnly="True" MouseDoubleClick="DataGridContaPagamento_MouseDoubleClick">
+                                <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" CellEditEnding="DataGridContaPagamento_CellEditEnding" IsReadOnly="True" MouseDoubleClick="DataGridContaPagamento_MouseDoubleClick" TabIndex="6">
                                     <DataGrid.Columns>
 
                                         <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoParcelas}" />
