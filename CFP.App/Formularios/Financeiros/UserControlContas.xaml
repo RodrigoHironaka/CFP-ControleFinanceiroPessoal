@@ -452,7 +452,13 @@
 
                             </Grid>
                             <Grid x:Name="GridListaDataGrid" Grid.Row="1">
-                                <DataGrid x:Name="DataGridContaPagamento"  AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" CellEditEnding="DataGridContaPagamento_CellEditEnding" IsReadOnly="True" MouseDoubleClick="DataGridContaPagamento_MouseDoubleClick" TabIndex="6">
+                                <DataGrid x:Name="DataGridContaPagamento"  
+                                          AutoGenerateColumns="False" 
+                                          VerticalScrollBarVisibility="Auto" 
+                                          CellEditEnding="DataGridContaPagamento_CellEditEnding" 
+                                          IsReadOnly="True" 
+                                          MouseDoubleClick="DataGridContaPagamento_MouseDoubleClick" 
+                                          TabIndex="6">
                                     <DataGrid.Columns>
 
                                         <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoParcelas}" />

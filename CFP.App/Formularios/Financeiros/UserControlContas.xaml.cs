@@ -604,10 +604,14 @@ namespace CFP.App.Formularios.Financeiros
         #region Filtro Situação Parcelas
         private void FiltroSituacaoParcelas()
         {
-             var predicado = RepositorioContaPagamento.CriarPredicado();
+            var predicado = RepositorioContaPagamento.CriarPredicado();
             predicado = predicado.And(x => x.Conta.Id == conta.Id);
             if ((bool)chkPagos.IsChecked)
+            {
                 predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Pago);
+                
+            }
+                
             if ((bool)chkPendentes.IsChecked)
                 predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Pendente);
             if ((bool)chkParciais.IsChecked)

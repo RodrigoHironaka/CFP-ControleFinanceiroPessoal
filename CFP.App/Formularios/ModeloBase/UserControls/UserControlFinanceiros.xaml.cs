@@ -51,5 +51,11 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
             panelCadastros.Children.Clear();
             panelCadastros.Children.Add(new UserControlContas(new Conta(), Session));
         }
+
+        private void btCaixa_Click(object sender, RoutedEventArgs e)
+        {
+            panelCadastros.Children.Clear();
+            panelCadastros.Children.Add(new UserControlCaixa(new Caixa(), Session));
+        }
     }
 }

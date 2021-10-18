@@ -134,6 +134,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Financeiros\UserControlCaixa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Financeiros\UserControlContas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -231,6 +235,9 @@
     </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmacaoPagamentoParcela.xaml.cs">
       <DependentUpon>ConfirmacaoPagamentoParcela.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Financeiros\UserControlCaixa.xaml.cs">
+      <DependentUpon>UserControlCaixa.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Financeiros\UserControlContas.xaml.cs">
       <DependentUpon>UserControlContas.xaml</DependentUpon>

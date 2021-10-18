@@ -13,9 +13,9 @@ namespace Dominio.Dominio
         public virtual DateTime DataAbertura { get; set; }
         public virtual DateTime DataFechamento { get; set; }
         public virtual Pessoa Pessoa { get; set; }
-        public virtual Double TotalEntrada { get; set; }
-        public virtual Double TotalSaida { get; set; }
-        public virtual Double BalançoFinal { get; set; }
+        public virtual Decimal TotalEntrada { get; set; }
+        public virtual Decimal TotalSaida { get; set; }
+        public virtual Decimal BalançoFinal { get; set; }
         public virtual SituacaoCaixa Situacao { get; set; }
 
     }
