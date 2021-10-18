@@ -358,9 +358,11 @@
                                           FontSize="15"
                                           Foreground="White"
                                           VerticalAlignment="Center"
-                                              HorizontalAlignment="Center" TabIndex="3" Checked="chkPendentes_Checked">
+                                              HorizontalAlignment="Center" 
+                                              TabIndex="3"
+                                              Click="chkPendentes_Click">
                                     </CheckBox>
-                                    <Label x:Name="lblTotalPendentes" Content="000.000,00"
+                                    <Label x:Name="lblTotalPendentes" Content="R$ 0,00"
                                            Grid.Row="1"
                                            Style="{StaticResource MaterialDesignLabel}"
                                             FontFamily="Champagne &amp; Limousines" 
@@ -384,10 +386,11 @@
                                           FontSize="15"
                                           Foreground="White"
                                           VerticalAlignment="Center"
-                                              HorizontalAlignment="Center" TabIndex="2" Checked="chkPagos_Checked">
+                                              HorizontalAlignment="Center" 
+                                              TabIndex="2" Click="chkPagos_Click">
 
                                     </CheckBox>
-                                    <Label x:Name="lblTotalPagos" Content="000.000,00"
+                                    <Label x:Name="lblTotalPagos" Content="R$ 0,00"
                                            Grid.Row="1"
                                            Style="{StaticResource MaterialDesignLabel}"
                                             FontFamily="Champagne &amp; Limousines" 
@@ -411,9 +414,10 @@
                                           FontSize="15"
                                           Foreground="White"
                                           VerticalAlignment="Center"
-                                              HorizontalAlignment="Center" TabIndex="4" Checked="chkParciais_Checked">
+                                              HorizontalAlignment="Center" TabIndex="4" 
+                                              Click="chkParciais_Click">
                                     </CheckBox>
-                                    <Label x:Name="lblTotalParceiais" Content="000.000,00"
+                                    <Label x:Name="lblTotalParceiais" Content="R$ 0,00"
                                            Grid.Row="1"
                                            Style="{StaticResource MaterialDesignLabel}"
                                             FontFamily="Champagne &amp; Limousines" 
@@ -436,9 +440,11 @@
                                           FontSize="15"
                                           Foreground="White"
                                           VerticalAlignment="Center"
-                                              HorizontalAlignment="Center" TabIndex="5" Checked="chkCancelados_Checked">
+                                              HorizontalAlignment="Center" 
+                                              TabIndex="5"  
+                                              Click="chkCancelados_Click">
                                     </CheckBox>
-                                    <Label x:Name="lblTotalCancelados" Content="000.000,00"
+                                    <Label x:Name="lblTotalCancelados" Content="R$ 0,00"
                                            Grid.Row="1"
                                            Style="{StaticResource MaterialDesignLabel}"
                                             FontFamily="Champagne &amp; Limousines" 

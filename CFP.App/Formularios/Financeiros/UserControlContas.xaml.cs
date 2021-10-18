@@ -173,6 +173,10 @@ namespace CFP.App.Formularios.Financeiros
             lblSituacao.Text = SituacaoConta.Aberto.ToString();
             btSalvar.Visibility = Visibility.Visible;
             btExcluir.Visibility = Visibility.Visible;
+            lblTotalPagos.Content = "R$ 0,00";
+            lblTotalPendentes.Content = "R$ 0,00";
+            lblTotalParceiais.Content = "R$ 0,00";
+            lblTotalCancelados.Content = "R$ 0,00";
             foreach (var item in GridControls.Children)
             {
                 if (item is TabControl)
@@ -604,22 +608,40 @@ namespace CFP.App.Formularios.Financeiros
         #region Filtro Situação Parcelas
         private void FiltroSituacaoParcelas()
         {
+            IList<SituacaoParcela> situacaoParcela = new List<SituacaoParcela>();
+
             var predicado = RepositorioContaPagamento.CriarPredicado();
             predicado = predicado.And(x => x.Conta.Id == conta.Id);
-            if ((bool)chkPagos.IsChecked)
-            {
-                predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Pago);
-                
-            }
-                
-            if ((bool)chkPendentes.IsChecked)
-                predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Pendente);
-            if ((bool)chkParciais.IsChecked)
-                predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Parcial);
-            if ((bool)chkCancelados.IsChecked)
-                predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Cancelado);
-            DataGridContaPagamento.ItemsSource = RepositorioContaPagamento.ObterPorParametros(predicado);
 
+            if ((bool)chkPagos.IsChecked)
+                situacaoParcela.Add(SituacaoParcela.Pago);
+            else
+                situacaoParcela.Remove(SituacaoParcela.Pago);
+            if ((bool)chkPendentes.IsChecked)
+                situacaoParcela.Add(SituacaoParcela.Pendente);
+            else
+                situacaoParcela.Remove(SituacaoParcela.Pendente);
+            if ((bool)chkParciais.IsChecked)
+                situacaoParcela.Add(SituacaoParcela.Parcial);
+            else
+                situacaoParcela.Remove(SituacaoParcela.Parcial);
+            if ((bool)chkCancelados.IsChecked)
+                situacaoParcela.Add(SituacaoParcela.Cancelado);
+            else
+                situacaoParcela.Remove(SituacaoParcela.Cancelado);
+
+            predicado = predicado.And(x => situacaoParcela.Contains(x.SituacaoParcelas));
+            DataGridContaPagamento.ItemsSource = RepositorioContaPagamento.ObterPorParametros(predicado);
+        }
+        #endregion
+
+        #region Calculo total Por situacao das parcelas
+        public void CalculoTotalPorSituacaoParcela()
+        {
+            lblTotalPagos.Content = String.Format("R$ {0}", conta.ContaPagamentos.Where(x => x.SituacaoParcelas == SituacaoParcela.Pago).Sum(x => x.ValorPago).ToString("N2"));
+            lblTotalPendentes.Content = String.Format("R$ {0}", conta.ContaPagamentos.Where(x => x.SituacaoParcelas == SituacaoParcela.Pendente).Sum(x => x.ValorParcela).ToString("N2"));
+            lblTotalParceiais.Content = String.Format("R$ {0}", conta.ContaPagamentos.Where(x => x.SituacaoParcelas == SituacaoParcela.Parcial).Sum(x => x.ValorParcela).ToString("N2"));
+            lblTotalCancelados.Content = String.Format("R$ {0}", conta.ContaPagamentos.Where(x => x.SituacaoParcelas == SituacaoParcela.Cancelado).Sum(x => x.ValorParcela).ToString("N2"));
         }
         #endregion
 
@@ -683,6 +705,7 @@ namespace CFP.App.Formularios.Financeiros
                             ControleAcessoCadastro();
                             CorPadrãoBotaoPesquisar();
                             VerificandoSituacaoConta();
+                            CalculoTotalPorSituacaoParcela();
                         }
                         else
                         {
@@ -723,6 +746,7 @@ namespace CFP.App.Formularios.Financeiros
                 ControleAcessoCadastro();
                 CorPadrãoBotaoPesquisar();
                 VerificandoSituacaoConta();
+                CalculoTotalPorSituacaoParcela();
             }
         }
 
@@ -912,22 +936,22 @@ namespace CFP.App.Formularios.Financeiros
             btEditar_Click(sender, e);
         }
 
-        private void chkPagos_Checked(object sender, RoutedEventArgs e)
+        private void chkPagos_Click(object sender, RoutedEventArgs e)
         {
             FiltroSituacaoParcelas();
         }
 
-        private void chkPendentes_Checked(object sender, RoutedEventArgs e)
+        private void chkPendentes_Click(object sender, RoutedEventArgs e)
         {
             FiltroSituacaoParcelas();
         }
 
-        private void chkParciais_Checked(object sender, RoutedEventArgs e)
+        private void chkParciais_Click(object sender, RoutedEventArgs e)
         {
             FiltroSituacaoParcelas();
         }
 
-        private void chkCancelados_Checked(object sender, RoutedEventArgs e)
+        private void chkCancelados_Click(object sender, RoutedEventArgs e)
         {
             FiltroSituacaoParcelas();
         }
