@@ -606,8 +606,8 @@
                                         FontFamily="Champagne &amp; Limousines"
                                         Content="Lista"/>
                                 </Grid>
-                                <!--<Grid Grid.Column="1"  Margin="5 5 10 5">
-                                    <ItemsControl x:Name="ListaArquivos">
+                                <Grid Grid.Column="1"  Margin="5 5 10 5">
+                                    <!--<ItemsControl x:Name="ListaArquivos">
                                         <TextBlock
                                              Text="Lista de Arquivos"
                                              Background="#FF1F3D68"
@@ -615,15 +615,15 @@
                                              FontFamily="Champagne &amp; Limousines"
                                              FontSize="20"
                                              FontWeight="SemiBold"/>
-                                    </ItemsControl>
-                                    --><!--<ListView x:Name="lstImagens" 
+                                    </ItemsControl>-->
+                                    <ListView x:Name="lstArquivos" 
                                               FontFamily="Champagne &amp; Limousines" 
                                               FontSize="15" 
                                               Foreground="#FF1F3D68"
-                                              Style="{StaticResource MaterialDesignChoiceChipAccentListBox}">
+                                              Style="{StaticResource MaterialDesignChoiceChipListBox}">
                                         
-                                    </ListView>--><!--
-                                </Grid>-->
+                                    </ListView>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </TabItem>

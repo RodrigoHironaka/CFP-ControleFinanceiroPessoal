@@ -25,26 +25,26 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             InitializeComponent();
         }
 
-        public string FileName
-        {
-            get { return (string)GetValue(FileNameProperty); }
-            set { SetValue(FileNameProperty, value); }
-        }
+        //public string FileName
+        //{
+        //    get { return (string)GetValue(FileNameProperty); }
+        //    set { SetValue(FileNameProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for FileName.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty FileNameProperty =
-            DependencyProperty.Register("FileName", typeof(string), typeof(UserControlCarregaArquivos));
+        //// Using a DependencyProperty as the backing store for FileName.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty FileNameProperty =
+        //    DependencyProperty.Register("FileName", typeof(string), typeof(UserControlCarregaArquivos));
 
        
-        public int UploadProgress
-        {
-            get { return (int)GetValue(UploadProgressProperty); }
-            set { SetValue(UploadProgressProperty, value); }
-        }
+        //public int UploadProgress
+        //{
+        //    get { return (int)GetValue(UploadProgressProperty); }
+        //    set { SetValue(UploadProgressProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for UploadProgress.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty UploadProgressProperty =
-            DependencyProperty.Register("UploadProgress", typeof(int), typeof(UserControlCarregaArquivos));
+        //// Using a DependencyProperty as the backing store for UploadProgress.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty UploadProgressProperty =
+        //    DependencyProperty.Register("UploadProgress", typeof(int), typeof(UserControlCarregaArquivos));
 
        
     }

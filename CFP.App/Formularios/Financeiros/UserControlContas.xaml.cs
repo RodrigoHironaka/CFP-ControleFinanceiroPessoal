@@ -968,6 +968,7 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btBuscarArquivos_Click(object sender, RoutedEventArgs e)
         {
+            //List<string> img = new List<string>();
             OpenFileDialog openFileDialog = new OpenFileDialog() { Multiselect = true };
             bool? response = openFileDialog.ShowDialog();
             if (response == true)
@@ -980,11 +981,7 @@ namespace CFP.App.Formularios.Financeiros
                 {
                     string filename = System.IO.Path.GetFileName(files[i]);
                     FileInfo fileInfo = new FileInfo(files[i]);
-                    ListaArquivos.Items.Add(new UserControlCarregaArquivos()
-                    {
-                        FileName = filename,
-                        UploadProgress = 100
-                    });
+                    lstArquivos.Items.Add(filename);
                 }
             }
         }
