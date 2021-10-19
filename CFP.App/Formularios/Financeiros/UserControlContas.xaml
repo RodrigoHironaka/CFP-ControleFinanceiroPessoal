@@ -360,7 +360,7 @@
                                           VerticalAlignment="Center"
                                               HorizontalAlignment="Center" 
                                               TabIndex="3"
-                                              Click="chkPendentes_Click">
+                                              Click="chkPendentes_Click" IsChecked="True">
                                     </CheckBox>
                                     <Label x:Name="lblTotalPendentes" Content="R$ 0,00"
                                            Grid.Row="1"
@@ -415,7 +415,7 @@
                                           Foreground="White"
                                           VerticalAlignment="Center"
                                               HorizontalAlignment="Center" TabIndex="4" 
-                                              Click="chkParciais_Click">
+                                              Click="chkParciais_Click" IsChecked="True">
                                     </CheckBox>
                                     <Label x:Name="lblTotalParceiais" Content="R$ 0,00"
                                            Grid.Row="1"
@@ -547,7 +547,7 @@
                                         Height="60" Width="60" 
                                         Background="#FF1F3D68" 
                                         VerticalAlignment="Stretch" 
-                                        BorderBrush="#FF1F3D68" Margin="0,10,12.4,10" HorizontalAlignment="Right">
+                                        BorderBrush="#FF1F3D68" Margin="0,10,12.4,10" HorizontalAlignment="Right" Click="btBuscarArquivos_Click">
                                     <materialDesign:PackIcon 
                                         Kind="Upload"  
                                         Width="50" 
@@ -557,31 +557,73 @@
 
                             <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <Grid Grid.Column="0"
                                       Margin="10">
-                                    <ItemsControl x:Name="lstArquivos">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                       
+                                    </Grid.RowDefinitions>
+                                    <Button x:Name="btIconesGrandes"
+                                        Grid.Row="0"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"
+                                        Background="#FF1F3D68" 
+                                        BorderBrush="#FF1F3D68"
+                                        Margin="0" Height="Auto"
+                                        FontFamily="Champagne &amp; Limousines"
+                                        Content="Ícones Grandes"/>
+
+                                    <Button x:Name="btIconesPequenos"
+                                        Grid.Row="1"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"
+                                        Background="#FF1F3D68" 
+                                        BorderBrush="#FF1F3D68"
+                                        Margin="0" Height="Auto"
+                                        FontFamily="Champagne &amp; Limousines"
+                                        Content="Ícones Pequenos"/>
+
+                                    <Button x:Name="btLadoALado"
+                                        Grid.Row="2"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"
+                                        Background="#FF1F3D68" 
+                                        BorderBrush="#FF1F3D68"
+                                        Margin="0" Height="Auto"
+                                        FontFamily="Champagne &amp; Limousines"
+                                        Content="Lado a Lado"/>
+
+                                    <Button x:Name="btLista"
+                                        Grid.Row="3"
+                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"
+                                        Background="#FF1F3D68" 
+                                        BorderBrush="#FF1F3D68"
+                                        Margin="0" Height="Auto"
+                                        FontFamily="Champagne &amp; Limousines"
+                                        Content="Lista"/>
+                                </Grid>
+                                <!--<Grid Grid.Column="1"  Margin="5 5 10 5">
+                                    <ItemsControl x:Name="ListaArquivos">
                                         <TextBlock
                                              Text="Lista de Arquivos"
-                                             FontFamily="Champagne &amp; Limousines" 
+                                             Background="#FF1F3D68"
+                                             Foreground="White"
+                                             FontFamily="Champagne &amp; Limousines"
                                              FontSize="20"
                                              FontWeight="SemiBold"/>
-                                        <StackPanel Background="Green">
-                                            <ListView  Height="270"></ListView>
-                                        </StackPanel>
                                     </ItemsControl>
-                                </Grid>
-                                <Grid Grid.Column="1" Background="Purple" Margin="10">
-                                    <TextBlock
-                                             Text="Imagem"
-                                             FontFamily="Champagne &amp; Limousines" 
-                                             FontSize="20"
-                                             FontWeight="SemiBold"/>
-                                    <!--Imagem-->
-                                </Grid>
+                                    --><!--<ListView x:Name="lstImagens" 
+                                              FontFamily="Champagne &amp; Limousines" 
+                                              FontSize="15" 
+                                              Foreground="#FF1F3D68"
+                                              Style="{StaticResource MaterialDesignChoiceChipAccentListBox}">
+                                        
+                                    </ListView>--><!--
+                                </Grid>-->
                             </Grid>
                         </Grid>
                     </TabItem>

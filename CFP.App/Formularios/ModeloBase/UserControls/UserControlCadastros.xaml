@@ -26,7 +26,6 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-          
             <Button x:Name="btPessoa" 
                     Style="{StaticResource MaterialDesignFlatButton}" 
                     Height="auto" Width="auto"

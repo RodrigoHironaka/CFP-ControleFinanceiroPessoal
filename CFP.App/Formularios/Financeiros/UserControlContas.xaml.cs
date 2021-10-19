@@ -7,12 +7,14 @@ using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
 using LinqKit;
+using Microsoft.Win32;
 using NHibernate;
 using Repositorio.Repositorios;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -672,7 +674,6 @@ namespace CFP.App.Formularios.Financeiros
             ControleAcessoInicial();
             CarregaCombos();
             PreencheDataGrid();
-
         }
 
         private void txtCodigo_KeyDown(object sender, KeyEventArgs e)
@@ -705,6 +706,7 @@ namespace CFP.App.Formularios.Financeiros
                             ControleAcessoCadastro();
                             CorPadrãoBotaoPesquisar();
                             VerificandoSituacaoConta();
+                            FiltroSituacaoParcelas();
                             CalculoTotalPorSituacaoParcela();
                         }
                         else
@@ -746,6 +748,7 @@ namespace CFP.App.Formularios.Financeiros
                 ControleAcessoCadastro();
                 CorPadrãoBotaoPesquisar();
                 VerificandoSituacaoConta();
+                FiltroSituacaoParcelas();
                 CalculoTotalPorSituacaoParcela();
             }
         }
@@ -756,6 +759,7 @@ namespace CFP.App.Formularios.Financeiros
             tabItemGeral.IsSelected = true;
             ControleAcessoInicial();
             FocoNoCampoCodigo();
+            CalculoTotalPorSituacaoParcela();
         }
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
@@ -888,6 +892,7 @@ namespace CFP.App.Formularios.Financeiros
                     }
                     DataGridContaPagamento.Items.Refresh();
                     Salvar();
+                    CalculoTotalPorSituacaoParcela();
                 }
             }
             else
@@ -954,6 +959,34 @@ namespace CFP.App.Formularios.Financeiros
         private void chkCancelados_Click(object sender, RoutedEventArgs e)
         {
             FiltroSituacaoParcelas();
+        }
+
+        #region Imagens
+
+
+        #endregion
+
+        private void btBuscarArquivos_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Multiselect = true };
+            bool? response = openFileDialog.ShowDialog();
+            if (response == true)
+            {
+                //    Get selected files
+                string[] files = openFileDialog.FileNames;
+
+                //iterate and add all selected files to upload
+                for (int i = 0; i < files.Length; i++)
+                {
+                    string filename = System.IO.Path.GetFileName(files[i]);
+                    FileInfo fileInfo = new FileInfo(files[i]);
+                    ListaArquivos.Items.Add(new UserControlCarregaArquivos()
+                    {
+                        FileName = filename,
+                        UploadProgress = 100
+                    });
+                }
+            }
         }
     }
 }
