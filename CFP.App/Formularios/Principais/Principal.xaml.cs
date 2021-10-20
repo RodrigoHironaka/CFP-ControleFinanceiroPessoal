@@ -1,5 +1,8 @@
-﻿using CFP.App.Formularios.ModeloBase;
+﻿using CFP.App.Formularios.Cadastros;
+using CFP.App.Formularios.ModeloBase;
 using CFP.App.Formularios.ModeloBase.UserControls;
+using CFP.App.Formularios.Principais;
+using Dominio.Dominio;
 using SGE.Repositorio.Configuracao;
 using System;
 using System.Collections.Generic;
@@ -77,6 +80,12 @@ namespace CFP.App
         private void Principal_Loaded(object sender, RoutedEventArgs e)
         {
            //NHibernateHelper.GetSession();
+        }
+
+        private void ButtonConfiguracoes_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlConfiguracoes());
         }
     }
 }

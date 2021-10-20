@@ -47,8 +47,8 @@
                            FontSize="18"/>
                 <materialDesign:PopupBox Margin="10" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                     <StackPanel Width="150">
-                        <Button Content="Conta"/>
-                        <Button Content="Configurações"/>
+                        <!--<Button x:Name="ButtonContaUsuario" Content="Conta" Click="ButtonContaUsuario_Click" />-->
+                        <Button x:Name="ButtonConfiguracoes" Content="Configurações" Click="ButtonConfiguracoes_Click"/>
                         <Separator/>
                         <Button x:Name="ButtonPopUpSair" Content="Sair" Click="ButtonPopUpSair_Click"/>
                     </StackPanel>

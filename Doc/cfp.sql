@@ -37,6 +37,7 @@ alter table PessoaTipoRendas  drop foreign key FK_2F54ECD9
 
 alter table PessoaTipoRendas  drop foreign key FK_DC98FCA8
 ;
+drop table if exists Configuracoes;
 drop table if exists SubGrupoGastos;
 drop table if exists Bancos;
 drop table if exists Caixas;
@@ -51,9 +52,10 @@ drop table if exists PessoaTipoRendas;
 drop table if exists TiposRenda;
 drop table if exists Usuarios;
 drop table if exists hibernate_unique_key;
+create table Configuracoes (Id BIGINT not null, DataGeracao DATETIME, DataAlteracao DATETIME, CaminhoArquivos VARCHAR(250), CaminhoBackup VARCHAR(250), ServidorBD VARCHAR(10), BaseBD VARCHAR(50), UsuarioBD VARCHAR(50), SenhaBD VARCHAR(50), PortaBD VARCHAR(10), primary key (Id)) ENGINE=InnoDB;
 create table SubGrupoGastos (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, GrupoGasto BIGINT, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
 create table Bancos (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, TipoContaBanco INTEGER, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
-create table Caixas (ID BIGINT not null, DataAbertura DATETIME, DataFechamento DATETIME, Pessoa BIGINT, TotalEntrada DOUBLE, TotalSaida DOUBLE, BalançoFinal DOUBLE, Situacao INTEGER, primary key (ID)) ENGINE=InnoDB;
+create table Caixas (ID BIGINT not null, DataAbertura DATETIME, DataFechamento DATETIME, Pessoa BIGINT, TotalEntrada DECIMAL(19,5), TotalSaida DECIMAL(19,5), BalançoFinal DECIMAL(19,5), Situacao INTEGER, primary key (ID)) ENGINE=InnoDB;
 create table Cofres (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, Caixa BIGINT, Banco BIGINT, Valor DOUBLE, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
 create table Contas (Id BIGINT not null, TipoConta INTEGER, TipoPeriodo INTEGER, Situacao INTEGER, DataEmissao DATETIME, DataPrimeiroVencimento DATETIME, ValorTotal DECIMAL(10, 2), QtdParcelas BIGINT, NumeroDocumento BIGINT, SubGrupoGasto BIGINT, GrupoGasto BIGINT, FormaCompra BIGINT, Pessoa BIGINT, Observacao TEXT, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, primary key (Id)) ENGINE=InnoDB;
 create table ContasPagamento (ID BIGINT not null, Numero INTEGER, ValorParcela DECIMAL(10, 2), DataVencimento DATETIME, DataPagamento DATETIME, JurosPorcentual DECIMAL(19,5), JurosValor DECIMAL(10, 2), DescontoPorcentual DECIMAL(19,5), DescontoValor DECIMAL(10, 2), ValorReajustado DECIMAL(10, 2), ValorPago DECIMAL(10, 2), ValorRestante DECIMAL(10, 2), SituacaoParcelas INTEGER, FormaPagamento BIGINT, Conta BIGINT, primary key (ID)) ENGINE=InnoDB;
