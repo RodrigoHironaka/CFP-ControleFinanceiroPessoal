@@ -12,6 +12,7 @@ namespace Dominio.Dominio
 {
     public class Conta : Base
     {
+        public virtual Int64 Codigo { get; set; }
         public virtual TipoConta TipoConta { get; set; }
         public virtual TipoPeriodo TipoPeriodo { get; set; }
         public virtual SituacaoConta Situacao { get; set; }
@@ -26,6 +27,7 @@ namespace Dominio.Dominio
         public virtual Pessoa Pessoa { get; set; }
         public virtual string Observacao { get; set; }
         public virtual IList<ContaPagamento> ContaPagamentos { get; set; }
-       
+        public virtual IList<ContaArquivo> ContaArquivos { get; set; }
+
     }
 }

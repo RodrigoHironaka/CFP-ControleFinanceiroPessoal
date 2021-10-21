@@ -83,6 +83,7 @@
     <Compile Include="Mapeamento\CaixaMAP.cs" />
     <Compile Include="Mapeamento\CofreMAP.cs" />
     <Compile Include="Mapeamento\ConfiguracaoMAP.cs" />
+    <Compile Include="Mapeamento\ContaArquivoMAP.cs" />
     <Compile Include="Mapeamento\ContaMAP.cs" />
     <Compile Include="Mapeamento\ContaPagamentoMAP.cs" />
     <Compile Include="Mapeamento\FormaPagamentoMAP.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Repositorio\RepositorioCofre.cs" />
     <Compile Include="Repositorio\RepositorioConfiguracao.cs" />
     <Compile Include="Repositorio\RepositorioConta.cs" />
+    <Compile Include="Repositorio\RepositorioContaArquivo.cs" />
     <Compile Include="Repositorio\RepositorioContaPagamento.cs" />
     <Compile Include="Repositorio\RepositorioFormaPagamento.cs" />
     <Compile Include="Repositorio\RepositorioGrupoGasto.cs" />

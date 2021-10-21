@@ -31,7 +31,19 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-           
+
+            <TextBox x:Name="txtCodigo"
+                                     Grid.ColumnSpan="3"
+                                     materialDesign:HintAssist.Hint="Código"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                     FontFamily="Champagne &amp; Limousines" 
+                                     FontSize="20" 
+                                     Foreground="White"  
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Margin="20 -10 5 0"
+                                     IsReadOnly="True"/>
+
             <Button x:Name="btSalvar"
                     Grid.Column="14"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
@@ -40,7 +52,7 @@
                     VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Salva as configurações">
+                    ToolTip="Salva as configurações" Click="btSalvar_Click">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -68,6 +80,12 @@
                        FontSize="15"
                       Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
+            <TextBlock x:Name="lblAtualizadoEm" Text="Atualizado em:" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Bottom" 
+                       FontSize="15"
+                      Foreground="#FF1F3D68"
+                       Margin="5,5,0,35"/>
             <Grid Margin="50">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -93,7 +111,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        
+
                         <Grid x:Name="Row1" Grid.Row="0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -117,7 +135,7 @@
                                     Background="#FF1F3D68"
                                     BorderBrush="#FF1F3D68"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Stretch">
+                                    HorizontalAlignment="Stretch" Click="btPesquisaCaminhoArquivos_Click">
                                 <materialDesign:PackIcon 
                                         Kind="Search"  
                                         Width="30" 
@@ -143,12 +161,11 @@
                             <Button x:Name="btPesquisaCaminhoBackup"
                                     Grid.Column="1"
                                     Width="40" 
-                                    Height="40"
+                                    Height="Auto"
                                     Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                                     Background="#FF1F3D68"
                                     BorderBrush="#FF1F3D68"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Stretch" >
+                                    HorizontalAlignment="Stretch" Margin="4.8,1,4.8,1.4" Click="btPesquisaCaminhoBackup_Click" >
                                 <materialDesign:PackIcon 
                                         Kind="Search"  
                                         Width="30" 
@@ -158,7 +175,7 @@
                     </Grid>
 
                 </GroupBox>
-                
+
                 <GroupBox x:Name="GroupBancoDados" 
                           Grid.Column="1"
                           Margin="5"
@@ -189,7 +206,7 @@
                                      Foreground="#FF1F3D68"  
                                      VerticalAlignment="Stretch"
                                      Margin="0"/>
-                        
+
                         <TextBox x:Name="txtBase"
                                      Grid.Row="1" 
                                      materialDesign:HintAssist.Hint="Nome Base"
@@ -257,7 +274,7 @@
 
 
             </Grid>
-            
+
         </Grid>
     </Grid>
 </UserControl>

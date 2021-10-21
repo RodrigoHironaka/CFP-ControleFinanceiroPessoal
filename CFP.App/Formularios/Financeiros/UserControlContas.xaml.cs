@@ -962,13 +962,13 @@ namespace CFP.App.Formularios.Financeiros
         }
 
         #region Imagens
-
+        
 
         #endregion
 
         private void btBuscarArquivos_Click(object sender, RoutedEventArgs e)
         {
-            //List<string> img = new List<string>();
+            Configuracao configuracao = new RepositorioConfiguracao(Session).ObterTodos().First();
             OpenFileDialog openFileDialog = new OpenFileDialog() { Multiselect = true };
             bool? response = openFileDialog.ShowDialog();
             if (response == true)
@@ -979,11 +979,24 @@ namespace CFP.App.Formularios.Financeiros
                 //iterate and add all selected files to upload
                 for (int i = 0; i < files.Length; i++)
                 {
+                    string caminhoOrigem = System.IO.Path.GetFullPath(files[i]);
+                    var NovaPasta = String.Format("{0}\\Conta_{1}", configuracao.CaminhoArquivos, conta.Id);
+                    Directory.CreateDirectory(NovaPasta);
                     string filename = System.IO.Path.GetFileName(files[i]);
                     FileInfo fileInfo = new FileInfo(files[i]);
                     lstArquivos.Items.Add(filename);
+                    File.Copy(caminhoOrigem,
+                    System.IO.Path.Combine(NovaPasta, new FileInfo(caminhoOrigem).Name));
+
                 }
             }
+        }
+
+        private void lstArquivos_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Configuracao configuracao = new RepositorioConfiguracao(Session).ObterTodos().First();
+            string ArquivoSelecionado = lstArquivos.SelectedItem.ToString();
+            System.Diagnostics.Process.Start(string.Format("{0}\\{1}", configuracao.CaminhoArquivos, ArquivoSelecionado));
         }
     }
 }

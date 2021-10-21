@@ -2,7 +2,9 @@
 using CFP.App.Formularios.ModeloBase;
 using CFP.App.Formularios.ModeloBase.UserControls;
 using CFP.App.Formularios.Principais;
+using CFP.Dominio.Dominio;
 using Dominio.Dominio;
+using NHibernate;
 using SGE.Repositorio.Configuracao;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,5 @@
-﻿using Dominio.Dominio;
+﻿using CFP.Dominio.Dominio;
+using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
 using NHibernate.Mapping.ByCode;
@@ -22,6 +23,7 @@ namespace Repositorio.Mapeamentos
                 m.Generator(Generators.HighLow, g => g.Params(new { max_lo = 0 }));
             });
 
+            Property(x => x.Codigo);
             Property(x => x.QtdParcelas, m => m.Length(3));
             Property(x => x.Nome, m => m.Length(70));
             Property(x => x.Observacao, m => m.Length(400));
@@ -51,6 +53,13 @@ namespace Repositorio.Mapeamentos
                 m.Key(k => k.Column("Conta"));
                 m.Inverse(true);
             }, map => map.OneToMany(a => a.Class(typeof(ContaPagamento))));
+
+            Bag(x => x.ContaArquivos, m =>
+            {
+                m.Cascade(Cascade.All);
+                m.Key(k => k.Column("Conta"));
+                m.Inverse(true);
+            }, map => map.OneToMany(a => a.Class(typeof(ContaArquivo))));
         }
     }
 }

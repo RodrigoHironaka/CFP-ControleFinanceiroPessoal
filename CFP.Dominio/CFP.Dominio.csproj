@@ -66,6 +66,7 @@
     <Compile Include="Dominio\Cofre.cs" />
     <Compile Include="Dominio\Configuracao.cs" />
     <Compile Include="Dominio\Conta.cs" />
+    <Compile Include="Dominio\ContaArquivo.cs" />
     <Compile Include="Dominio\ContaPagamento.cs" />
     <Compile Include="Dominio\FormaPagamento.cs" />
     <Compile Include="Dominio\GrupoGasto.cs" />
