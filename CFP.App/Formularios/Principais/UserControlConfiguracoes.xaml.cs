@@ -135,7 +135,6 @@ namespace CFP.App.Formularios.Principais
             (this.Parent as Grid).Children.Remove(this);
 
         }
-
         private void btPesquisaCaminhoArquivos_Click(object sender, RoutedEventArgs e)
         {
             txtCaminhoArquivos.Text = EscolherCaminho();
@@ -148,6 +147,12 @@ namespace CFP.App.Formularios.Principais
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
         {
+            if (String.IsNullOrEmpty(txtCaminhoArquivos.Text))
+            {
+                MessageBox.Show("Caminho dos arquivos é um campo obrigatório!");
+                return;
+            }
+
             if (PreencheObjeto())
             {
                 if (configuracao != null && configuracao.Id == 0)

@@ -512,7 +512,7 @@
 
                     </TabItem>
                     <TabItem x:Name="tabItemArquivos" Header="Arquivos">
-                        <Grid>
+                        <Grid x:Name="GridArquivos">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="80"/>
                                 <RowDefinition/>

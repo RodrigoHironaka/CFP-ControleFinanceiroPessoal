@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 
 namespace CFP.Dominio.Dominio
 {
-    public class ContaArquivo
+    public class ContaArquivo : Base
     {
-        public virtual Int64 Id { get; set; }
+        public override string ToString()
+        {
+            return Nome;
+        }
+
         public virtual Conta Conta { get; set; }
         public virtual String Caminho { get; set; }
     }

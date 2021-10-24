@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -124,6 +125,19 @@ namespace CFP.App.Formularios.Financeiros
                 return _repositorioContaPagamento;
             }
             set { _repositorioContaPagamento = value; }
+        }
+
+        private RepositorioContaArquivo _repositorioContaArquivo;
+        public RepositorioContaArquivo RepositorioContaArquivo
+        {
+            get
+            {
+                if (_repositorioContaArquivo == null)
+                    _repositorioContaArquivo = new RepositorioContaArquivo(Session);
+
+                return _repositorioContaArquivo;
+            }
+            set { _repositorioContaArquivo = value; }
         }
         #endregion
 
@@ -246,6 +260,13 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
+        #region Novo Codigo Conta
+        //private void NovoCodigoConta()
+        //{
+
+        //}
+        #endregion
+
         #region Preenche Objeto para Salvar
         private bool PreencheObjeto()
         {
@@ -268,13 +289,16 @@ namespace CFP.App.Formularios.Financeiros
                 conta.Observacao = txtObservacao.Text;
 
                 //tab Pagamento
-                conta.ContaPagamentos = (IList<ContaPagamento>)DataGridContaPagamento.ItemsSource;
+                conta.ContaPagamentos = contaPagamento; //(IList<ContaPagamento>)DataGridContaPagamento.ItemsSource;
+
+                //tab Arquivos
+                conta.ContaArquivos = contaArquivos;
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //throw new Exception(ex.ToString());
-                return false;
+                throw new Exception(ex.ToString());
+                //return false;
             }
         }
 
@@ -300,6 +324,27 @@ namespace CFP.App.Formularios.Financeiros
                         contaPagamento.SituacaoParcelas = item.SituacaoParcelas;
                         contaPagamento.FormaPagamento = item.FormaPagamento;
                         contaPagamento.Conta = item.Conta;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+
+        }
+
+        private void PreencheObjetoComListaArquivos()
+        {
+            try
+            {
+                if (conta.ContaArquivos.Count != 0)
+                {
+                    foreach (var item in conta.ContaArquivos)
+                    {
+                        ContaArquivo contaArquivo = new ContaArquivo();
+                        contaArquivo.Caminho = item.Caminho;
+                        contaArquivo.Conta = item.Conta;
                     }
                 }
             }
@@ -340,6 +385,12 @@ namespace CFP.App.Formularios.Financeiros
                 foreach (var item in listaContaPagamentos)
                 {
                     contaPagamento.Add(item);
+                }
+
+                var listaContaArquivos = conta.ContaArquivos;
+                foreach (var arquivo in listaContaArquivos)
+                {
+                    contaArquivos.Add(arquivo);
                 }
             }
         }
@@ -444,7 +495,7 @@ namespace CFP.App.Formularios.Financeiros
         #endregion
 
         #region Metodo para salvar
-        private void Salvar()
+        private bool Salvar()
         {
             if (ValidaCampos())
             {
@@ -453,15 +504,20 @@ namespace CFP.App.Formularios.Financeiros
                     if ((conta.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
                     {
                         conta.DataGeracao = DateTime.Now;
+                        conta.Codigo = Repositorio.RetornaUltimoCodigo() + 1;
                         conta.ContaPagamentos.ToList().ForEach(x => x.Conta = conta);
+                        conta.ContaArquivos.ToList().ForEach(x => x.Conta = conta);
                         Repositorio.Salvar(conta);
                         PreencheObjetoComListaDadaGrid();
+                        PreencheObjetoComListaArquivos();
                         txtCodigo.Text = conta.Id.ToString();
+                        return true;
                     }
                     else
                     {
-                        IList<ContaPagamento> novoContaPagamentos = new List<ContaPagamento>(conta.ContaPagamentos.Count);
-                        foreach (var item in (IList<ContaPagamento>)DataGridContaPagamento.ItemsSource)
+                        #region Conta Pagamento
+                        List<ContaPagamento> novoContaPagamentos = new List<ContaPagamento>(conta.ContaPagamentos.Count);
+                        foreach (ContaPagamento item in contaPagamento)
                             novoContaPagamentos.Add(item);
 
                         conta.ContaPagamentos.Clear();
@@ -472,17 +528,37 @@ namespace CFP.App.Formularios.Financeiros
                                 item.Conta = this.conta;
                             conta.ContaPagamentos.Add(item);
                         }
+                        #endregion
+
+                        #region Conta Arquivos
+                        List<ContaArquivo> novoContaArquivos = new List<ContaArquivo>(conta.ContaArquivos.Count);
+                        foreach (var item in contaArquivos)
+                            novoContaArquivos.Add(item);
+
+                        conta.ContaArquivos.Clear();
+
+                        foreach (var item in novoContaArquivos)
+                        {
+                            if (item.Conta == null)
+                                item.Conta = this.conta;
+                            conta.ContaArquivos.Add(item);
+                        }
+                        #endregion
 
                         conta.DataAlteracao = DateTime.Now;
                         Repositorio.Alterar(conta);
+                        DataGridContaPagamento.Items.Refresh();
+                        lstArquivos.Items.Refresh();
+                        return true;
                     }
                 }
-                DataGridContaPagamento.Items.Refresh();
+                return false;
             }
+            return false;
         }
         #endregion
 
-        #region Remove todos os itens da lista Conta Pagamento e do Banco
+        #region Remove todos os itens da lista Conta Pagamento e Conta Arquivo e do Banco
         private void RemoveTodosOsItensDaListaEBanco()
         {
             if (conta.ContaPagamentos != null)
@@ -496,6 +572,21 @@ namespace CFP.App.Formularios.Financeiros
                 }
             }
         }
+
+        private void RemoveTodosOsItensDaListaEBancoArquivos()
+        {
+            if (conta.ContaArquivos != null)
+            {
+                var lista = new List<ContaArquivo>(contaArquivos);
+                foreach (var item in lista)
+                {
+                    contaArquivos.Remove(item);
+                    conta.ContaArquivos.Remove(item);
+                    RepositorioContaArquivo.Excluir(item);
+                    //preciso remover da pasta
+                }
+            }
+        }
         #endregion
 
         #region Gerar Parcelas
@@ -506,7 +597,7 @@ namespace CFP.App.Formularios.Financeiros
                 RemoveTodosOsItensDaListaEBanco();
                 #region Gerando as Parcelas
                 Decimal valorTotal = Decimal.Parse(vTotal);
-                Int32 qtdParcelas = Int32.Parse(qtd);
+                Int32 qtdParcelas = txtQtdParcelas.Text != string.Empty ? Int32.Parse(qtd) : 1;
                 DateTime dataPrimeiroVencimento = primeiroVencimento;
                 if (!valorTotal.Equals(0) || !qtdParcelas.Equals(0))
                 {
@@ -582,6 +673,15 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
+        #region PreencheListView
+        private ObservableCollection<ContaArquivo> contaArquivos;
+        public void PreencheListView()
+        {
+            contaArquivos = new ObservableCollection<ContaArquivo>();
+            lstArquivos.ItemsSource = contaArquivos;
+        }
+        #endregion
+
         #region Iniciando o Form Cancelado
         private void VerificandoSituacaoConta()
         {
@@ -590,17 +690,20 @@ namespace CFP.App.Formularios.Financeiros
                 case "Aberto":
                     GridControls2.IsEnabled = true;
                     GridItemPagamento.IsEnabled = true;
+                    GridArquivos.IsEnabled = true;
                     btSalvar.Visibility = Visibility.Visible;
                     break;
                 case "Cancelado":
                     GridControls2.IsEnabled = false;
                     GridItemPagamento.IsEnabled = false;
+                    GridArquivos.IsEnabled = false;
                     btSalvar.Visibility = Visibility.Hidden;
                     btExcluir.Visibility = Visibility.Hidden;
                     break;
                 case "Finalizado":
                     GridControls2.IsEnabled = false;
                     GridItemPagamento.IsEnabled = false;
+                    GridArquivos.IsEnabled = false;
                     btSalvar.Visibility = Visibility.Hidden;
                     break;
             }
@@ -645,6 +748,23 @@ namespace CFP.App.Formularios.Financeiros
             lblTotalParceiais.Content = String.Format("R$ {0}", conta.ContaPagamentos.Where(x => x.SituacaoParcelas == SituacaoParcela.Parcial).Sum(x => x.ValorParcela).ToString("N2"));
             lblTotalCancelados.Content = String.Format("R$ {0}", conta.ContaPagamentos.Where(x => x.SituacaoParcelas == SituacaoParcela.Cancelado).Sum(x => x.ValorParcela).ToString("N2"));
         }
+        #endregion
+
+        #region Gerando novo caminho para arquivos de acordo com o Id da conta
+        public string NovoCaminho()
+        {
+            Configuracao configuracao = new RepositorioConfiguracao(Session).ObterTodos().First();
+            if (conta.Id == 0)
+            {
+               var novoCodigo = Repositorio.RetornaUltimoCodigo() + 1;
+               var novoDiretorio = String.Format("{0}\\Conta_{1}", configuracao.CaminhoArquivos, novoCodigo);
+                if (!Directory.Exists(novoDiretorio))
+                    Directory.CreateDirectory(novoDiretorio);
+                return novoDiretorio;
+            }
+            return String.Format("{0}\\Conta_{1}", configuracao.CaminhoArquivos, conta.Codigo);
+        }
+
         #endregion
 
         public UserControlContas(Conta _conta, ISession _session)
@@ -702,6 +822,7 @@ namespace CFP.App.Formularios.Financeiros
                         if (conta != null)
                         {
                             PreencheDataGrid();
+                            PreencheListView();
                             PreencheCampos();
                             ControleAcessoCadastro();
                             CorPadrãoBotaoPesquisar();
@@ -744,6 +865,7 @@ namespace CFP.App.Formularios.Financeiros
             {
                 conta = p.objeto;
                 PreencheDataGrid();
+                PreencheListView();
                 PreencheCampos();
                 ControleAcessoCadastro();
                 CorPadrãoBotaoPesquisar();
@@ -755,11 +877,13 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
         {
-            Salvar();
-            tabItemGeral.IsSelected = true;
-            ControleAcessoInicial();
-            FocoNoCampoCodigo();
-            CalculoTotalPorSituacaoParcela();
+            if (Salvar())
+            {
+                tabItemGeral.IsSelected = true;
+                ControleAcessoInicial();
+                FocoNoCampoCodigo();
+                CalculoTotalPorSituacaoParcela();
+            }
         }
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
@@ -861,7 +985,7 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btEditar_Click(object sender, RoutedEventArgs e)
         {
-            if(DataGridContaPagamento.SelectedItem != null)
+            if (DataGridContaPagamento.SelectedItem != null)
             {
                 if (lblSituacao.Text != SituacaoConta.Cancelado.ToString() || lblSituacao.Text != SituacaoConta.Finalizado.ToString())
                 {
@@ -893,6 +1017,7 @@ namespace CFP.App.Formularios.Financeiros
                     DataGridContaPagamento.Items.Refresh();
                     Salvar();
                     CalculoTotalPorSituacaoParcela();
+                    FiltroSituacaoParcelas();
                 }
             }
             else
@@ -961,42 +1086,69 @@ namespace CFP.App.Formularios.Financeiros
             FiltroSituacaoParcelas();
         }
 
-        #region Imagens
-        
-
-        #endregion
-
+        #region Busca de Imagens
+        String novoCaminho;
         private void btBuscarArquivos_Click(object sender, RoutedEventArgs e)
         {
-            Configuracao configuracao = new RepositorioConfiguracao(Session).ObterTodos().First();
             OpenFileDialog openFileDialog = new OpenFileDialog() { Multiselect = true };
             bool? response = openFileDialog.ShowDialog();
             if (response == true)
             {
-                //    Get selected files
-                string[] files = openFileDialog.FileNames;
-
-                //iterate and add all selected files to upload
-                for (int i = 0; i < files.Length; i++)
+                IList<string> arquivos = new List<string>(openFileDialog.FileNames);
+                novoCaminho = NovoCaminho();
+                if (contaArquivos == null)
                 {
-                    string caminhoOrigem = System.IO.Path.GetFullPath(files[i]);
-                    var NovaPasta = String.Format("{0}\\Conta_{1}", configuracao.CaminhoArquivos, conta.Id);
-                    Directory.CreateDirectory(NovaPasta);
-                    string filename = System.IO.Path.GetFileName(files[i]);
-                    FileInfo fileInfo = new FileInfo(files[i]);
-                    lstArquivos.Items.Add(filename);
-                    File.Copy(caminhoOrigem,
-                    System.IO.Path.Combine(NovaPasta, new FileInfo(caminhoOrigem).Name));
+                    #region Adiciona arquivo quando a conta ainda nao foi salva, Id neste caso é 0
 
+                    PreencheListView();
+                    if (ValidaCampos())
+                    {
+                        foreach (var arquivo in arquivos)
+                        {
+                            var nomeArquivo = System.IO.Path.GetFileName(arquivo);
+                            var caminhoCompleto = string.Format("{0}\\{1}", novoCaminho, nomeArquivo);
+
+                            if (!File.Exists(caminhoCompleto))
+                            {
+                                File.Copy(arquivo, System.IO.Path.Combine(novoCaminho, new FileInfo(arquivo).Name));
+                                contaArquivos.Add(new ContaArquivo() { Caminho = novoCaminho, Nome = nomeArquivo , DataGeracao = DateTime.Now});
+                                lstArquivos.Items.Refresh();
+                            }
+                        }
+                    }
+                    #endregion
                 }
+                else
+                {
+                    #region Adiciona arquivo quando a conta ja existe, Id diferente de 0
+                    foreach (var arquivo in arquivos)
+                    {
+                        var nomeArquivo = System.IO.Path.GetFileName(arquivo);
+                        var caminhoCompleto = string.Format("{0}\\{1}", novoCaminho, nomeArquivo);
+                        if (!File.Exists(caminhoCompleto))
+                        {
+                            File.Copy(arquivo, System.IO.Path.Combine(novoCaminho, new FileInfo(arquivo).Name));
+                            contaArquivos.Add(new ContaArquivo() { Caminho = novoCaminho, Nome = nomeArquivo, DataAlteracao = DateTime.Now });
+                            lstArquivos.Items.Refresh();
+                        }
+                    }
+                    #endregion
+                }
+                Salvar();
             }
         }
-
+        
         private void lstArquivos_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Configuracao configuracao = new RepositorioConfiguracao(Session).ObterTodos().First();
             string ArquivoSelecionado = lstArquivos.SelectedItem.ToString();
-            System.Diagnostics.Process.Start(string.Format("{0}\\{1}", configuracao.CaminhoArquivos, ArquivoSelecionado));
+            var caminhoCompleto = string.Format("{0}\\Conta_{1}\\{2}", configuracao.CaminhoArquivos, conta.Codigo, ArquivoSelecionado);
+
+            if (File.Exists(caminhoCompleto))
+                Process.Start(caminhoCompleto);
+            else
+                MessageBox.Show("Arquivo não existe!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+        #endregion
     }
 }

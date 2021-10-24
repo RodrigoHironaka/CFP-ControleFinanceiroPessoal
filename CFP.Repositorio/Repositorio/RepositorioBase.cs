@@ -111,5 +111,30 @@ namespace Repositorio.Repositorios
             return PredicateBuilder.True<T>();
         }
 
+        public Int64 RetornaUltimoId() //retorna ultimo id da Tabela mas nao é o ultimo id Usado, ele nao pega da tabela uniquekey
+        {
+            var criterio = Session.CreateCriteria<T>().SetProjection(Projections.Max("Id"));
+            try
+            {
+                return criterio.UniqueResult<Int64>();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public Int64 RetornaUltimoCodigo() //retorna ultimo codigo da Tabela
+        {
+            var criterio = Session.CreateCriteria<T>().SetProjection(Projections.Max("Codigo"));
+            try
+            {
+                return criterio.UniqueResult<Int64>();
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }
