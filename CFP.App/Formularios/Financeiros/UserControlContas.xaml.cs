@@ -193,6 +193,7 @@ namespace CFP.App.Formularios.Financeiros
             lblTotalPendentes.Content = "R$ 0,00";
             lblTotalParceiais.Content = "R$ 0,00";
             lblTotalCancelados.Content = "R$ 0,00";
+            
             foreach (var item in GridControls.Children)
             {
                 if (item is TabControl)
@@ -462,12 +463,12 @@ namespace CFP.App.Formularios.Financeiros
         {
             if (String.IsNullOrEmpty(txtNome.Text) || String.IsNullOrEmpty(txtEmissao.Text) || String.IsNullOrEmpty(txtPrimeiroVencimento.Text))
             {
-                MessageBox.Show(" Os campos  Nome, Data emissão e Data Vencimento são Obrigatorios, por favor verifique!");
+                MessageBox.Show(" Os campos  Nome\n Data emissão\n Data Vencimento\n são Obrigatórios, por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
             if (txtPrimeiroVencimento.SelectedDate < txtEmissao.SelectedDate)
             {
-                MessageBox.Show("Data de vencimento não pode ser menor que data de emissão!");
+                MessageBox.Show("Data de vencimento não pode ser menor que data de emissão!","Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
             if ((TipoPeriodo)cmbTipoPeriodo.SelectedIndex == TipoPeriodo.Unica)
@@ -809,6 +810,7 @@ namespace CFP.App.Formularios.Financeiros
                         conta = new Conta();
                         LimpaCampos();
                         PreencheDataGrid();
+                        PreencheListView();
                         cmbReferenciaPessoa.SelectedIndex = -1;
                         VerificaTipoPeriodo();
                         ControleAcessoCadastro();
@@ -967,8 +969,13 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btGerarParcelas_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(txtPrimeiroVencimento.Text))
+            if(!String.IsNullOrEmpty(txtValorTotal.Text) && !String.IsNullOrEmpty(txtQtdParcelas.Text) && !String.IsNullOrEmpty(txtPrimeiroVencimento.Text))
                 GerarParcelas(txtValorTotal.Text, txtQtdParcelas.Text, txtPrimeiroVencimento.SelectedDate.Value);
+            else
+            {
+                MessageBox.Show("Verifique se os campos: \n Valor Total \n Qtd de Parcelas \n Primeiro Vencimento\n estão preenchidos corretamente!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
         }
 
         private void cmbTipoGasto_LostFocus(object sender, RoutedEventArgs e)
@@ -1042,6 +1049,8 @@ namespace CFP.App.Formularios.Financeiros
                         }
                     }
                     DataGridContaPagamento.Items.Refresh();
+                    FiltroSituacaoParcelas();
+                    CalculoTotalPorSituacaoParcela();
                 }
             }
             else
@@ -1149,6 +1158,22 @@ namespace CFP.App.Formularios.Financeiros
             else
                 MessageBox.Show("Arquivo não existe!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        private void MenuItemRemover_Click(object sender, RoutedEventArgs e)
+        {
+            ContaArquivo selecao = (ContaArquivo)lstArquivos.SelectedItem;
+            var caminhoPastaSistema = string.Format("{0}\\{1}", selecao.Caminho, selecao.Nome);
+            if (File.Exists(caminhoPastaSistema))
+                File.Delete(caminhoPastaSistema);
+            if(conta.Id != 0)
+            {
+                conta.ContaArquivos.Remove((ContaArquivo)selecao);
+                RepositorioContaArquivo.Excluir((ContaArquivo)selecao);
+            }
+            contaArquivos.Remove((ContaArquivo)selecao);
+            
+        }
+
         #endregion
     }
 }

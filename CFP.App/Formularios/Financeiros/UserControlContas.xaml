@@ -556,62 +556,19 @@
                             </Grid>
 
                             <Grid Grid.Row="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-
-                                <Grid Grid.Column="0"
-                                      Margin="10">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                       
-                                    </Grid.RowDefinitions>
-                                    <Button x:Name="btIconesGrandes"
-                                        Grid.Row="0"
-                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"
-                                        Background="#FF1F3D68" 
-                                        BorderBrush="#FF1F3D68"
-                                        Margin="0" Height="Auto"
-                                        FontFamily="Champagne &amp; Limousines"
-                                        Content="Ícones Grandes"/>
-
-                                    <Button x:Name="btIconesPequenos"
-                                        Grid.Row="1"
-                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"
-                                        Background="#FF1F3D68" 
-                                        BorderBrush="#FF1F3D68"
-                                        Margin="0" Height="Auto"
-                                        FontFamily="Champagne &amp; Limousines"
-                                        Content="Ícones Pequenos"/>
-
-                                    <Button x:Name="btLadoALado"
-                                        Grid.Row="2"
-                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"
-                                        Background="#FF1F3D68" 
-                                        BorderBrush="#FF1F3D68"
-                                        Margin="0" Height="Auto"
-                                        FontFamily="Champagne &amp; Limousines"
-                                        Content="Lado a Lado"/>
-
-                                    <Button x:Name="btLista"
-                                        Grid.Row="3"
-                                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"
-                                        Background="#FF1F3D68" 
-                                        BorderBrush="#FF1F3D68"
-                                        Margin="0" Height="Auto"
-                                        FontFamily="Champagne &amp; Limousines"
-                                        Content="Lista"/>
-                                </Grid>
-                                <Grid Grid.Column="1"  Margin="5 5 10 5">
+                                <Grid  Margin="5 5 10 5">
                                     <ListView x:Name="lstArquivos" 
                                               FontFamily="Champagne &amp; Limousines" 
                                               FontSize="15" 
                                               Foreground="#FF1F3D68"
-                                              Style="{StaticResource MaterialDesignChoiceChipListBox}" MouseDoubleClick="lstArquivos_MouseDoubleClick">
+                                              Style="{StaticResource MaterialDesignChoiceChipListBox}" 
+                                              MouseDoubleClick="lstArquivos_MouseDoubleClick">
+                                        <ListView.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem x:Name="MenuItemRemover" Header="Remover" Click="MenuItemRemover_Click" />
+                                               
+                                            </ContextMenu>
+                                        </ListView.ContextMenu>
                                         
                                     </ListView>
                                 </Grid>
