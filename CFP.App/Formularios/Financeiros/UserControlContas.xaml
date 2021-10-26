@@ -35,6 +35,21 @@
                      FontSize="15" 
                      Foreground="White"  
                      VerticalAlignment="Top" KeyDown="txtCodigo_KeyDown" PreviewTextInput="txtCodigo_PreviewTextInput" PreviewKeyDown="txtCodigo_PreviewKeyDown"/>
+            
+            <Button x:Name="btFinalizarConta" 
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                    Height="60" Width="60" 
+                    Background="#FF1F3D68" 
+                    Margin="0,5,223,5.4" 
+                    HorizontalAlignment="Right" 
+                    BorderBrush="#FF1F3D68" 
+                    Click="btFinalizarConta_Click">
+                <materialDesign:PackIcon 
+                    Kind="CashCheck"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
+            
             <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="Auto" 
@@ -47,6 +62,7 @@
                     Width="50" 
                     Height="50"/>
             </Button>
+            
             <Button x:Name="btSalvar"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
@@ -58,11 +74,12 @@
                     Width="50" 
                     Height="50"/>
             </Button>
+            
             <Button x:Name="btCancelar" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
-                    Margin="0,5,4,5" 
+                    Margin="0,5,7,5.4" 
                     HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68" TabIndex="17">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  

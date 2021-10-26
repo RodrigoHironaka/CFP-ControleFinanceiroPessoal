@@ -148,6 +148,7 @@ namespace CFP.App.Formularios.Financeiros
             GridCampos.IsEnabled = !GridCampos.IsEnabled;
             btSalvar.IsEnabled = !btSalvar.IsEnabled;
             btExcluir.IsEnabled = !btExcluir.IsEnabled;
+            btFinalizarConta.IsEnabled = !btFinalizarConta.IsEnabled;
 
             //Desbloqueando
             btPesquisar.IsEnabled = true;
@@ -167,6 +168,7 @@ namespace CFP.App.Formularios.Financeiros
             GridCampos.IsEnabled = true;
             btSalvar.IsEnabled = true;
             btExcluir.IsEnabled = true;
+            btFinalizarConta.IsEnabled = true;
 
             //define o foco no primeiro campo
             txtNome.Focus();
@@ -188,6 +190,7 @@ namespace CFP.App.Formularios.Financeiros
         {
             lblSituacao.Text = SituacaoConta.Aberto.ToString();
             btSalvar.Visibility = Visibility.Visible;
+            btFinalizarConta.Visibility = Visibility.Visible;
             btExcluir.Visibility = Visibility.Visible;
             lblTotalPagos.Content = "R$ 0,00";
             lblTotalPendentes.Content = "R$ 0,00";
@@ -259,13 +262,6 @@ namespace CFP.App.Formularios.Financeiros
                 }
             }
         }
-        #endregion
-
-        #region Novo Codigo Conta
-        //private void NovoCodigoConta()
-        //{
-
-        //}
         #endregion
 
         #region Preenche Objeto para Salvar
@@ -362,7 +358,7 @@ namespace CFP.App.Formularios.Financeiros
         {
             if (conta != null)
             {
-                txtCodigo.Text = conta.Id.ToString();
+                txtCodigo.Text = conta.Codigo.ToString();
                 txtNome.Text = conta.Nome.ToString();
                 cmbTipoConta.SelectedIndex = conta.TipoConta.GetHashCode();
                 cmbTipoGasto.SelectedItem = conta.GrupoGasto;
@@ -461,9 +457,9 @@ namespace CFP.App.Formularios.Financeiros
         #region ValidaCampos
         public bool ValidaCampos()
         {
-            if (String.IsNullOrEmpty(txtNome.Text) || String.IsNullOrEmpty(txtEmissao.Text) || String.IsNullOrEmpty(txtPrimeiroVencimento.Text))
+            if (String.IsNullOrEmpty(txtNome.Text) || String.IsNullOrEmpty(txtEmissao.Text) || String.IsNullOrEmpty(txtPrimeiroVencimento.Text) || String.IsNullOrEmpty(txtValorTotal.Text) || String.IsNullOrEmpty(txtQtdParcelas.Text))
             {
-                MessageBox.Show("Os campos\nNome\nData emissão\nData Vencimento\nsão obrigatórios, por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("Os campos\nNome\nData emissão\nData Vencimento\nValor Total\nQtd de Parcelas\nsão obrigatórios, por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
             if (txtPrimeiroVencimento.SelectedDate < txtEmissao.SelectedDate)
@@ -493,6 +489,19 @@ namespace CFP.App.Formularios.Financeiros
             }
             return true;
         }
+
+        private bool VerificaParcelasPendentes()
+        {
+            if (conta.ContaPagamentos != null)
+            {
+                foreach (var item in conta.ContaPagamentos)
+                {
+                    if (item.SituacaoParcelas == SituacaoParcela.Pendente || item.SituacaoParcelas == SituacaoParcela.Parcial)
+                        return true;
+                }
+            }
+            return false;
+        }
         #endregion
 
         #region Metodo para salvar
@@ -511,7 +520,7 @@ namespace CFP.App.Formularios.Financeiros
                         Repositorio.Salvar(conta);
                         PreencheObjetoComListaDadaGrid();
                         PreencheObjetoComListaArquivos();
-                        txtCodigo.Text = conta.Id.ToString();
+                        txtCodigo.Text = conta.Codigo.ToString();
                         return true;
                     }
                     else
@@ -597,7 +606,7 @@ namespace CFP.App.Formularios.Financeiros
             {
                 RemoveTodosOsItensDaListaEBanco();
                 #region Gerando as Parcelas
-                Decimal valorTotal = Decimal.Parse(vTotal);
+                Decimal valorTotal =txtValorTotal.Text != string.Empty ? Decimal.Parse(vTotal) : 0;
                 Int32 qtdParcelas = txtQtdParcelas.Text != string.Empty ? Int32.Parse(qtd) : 1;
                 DateTime dataPrimeiroVencimento = primeiroVencimento;
                 if (!valorTotal.Equals(0) || !qtdParcelas.Equals(0))
@@ -633,8 +642,8 @@ namespace CFP.App.Formularios.Financeiros
                 {
                     RemoveTodosOsItensDaListaEBanco();
                     #region Gerando as Parcelas
-                    Decimal valorTotal = Decimal.Parse(vTotal);
-                    Int32 qtdParcelas = Int32.Parse(qtd);
+                    Decimal valorTotal = txtValorTotal.Text != string.Empty ? Decimal.Parse(vTotal) : 0;
+                    Int32 qtdParcelas = txtQtdParcelas.Text != string.Empty ? Int32.Parse(qtd) : 1;
                     DateTime dataPrimeiroVencimento = primeiroVencimento;
                     if (!valorTotal.Equals(0) || !qtdParcelas.Equals(0))
                     {
@@ -693,12 +702,14 @@ namespace CFP.App.Formularios.Financeiros
                     GridItemPagamento.IsEnabled = true;
                     GridArquivos.IsEnabled = true;
                     btSalvar.Visibility = Visibility.Visible;
+                    btFinalizarConta.Visibility = Visibility.Visible;
                     break;
                 case "Cancelado":
                     GridControls2.IsEnabled = false;
                     GridItemPagamento.IsEnabled = false;
                     GridArquivos.IsEnabled = false;
                     btSalvar.Visibility = Visibility.Hidden;
+                    btFinalizarConta.Visibility = Visibility.Hidden;
                     btExcluir.Visibility = Visibility.Hidden;
                     break;
                 case "Finalizado":
@@ -706,6 +717,7 @@ namespace CFP.App.Formularios.Financeiros
                     GridItemPagamento.IsEnabled = false;
                     GridArquivos.IsEnabled = false;
                     btSalvar.Visibility = Visibility.Hidden;
+                    btFinalizarConta.Visibility = Visibility.Hidden;
                     break;
             }
         }
@@ -776,7 +788,7 @@ namespace CFP.App.Formularios.Financeiros
                         Directory.CreateDirectory(diretorio);
                     return diretorio;
                 }
-                    
+
             }
         }
 
@@ -834,7 +846,7 @@ namespace CFP.App.Formularios.Financeiros
                     else
                     {
                         #region Conta existente
-                        conta = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
+                        conta = Repositorio.ObterPorCodigo(Int64.Parse(txtCodigo.Text));
                         if (conta != null)
                         {
                             PreencheDataGrid();
@@ -983,12 +995,10 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btGerarParcelas_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(txtValorTotal.Text) && !String.IsNullOrEmpty(txtQtdParcelas.Text) && !String.IsNullOrEmpty(txtPrimeiroVencimento.Text))
-                GerarParcelas(txtValorTotal.Text, txtQtdParcelas.Text, txtPrimeiroVencimento.SelectedDate.Value);
-            else
+            if (ValidaCampos())
             {
-                MessageBox.Show("Verifique se os campos: \n Valor Total \n Qtd de Parcelas \n Primeiro Vencimento\n estão preenchidos corretamente!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-                return;
+                GerarParcelas(txtValorTotal.Text, txtQtdParcelas.Text, txtPrimeiroVencimento.SelectedDate.Value);
+                Salvar();
             }
         }
 
@@ -1047,25 +1057,31 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btCancelarParcela_Click(object sender, RoutedEventArgs e)
         {
-            var selecao = DataGridContaPagamento.SelectedItem;
+            ContaPagamento selecao = (ContaPagamento)DataGridContaPagamento.SelectedItem;
             if (selecao != null)
             {
-                MessageBoxResult d = MessageBox.Show("Deseja cancelar esta Parcela?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (d == MessageBoxResult.Yes)
+                if (selecao.SituacaoParcelas == SituacaoParcela.Pendente || selecao.SituacaoParcelas == SituacaoParcela.Parcial)
                 {
-                    foreach (var item in conta.ContaPagamentos)
+                    MessageBoxResult d = MessageBox.Show("Deseja cancelar esta Parcela?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
                     {
-                        if (item == selecao)
+                        foreach (var item in conta.ContaPagamentos)
                         {
-                            item.SituacaoParcelas = SituacaoParcela.Cancelado;
-                            RepositorioContaPagamento.Alterar(item);
-                            break;
+                            if (item == selecao)
+                            {
+                                item.SituacaoParcelas = SituacaoParcela.Cancelado;
+                                RepositorioContaPagamento.Alterar(item);
+                                break;
+                            }
                         }
+                        DataGridContaPagamento.Items.Refresh();
+                        FiltroSituacaoParcelas();
+                        CalculoTotalPorSituacaoParcela();
                     }
-                    DataGridContaPagamento.Items.Refresh();
-                    FiltroSituacaoParcelas();
-                    CalculoTotalPorSituacaoParcela();
                 }
+                else
+                    MessageBox.Show("Voce não pode cancelar esta Parcela!", " Informacão ", MessageBoxButton.OK, MessageBoxImage.Information);
+
             }
             else
                 MessageBox.Show("Selecione uma parcela!", "Informativo", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -1119,7 +1135,7 @@ namespace CFP.App.Formularios.Financeiros
             {
                 IList<string> arquivos = new List<string>(openFileDialog.FileNames);
                 novoCaminho = NovoCaminho();
-                if(string.IsNullOrEmpty(novoCaminho))
+                if (string.IsNullOrEmpty(novoCaminho))
                 {
                     MessageBox.Show("Defina o caminho padrão para salvar os arquivos em configuracões!", "Informacão", MessageBoxButton.OK, MessageBoxImage.Information);
                     return;
@@ -1248,6 +1264,35 @@ namespace CFP.App.Formularios.Financeiros
             }
         }
         #endregion
+
+        private void btFinalizarConta_Click(object sender, RoutedEventArgs e)
+        {
+            if (conta.Id != 0)
+            {
+                if (!VerificaParcelasPendentes())
+                {
+                    MessageBoxResult d = MessageBox.Show("Deseja finalizar essa conta?!", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                        conta.Situacao = SituacaoConta.Finalizado;
+                        Repositorio.Alterar(conta);
+                        LimpaCampos();
+                        ControleAcessoInicial();
+                    }
+                }
+                else
+                {
+                    MessageBoxResult d = MessageBox.Show("Existem parcelas pendentes, deseja finalizar assim mesmo?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                        conta.Situacao = SituacaoConta.Finalizado;
+                        Repositorio.Alterar(conta);
+                        LimpaCampos();
+                        ControleAcessoInicial();
+                    }
+                }
+            }
+        }
     }
 }
 

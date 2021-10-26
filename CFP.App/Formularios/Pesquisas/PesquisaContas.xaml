@@ -18,7 +18,7 @@
                   AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="DataGridPesquisa_MouseDoubleClick"
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="Código"/>
+                <DataGridTextColumn Binding="{Binding Codigo}" Header="Código"/>
 				<DataGridTextColumn Binding="{Binding Situacao}" Header="Situação"/>
                 <DataGridTextColumn Binding="{Binding Nome}" Header="Nome"/>
 				<DataGridTextColumn Binding="{Binding ValorTotal}" Header="Valor"/>

@@ -51,7 +51,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 numParcela += linha.Numero.ToString() + " ";
                 somaValorParcela = somaValorParcela + linha.ValorParcela;
 
-                txtCodigoConta.Text = linha.Conta.Id.ToString();
+                txtCodigoConta.Text = linha.Conta.Codigo.ToString();
                 txtNumeroParcela.Text = numParcela;
                 txtValorParcela.Text = somaValorParcela.ToString("N2");
                 txtDataPagamento.SelectedDate = linha.DataPagamento != null ? linha.DataPagamento : DateTime.Now;
