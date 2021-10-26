@@ -86,6 +86,7 @@
     <Compile Include="Mapeamento\ContaArquivoMAP.cs" />
     <Compile Include="Mapeamento\ContaMAP.cs" />
     <Compile Include="Mapeamento\ContaPagamentoMAP.cs" />
+    <Compile Include="Mapeamento\FluxoCaixaMAP.cs" />
     <Compile Include="Mapeamento\FormaPagamentoMAP.cs" />
     <Compile Include="Mapeamento\GrupoGastoMAP.cs" />
     <Compile Include="Mapeamento\HoraExtraMAP.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Repositorio\RepositorioConta.cs" />
     <Compile Include="Repositorio\RepositorioContaArquivo.cs" />
     <Compile Include="Repositorio\RepositorioContaPagamento.cs" />
+    <Compile Include="Repositorio\RepositorioFluxoCaixa.cs" />
     <Compile Include="Repositorio\RepositorioFormaPagamento.cs" />
     <Compile Include="Repositorio\RepositorioGrupoGasto.cs" />
     <Compile Include="Repositorio\RepositorioHoraExtra.cs" />
