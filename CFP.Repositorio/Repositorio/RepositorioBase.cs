@@ -6,6 +6,7 @@ using SGE.Repositorio.Configuracao;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using Expression = NHibernate.Criterion.Expression;
 
 namespace Repositorio.Repositorios
 {
@@ -135,6 +136,14 @@ namespace Repositorio.Repositorios
             {
                 throw;
             }
+        }
+
+        public T ObterPorCodigo(Int64 cod)
+        {
+            var criterio = Session.CreateCriteria<T>();
+            criterio.Add(Expression.Eq("Codigo", cod));
+
+            return criterio.UniqueResult<T>();
         }
     }
 }

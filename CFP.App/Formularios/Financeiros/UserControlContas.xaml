@@ -522,7 +522,9 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="80"/>
                                 </Grid.ColumnDefinitions>
-                                <Rectangle Grid.Column="0"
+                                <Rectangle x:Name="RectArrastarSoltar"
+                                    AllowDrop="True"
+                                    Grid.Column="0"
                                  Fill="WhiteSmoke"
                                  RadiusX="10"
                                  RadiusY="10"
@@ -532,7 +534,7 @@
                                  Stroke="Silver"
                                  Margin="10"
                                  HorizontalAlignment="Stretch"
-                                 VerticalAlignment="Stretch" />
+                                 VerticalAlignment="Stretch" Drop="RectArrastarSoltar_Drop" />
 
                                 <TextBlock Grid.Row="0" 
                                        HorizontalAlignment="Center"

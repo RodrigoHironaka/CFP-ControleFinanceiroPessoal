@@ -16,5 +16,6 @@ namespace CFP.Dominio.Dominio
 
         public virtual Conta Conta { get; set; }
         public virtual String Caminho { get; set; }
+    
     }
 }

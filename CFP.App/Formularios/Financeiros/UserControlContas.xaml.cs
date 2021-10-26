@@ -193,7 +193,7 @@ namespace CFP.App.Formularios.Financeiros
             lblTotalPendentes.Content = "R$ 0,00";
             lblTotalParceiais.Content = "R$ 0,00";
             lblTotalCancelados.Content = "R$ 0,00";
-            
+
             foreach (var item in GridControls.Children)
             {
                 if (item is TabControl)
@@ -463,12 +463,12 @@ namespace CFP.App.Formularios.Financeiros
         {
             if (String.IsNullOrEmpty(txtNome.Text) || String.IsNullOrEmpty(txtEmissao.Text) || String.IsNullOrEmpty(txtPrimeiroVencimento.Text))
             {
-                MessageBox.Show(" Os campos  Nome\n Data emissão\n Data Vencimento\n são Obrigatórios, por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("Os campos\nNome\nData emissão\nData Vencimento\nsão obrigatórios, por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
             if (txtPrimeiroVencimento.SelectedDate < txtEmissao.SelectedDate)
             {
-                MessageBox.Show("Data de vencimento não pode ser menor que data de emissão!","Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show("Data de vencimento não pode ser menor que data de emissão!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
             if ((TipoPeriodo)cmbTipoPeriodo.SelectedIndex == TipoPeriodo.Unica)
@@ -754,16 +754,30 @@ namespace CFP.App.Formularios.Financeiros
         #region Gerando novo caminho para arquivos de acordo com o Id da conta
         public string NovoCaminho()
         {
-            Configuracao configuracao = new RepositorioConfiguracao(Session).ObterTodos().First();
-            if (conta.Id == 0)
+            Configuracao configuracao = new RepositorioConfiguracao(Session).ObterTodos().FirstOrDefault();
+            if (configuracao == null || configuracao.CaminhoArquivos == string.Empty)
             {
-               var novoCodigo = Repositorio.RetornaUltimoCodigo() + 1;
-               var novoDiretorio = String.Format("{0}\\Conta_{1}", configuracao.CaminhoArquivos, novoCodigo);
-                if (!Directory.Exists(novoDiretorio))
-                    Directory.CreateDirectory(novoDiretorio);
-                return novoDiretorio;
+                return string.Empty;
             }
-            return String.Format("{0}\\Conta_{1}", configuracao.CaminhoArquivos, conta.Codigo);
+            else
+            {
+                if (conta.Id == 0)
+                {
+                    var novoCodigo = Repositorio.RetornaUltimoCodigo() + 1;
+                    var novoDiretorio = String.Format("{0}\\Conta_{1}", configuracao.CaminhoArquivos, novoCodigo);
+                    if (!Directory.Exists(novoDiretorio))
+                        Directory.CreateDirectory(novoDiretorio);
+                    return novoDiretorio;
+                }
+                else
+                {
+                    var diretorio = String.Format("{0}\\Conta_{1}", configuracao.CaminhoArquivos, conta.Codigo);
+                    if (!Directory.Exists(diretorio))
+                        Directory.CreateDirectory(diretorio);
+                    return diretorio;
+                }
+                    
+            }
         }
 
         #endregion
@@ -969,7 +983,7 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btGerarParcelas_Click(object sender, RoutedEventArgs e)
         {
-            if(!String.IsNullOrEmpty(txtValorTotal.Text) && !String.IsNullOrEmpty(txtQtdParcelas.Text) && !String.IsNullOrEmpty(txtPrimeiroVencimento.Text))
+            if (!String.IsNullOrEmpty(txtValorTotal.Text) && !String.IsNullOrEmpty(txtQtdParcelas.Text) && !String.IsNullOrEmpty(txtPrimeiroVencimento.Text))
                 GerarParcelas(txtValorTotal.Text, txtQtdParcelas.Text, txtPrimeiroVencimento.SelectedDate.Value);
             else
             {
@@ -1105,7 +1119,12 @@ namespace CFP.App.Formularios.Financeiros
             {
                 IList<string> arquivos = new List<string>(openFileDialog.FileNames);
                 novoCaminho = NovoCaminho();
-                if (contaArquivos == null)
+                if(string.IsNullOrEmpty(novoCaminho))
+                {
+                    MessageBox.Show("Defina o caminho padrão para salvar os arquivos em configuracões!", "Informacão", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+                if (contaArquivos.Count == 0)
                 {
                     #region Adiciona arquivo quando a conta ainda nao foi salva, Id neste caso é 0
 
@@ -1120,7 +1139,7 @@ namespace CFP.App.Formularios.Financeiros
                             if (!File.Exists(caminhoCompleto))
                             {
                                 File.Copy(arquivo, System.IO.Path.Combine(novoCaminho, new FileInfo(arquivo).Name));
-                                contaArquivos.Add(new ContaArquivo() { Caminho = novoCaminho, Nome = nomeArquivo , DataGeracao = DateTime.Now});
+                                contaArquivos.Add(new ContaArquivo() { Caminho = novoCaminho, Nome = nomeArquivo, DataGeracao = DateTime.Now });
                                 lstArquivos.Items.Refresh();
                             }
                         }
@@ -1146,10 +1165,11 @@ namespace CFP.App.Formularios.Financeiros
                 Salvar();
             }
         }
-        
+
         private void lstArquivos_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            Configuracao configuracao = new RepositorioConfiguracao(Session).ObterTodos().First();
+            Configuracao configuracao = new RepositorioConfiguracao(Session).ObterTodos().FirstOrDefault();
+
             string ArquivoSelecionado = lstArquivos.SelectedItem.ToString();
             var caminhoCompleto = string.Format("{0}\\Conta_{1}\\{2}", configuracao.CaminhoArquivos, conta.Codigo, ArquivoSelecionado);
 
@@ -1165,15 +1185,69 @@ namespace CFP.App.Formularios.Financeiros
             var caminhoPastaSistema = string.Format("{0}\\{1}", selecao.Caminho, selecao.Nome);
             if (File.Exists(caminhoPastaSistema))
                 File.Delete(caminhoPastaSistema);
-            if(conta.Id != 0)
+            if (conta.Id != 0)
             {
                 conta.ContaArquivos.Remove((ContaArquivo)selecao);
                 RepositorioContaArquivo.Excluir((ContaArquivo)selecao);
             }
             contaArquivos.Remove((ContaArquivo)selecao);
-            
+
         }
 
+        private void RectArrastarSoltar_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                IList<string> arquivos = new List<string>((string[])e.Data.GetData(DataFormats.FileDrop));
+                novoCaminho = NovoCaminho();
+                if (string.IsNullOrEmpty(novoCaminho))
+                {
+                    MessageBox.Show("Defina o caminho padrão para salvar os arquivos em configuracões!", "Informacão", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+                if (contaArquivos.Count == 0)
+                {
+                    #region Adiciona arquivo quando a conta ainda nao foi salva, Id neste caso é 0
+
+                    PreencheListView();
+                    if (ValidaCampos())
+                    {
+                        foreach (var arquivo in arquivos)
+                        {
+                            var nomeArquivo = System.IO.Path.GetFileName(arquivo);
+                            var caminhoCompleto = string.Format("{0}\\{1}", novoCaminho, nomeArquivo);
+
+                            if (!File.Exists(caminhoCompleto))
+                            {
+                                File.Copy(arquivo, System.IO.Path.Combine(novoCaminho, new FileInfo(arquivo).Name));
+                                contaArquivos.Add(new ContaArquivo() { Caminho = novoCaminho, Nome = nomeArquivo, DataGeracao = DateTime.Now });
+                                lstArquivos.Items.Refresh();
+                            }
+                        }
+                    }
+                    #endregion
+                }
+                else
+                {
+                    #region Adiciona arquivo quando a conta ja existe, Id diferente de 0
+                    foreach (var arquivo in arquivos)
+                    {
+                        var nomeArquivo = System.IO.Path.GetFileName(arquivo);
+                        var caminhoCompleto = string.Format("{0}\\{1}", novoCaminho, nomeArquivo);
+                        if (!File.Exists(caminhoCompleto))
+                        {
+                            File.Copy(arquivo, System.IO.Path.Combine(novoCaminho, new FileInfo(arquivo).Name));
+                            contaArquivos.Add(new ContaArquivo() { Caminho = novoCaminho, Nome = nomeArquivo, DataAlteracao = DateTime.Now });
+                            lstArquivos.Items.Refresh();
+                        }
+                    }
+                    #endregion
+                }
+                Salvar();
+
+            }
+        }
         #endregion
     }
 }
+
