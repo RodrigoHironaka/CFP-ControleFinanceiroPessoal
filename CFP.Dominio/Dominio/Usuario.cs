@@ -11,6 +11,7 @@ namespace Dominio.Dominio
 {
     public class Usuario : Base
     {
+        public virtual String NomeAcesso { get; set; }
         public virtual String Senha { get; set; }
         public virtual String ConfirmaSenha { get; set; }
         public virtual TipoUsuario TipoUsuario { get; set; }

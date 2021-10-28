@@ -1,4 +1,5 @@
 ﻿using CFP.App.Formularios.Pesquisas;
+using CFP.Ferramentas;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
@@ -7,6 +8,7 @@ using Repositorio.Repositorios;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -122,8 +124,9 @@ namespace CFP.App.Formularios.Cadastros
             try
             {
                 usuario.Nome = txtNome.Text;
-                usuario.Senha = txtSenha.Password;
-                usuario.ConfirmaSenha = txtConfirmaSenha.Password;
+                usuario.NomeAcesso = txtNomeAcesso.Text;
+                usuario.Senha = txtSenha.Password != string.Empty ? new Criptografia(SHA512.Create()).GerarHash(txtSenha.Password) : usuario.Senha;
+                usuario.ConfirmaSenha = txtConfirmaSenha.Password != string.Empty ? new Criptografia(SHA512.Create()).GerarHash(txtConfirmaSenha.Password) : usuario.ConfirmaSenha;
                 usuario.TipoUsuario = (TipoUsuario)cmbTipoUsuario.SelectedIndex;
                 usuario.Situacao = (Situacao)cmbSituacao.SelectedIndex;
                 return true;
@@ -143,8 +146,9 @@ namespace CFP.App.Formularios.Cadastros
             {
                 txtCodigo.Text = usuario.Id.ToString();
                 txtNome.Text = usuario.Nome;
-                txtSenha.Password = usuario.Senha;
-                txtConfirmaSenha.Password = usuario.ConfirmaSenha;
+                txtNomeAcesso.Text = usuario.NomeAcesso;
+                //txtSenha.Password = usuario.Senha;
+                //txtConfirmaSenha.Password = usuario.ConfirmaSenha;
                 cmbTipoUsuario.SelectedIndex = usuario.TipoUsuario.GetHashCode();
                 cmbSituacao.SelectedIndex = usuario.Situacao.GetHashCode();
             }
@@ -157,6 +161,17 @@ namespace CFP.App.Formularios.Cadastros
             var converter = new System.Windows.Media.BrushConverter();
             var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
             btPesquisar.Background = HexaToBrush;
+        }
+        #endregion
+
+        #region Confirma Senha 
+        private void ConfirmaSenha()
+        {
+            if (txtSenha.Password != txtConfirmaSenha.Password)
+            {
+                MessageBox.Show("Senhas não são iguais! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }   
         }
         #endregion
         public UserControlUsuario(Usuario _usuario, ISession _session)
@@ -205,6 +220,7 @@ namespace CFP.App.Formularios.Cadastros
                         usuario = Repositorio.ObterPorId(Int64.Parse(txtCodigo.Text));
                         if (usuario != null)
                         {
+                            LimpaCampos();
                             PreencheCampos();
                             ControleAcessoCadastro();
                             CorPadrãoBotaoPesquisar();
@@ -241,6 +257,7 @@ namespace CFP.App.Formularios.Cadastros
             p.ShowDialog();
             if (p.objeto != null)
             {
+                LimpaCampos();
                 usuario = p.objeto;
                 PreencheCampos();
                 ControleAcessoCadastro();
@@ -250,16 +267,45 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
         {
+            if (String.IsNullOrEmpty(txtNome.Text))
+            {
+                MessageBox.Show("Campo Nome é obrigatório!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (String.IsNullOrEmpty(txtNomeAcesso.Text))
+            {
+                MessageBox.Show("Campo Nome Acesso é obrigatório!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (cmbTipoUsuario.SelectedIndex == -1)
+            {
+                MessageBox.Show("Campo Tipo de Usuário é obrigatório!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+
             if (PreencheObjeto())
             {
-                if ((usuario.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
+                if (usuario.Id == 0) 
                 {
+                    if (!String.IsNullOrEmpty(txtSenha.Password))
+                        ConfirmaSenha();
+                    else
+                    {
+                        MessageBox.Show("Digite uma senha válida!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+
                     usuario.DataGeracao = DateTime.Now;
                     Repositorio.Salvar(usuario);
                     txtCodigo.Text = usuario.Id.ToString();
                 }
                 else
                 {
+                    if (!String.IsNullOrEmpty(txtSenha.Password))
+                        ConfirmaSenha();
+
                     usuario.DataAlteracao = DateTime.Now;
                     Repositorio.Alterar(usuario);
                 }
@@ -281,6 +327,17 @@ namespace CFP.App.Formularios.Cadastros
                     ControleAcessoInicial();
                 }
             }
+        }
+
+        private void txtNomeAcesso_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void txtConfirmaSenha_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ConfirmaSenha();
         }
     }
 }

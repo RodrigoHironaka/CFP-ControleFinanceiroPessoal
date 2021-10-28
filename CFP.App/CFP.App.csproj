@@ -203,6 +203,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Principais\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Principais\Principal.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -292,6 +296,9 @@
     <Compile Include="Formularios\Pesquisas\UserControlPesquisas.xaml.cs">
       <DependentUpon>UserControlPesquisas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Principais\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Principais\Principal.xaml.cs">
       <DependentUpon>Principal.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -322,6 +329,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -340,10 +348,17 @@
       <Project>{e96c2843-48f7-4491-b51d-3c21739861c2}</Project>
       <Name>CFP.Dominio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CFP.Ferramentas\CFP.Ferramentas.csproj">
+      <Project>{B8AF5BEC-56CD-48A3-BEA1-0E6ECE64C00F}</Project>
+      <Name>CFP.Ferramentas</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CFP.Repositorio\CFP.Repositorio.csproj">
       <Project>{b1c6ef45-06f7-4605-9e63-fa14cee9224d}</Project>
       <Name>CFP.Repositorio</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.1.0\build\MaterialDesignThemes.targets')" />

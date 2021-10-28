@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:CFP.App"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" 
-        Height="600" Width="1080
-        " ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" Foreground="White" Loaded="Principal_Loaded">
+        Height="600" Width="1080" 
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None" 
+        Foreground="White" 
+        Loaded="Principal_Loaded">
 
     <Window.Resources>
         <Storyboard x:Key="MenuOpen">
@@ -36,15 +40,17 @@
     <Grid Background="LightGray">
         <Grid x:Name="GridCabecalho" Height="60" VerticalAlignment="Top" Background="#FF1368BD" >
             <TextBlock x:Name="lblTitulo" Text="CONTROLE FINANCEIRO PESSOAL" 
-                       HorizontalAlignment="Center" 
+                       FontFamily="Champagne &amp; Limousines"
+                       HorizontalAlignment="Left" 
                        VerticalAlignment="Center" 
-                       FontSize="22" />
+                       FontSize="22" Margin="70 0 0 0" />
             <StackPanel VerticalAlignment="Center" 
                         Orientation="Horizontal" 
                         HorizontalAlignment="Right">
-                <TextBlock Text="Rodrigo Hironaka" 
+                <TextBlock x:Name="lblNomeUsuario"
+                           FontFamily="Champagne &amp; Limousines"
                            VerticalAlignment="Center" 
-                           FontSize="18"/>
+                           FontSize="22"/>
                 <materialDesign:PopupBox Margin="10" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                     <StackPanel Width="150">
                         <!--<Button x:Name="ButtonContaUsuario" Content="Conta" Click="ButtonContaUsuario_Click" />-->
@@ -67,7 +73,7 @@
         </Grid>
         <Grid x:Name="GridMenu" Width="60" HorizontalAlignment="Left" Background="#FF1F3D68">
             <StackPanel>
-                <Grid Height="150" Background="White">
+                <Grid Height="150" Background="#FF1F3D68">
                     <Button x:Name="ButtonCloseMenu" 
                             Width="60" 
                             Height="30" 
@@ -77,7 +83,7 @@
                             HorizontalAlignment="Right" 
                             Visibility="Collapsed" 
                             Click="ButtonCloseMenu_Click">
-                        <materialDesign:PackIcon Foreground="#FF1B3861" Kind="ArrowLeft" Width="25" Height="25"/>
+                        <materialDesign:PackIcon Foreground="White" Kind="ArrowLeft" Width="25" Height="25"/>
                     </Button>
                     <Button x:Name="ButtonOpenMenu" 
                             Width="60" 
@@ -87,8 +93,11 @@
                             VerticalAlignment="Top" 
                             HorizontalAlignment="Right" 
                             Click="ButtonOpenMenu_Click">
-                        <materialDesign:PackIcon Foreground="#FF1B3861" Kind="Menu" Width="25" Height="25"/>
+                        <materialDesign:PackIcon Foreground="White" Kind="Menu" Width="25" Height="25"/>
                     </Button>
+                    <Image Source="/Resources/Logo.png" />
+
+                    
                 </Grid>
                 <ListView x:Name="ListViewMenu" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                           Background="#FF1F3D68" 

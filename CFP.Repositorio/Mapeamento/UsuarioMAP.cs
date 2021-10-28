@@ -24,6 +24,7 @@ namespace Repositorio.Mapeamentos
             });
 
             Property(x => x.Nome, m => m.Length(70));
+            Property(x => x.NomeAcesso, m => m.Length(70));
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
             Property(x => x.Senha, m => m.Length(100));

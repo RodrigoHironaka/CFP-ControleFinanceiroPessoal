@@ -28,11 +28,15 @@ namespace CFP.App
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Usuario Logado
+        public static string UsuarioLogado;
+        public static string TipoUsuario;
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
             GridPrincipal.Children.Add(new UserControlInicio());
-            
         }
 
         private void ButtonPopUpSair_Click(object sender, RoutedEventArgs e)
@@ -81,7 +85,22 @@ namespace CFP.App
 
         private void Principal_Loaded(object sender, RoutedEventArgs e)
         {
-           //NHibernateHelper.GetSession();
+            #region Login
+            Principal.Visibility = Visibility.Hidden;
+            Login login = new Login();
+            bool? confirmacao = login.ShowDialog();
+            if ((bool)confirmacao)
+            {
+                UsuarioLogado = login.UsuarioLogado;
+                lblNomeUsuario.Text = UsuarioLogado.ToUpper();
+                Principal.Visibility = Visibility.Visible;
+                login.Close();
+            }
+            else
+            {
+                Close();
+            }
+            #endregion
         }
 
         private void ButtonConfiguracoes_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using CFP.App.Formularios.Financeiros;
+using CFP.App.Formularios.Principais;
 using Dominio.Dominio;
 using NHibernate;
 using SGE.Repositorio.Configuracao;
@@ -56,6 +57,12 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
         {
             panelCadastros.Children.Clear();
             panelCadastros.Children.Add(new UserControlCaixa(new Caixa(), Session));
+        }
+
+        private void btCofre_Click(object sender, RoutedEventArgs e)
+        {
+            Login f = new Login();
+            f.ShowDialog();
         }
     }
 }

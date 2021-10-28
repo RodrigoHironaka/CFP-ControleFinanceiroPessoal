@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros.TelasConfirmacoes"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="ConfirmacaoPagamentoParcela" Height="400" Width="350" WindowStartupLocation="CenterScreen" WindowStyle="None" Loaded="Window_Loaded" >
+        ResizeMode="NoResize"
+        Title="ConfirmacaoPagamentoParcela" 
+        Height="400" Width="350" 
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" 
+        Loaded="Window_Loaded" >
     <Grid x:Name="GridCOntrolsPagamento" Background="#FF1F3D68">
         <Grid Background="LightGray" Margin="10">
         <Grid.RowDefinitions>

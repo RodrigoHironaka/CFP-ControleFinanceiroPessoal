@@ -53,7 +53,7 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch" 
                     ToolTip="Visualização do Cofre"
-                    Margin="10 0 10 0">
+                    Margin="10 0 10 0" Click="btCofre_Click">
                 <materialDesign:PackIcon
                     Kind="SafeSquare"
                     Width="70"
