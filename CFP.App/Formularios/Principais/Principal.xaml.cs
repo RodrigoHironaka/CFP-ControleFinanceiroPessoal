@@ -36,7 +36,6 @@ namespace CFP.App
         public MainWindow()
         {
             InitializeComponent();
-            GridPrincipal.Children.Add(new UserControlInicio());
         }
 
         private void ButtonPopUpSair_Click(object sender, RoutedEventArgs e)
@@ -85,6 +84,7 @@ namespace CFP.App
 
         private void Principal_Loaded(object sender, RoutedEventArgs e)
         {
+
             #region Login
             Principal.Visibility = Visibility.Hidden;
             Login login = new Login();
@@ -101,6 +101,9 @@ namespace CFP.App
                 Close();
             }
             #endregion
+
+            if(UsuarioLogado != null)
+                GridPrincipal.Children.Add(new UserControlInicio());
         }
 
         private void ButtonConfiguracoes_Click(object sender, RoutedEventArgs e)

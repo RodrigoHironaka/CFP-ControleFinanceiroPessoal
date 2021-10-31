@@ -124,6 +124,10 @@
       <Project>{e96c2843-48f7-4491-b51d-3c21739861c2}</Project>
       <Name>CFP.Dominio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CFP.Ferramentas\CFP.Ferramentas.csproj">
+      <Project>{B8AF5BEC-56CD-48A3-BEA1-0E6ECE64C00F}</Project>
+      <Name>CFP.Ferramentas</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

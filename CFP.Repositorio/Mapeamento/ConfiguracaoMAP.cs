@@ -20,11 +20,6 @@ namespace CFP.Repositorio.Mapeamento
                 m.Generator(Generators.HighLow, g => g.Params(new { max_lo = 0 }));
             });
 
-            Property(x => x.ServidorBD, m => m.Length(10));
-            Property(x => x.BaseBD, m => m.Length(50));
-            Property(x => x.UsuarioBD, m => m.Length(50));
-            Property(x => x.SenhaBD, m => m.Length(50));
-            Property(x => x.PortaBD, m => m.Length(10));
             Property(x => x.CaminhoArquivos, m => m.Length(250));
             Property(x => x.CaminhoBackup, m => m.Length(250));
             Property(x => x.DataGeracao);

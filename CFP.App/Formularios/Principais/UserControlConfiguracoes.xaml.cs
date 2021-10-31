@@ -65,11 +65,6 @@ namespace CFP.App.Formularios.Principais
             {
                 configuracao.CaminhoArquivos = txtCaminhoArquivos.Text;
                 configuracao.CaminhoBackup = txtCaminhoBackup.Text;
-                configuracao.ServidorBD = txtServidor.Text;
-                configuracao.BaseBD = txtBase.Text;
-                configuracao.UsuarioBD = txtUsuario.Text;
-                configuracao.SenhaBD = txtSenha.Password;
-                configuracao.PortaBD = txtPorta.Text;
                 return true;
             }
             catch
@@ -92,9 +87,7 @@ namespace CFP.App.Formularios.Principais
                 txtCodigo.Text = configuracao.Id.ToString();
                 txtCaminhoArquivos.Text = configuracao.CaminhoArquivos;
                 txtCaminhoBackup.Text = configuracao.CaminhoBackup;
-                txtServidor.Text = configuracao.ServidorBD;
-                txtBase.Text = configuracao.BaseBD;
-                txtPorta.Text = configuracao.PortaBD;
+                
             }
         }
         #endregion

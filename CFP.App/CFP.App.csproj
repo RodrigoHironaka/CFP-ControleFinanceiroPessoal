@@ -203,6 +203,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Principais\ConfiguracaoBanco.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Principais\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -296,6 +300,9 @@
     <Compile Include="Formularios\Pesquisas\UserControlPesquisas.xaml.cs">
       <DependentUpon>UserControlPesquisas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Principais\ConfiguracaoBanco.xaml.cs">
+      <DependentUpon>ConfiguracaoBanco.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Principais\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -340,9 +347,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Formularios\Configuracoes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CFP.Dominio\CFP.Dominio.csproj">
       <Project>{e96c2843-48f7-4491-b51d-3c21739861c2}</Project>

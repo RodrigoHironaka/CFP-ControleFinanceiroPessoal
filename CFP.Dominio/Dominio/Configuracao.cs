@@ -17,13 +17,5 @@ namespace CFP.Dominio.Dominio
         public virtual String CaminhoBackup { get; set; }
         #endregion
 
-        #region Banco de Dados
-        public virtual String ServidorBD { get; set; }
-        public virtual String BaseBD { get; set; }
-        public virtual String UsuarioBD { get; set; }
-        public virtual String SenhaBD { get; set; }
-        public virtual String PortaBD { get; set; }
-        #endregion
-
     }
 }
