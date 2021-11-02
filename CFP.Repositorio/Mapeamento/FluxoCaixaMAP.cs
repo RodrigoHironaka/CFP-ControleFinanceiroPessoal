@@ -22,6 +22,7 @@ namespace CFP.Repositorio.Mapeamento
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
             ManyToOne(x => x.Caixa, m => m.Column("Caixa"));
+            ManyToOne(x => x.UsuarioLogado, m => m.Column("UsuarioLogado"));
         }
     }
 }

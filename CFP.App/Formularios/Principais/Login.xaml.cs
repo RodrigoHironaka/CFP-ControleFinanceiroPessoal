@@ -60,12 +60,13 @@ namespace CFP.App.Formularios.Principais
 
         Usuario usuario;
 
-        internal string UsuarioLogado;
-        internal string UsuarioTipo;
+        internal Usuario UsuarioLogado;
+       
 
         public Login()
         {
             InitializeComponent();
+            txtUsuario.Focus();
         }
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
@@ -76,8 +77,7 @@ namespace CFP.App.Formularios.Principais
 
                 if (usuario != null)
                 {
-                    UsuarioLogado = usuario.Nome;
-                    UsuarioTipo = usuario.TipoUsuario.ToString();
+                    UsuarioLogado = usuario;
                     var retorno = new Criptografia(SHA512.Create()).VerificarHash(txtSenha.Password, usuario.Senha);
                     if(retorno)
                         this.DialogResult = true;

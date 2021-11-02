@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="1020">
+             d:DesignHeight="550" d:DesignWidth="1020" Loaded="UserControl_Loaded">
     <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -72,7 +72,7 @@
                     Width="50" 
                     Height="50"/>
             </Button>
-            
+
             <Button x:Name="btRetirandoCofre"
                     Grid.Column="11"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
@@ -103,8 +103,8 @@
                     Height="50"/>
             </Button>
 
-            
-            
+
+
             <Button x:Name="btAbrirFecharCaixa"
                     Grid.Column="14"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
@@ -113,7 +113,7 @@
                     VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Botão para abertura ou fechamento de caixa">
+                    ToolTip="Botão para abertura ou fechamento de caixa" Click="btAbrirFecharCaixa_Click">
                 <materialDesign:PackIcon 
                     Kind="CashRegister"  
                     Width="50" 
@@ -127,15 +127,15 @@
                     VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Botão para sair da tela">
+                    ToolTip="Botão para sair da tela" Click="btSair_Click">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 
                     Height="50"/>
             </Button>
         </Grid>
-        <Grid Grid.Row="1" Background="LightGray">
-            <TextBlock x:Name="lblSituacao" Text="Situação" 
+        <Grid x:Name="GridCampos" Grid.Row="1" Background="LightGray">
+            <TextBlock x:Name="lblSituacao" Text="Fechado" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Top" 
                        FontSize="15"
@@ -144,67 +144,138 @@
 
             <TabControl Grid.Row="1" Background="LightGray">
                 <TabItem x:Name="tabItemCaixa" Header="Caixa">
-                    <Grid Margin="100 30 100 80" >
+                    <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="30"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="100"/>
                         </Grid.RowDefinitions>
 
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+                        <Grid Grid.Row="0"   >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                            <TextBlock Grid.Column="0"
-                           Text="Saídas"
-                           FontFamily="Champagne &amp; Limousines" 
-                           FontSize="20" 
-                           Foreground="#FF1F3D68"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-                            <TextBlock Grid.Column="1"
-                           Text="Entradas"
-                           FontFamily="Champagne &amp; Limousines" 
-                           FontSize="20" 
-                           Foreground="#FF1F3D68"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"/>
-                        </Grid>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Row="1" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <DataGrid x:Name="DataGridSaidas"
+                                <TextBlock Grid.Column="0"
+                                           Text="Entrada"
+                                           FontFamily="Champagne &amp; Limousines" 
+                                           FontSize="20" 
+                                           Foreground="#FF1F3D68"
+                                           
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="1"
+                                           Text="Saída"
+                                           FontFamily="Champagne &amp; Limousines" 
+                                           FontSize="20" 
+                                           Foreground="#FF1F3D68"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <Grid Grid.Row="1" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <DataGrid x:Name="DataGridEntrada"
                            AutoGenerateColumns="False" 
                            Grid.Column="0" 
                            Background="white"
-                           Height="400"
-                           Margin="5">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Forma de Pagamento" Width="250" Binding="{Binding SituacaoParcelas}" />
-                                    <DataGridTextColumn Header="Valor Total" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                            <DataGrid x:Name="DataGridEntradas"
+                           Margin="0,5,5,-23">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Forma de Pagamento" Width="250" Binding="{Binding SituacaoParcelas}" />
+                                        <DataGridTextColumn Header="Valor Total" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <DataGrid x:Name="DataGridSaida"
                            AutoGenerateColumns="False" 
                            Grid.Column="1" 
                            Background="White"
-                           Height="400"
-                           Margin="5">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Forma de Pagamento" Width="250" Binding="{Binding SituacaoParcelas}" />
-                                    <DataGridTextColumn Header="Valor Total" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                                </DataGrid.Columns>
-                            </DataGrid>
+                           Margin="5,5,0,-23">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Forma de Pagamento" Width="250" Binding="{Binding SituacaoParcelas}" />
+                                        <DataGridTextColumn Header="Valor Total" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1" Margin="30,26,30,22">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="txtSaldoInicial"
+                                Grid.Column="0"
+                                       Text="SALDO INICIAL: R$ 0,00"
+                                       FontFamily="Champagne &amp; Limousines" 
+                                       FontSize="15" 
+                                       Foreground="#FF1F3D68"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Center"
+                                       Margin="5"/>
+                            <TextBlock x:Name="txtDataAbertura"
+                                Grid.Column="0"
+                                       Text=" ABERTURA 12/12/2021 14:50:00"
+                                       FontFamily="Champagne &amp; Limousines" 
+                                       FontSize="15" 
+                                       Foreground="#FF1F3D68"
+                                       VerticalAlignment="Bottom"
+                                       HorizontalAlignment="Center" Visibility="Hidden"
+                                       Margin="0 0 0 10"/>
+                            <TextBlock x:Name="txtSaldoFinal"
+                                Grid.Column="3"
+                                       Text="SALDO FINAL: R$ 0,00"
+                                       FontFamily="Champagne &amp; Limousines" 
+                                       FontSize="15" 
+                                       Foreground="#FF1F3D68"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Center" Visibility="Hidden"
+                                       Margin="5"/>
+                            <TextBlock x:Name="txtDataFechamento"
+                                Grid.Column="3"
+                                       Text=" FECHAMENTO 12/12/2021 14:50:00"
+                                       FontFamily="Champagne &amp; Limousines" 
+                                       FontSize="14.5" 
+                                       Foreground="#FF1F3D68"
+                                       VerticalAlignment="Bottom"
+                                       HorizontalAlignment="Center" Visibility="Hidden"
+                                       Margin="0 0 0 10"/>
+
+                            <TextBlock x:Name="txtTotalEntrada"
+                                Grid.Column="1"
+                                       Text="TOTAL ENTRADA: R$ 0,00"
+                                       FontFamily="Champagne &amp; Limousines" 
+                                       FontSize="15" 
+                                       Foreground="#FF1F3D68"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Center"
+                                       Margin="5"/>
+                            <TextBlock x:Name="txtTotalSaida"
+                                Grid.Column="2"
+                                       Text="TOTAL SAÍDA: R$ 0,00"
+                                       FontFamily="Champagne &amp; Limousines" 
+                                       FontSize="15" 
+                                       Foreground="#FF1F3D68"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Center"
+                                       Margin="5"/>
+
+                           
                         </Grid>
                     </Grid>
-
                 </TabItem>
                 <TabItem x:Name="tabItemMovimento" Header="Movimentos">
-                    <Grid x:Name="GridCampos" Grid.Row="1" Background="LightGray">
+                    <Grid x:Name="GridMovimentos" Grid.Row="1" Background="LightGray">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="380"/>
@@ -232,7 +303,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <DataGrid  x:Name="DataGridSaida"  
+                            <DataGrid  x:Name="DataGridFluxoSaida"  
                            AutoGenerateColumns="False" 
                            Grid.Column="0" 
                            Background="white"
@@ -248,7 +319,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
 
-                            <DataGrid  x:Name="DataGridEntrada"  
+                            <DataGrid  x:Name="DataGridFluxoEntrada"  
                            AutoGenerateColumns="False" 
                            Grid.Column="1" 
                            Background="white"
@@ -285,6 +356,6 @@
                 </TabItem>
             </TabControl>
         </Grid>
-       
+
     </Grid>
 </UserControl>

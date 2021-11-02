@@ -27,8 +27,8 @@ namespace Repositorio.Mapeamentos
             Property(x => x.NomeAcesso, m => m.Length(70));
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
-            Property(x => x.Senha, m => m.Length(100));
-            Property(x => x.ConfirmaSenha, m => m.Length(100));
+            Property(x => x.Senha, m => m.Length(255));
+            Property(x => x.ConfirmaSenha, m => m.Length(255));
             Property(x => x.TipoUsuario, m => m.Type<EnumType<TipoUsuario>>());
             Property(x => x.Situacao, m => m.Type<EnumType<Situacao>>());
         }

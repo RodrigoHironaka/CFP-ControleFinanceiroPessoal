@@ -41,7 +41,7 @@ namespace CFP.App.Formularios.Principais
                     rgTerminal.IsChecked = true;
             }
             else
-                MessageBox.Show("Arquivo não existe!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Arquivo de configuração do banco não existe!\nDigite as configurações a seguir.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Information);
            
         }
         #endregion
@@ -53,7 +53,7 @@ namespace CFP.App.Formularios.Principais
             {
                 if ((item is TextBox && (item as TextBox).Text == string.Empty) || (item is PasswordBox && (item as PasswordBox).Password == string.Empty))
                 {
-                    MessageBox.Show(" Todos os campos são de preenchimento obrigatório!\nPor favor verifique novamente.");
+                    MessageBox.Show("Todos os campos são de preenchimento obrigatório!\nPor favor verifique novamente.");
                     return false;
                 }
             }
@@ -99,12 +99,12 @@ namespace CFP.App.Formularios.Principais
                     Gravado = true;
                 }
                 var session = NHibernateHelper.GetSession(true);
-                lblStatusConexao.Text = "Conexão Bem Sucedida!";
+                lblStatusConexao.Text = "Sucesso!";
                 Sucesso = true;
             }
             catch (Exception)
             {
-                lblStatusConexao.Text = "Falha na Conexão!";
+                lblStatusConexao.Text = "Falha!";
                 Sucesso = false;
                 Gravado = false;
             }
@@ -112,7 +112,6 @@ namespace CFP.App.Formularios.Principais
 
         private void btSair_Click(object sender, RoutedEventArgs e)
         {
-            //return;
             Close();
         }
     }

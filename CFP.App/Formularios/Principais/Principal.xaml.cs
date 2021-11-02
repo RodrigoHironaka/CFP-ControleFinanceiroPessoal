@@ -29,8 +29,7 @@ namespace CFP.App
     public partial class MainWindow : Window
     {
         #region Usuario Logado
-        public static string UsuarioLogado;
-        public static string TipoUsuario;
+        public static Usuario UsuarioLogado;
         #endregion
 
         public MainWindow()
@@ -84,7 +83,6 @@ namespace CFP.App
 
         private void Principal_Loaded(object sender, RoutedEventArgs e)
         {
-
             #region Login
             Principal.Visibility = Visibility.Hidden;
             Login login = new Login();
@@ -92,7 +90,7 @@ namespace CFP.App
             if ((bool)confirmacao)
             {
                 UsuarioLogado = login.UsuarioLogado;
-                lblNomeUsuario.Text = UsuarioLogado.ToUpper();
+                lblNomeUsuario.Text = UsuarioLogado.Nome.ToUpper();
                 Principal.Visibility = Visibility.Visible;
                 login.Close();
             }

@@ -17,19 +17,38 @@ namespace Repositorio.Mapeamentos
         public CaixaMAP()
         {
             Table("Caixas");
-            Id(x => x.ID, m =>
+            Id(x => x.Id, m =>
             {
                 m.Generator(Generators.HighLow, g => g.Params(new { max_lo = 0 }));
             });
             Property(x => x.Codigo);
             Property(x => x.DataAbertura);
             Property(x => x.DataFechamento);
-            Property(x => x.TotalEntrada);
-            Property(x => x.TotalSaida);
-            Property(x => x.BalançoFinal);
+            Property(x => x.ValorInicial, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
+            Property(x => x.TotalEntrada, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
+            Property(x => x.TotalSaida, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
+            Property(x => x.BalancoFinal, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
             Property(x => x.Situacao, m => m.Type<EnumType<SituacaoCaixa>>());
             ManyToOne(x => x.Conta, m => m.Column("Conta"));
             ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
+            ManyToOne(x => x.UsuarioAbertura, m => m.Column("UsuarioAbertura"));
+            ManyToOne(x => x.UsuarioFechamento, m => m.Column("UsuarioFechamento"));
 
             Bag(x => x.FluxoCaixas, m =>
             {

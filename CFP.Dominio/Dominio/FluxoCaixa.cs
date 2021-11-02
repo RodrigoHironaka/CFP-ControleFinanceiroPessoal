@@ -14,5 +14,6 @@ namespace CFP.Dominio.Dominio
             return Nome;
         }
         public virtual Caixa Caixa { get; set; }
+        public virtual Usuario UsuarioLogado { get; set; }
     }
 }
