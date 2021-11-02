@@ -1,6 +1,8 @@
 ﻿using CFP.Dominio.Dominio;
+using CFP.Dominio.ObjetoValor;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
+using NHibernate.Type;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,12 @@ namespace CFP.Repositorio.Mapeamento
             Property(x => x.Nome, m => m.Length(150));
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
+            Property(x => x.Valor, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
+            Property(x => x.TipoFluxo, m => m.Type<EnumType<EntradaSaida>>());
             ManyToOne(x => x.Caixa, m => m.Column("Caixa"));
             ManyToOne(x => x.UsuarioLogado, m => m.Column("UsuarioLogado"));
         }

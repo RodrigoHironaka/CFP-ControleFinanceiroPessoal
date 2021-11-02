@@ -29,21 +29,21 @@ namespace Repositorio.Mapeamentos
                 m.Precision(10);
                 m.Scale(2);
             });
-            Property(x => x.TotalEntrada, m =>
-            {
-                m.Precision(10);
-                m.Scale(2);
-            });
-            Property(x => x.TotalSaida, m =>
-            {
-                m.Precision(10);
-                m.Scale(2);
-            });
-            Property(x => x.BalancoFinal, m =>
-            {
-                m.Precision(10);
-                m.Scale(2);
-            });
+            //Property(x => x.TotalEntrada, m =>
+            //{
+            //    m.Precision(10);
+            //    m.Scale(2);
+            //});
+            //Property(x => x.TotalSaida, m =>
+            //{
+            //    m.Precision(10);
+            //    m.Scale(2);
+            //});
+            //Property(x => x.BalancoFinal, m =>
+            //{
+            //    m.Precision(10);
+            //    m.Scale(2);
+            //});
             Property(x => x.Situacao, m => m.Type<EnumType<SituacaoCaixa>>());
             ManyToOne(x => x.Conta, m => m.Column("Conta"));
             ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));

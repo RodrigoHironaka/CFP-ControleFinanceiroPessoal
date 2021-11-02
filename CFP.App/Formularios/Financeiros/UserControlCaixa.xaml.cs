@@ -141,6 +141,31 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
+        #region Limpa os campos do Cadastro
+        public void LimpaCampos()
+        {
+            txtDataAbertura.Visibility = Visibility.Hidden;
+            txtSaldoInicial.Text = "SALDO INICIAL: R$ 0,00";
+            txtTotalEntrada.Text = "TOTAL ENTRADA: R$ 0,00";
+            txtTotalSaida.Text = "TOTAL SAÍDA: R$ 0,00";
+            txtSaldoFinal.Text = "SALDO final: R$ 0,00";
+            txtDataFechamento.Visibility = Visibility.Hidden;
+            //foreach (var item in GridCampos.Children)
+            //{
+            //    if (item is TextBox)
+            //        (item as TextBox).Text = string.Empty;
+            //    if (item is ComboBox)
+            //        (item as ComboBox).SelectedIndex = 0;
+            //    if (item is CheckBox)
+            //        (item as CheckBox).IsChecked = false;
+            //    if (item is RadioButton)
+            //        (item as RadioButton).IsChecked = false;
+            //    if (item is TextBlock)
+            //        (item as TextBlock).Text = string.Empty;
+            //}
+        }
+        #endregion
+
         public UserControlCaixa(ISession _session)
         {
             InitializeComponent();
@@ -188,10 +213,21 @@ namespace CFP.App.Formularios.Financeiros
                 MessageBoxResult d = MessageBox.Show("Deseja fechar o Caixa?", "Pergunta", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (d == MessageBoxResult.Yes)
                 {
-
-
+                    caixa.DataFechamento = DateTime.Now;
+                    caixa.UsuarioFechamento = MainWindow.UsuarioLogado;
+                    caixa.Situacao = SituacaoCaixa.Fechado;
+                    lblSituacao.Text = caixa.Situacao.ToString();
+                    Repositorio.Alterar(caixa);
+                    LimpaCampos();
+                    ControleAcessoInicial();
                 }
             }
+        }
+
+        private void btNovoRegistroConta_Click(object sender, RoutedEventArgs e)
+        {
+            panelCadastro.Children.Clear();
+            panelCadastro.Children.Add(new UserControlContas(new Conta(),Session));
         }
     }
 }

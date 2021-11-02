@@ -1,4 +1,5 @@
-﻿using Dominio.Dominio;
+﻿using CFP.Dominio.ObjetoValor;
+using Dominio.Dominio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace CFP.Dominio.Dominio
         {
             return Nome;
         }
+        public virtual Decimal Valor { get; set; }
+        public virtual EntradaSaida TipoFluxo { get; set; }
         public virtual Caixa Caixa { get; set; }
         public virtual Usuario UsuarioLogado { get; set; }
     }

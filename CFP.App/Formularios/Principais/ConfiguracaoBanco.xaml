@@ -148,8 +148,8 @@
                                     Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                                     Background="#FF1F3D68"
                                     BorderBrush="#FF1F3D68"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Left" Click="btTestarConexao_Click" >
+                                    VerticalAlignment="Bottom"
+                                    HorizontalAlignment="Left" Click="btTestarConexao_Click" Margin="0,0,0,2.8" >
                         <materialDesign:PackIcon 
                                         Kind="Connection"  
                                         Width="30" 

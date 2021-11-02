@@ -67,7 +67,8 @@
                     <ColumnDefinition Width="379*"/>
                     <ColumnDefinition Width="8*"/>
                 </Grid.ColumnDefinitions>
-                <Grid x:Name="GridPrincipal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Height="539" Width="1020" Grid.ColumnSpan="2"/>
+                <Grid x:Name="GridPrincipal" HorizontalAlignment="Center" VerticalAlignment="Top" 
+                      Margin="0,10,0,0" Height="539" Width="1020" Grid.ColumnSpan="2"/>
             </Grid>
 
         </Grid>

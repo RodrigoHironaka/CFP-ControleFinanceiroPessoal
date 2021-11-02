@@ -7,7 +7,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1020" Loaded="UserControl_Loaded">
-    <Grid >
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="500"/>
@@ -66,13 +66,12 @@
                     VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Adicionar Nova Conta">
+                    ToolTip="Adicionar Nova Conta" Click="btNovoRegistroConta_Click">
                 <materialDesign:PackIcon 
                     Kind="ArchiveAdd"  
                     Width="50" 
                     Height="50"/>
             </Button>
-
             <Button x:Name="btRetirandoCofre"
                     Grid.Column="11"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
@@ -87,7 +86,6 @@
                     Width="50" 
                     Height="50"/>
             </Button>
-
             <Button x:Name="btTransferirCofre"
                     Grid.Column="12"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
@@ -102,9 +100,6 @@
                     Width="50" 
                     Height="50"/>
             </Button>
-
-
-
             <Button x:Name="btAbrirFecharCaixa"
                     Grid.Column="14"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
@@ -141,7 +136,6 @@
                        FontSize="15"
                       Foreground="#FF1F3D68"
                       Margin="5 0"/>
-
             <TabControl Grid.Row="1" Background="LightGray">
                 <TabItem x:Name="tabItemCaixa" Header="Caixa">
                     <Grid>
@@ -225,7 +219,7 @@
                                        Margin="5"/>
                             <TextBlock x:Name="txtDataAbertura"
                                 Grid.Column="0"
-                                       Text=" ABERTURA 12/12/2021 14:50:00"
+                                       Text="12/12/2021 14:50:00"
                                        FontFamily="Champagne &amp; Limousines" 
                                        FontSize="15" 
                                        Foreground="#FF1F3D68"
@@ -239,11 +233,11 @@
                                        FontSize="15" 
                                        Foreground="#FF1F3D68"
                                        VerticalAlignment="Top"
-                                       HorizontalAlignment="Center" Visibility="Hidden"
+                                       HorizontalAlignment="Center"
                                        Margin="5"/>
                             <TextBlock x:Name="txtDataFechamento"
                                 Grid.Column="3"
-                                       Text=" FECHAMENTO 12/12/2021 14:50:00"
+                                       Text="12/12/2021 14:50:00"
                                        FontFamily="Champagne &amp; Limousines" 
                                        FontSize="14.5" 
                                        Foreground="#FF1F3D68"
@@ -274,88 +268,27 @@
                         </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem x:Name="tabItemMovimento" Header="Movimentos">
-                    <Grid x:Name="GridMovimentos" Grid.Row="1" Background="LightGray">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25"/>
-                            <RowDefinition Height="380"/>
-                            <RowDefinition Height="25"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="600"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0"
-                           Text="Despesas"
-                           FontFamily="Champagne &amp; Limousines" 
-                           FontSize="20" 
-                           Foreground="#FF1F3D68"/>
-                            <TextBlock Grid.Column="1"
-                           Text="Receitas"
-                           FontFamily="Champagne &amp; Limousines" 
-                           FontSize="20" 
-                           Foreground="#FF1F3D68"/>
-                        </Grid>
-                        <Grid Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="600"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <DataGrid  x:Name="DataGridFluxoSaida"  
-                           AutoGenerateColumns="False" 
-                           Grid.Column="0" 
+                <TabItem x:Name="tabItemFluxo" Header="Fluxo de Caixa">
+                    <Grid x:Name="GridFluxo" Grid.Row="1" Margin="30 10 30 30">
+                        <DataGrid x:Name="DataGridFluxoSaida"  
+                           AutoGenerateColumns="False"                                        
                            Background="white"
-                           Height="400"
                            Margin="5">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Data Pagamento" Binding="{Binding SituacaoParcelas}" />
-                                    <DataGridTextColumn Header="Descrição" Binding="{Binding Numero}" />
-                                    <DataGridTextColumn Header="Valor a Pagar" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                                    <DataGridTextColumn Header="Valor Pago" Binding="{Binding Numero}" />
-                                    <DataGridTextColumn Header="Forma de Pagamento" Binding="{Binding Numero}" />
-
-                                </DataGrid.Columns>
-                            </DataGrid>
-
-                            <DataGrid  x:Name="DataGridFluxoEntrada"  
-                           AutoGenerateColumns="False" 
-                           Grid.Column="1" 
-                           Background="white"
-                           Height="400"
-                           Margin="5">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Data Entrada" Binding="{Binding SituacaoParcelas}" />
-                                    <DataGridTextColumn Header="Descrição" Binding="{Binding Numero}" />
-                                    <DataGridTextColumn Header="Valor" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </Grid>
-                        <Grid Grid.Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="600"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" 
-                       Content="Total Despesas R$ 0,00"
-                       FontFamily="Champagne &amp; Limousines" 
-                       FontSize="20" 
-                       Foreground="#FF1F3D68" Margin="0,0,0,-20">
-                            </Label>
-
-                            <Label Grid.Column="1" 
-                       Content="Total Receitas R$ 0,00"
-                       FontFamily="Champagne &amp; Limousines" 
-                       FontSize="20" 
-                       Foreground="#FF1F3D68" Margin="0,0,0,-20">
-                            </Label>
-                        </Grid>
-
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="E/S" Binding="{Binding TipoFluxo}" />
+                                <DataGridTextColumn Header="Data" Binding="{Binding DataGeracao}" />
+                                <DataGridTextColumn Header="Descrição" Binding="{Binding Nome}" />
+                                <DataGridTextColumn Header="Valor" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                                <DataGridTextColumn Header="Forma de Pagamento" Binding="{Binding FormaPagamento}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </Grid>
+                </TabItem>
+                <TabItem x:Name="tabItemProvisoes" Header="Provisões">
+                    
                 </TabItem>
             </TabControl>
         </Grid>
-
+        <StackPanel x:Name="panelCadastro" Width="auto" Height="auto" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>
