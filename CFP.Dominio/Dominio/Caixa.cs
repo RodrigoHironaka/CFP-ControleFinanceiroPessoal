@@ -26,7 +26,6 @@ namespace Dominio.Dominio
         public virtual Decimal ValorInicial { get; set; }
         public virtual SituacaoCaixa Situacao { get; set; }
         public virtual Pessoa Pessoa { get; set; }
-        public virtual Conta Conta { get; set; }
         public virtual Usuario UsuarioAbertura { get; set; }
         public virtual Usuario UsuarioFechamento { get; set; }
         public virtual IList<FluxoCaixa> FluxoCaixas { get; set; }

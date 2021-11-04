@@ -53,6 +53,8 @@ namespace CFP.App.Formularios.Financeiros
 
         ISession Session;
         Conta conta;
+        FluxoCaixa fluxoCaixa;
+        Caixa caixa;
 
         #region Carrega Combos
         private void CarregaCombos()
@@ -138,6 +140,32 @@ namespace CFP.App.Formularios.Financeiros
                 return _repositorioContaArquivo;
             }
             set { _repositorioContaArquivo = value; }
+        }
+
+        private RepositorioFluxoCaixa _repositorioFluxoCaixa;
+        public RepositorioFluxoCaixa RepositorioFluxoCaixa
+        {
+            get
+            {
+                if (_repositorioFluxoCaixa == null)
+                    _repositorioFluxoCaixa = new RepositorioFluxoCaixa(Session);
+
+                return _repositorioFluxoCaixa;
+            }
+            set { _repositorioFluxoCaixa = value; }
+        }
+
+        private RepositorioCaixa _repositorioCaixa;
+        public RepositorioCaixa RepositorioCaixa
+        {
+            get
+            {
+                if (_repositorioCaixa == null)
+                    _repositorioCaixa = new RepositorioCaixa(Session);
+
+                return _repositorioCaixa;
+            }
+            set { _repositorioCaixa = value; }
         }
         #endregion
 
@@ -410,7 +438,7 @@ namespace CFP.App.Formularios.Financeiros
                 case 0:
                     txtQtdParcelas.IsEnabled = false;
                     btGerarParcelas.IsEnabled = false;
-                    txtQtdParcelas.Clear();
+                    txtQtdParcelas.Text = "1";
                     break;
                 case 1:
                     txtQtdParcelas.IsEnabled = true;
@@ -419,7 +447,7 @@ namespace CFP.App.Formularios.Financeiros
                 case 2:
                     txtQtdParcelas.IsEnabled = false;
                     btGerarParcelas.IsEnabled = false;
-                    txtQtdParcelas.Clear();
+                    txtQtdParcelas.Text = "1";
                     break;
                 default:
                     break;
@@ -566,6 +594,29 @@ namespace CFP.App.Formularios.Financeiros
             }
             return false;
         }
+
+        private void SalvarFluxo(List<ContaPagamento> dados)
+        {
+            if (VerificaCaixa())
+            {
+                foreach (var item in dados)
+                {
+                    if(item.SituacaoParcelas == SituacaoParcela.Pago)
+                    {
+                        fluxoCaixa = new FluxoCaixa();
+                        fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
+                        fluxoCaixa.DataGeracao = DateTime.Now;
+                        fluxoCaixa.Conta = item.Conta;
+                        fluxoCaixa.Nome = String.Format("Pagamento parcela número {0} - Conta: {1}", item.Numero, conta.Codigo);
+                        fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
+                        fluxoCaixa.Valor = item.ValorPago;
+                        fluxoCaixa.Caixa = caixa;
+                        RepositorioFluxoCaixa.Salvar(fluxoCaixa);
+                    }
+                   
+                }
+            }
+        }
         #endregion
 
         #region Remove todos os itens da lista Conta Pagamento e Conta Arquivo e do Banco
@@ -606,7 +657,7 @@ namespace CFP.App.Formularios.Financeiros
             {
                 RemoveTodosOsItensDaListaEBanco();
                 #region Gerando as Parcelas
-                Decimal valorTotal =txtValorTotal.Text != string.Empty ? Decimal.Parse(vTotal) : 0;
+                Decimal valorTotal = txtValorTotal.Text != string.Empty ? Decimal.Parse(vTotal) : 0;
                 Int32 qtdParcelas = txtQtdParcelas.Text != string.Empty ? Int32.Parse(qtd) : 1;
                 DateTime dataPrimeiroVencimento = primeiroVencimento;
                 if (!valorTotal.Equals(0) || !qtdParcelas.Equals(0))
@@ -792,6 +843,41 @@ namespace CFP.App.Formularios.Financeiros
             }
         }
 
+        #endregion
+
+        #region Verificando se caixa esta aberto
+        private bool VerificaCaixa()
+        {
+            caixa = (Caixa)RepositorioCaixa.ObterPorParametros(x => x.Situacao == SituacaoCaixa.Aberto && x.UsuarioAbertura == MainWindow.UsuarioLogado).FirstOrDefault();
+            if (caixa == null || caixa.Situacao == SituacaoCaixa.Fechado)
+            {
+                MessageBoxResult avisoCaixa = MessageBox.Show("Caixa esta fechado! Deseja abrir?", "Pergunta", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (avisoCaixa == MessageBoxResult.Yes)
+                {
+                    caixa = new Caixa();
+                    MessageBoxResult colocarValor = MessageBox.Show("Deseja digitar um valor inicial?", "Pergunta", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (colocarValor == MessageBoxResult.Yes)
+                    {
+                        ConfirmaValorInicialCaixa janela = new ConfirmaValorInicialCaixa();
+                        bool? res = janela.ShowDialog();
+                        if ((bool)res)
+                            caixa.ValorInicial = Decimal.Parse(janela.valorDigitado);
+                        else
+                            caixa.ValorInicial = 0;
+                    }
+                    else
+                        caixa.ValorInicial = 0;
+
+                    caixa.Codigo = Repositorio.RetornaUltimoCodigo() + 1;
+                    caixa.DataAbertura = DateTime.Now;
+                    caixa.UsuarioAbertura = MainWindow.UsuarioLogado;
+                    RepositorioCaixa.Salvar(caixa);
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        }
         #endregion
 
         public UserControlContas(Conta _conta, ISession _session)
@@ -1023,7 +1109,6 @@ namespace CFP.App.Formularios.Financeiros
                     IList<ContaPagamento> linhasContaPagamento = new List<ContaPagamento>();
                     foreach (var selecao in DataGridContaPagamento.SelectedItems)
                     {
-
                         linhasContaPagamento.Add((ContaPagamento)selecao);
                     }
                     foreach (var linha in linhasContaPagamento)
@@ -1044,9 +1129,11 @@ namespace CFP.App.Formularios.Financeiros
                             if (!linhasContaPagamento.Contains(parcelaAtualizada))
                                 contaPagamento.Add(parcelaAtualizada);
                         }
+
                     }
                     DataGridContaPagamento.Items.Refresh();
                     Salvar();
+                    SalvarFluxo(janela.contaPagamentoAtualizado.ToList());
                     CalculoTotalPorSituacaoParcela();
                     FiltroSituacaoParcelas();
                 }

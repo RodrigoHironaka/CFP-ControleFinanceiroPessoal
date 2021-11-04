@@ -16,6 +16,7 @@ namespace CFP.Dominio.Dominio
         }
         public virtual Decimal Valor { get; set; }
         public virtual EntradaSaida TipoFluxo { get; set; }
+        public virtual Conta Conta { get; set; }
         public virtual Caixa Caixa { get; set; }
         public virtual Usuario UsuarioLogado { get; set; }
     }

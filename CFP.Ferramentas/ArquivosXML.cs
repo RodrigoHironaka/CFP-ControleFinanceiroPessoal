@@ -65,7 +65,6 @@ namespace CFP.Ferramentas
         {
             var dadosXml = ArquivosXML.Deserialize<DadosBD>(ArquivosXML.CaminhoArquivoXML());
             return "Server=" + dadosXml.ServidorBD + ";Port=" + dadosXml.PortaBD + ";Database=" + dadosXml.BaseBD + ";Uid=" + dadosXml.UsuarioBD + ";Pwd=" + dadosXml.SenhaBD + ";";
-            //return conexao;
         }
 
         public static string CaminhoArquivoXML()
