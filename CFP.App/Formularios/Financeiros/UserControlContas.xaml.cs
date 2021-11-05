@@ -601,19 +601,26 @@ namespace CFP.App.Formularios.Financeiros
             {
                 foreach (var item in dados)
                 {
-                    if(item.SituacaoParcelas == SituacaoParcela.Pago)
+                    if (item.SituacaoParcelas == SituacaoParcela.Pago)
                     {
                         fluxoCaixa = new FluxoCaixa();
-                        fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
+                        if(item.Conta.TipoConta == TipoConta.Pagar)
+                        {
+                            fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
+                            fluxoCaixa.Nome = String.Format("Pagamento parcela número {0} - Conta: {1}", item.Numero, conta.Codigo);
+                        }
+                        else
+                        {
+                            fluxoCaixa.TipoFluxo = EntradaSaida.Entrada;
+                            fluxoCaixa.Nome = String.Format("Recebimento parcela número {0} - Conta: {1}", item.Numero, conta.Codigo);
+                        }
                         fluxoCaixa.DataGeracao = DateTime.Now;
                         fluxoCaixa.Conta = item.Conta;
-                        fluxoCaixa.Nome = String.Format("Pagamento parcela número {0} - Conta: {1}", item.Numero, conta.Codigo);
                         fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
                         fluxoCaixa.Valor = item.ValorPago;
                         fluxoCaixa.Caixa = caixa;
                         RepositorioFluxoCaixa.Salvar(fluxoCaixa);
                     }
-                   
                 }
             }
         }
@@ -1012,7 +1019,6 @@ namespace CFP.App.Formularios.Financeiros
                         Repositorio.Excluir(conta);
                         LimpaCampos();
                         ControleAcessoInicial();
-
                     }
                 }
             }
@@ -1124,16 +1130,22 @@ namespace CFP.App.Formularios.Financeiros
                     bool? res = janela.ShowDialog();
                     if ((bool)res)
                     {
-                        foreach (var parcelaAtualizada in janela.contaPagamentoAtualizado)
+                        foreach (ContaPagamento parcelaAtualizada in linhasContaPagamento)
                         {
-                            if (!linhasContaPagamento.Contains(parcelaAtualizada))
+                            var ParcelaAntiga = contaPagamento.FirstOrDefault(x => x.ID == parcelaAtualizada.ID);
+                            if (ParcelaAntiga != null)
+                            {
+                                contaPagamento.Remove(ParcelaAntiga);
+                                contaPagamento.Add(parcelaAtualizada);
+                            }
+                            else
                                 contaPagamento.Add(parcelaAtualizada);
                         }
-
+                        if (Salvar())
+                            SalvarFluxo(linhasContaPagamento.ToList());
                     }
                     DataGridContaPagamento.Items.Refresh();
-                    Salvar();
-                    SalvarFluxo(janela.contaPagamentoAtualizado.ToList());
+
                     CalculoTotalPorSituacaoParcela();
                     FiltroSituacaoParcelas();
                 }
@@ -1265,7 +1277,8 @@ namespace CFP.App.Formularios.Financeiros
                     }
                     #endregion
                 }
-                Salvar();
+                if (!Salvar())
+                    MessageBox.Show("Houve algum erro ao salvar a conta!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -1346,8 +1359,8 @@ namespace CFP.App.Formularios.Financeiros
                     }
                     #endregion
                 }
-                Salvar();
-
+                if (!Salvar())
+                    MessageBox.Show("Houve algum erro ao salvar a conta!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
         #endregion

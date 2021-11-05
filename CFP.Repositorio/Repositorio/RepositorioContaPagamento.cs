@@ -1,5 +1,6 @@
 ﻿using Dominio.Dominio;
 using NHibernate;
+using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,9 @@ namespace Repositorio.Repositorios
 {
     public class RepositorioContaPagamento : RepositorioBase<ContaPagamento>
     {
-        public RepositorioContaPagamento(ISession session) : base(session) { }
+        public RepositorioContaPagamento(ISession session) : base(session) 
+        {
+            
+        }
     }
 }

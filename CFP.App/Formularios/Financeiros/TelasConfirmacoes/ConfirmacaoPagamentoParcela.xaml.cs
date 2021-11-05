@@ -28,7 +28,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
     {
         ISession Session;
         IList<ContaPagamento> linhaContaPagemento;
-        public ObservableCollection<ContaPagamento> contaPagamentoAtualizado = new ObservableCollection<ContaPagamento>();
+        //public ObservableCollection<ContaPagamento> contaPagamentoAtualizado = new ObservableCollection<ContaPagamento>();
 
         #region Carrega Combos
         private void CarregaCombos()
@@ -149,6 +149,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     {
                         linha.DataPagamento = txtDataPagamento.SelectedDate;
                         linha.FormaPagamento = (FormaPagamento)cmbFormaPagamento.SelectedItem;
+                        linha.SituacaoParcelas = SituacaoParcela.Pago;
+                        
                         if (qtdlinhaSelecionadas == 1)
                         {
                             linha.JurosPorcentual = txtJurosPorcentagem.Text != string.Empty ? Decimal.Parse(txtJurosPorcentagem.Text) : 0;
@@ -286,6 +288,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 txtValorPago.SelectAll();
                 return;
             }
+            else
+                CalculaValorRestante(Decimal.Parse(txtValorPago.Text), Decimal.Parse(txtValorReajustado.Text));
+
             if (Decimal.Parse(txtValorReajustado.Text) < decimal.Parse(txtValorPago.Text))
             {
                 MessageBox.Show("O valor pago digitado é maior que a parcela!", "Mensagem", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -307,19 +312,12 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
             if (PreencheObjeto())
             {
-                var numeroUltimaParcela = 0;
-                foreach (var item in linhaContaPagemento.OrderBy(x => x.Numero))
-                {
-                    numeroUltimaParcela = item.Conta.ContaPagamentos.Count() + 1;
-                    item.SituacaoParcelas = SituacaoParcela.Pago;
-                    contaPagamentoAtualizado.Add(item);
-                }
                 if (!String.IsNullOrEmpty(txtValorRestante.Text))
                 {
-                    contaPagamentoAtualizado.Add(new ContaPagamento()
+                    linhaContaPagemento.Add(new ContaPagamento()
                     {
                         SituacaoParcelas = SituacaoParcela.Parcial,
-                        Numero = numeroUltimaParcela,
+                        Numero = new RepositorioConta(Session).ObterPorId(linhaContaPagemento.First().Conta.Id).ContaPagamentos.Count(),
                         ValorParcela = Decimal.Parse(txtValorRestante.Text),
                         DataVencimento = dataVencimento
                     });
