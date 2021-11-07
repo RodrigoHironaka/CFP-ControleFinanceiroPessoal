@@ -31,6 +31,7 @@ namespace CFP.Repositorio.Mapeamento
             Property(x => x.TipoFluxo, m => m.Type<EnumType<EntradaSaida>>());
             ManyToOne(x => x.Caixa, m => m.Column("Caixa"));
             ManyToOne(x => x.Conta, m => m.Column("Conta"));
+            ManyToOne(x => x.FormaPagamento, m => m.Column("FormaPagamento"));
             ManyToOne(x => x.UsuarioLogado, m => m.Column("UsuarioLogado"));
         }
     }

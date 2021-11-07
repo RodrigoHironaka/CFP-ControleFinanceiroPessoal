@@ -1,4 +1,6 @@
 ﻿using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
+using CFP.Dominio.Dominio;
+using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
@@ -6,6 +8,7 @@ using NHibernate;
 using Repositorio.Repositorios;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,6 +42,8 @@ namespace CFP.App.Formularios.Financeiros
                 {
                     PreencheCampos();
                     ControleAcessoCadastro();
+                    PreencheDataGrid();
+                    TotalizadoresEntradaSaida();
                 }
             }
             else
@@ -166,6 +171,24 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
+        #region Totalizadores
+        private void TotalizadoresEntradaSaida()
+        {
+            txtTotalSaida.Text = String.Format("TOTAL SAÍDA: R${0:n2}", caixa.TotalSaida);
+            txtTotalEntrada.Text = String.Format("TOTAL ENTRADA: R${0:n2}", caixa.TotalEntrada);
+            txtSaldoFinal.Text = String.Format("SALDO FINAL : R${0:n2}", caixa.BalancoFinal);
+        }
+        #endregion
+
+        #region PreencheDataGrid
+        public void PreencheDataGrid()
+        {
+            DataGridFluxoCaixa.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.Caixa.Id == caixa.Id);
+            DataGridEntrada.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Entrada && x.Caixa.Id == caixa.Id);
+            DataGridSaida.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Saída && x.Caixa.Id == caixa.Id);
+        }
+        #endregion
+
         public UserControlCaixa(ISession _session)
         {
             InitializeComponent();
@@ -175,7 +198,6 @@ namespace CFP.App.Formularios.Financeiros
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             VerificaSituacaoCaixa();
-            
         }
 
         private void btSair_Click(object sender, RoutedEventArgs e)
@@ -228,6 +250,12 @@ namespace CFP.App.Formularios.Financeiros
         {
             panelCadastro.Children.Clear();
             panelCadastro.Children.Add(new UserControlContas(new Conta(),Session));
+        }
+
+        private void btRetirandoCofre_Click(object sender, RoutedEventArgs e)
+        {
+            //teste
+            //TotalizadoresEntradaSaida();
         }
     }
 }

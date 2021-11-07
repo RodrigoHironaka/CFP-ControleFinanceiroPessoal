@@ -437,7 +437,7 @@ namespace CFP.App.Formularios.Financeiros
             {
                 case 0:
                     txtQtdParcelas.IsEnabled = false;
-                    btGerarParcelas.IsEnabled = false;
+                    btGerarParcelas.IsEnabled = true;
                     txtQtdParcelas.Text = "1";
                     break;
                 case 1:
@@ -447,7 +447,7 @@ namespace CFP.App.Formularios.Financeiros
                 case 2:
                     txtQtdParcelas.IsEnabled = false;
                     btGerarParcelas.IsEnabled = false;
-                    txtQtdParcelas.Text = "1";
+                    txtQtdParcelas.Clear();
                     break;
                 default:
                     break;
@@ -495,10 +495,7 @@ namespace CFP.App.Formularios.Financeiros
                 MessageBox.Show("Data de vencimento não pode ser menor que data de emissão!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 return false;
             }
-            if ((TipoPeriodo)cmbTipoPeriodo.SelectedIndex == TipoPeriodo.Unica)
-            {
-                GerarParcelas(txtValorTotal.Text, "1", txtPrimeiroVencimento.SelectedDate.Value);
-            }
+
             return true;
 
         }
@@ -599,12 +596,12 @@ namespace CFP.App.Formularios.Financeiros
         {
             if (VerificaCaixa())
             {
-                foreach (var item in dados)
+                foreach (var item in dados.OrderBy(x => x.Numero))
                 {
                     if (item.SituacaoParcelas == SituacaoParcela.Pago)
                     {
                         fluxoCaixa = new FluxoCaixa();
-                        if(item.Conta.TipoConta == TipoConta.Pagar)
+                        if (item.Conta.TipoConta == TipoConta.Pagar)
                         {
                             fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
                             fluxoCaixa.Nome = String.Format("Pagamento parcela número {0} - Conta: {1}", item.Numero, conta.Codigo);
@@ -619,6 +616,7 @@ namespace CFP.App.Formularios.Financeiros
                         fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
                         fluxoCaixa.Valor = item.ValorPago;
                         fluxoCaixa.Caixa = caixa;
+                        fluxoCaixa.FormaPagamento = item.FormaPagamento;
                         RepositorioFluxoCaixa.Salvar(fluxoCaixa);
                     }
                 }
@@ -998,6 +996,10 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
         {
+            //if ((TipoPeriodo)cmbTipoPeriodo.SelectedIndex == TipoPeriodo.Unica && DataGridContaPagamento.ItemsSource == null)
+            //{
+            //    GerarParcelas(txtValorTotal.Text, "1", txtPrimeiroVencimento.SelectedDate.Value);
+            //}
             if (Salvar())
             {
                 tabItemGeral.IsSelected = true;
@@ -1141,11 +1143,11 @@ namespace CFP.App.Formularios.Financeiros
                             else
                                 contaPagamento.Add(parcelaAtualizada);
                         }
+
                         if (Salvar())
                             SalvarFluxo(linhasContaPagamento.ToList());
                     }
                     DataGridContaPagamento.Items.Refresh();
-
                     CalculoTotalPorSituacaoParcela();
                     FiltroSituacaoParcelas();
                 }

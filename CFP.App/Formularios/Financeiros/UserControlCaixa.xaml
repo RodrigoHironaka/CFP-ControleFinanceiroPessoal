@@ -80,7 +80,7 @@
                     VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Retirando Receita para o cofre">
+                    ToolTip="Retirando Receita para o cofre" Click="btRetirandoCofre_Click">
                 <materialDesign:PackIcon 
                     Kind="TransferDown"  
                     Width="50" 
@@ -150,7 +150,7 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="0">
+                            <Grid Grid.Row="0" Margin="200 0 200 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
@@ -173,29 +173,29 @@
                                            VerticalAlignment="Center"/>
                             </Grid>
 
-                            <Grid Grid.Row="1" >
+                            <Grid Grid.Row="1" Margin="200 0 200 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <DataGrid x:Name="DataGridEntrada"
-                           AutoGenerateColumns="False" 
-                           Grid.Column="0" 
-                           Background="white"
-                           Margin="0,5,5,-23">
+                                     AutoGenerateColumns="False" 
+                                     Grid.Column="0" 
+                                     Background="white"
+                                     Margin="0 0 5 0">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Forma de Pagamento" Width="250" Binding="{Binding SituacaoParcelas}" />
-                                        <DataGridTextColumn Header="Valor Total" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="Forma de Pagamento" Width="200" Binding="{Binding FormaPagamento}" />
+                                        <DataGridTextColumn Header="Valor Total" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
                                 <DataGrid x:Name="DataGridSaida"
                            AutoGenerateColumns="False" 
                            Grid.Column="1" 
                            Background="White"
-                           Margin="5,5,0,-23">
+                           Margin="5 0 0 0">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Header="Forma de Pagamento" Width="250" Binding="{Binding SituacaoParcelas}" />
-                                        <DataGridTextColumn Header="Valor Total" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="Forma de Pagamento" Width="200" Binding="{Binding FormaPagamento}" />
+                                        <DataGridTextColumn Header="Valor Total" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </Grid>
@@ -270,13 +270,13 @@
                 </TabItem>
                 <TabItem x:Name="tabItemFluxo" Header="Fluxo de Caixa">
                     <Grid x:Name="GridFluxo" Grid.Row="1" Margin="30 10 30 30">
-                        <DataGrid x:Name="DataGridFluxoSaida"  
+                        <DataGrid x:Name="DataGridFluxoCaixa"  
                            AutoGenerateColumns="False"                                        
                            Background="white"
-                           Margin="5">
+                           Margin="5" IsReadOnly="True">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="E/S" Binding="{Binding TipoFluxo}" />
-                                <DataGridTextColumn Header="Data" Binding="{Binding DataGeracao}" />
+                                <DataGridTextColumn Header="Data" Binding="{Binding DataGeracao, StringFormat=d,  ConverterCulture='pt-BR'}" />
                                 <DataGridTextColumn Header="Descrição" Binding="{Binding Nome}" />
                                 <DataGridTextColumn Header="Valor" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                 <DataGridTextColumn Header="Forma de Pagamento" Binding="{Binding FormaPagamento}" />

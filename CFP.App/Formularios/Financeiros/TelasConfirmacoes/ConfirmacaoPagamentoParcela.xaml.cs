@@ -28,7 +28,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
     {
         ISession Session;
         IList<ContaPagamento> linhaContaPagemento;
-        //public ObservableCollection<ContaPagamento> contaPagamentoAtualizado = new ObservableCollection<ContaPagamento>();
 
         #region Carrega Combos
         private void CarregaCombos()

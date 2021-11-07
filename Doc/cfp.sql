@@ -11,6 +11,9 @@ alter table FluxoCaixas  drop foreign key FK_2056DEA5
 alter table FluxoCaixas  drop foreign key FK_43D86958
 ;
 
+alter table FluxoCaixas  drop foreign key FK_95CF74AB
+;
+
 alter table SubGrupoGastos  drop foreign key FK_ED2BD212
 ;
 
@@ -74,7 +77,7 @@ drop table if exists Usuarios;
 drop table if exists hibernate_unique_key;
 create table Configuracoes (Id BIGINT not null, DataGeracao DATETIME, DataAlteracao DATETIME, CaminhoArquivos VARCHAR(250), CaminhoBackup VARCHAR(250), primary key (Id)) ENGINE=InnoDB;
 create table ContaArquivos (Id BIGINT not null, Conta BIGINT, Caminho VARCHAR(250), Nome VARCHAR(250), DataGeracao DATETIME, DataAlteracao DATETIME, primary key (Id)) ENGINE=InnoDB;
-create table FluxoCaixas (Id BIGINT not null, Nome VARCHAR(150), DataGeracao DATETIME, DataAlteracao DATETIME, Valor DECIMAL(10, 2), TipoFluxo INTEGER, Conta BIGINT, Caixa BIGINT, UsuarioLogado BIGINT, primary key (Id)) ENGINE=InnoDB;
+create table FluxoCaixas (Id BIGINT not null, Nome VARCHAR(150), DataGeracao DATETIME, DataAlteracao DATETIME, Valor DECIMAL(10, 2), TipoFluxo INTEGER, Conta BIGINT, Caixa BIGINT, UsuarioLogado BIGINT, FormaPagamento BIGINT, primary key (Id)) ENGINE=InnoDB;
 create table SubGrupoGastos (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, GrupoGasto BIGINT, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
 create table Bancos (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, TipoContaBanco INTEGER, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
 create table Caixas (Id BIGINT not null, Codigo BIGINT, DataAbertura DATETIME, DataFechamento DATETIME, ValorInicial DECIMAL(10, 2), Situacao INTEGER, Pessoa BIGINT, UsuarioAbertura BIGINT, UsuarioFechamento BIGINT, primary key (Id)) ENGINE=InnoDB;
@@ -92,6 +95,7 @@ alter table ContaArquivos add index (Conta), add constraint FK_72DE5358 foreign 
 alter table FluxoCaixas add index (Conta), add constraint FK_D59D810C foreign key (Conta) references Contas (Id);
 alter table FluxoCaixas add index (Caixa), add constraint FK_2056DEA5 foreign key (Caixa) references Caixas (Id);
 alter table FluxoCaixas add index (UsuarioLogado), add constraint FK_43D86958 foreign key (UsuarioLogado) references Usuarios (Id);
+alter table FluxoCaixas add index (FormaPagamento), add constraint FK_95CF74AB foreign key (FormaPagamento) references FormasPagamento (Id);
 alter table SubGrupoGastos add index (GrupoGasto), add constraint FK_ED2BD212 foreign key (GrupoGasto) references GrupoGastos (Id);
 alter table Caixas add index (Pessoa), add constraint FK_1DD50A06 foreign key (Pessoa) references Pessoas (Id);
 alter table Caixas add index (UsuarioAbertura), add constraint FK_6402C960 foreign key (UsuarioAbertura) references Usuarios (Id);

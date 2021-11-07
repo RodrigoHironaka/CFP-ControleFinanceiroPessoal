@@ -252,7 +252,7 @@
                                     Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                                     Background="#FF1F3D68"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Stretch" IsEnabled="False" TabIndex="10" Click="btGerarParcelas_Click" >
+                                    HorizontalAlignment="Stretch" TabIndex="10" Click="btGerarParcelas_Click" >
                                     <materialDesign:PackIcon 
                                         Kind="Money"  
                                         Width="30" 
