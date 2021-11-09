@@ -192,7 +192,8 @@ namespace CFP.App.Formularios.Financeiros
             totalSaida = RepositorioFluxoCaixa.ObterTodos().Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Saída).Sum(x => x.Valor);
             totalEntrada = RepositorioFluxoCaixa.ObterTodos().Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Entrada).Sum(x => x.Valor);
             saldoFinal = caixa.ValorInicial + totalEntrada - totalSaida;
-            //aReceberPessoa = RepositorioConta.ObterTodos().Where(x => x.Pessoa != null).Sum(x => x.ValorTotal);
+            aReceberPessoa = new RepositorioContaPagamento(Session).ObterPorParametros(x => x.Conta.Pessoa != null &&
+            (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.DataVencimento.Value.Month.ToString() == DateTime.Now.Month.ToString()).Sum(x => x.ValorParcela);
             txtTotalSaida.Text = String.Format("TOTAL SAÍDA: R${0:n2}", totalSaida);
             txtTotalEntrada.Text = String.Format("TOTAL ENTRADA: R${0:n2}", totalEntrada);
             txtSaldoFinal.Text = String.Format("SALDO FINAL : R${0:n2}", saldoFinal);
@@ -206,9 +207,11 @@ namespace CFP.App.Formularios.Financeiros
             DataGridFluxoCaixa.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.Caixa.Id == caixa.Id);
             DataGridEntrada.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Entrada && x.Caixa.Id == caixa.Id);
             DataGridSaida.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Saída && x.Caixa.Id == caixa.Id);
-            DataGridAReceber.ItemsSource = RepositorioConta.ObterTodos().Where(x => x.Pessoa != null).ToList();
-            
-            
+
+            var lista = new RepositorioContaPagamento(Session).ObterPorParametros(x => x.Conta.Pessoa != null &&
+            (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.DataVencimento.Value.Month.ToString() == DateTime.Now.Month.ToString()).OrderBy(x => x.DataVencimento).ToList();
+           
+            DataGridAReceber.ItemsSource = lista; 
         }   
         #endregion
 
@@ -253,6 +256,7 @@ namespace CFP.App.Formularios.Financeiros
                 Repositorio.Salvar(caixa);
                 ControleAcessoCadastro();
                 PreencheCampos();
+                TotalizadoresEntradaSaida();
             }
             else
             {

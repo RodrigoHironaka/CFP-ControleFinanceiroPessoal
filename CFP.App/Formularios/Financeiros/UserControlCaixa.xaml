@@ -307,10 +307,10 @@
                         </Grid.RowDefinitions>
                         <DataGrid x:Name="DataGridAReceber" Grid.Row="0" AutoGenerateColumns="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Valor" Binding="{Binding ValorTotal, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                                <DataGridTextColumn Header="Pessoa" Binding="{Binding Pessoa}" />
-                                <DataGridTextColumn Header="Data" Binding="{Binding DataGeracao, StringFormat=d,  ConverterCulture='pt-BR'}" />
-                                <DataGridTextColumn Header="Conta" Binding="{Binding Nome}" />
+                                <DataGridTextColumn Header="Valor" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                                <DataGridTextColumn Header="Pessoa" Binding="{Binding Conta.Pessoa}" />
+                                <DataGridTextColumn Header="Data" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                                <DataGridTextColumn Header="Conta" Binding="{Binding Conta.Nome}" />
                                
                             </DataGrid.Columns>
                         </DataGrid>
