@@ -87,7 +87,7 @@
                     Height="50"/>
             </Button>
         </Grid>
-        <Grid x:Name="GridCampos" Background="LightGray" Margin="0,70,0,82" Grid.RowSpan="2" >
+        <Grid x:Name="GridCampos" Background="LightGray" Margin="0,70,0,62" Grid.RowSpan="2" >
             <TextBlock x:Name="lblNomeTela" Text="Conta" 
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Top" 
@@ -103,7 +103,7 @@
             <Grid x:Name="GridControls" Margin="30,25,30,25" >
                 <TabControl x:Name="tabContas" Margin="0,0,0,-20">
                     <TabItem x:Name="tabItemGeral" Header="Geral">
-                        <Grid x:Name="GridControls2" >
+                        <Grid x:Name="GridControls2" Margin="100 20 100 20">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -313,7 +313,7 @@
                                      TextWrapping="Wrap"
                                      AcceptsReturn="True"
                                      VerticalScrollBarVisibility="Visible" 
-                                     MaxLength="400" TabIndex="13"/>
+                                     MaxLength="400" TabIndex="13" Margin="0,0,0.4,10.4"/>
                         </Grid>
 
                     </TabItem>
@@ -594,7 +594,6 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-
                 </TabControl>
             </Grid>
         </Grid>

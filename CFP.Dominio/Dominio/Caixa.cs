@@ -28,29 +28,9 @@ namespace Dominio.Dominio
         public virtual Pessoa Pessoa { get; set; }
         public virtual Usuario UsuarioAbertura { get; set; }
         public virtual Usuario UsuarioFechamento { get; set; }
+        public virtual Decimal TotalEntrada { get; set; }
+        public virtual Decimal TotalSaida { get; set; }
+        public virtual Decimal BalancoFinal { get; set; }
         public virtual IList<FluxoCaixa> FluxoCaixas { get; set; }
-
-        public virtual Decimal TotalEntrada
-        {
-            get
-            {
-                return FluxoCaixas.Where(x => x.TipoFluxo == EntradaSaida.Entrada).Sum(x => x.Valor);
-            }
-        }
-
-        public virtual Decimal TotalSaida
-        {
-            get
-            {
-                return FluxoCaixas.Where(x => x.TipoFluxo == EntradaSaida.Saída).Sum(x => x.Valor);
-            }
-        }
-        public virtual Decimal BalancoFinal
-        {
-            get
-            {
-                return (ValorInicial + TotalEntrada) - TotalSaida;
-            }
-        }
     }
 }

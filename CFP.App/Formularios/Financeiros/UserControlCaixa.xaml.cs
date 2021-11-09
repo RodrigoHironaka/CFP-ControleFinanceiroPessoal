@@ -31,7 +31,7 @@ namespace CFP.App.Formularios.Financeiros
     {
         ISession Session;
         Caixa caixa;
-
+      
         #region Verifica Situação do Caixa
         private void VerificaSituacaoCaixa()
         {
@@ -42,14 +42,11 @@ namespace CFP.App.Formularios.Financeiros
                 {
                     PreencheCampos();
                     ControleAcessoCadastro();
-                    PreencheDataGrid();
                     TotalizadoresEntradaSaida();
                 }
             }
             else
-            {
                 ControleAcessoInicial();
-            }
             
         }
         #endregion
@@ -81,7 +78,20 @@ namespace CFP.App.Formularios.Financeiros
             set { _repositorioFluxoCaixa = value; }
         }
 
-       
+        private RepositorioConta _repositorioConta;
+        public RepositorioConta RepositorioConta
+        {
+            get
+            {
+                if (_repositorioConta == null)
+                    _repositorioConta = new RepositorioConta(Session);
+
+                return _repositorioConta;
+            }
+            set { _repositorioConta = value; }
+        }
+
+
         #endregion
 
         #region Controle de acessos Inicial e Cadastro
@@ -137,7 +147,7 @@ namespace CFP.App.Formularios.Financeiros
             if(caixa.Situacao == SituacaoCaixa.Fechado)
             {
                 txtSaldoFinal.Visibility = Visibility.Visible;
-                txtSaldoFinal.Text = string.Format("ALDO FINAL R$ {0:n2}", caixa.BalancoFinal);
+                txtSaldoFinal.Text = string.Format("SALDO FINAL R$ {0:n2}", caixa.BalancoFinal);
                 txtDataFechamento.Visibility = Visibility.Visible;
                 txtDataFechamento.Text = caixa.DataFechamento.ToString();
             }
@@ -153,7 +163,7 @@ namespace CFP.App.Formularios.Financeiros
             txtSaldoInicial.Text = "SALDO INICIAL: R$ 0,00";
             txtTotalEntrada.Text = "TOTAL ENTRADA: R$ 0,00";
             txtTotalSaida.Text = "TOTAL SAÍDA: R$ 0,00";
-            txtSaldoFinal.Text = "SALDO final: R$ 0,00";
+            txtSaldoFinal.Text = "SALDO FINAL: R$ 0,00";
             txtDataFechamento.Visibility = Visibility.Hidden;
             //foreach (var item in GridCampos.Children)
             //{
@@ -172,11 +182,21 @@ namespace CFP.App.Formularios.Financeiros
         #endregion
 
         #region Totalizadores
+        private decimal totalSaida = 0;
+        private decimal totalEntrada = 0;
+        private decimal saldoFinal = 0;
+        private decimal? aReceberPessoa = 0;
         private void TotalizadoresEntradaSaida()
         {
-            txtTotalSaida.Text = String.Format("TOTAL SAÍDA: R${0:n2}", caixa.TotalSaida);
-            txtTotalEntrada.Text = String.Format("TOTAL ENTRADA: R${0:n2}", caixa.TotalEntrada);
-            txtSaldoFinal.Text = String.Format("SALDO FINAL : R${0:n2}", caixa.BalancoFinal);
+            PreencheDataGrid();
+            totalSaida = RepositorioFluxoCaixa.ObterTodos().Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Saída).Sum(x => x.Valor);
+            totalEntrada = RepositorioFluxoCaixa.ObterTodos().Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Entrada).Sum(x => x.Valor);
+            saldoFinal = caixa.ValorInicial + totalEntrada - totalSaida;
+            //aReceberPessoa = RepositorioConta.ObterTodos().Where(x => x.Pessoa != null).Sum(x => x.ValorTotal);
+            txtTotalSaida.Text = String.Format("TOTAL SAÍDA: R${0:n2}", totalSaida);
+            txtTotalEntrada.Text = String.Format("TOTAL ENTRADA: R${0:n2}", totalEntrada);
+            txtSaldoFinal.Text = String.Format("SALDO FINAL : R${0:n2}", saldoFinal);
+            txtTotalAReceber.Text = String.Format("TOTAL: R${0:n2}", aReceberPessoa);
         }
         #endregion
 
@@ -186,7 +206,10 @@ namespace CFP.App.Formularios.Financeiros
             DataGridFluxoCaixa.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.Caixa.Id == caixa.Id);
             DataGridEntrada.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Entrada && x.Caixa.Id == caixa.Id);
             DataGridSaida.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Saída && x.Caixa.Id == caixa.Id);
-        }
+            DataGridAReceber.ItemsSource = RepositorioConta.ObterTodos().Where(x => x.Pessoa != null).ToList();
+            
+            
+        }   
         #endregion
 
         public UserControlCaixa(ISession _session)
@@ -209,6 +232,7 @@ namespace CFP.App.Formularios.Financeiros
         {
             if(caixa == null)
             {
+                LimpaCampos();
                 caixa = new Caixa();
                 MessageBoxResult d = MessageBox.Show("Deseja digitar um valor inicial?", "Pergunta", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (d == MessageBoxResult.Yes)
@@ -235,10 +259,14 @@ namespace CFP.App.Formularios.Financeiros
                 MessageBoxResult d = MessageBox.Show("Deseja fechar o Caixa?", "Pergunta", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (d == MessageBoxResult.Yes)
                 {
+                    caixa.TotalEntrada = totalEntrada;
+                    caixa.TotalSaida = totalSaida;
+                    caixa.BalancoFinal = saldoFinal;
                     caixa.DataFechamento = DateTime.Now;
                     caixa.UsuarioFechamento = MainWindow.UsuarioLogado;
                     caixa.Situacao = SituacaoCaixa.Fechado;
                     lblSituacao.Text = caixa.Situacao.ToString();
+
                     Repositorio.Alterar(caixa);
                     LimpaCampos();
                     ControleAcessoInicial();
@@ -254,8 +282,26 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btRetirandoCofre_Click(object sender, RoutedEventArgs e)
         {
-            //teste
-            //TotalizadoresEntradaSaida();
+            
+        }
+
+        private void MenuItemAtualiza_Click(object sender, RoutedEventArgs e)
+        {
+            TotalizadoresEntradaSaida();
+        }
+
+        private void MenuItemAdicionaEntrada_Click(object sender, RoutedEventArgs e)
+        {
+            EntradaSaidaManual janela = new EntradaSaidaManual(true, caixa, Session);
+            janela.ShowDialog();
+            TotalizadoresEntradaSaida();
+        }
+
+        private void MenuItemAdicionaSaida_Click(object sender, RoutedEventArgs e)
+        {
+            EntradaSaidaManual janela = new EntradaSaidaManual(false, caixa, Session);
+            janela.ShowDialog();
+            TotalizadoresEntradaSaida();
         }
     }
 }

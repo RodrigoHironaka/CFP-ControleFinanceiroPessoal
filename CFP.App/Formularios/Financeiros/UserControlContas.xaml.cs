@@ -402,7 +402,7 @@ namespace CFP.App.Formularios.Financeiros
                     txtQtdParcelas.IsEnabled = true;
                     btGerarParcelas.IsEnabled = true;
                 }
-                cmbReferenciaPessoa.SelectedItem = conta.Pessoa;
+                cmbReferenciaPessoa.SelectedValue = conta.Pessoa;
                 txtNumDocumento.Text = conta.NumeroDocumento > 0 ? conta.NumeroDocumento.ToString() : string.Empty;
                 cmbFormaCompra.SelectedItem = conta.FormaCompra;
                 txtObservacao.Text = conta.Observacao;
@@ -982,7 +982,7 @@ namespace CFP.App.Formularios.Financeiros
             p.ShowDialog();
             if (p.objeto != null)
             {
-                conta = p.objeto;
+                conta = Repositorio.ObterPorCodigo(p.objeto.Codigo);
                 PreencheDataGrid();
                 PreencheListView();
                 PreencheCampos();
