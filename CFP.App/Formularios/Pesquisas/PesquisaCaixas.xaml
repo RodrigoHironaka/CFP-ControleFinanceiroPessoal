@@ -1,4 +1,4 @@
-﻿<Window x:Class="CFP.App.Formularios.Pesquisas.PesquisaBancos"
+﻿<Window x:Class="CFP.App.Formularios.Pesquisas.PesquisaCaixas"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -18,10 +18,13 @@
                   AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="DataGridPesquisa_MouseDoubleClick"
                   >
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Id}" Header="Código"/>
-                <DataGridTextColumn Binding="{Binding Nome}" Header="Nome"/>
-                <DataGridTextColumn Binding="{Binding TipoContaBanco}" Header="Tipo de Conta"/>
-                <DataGridTextColumn Binding="{Binding PessoaBanco}" Header="Pessoa"/>
+                <DataGridTextColumn Binding="{Binding Codigo}" Header="Código"/>
+                <DataGridTextColumn Binding="{Binding DataAbertura}" Header="Abertura"/>
+                <DataGridTextColumn Binding="{Binding DataFechamento}" Header="Fechamento"/>
+                <DataGridTextColumn Binding="{Binding ValorInicial, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" Header="Valor Inicial"/>
+                <DataGridTextColumn Binding="{Binding TotalEntrada, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" Header="Total Entrada"/>
+                <DataGridTextColumn Binding="{Binding TotalSaida, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" Header="Total Saída"/>
+                <DataGridTextColumn Binding="{Binding BalancoFinal, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" Header="Saldo Final"/>
                 <DataGridTextColumn Binding="{Binding Situacao}" Header="Situação"/>
             </DataGrid.Columns>
         </DataGrid>

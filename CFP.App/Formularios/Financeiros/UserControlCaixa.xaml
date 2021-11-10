@@ -39,7 +39,7 @@
                     VerticalAlignment="Center" 
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Pesquisa de Caixas">
+                    ToolTip="Pesquisa de Caixas" Click="btPesquisar_Click_1">
                 <materialDesign:PackIcon 
                     Kind="Search"  
                     Width="50" 
@@ -56,7 +56,7 @@
                      HorizontalAlignment="Center"
                      VerticalAlignment="Center" 
                      Margin="10,15" Width="108"
-                     ToolTip="Código do Caixa"/>
+                     ToolTip="Código do Caixa" KeyDown="txtCodigo_KeyDown" PreviewKeyDown="txtCodigo_PreviewKeyDown" PreviewTextInput="txtCodigo_PreviewTextInput"/>
 
             <Button x:Name="btNovoRegistroConta"
                     Grid.Column="9"
@@ -138,7 +138,7 @@
                       Margin="5 0"/>
             <TabControl Grid.Row="1" Background="LightGray">
                 <TabControl.ContextMenu>
-                    <ContextMenu>
+                    <ContextMenu x:Name="ctxAtualizaTotais">
                         <MenuItem x:Name="MenuItemAtualiza" Header="Atualiza Totais" Click="MenuItemAtualiza_Click"/>
                     </ContextMenu>
                 </TabControl.ContextMenu>
@@ -178,7 +178,7 @@
                                            VerticalAlignment="Center"/>
                             </Grid>
 
-                            <Grid Grid.Row="1" Margin="200 0 200 0">
+                            <Grid x:Name="dgEntradaSaida" Grid.Row="1" Margin="200 0 200 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
@@ -193,7 +193,7 @@
                                         <DataGridTextColumn Header="Valor Total" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                     </DataGrid.Columns>
                                     <DataGrid.ContextMenu>
-                                        <ContextMenu>
+                                        <ContextMenu x:Name="ctxAdicionarEntrada">
                                             <MenuItem x:Name="MenuItemAdicionaEntrada" Header="Nova Entrada Manual" Click="MenuItemAdicionaEntrada_Click"/>
                                         </ContextMenu>
                                     </DataGrid.ContextMenu>
@@ -208,7 +208,7 @@
                                         <DataGridTextColumn Header="Valor Total" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                     </DataGrid.Columns>
                                     <DataGrid.ContextMenu>
-                                        <ContextMenu>
+                                        <ContextMenu x:Name="ctxAdicionarSaida">
                                             <MenuItem x:Name="MenuItemAdicionaSaida" Header="Nova Saída Manual" Click="MenuItemAdicionaSaida_Click"/>
                                         </ContextMenu>
                                     </DataGrid.ContextMenu>
@@ -299,7 +299,7 @@
                         </DataGrid>
                     </Grid>
                 </TabItem>
-                <TabItem x:Name="tabItemProvisoes" Header="Provisões">
+                <TabItem x:Name="tabItemRef" Header="Ref Pessoas">
                     <Grid Margin="200 10 200 30">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="380"/>

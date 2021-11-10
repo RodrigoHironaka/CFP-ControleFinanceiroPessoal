@@ -28,6 +28,9 @@ namespace Repositorio.Mapeamentos
             Property(x => x.DataAlteracao);
             Property(x => x.TipoContaBanco, m => m.Type<EnumType<TipoContaBanco>>());
             Property(x => x.Situacao, m => m.Type<EnumType<Situacao>>());
+
+            ManyToOne(x => x.PessoaBanco, m => m.Column("Pessoa"));
+            ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));
         }
     }
 }

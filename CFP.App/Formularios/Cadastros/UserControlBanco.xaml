@@ -87,12 +87,21 @@
                      VerticalAlignment="Top"/>
 
                 <ComboBox 
+                    x:Name="cmbPessoa"
+                     materialDesign:HintAssist.Hint="Pessoa" 
+                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                     FontFamily="Champagne &amp; Limousines" 
+                     FontSize="22" 
+                     Foreground="#FF1F3D68" Margin="0,118,0,219.6"  
+                     />
+
+                <ComboBox 
                     x:Name="cmbSituacao"
                      materialDesign:HintAssist.Hint="Situação" 
                      Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="22" 
-                     Foreground="#FF1F3D68" Margin="0,118,0,220"  
+                     Foreground="#FF1F3D68" Margin="0,175,0,162.6"  
                      />
 
                 <ComboBox

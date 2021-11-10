@@ -1,4 +1,5 @@
 ﻿using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
+using CFP.App.Formularios.Pesquisas;
 using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,14 +33,14 @@ namespace CFP.App.Formularios.Financeiros
     {
         ISession Session;
         Caixa caixa;
-      
+
         #region Verifica Situação do Caixa
         private void VerificaSituacaoCaixa()
         {
             caixa = (Caixa)Repositorio.ObterPorParametros(x => x.Situacao == SituacaoCaixa.Aberto && x.UsuarioAbertura == MainWindow.UsuarioLogado).FirstOrDefault();
             if (caixa != null)
             {
-                if(caixa.Situacao == SituacaoCaixa.Aberto)
+                if (caixa.Situacao == SituacaoCaixa.Aberto)
                 {
                     PreencheCampos();
                     ControleAcessoCadastro();
@@ -47,7 +49,7 @@ namespace CFP.App.Formularios.Financeiros
             }
             else
                 ControleAcessoInicial();
-            
+
         }
         #endregion
 
@@ -144,14 +146,14 @@ namespace CFP.App.Formularios.Financeiros
             txtDataAbertura.Text = caixa.DataAbertura.ToString();
             txtTotalEntrada.Text = string.Format("TOTAL ENTRADA R$ {0:n2}", caixa.TotalEntrada);
             txtTotalSaida.Text = string.Format("TOTAL SAÍDA R$ {0:n2}", caixa.TotalSaida);
-            if(caixa.Situacao == SituacaoCaixa.Fechado)
+            if (caixa.Situacao == SituacaoCaixa.Fechado)
             {
                 txtSaldoFinal.Visibility = Visibility.Visible;
                 txtSaldoFinal.Text = string.Format("SALDO FINAL R$ {0:n2}", caixa.BalancoFinal);
                 txtDataFechamento.Visibility = Visibility.Visible;
                 txtDataFechamento.Text = caixa.DataFechamento.ToString();
             }
-            
+
 
         }
         #endregion
@@ -165,6 +167,10 @@ namespace CFP.App.Formularios.Financeiros
             txtTotalSaida.Text = "TOTAL SAÍDA: R$ 0,00";
             txtSaldoFinal.Text = "SALDO FINAL: R$ 0,00";
             txtDataFechamento.Visibility = Visibility.Hidden;
+            DataGridEntrada.ItemsSource = null;
+            DataGridSaida.ItemsSource = null;
+            DataGridFluxoCaixa.ItemsSource = null;
+            DataGridAReceber.ItemsSource = null;
             //foreach (var item in GridCampos.Children)
             //{
             //    if (item is TextBox)
@@ -181,19 +187,55 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
+        #region Situacao do caixa
+        private void VerificandoSituacaoCaixa()
+        {
+            switch (caixa.Situacao)
+            {
+                case SituacaoCaixa.Aberto:
+                    MenuItemAtualiza.IsEnabled = true;
+                    MenuItemAdicionaEntrada.IsEnabled = true;
+                    MenuItemAdicionaSaida.IsEnabled = true;
+                    btNovoRegistroConta.Visibility = Visibility.Visible;
+                    btRetirandoCofre.Visibility = Visibility.Visible;
+                    btTransferirCofre.Visibility = Visibility.Visible;
+                    btAbrirFecharCaixa.Visibility = Visibility.Visible;
+                    break;
+                case SituacaoCaixa.Fechado:
+                    btPesquisar.IsEnabled = true;
+                    txtCodigo.IsEnabled = true;
+                    MenuItemAtualiza.IsEnabled = false;
+                    MenuItemAdicionaEntrada.IsEnabled = false;
+                    MenuItemAdicionaSaida.IsEnabled = false;
+                    btNovoRegistroConta.Visibility = Visibility.Hidden;
+                    btRetirandoCofre.Visibility = Visibility.Hidden;
+                    btTransferirCofre.Visibility = Visibility.Hidden;
+                    btAbrirFecharCaixa.Visibility = Visibility.Hidden;
+                    break;
+
+            }
+        }
+        #endregion
+
         #region Totalizadores
         private decimal totalSaida = 0;
         private decimal totalEntrada = 0;
         private decimal saldoFinal = 0;
-        private decimal? aReceberPessoa = 0;
+        private decimal aReceberPessoa = 0;
         private void TotalizadoresEntradaSaida()
         {
             PreencheDataGrid();
+            //recebe valores do banco
             totalSaida = RepositorioFluxoCaixa.ObterTodos().Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Saída).Sum(x => x.Valor);
             totalEntrada = RepositorioFluxoCaixa.ObterTodos().Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Entrada).Sum(x => x.Valor);
             saldoFinal = caixa.ValorInicial + totalEntrada - totalSaida;
-            aReceberPessoa = new RepositorioContaPagamento(Session).ObterPorParametros(x => x.Conta.Pessoa != null &&
-            (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.DataVencimento.Value.Month.ToString() == DateTime.Now.Month.ToString()).Sum(x => x.ValorParcela);
+            aReceberPessoa = new RepositorioContaPagamento(Session).ObterTodos().Where(x => x.Conta.Pessoa != null &&
+            (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
+            x.DataVencimento.Value.Month.ToString() == DateTime.Now.Month.ToString() &&
+            x.DataVencimento.Value.Year.ToString() == DateTime.Now.Year.ToString() && x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado)
+                .Sum(x => x.ValorParcela);
+
+            //Add no texboxx
             txtTotalSaida.Text = String.Format("TOTAL SAÍDA: R${0:n2}", totalSaida);
             txtTotalEntrada.Text = String.Format("TOTAL ENTRADA: R${0:n2}", totalEntrada);
             txtSaldoFinal.Text = String.Format("SALDO FINAL : R${0:n2}", saldoFinal);
@@ -207,12 +249,21 @@ namespace CFP.App.Formularios.Financeiros
             DataGridFluxoCaixa.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.Caixa.Id == caixa.Id);
             DataGridEntrada.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Entrada && x.Caixa.Id == caixa.Id);
             DataGridSaida.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Saída && x.Caixa.Id == caixa.Id);
+            DataGridAReceber.ItemsSource = new RepositorioContaPagamento(Session).ObterPorParametros(x => x.Conta.Pessoa != null &&
+            (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
+            x.DataVencimento.Value.Month.ToString() == DateTime.Now.Month.ToString() &&
+            x.DataVencimento.Value.Year.ToString() == DateTime.Now.Year.ToString() && x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado)
+                .OrderBy(x => x.DataVencimento).ToList();
+        }
+        #endregion
 
-            var lista = new RepositorioContaPagamento(Session).ObterPorParametros(x => x.Conta.Pessoa != null &&
-            (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.DataVencimento.Value.Month.ToString() == DateTime.Now.Month.ToString()).OrderBy(x => x.DataVencimento).ToList();
-           
-            DataGridAReceber.ItemsSource = lista; 
-        }   
+        #region Definindo Cor Padrão do botão Pesquisar #FF1F3D68 
+        public void CorPadrãoBotaoPesquisar()
+        {
+            var converter = new System.Windows.Media.BrushConverter();
+            var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
+            btPesquisar.Background = HexaToBrush;
+        }
         #endregion
 
         public UserControlCaixa(ISession _session)
@@ -233,7 +284,7 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btAbrirFecharCaixa_Click(object sender, RoutedEventArgs e)
         {
-            if(caixa == null)
+            if (caixa == null)
             {
                 LimpaCampos();
                 caixa = new Caixa();
@@ -281,12 +332,12 @@ namespace CFP.App.Formularios.Financeiros
         private void btNovoRegistroConta_Click(object sender, RoutedEventArgs e)
         {
             panelCadastro.Children.Clear();
-            panelCadastro.Children.Add(new UserControlContas(new Conta(),Session));
+            panelCadastro.Children.Add(new UserControlContas(new Conta(), Session));
         }
 
         private void btRetirandoCofre_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void MenuItemAtualiza_Click(object sender, RoutedEventArgs e)
@@ -306,6 +357,73 @@ namespace CFP.App.Formularios.Financeiros
             EntradaSaidaManual janela = new EntradaSaidaManual(false, caixa, Session);
             janela.ShowDialog();
             TotalizadoresEntradaSaida();
+        }
+
+        private void btPesquisar_Click_1(object sender, RoutedEventArgs e)
+        {
+            PesquisaCaixas p = new PesquisaCaixas();
+            p.ShowDialog();
+            if (p.objeto != null)
+            {
+                caixa = Repositorio.ObterPorCodigo(p.objeto.Codigo);
+                TotalizadoresEntradaSaida();
+                PreencheCampos();
+                ControleAcessoCadastro();
+                VerificandoSituacaoCaixa();
+                CorPadrãoBotaoPesquisar();
+            }
+        }
+
+        private void txtCodigo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                try
+                {
+                    // verifico se campo codigo esta preenchido para incluir novos dados ou carregar um existente
+                    if (!String.IsNullOrEmpty(txtCodigo.Text))
+                    {
+                        #region Conta existente
+                        caixa = Repositorio.ObterPorCodigo(Int64.Parse(txtCodigo.Text));
+                        if (caixa != null)
+                        {
+                            TotalizadoresEntradaSaida();
+                            PreencheCampos();
+                            ControleAcessoCadastro();
+                            VerificandoSituacaoCaixa();
+                            CorPadrãoBotaoPesquisar();
+                        }
+                        else
+                        {
+                            txtCodigo.SelectAll();
+                            txtCodigo.Focus();
+                            btPesquisar.Background = Brushes.DarkRed;
+                        }
+                        #endregion
+                    }
+                    else
+                    {
+                        txtCodigo.SelectAll();
+                        txtCodigo.Focus();
+                        btPesquisar.Background = Brushes.DarkRed;
+                    }
+                }
+                catch (Exception)
+                {
+                    caixa = null;
+                }
+            }
+        }
+
+        private void txtCodigo_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void txtCodigo_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
         }
     }
 }

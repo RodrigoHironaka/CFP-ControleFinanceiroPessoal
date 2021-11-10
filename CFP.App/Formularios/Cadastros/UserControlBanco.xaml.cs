@@ -38,6 +38,12 @@ namespace CFP.App.Formularios.Cadastros
             cmbSituacao.SelectedIndex = 0;
             cmbTipoConta.ItemsSource = Enum.GetValues(typeof(TipoContaBanco));
             cmbTipoConta.SelectedIndex = 0;
+
+            cmbPessoa.ItemsSource = new RepositorioPessoa(Session)
+               .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+               .OrderBy(x => x.Nome)
+               .ToList<Pessoa>();
+            cmbPessoa.SelectedIndex = 0;
         }
         #endregion
 
@@ -120,9 +126,11 @@ namespace CFP.App.Formularios.Cadastros
         {
             try
             {
+                banco.UsuarioCriacao = MainWindow.UsuarioLogado;
                 banco.Nome = txtNome.Text;
                 banco.Situacao = (Situacao)cmbSituacao.SelectedIndex;
                 banco.TipoContaBanco = (TipoContaBanco)cmbTipoConta.SelectedIndex;
+                banco.PessoaBanco = (Pessoa)cmbPessoa.SelectedItem;
                 return true;
             }
             catch
@@ -142,6 +150,7 @@ namespace CFP.App.Formularios.Cadastros
                 txtNome.Text = banco.Nome;
                 cmbSituacao.SelectedIndex = banco.Situacao.GetHashCode();
                 cmbTipoConta.SelectedIndex = banco.TipoContaBanco.GetHashCode();
+                cmbPessoa.SelectedItem = banco.PessoaBanco;
             }
         }
         #endregion
@@ -236,7 +245,7 @@ namespace CFP.App.Formularios.Cadastros
             p.ShowDialog();
             if (p.objeto != null)
             {
-                banco = p.objeto;
+                banco = Repositorio.ObterPorId(p.objeto.Id);
                 PreencheCampos();
                 ControleAcessoCadastro();
                 CorPadrãoBotaoPesquisar();
@@ -245,6 +254,11 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
         {
+            if(String.IsNullOrEmpty(txtNome.Text) || cmbTipoConta.SelectedIndex == -1 || cmbPessoa.SelectedItem == null)
+            {
+                MessageBox.Show("Todos os campos são obrigatórios! Por favor verifique.", "Atencao", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
             if (PreencheObjeto())
             {
                 if ((banco.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))

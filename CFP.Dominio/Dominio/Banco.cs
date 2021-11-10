@@ -17,5 +17,8 @@ namespace Dominio.Dominio
         }
         public virtual TipoContaBanco TipoContaBanco { get; set; }
         public virtual Situacao Situacao { get; set; }
+
+        public virtual Pessoa PessoaBanco { get; set; }
+        public virtual Usuario UsuarioCriacao { get; set; }
     }
 }

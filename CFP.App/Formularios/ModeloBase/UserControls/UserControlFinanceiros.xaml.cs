@@ -61,8 +61,8 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
 
         private void btCofre_Click(object sender, RoutedEventArgs e)
         {
-            ConfiguracaoBanco f = new ConfiguracaoBanco();
-            f.ShowDialog();
+            panelCadastros.Children.Clear();
+            panelCadastros.Children.Add(new UserControlCofre(Session));
         }
     }
 }

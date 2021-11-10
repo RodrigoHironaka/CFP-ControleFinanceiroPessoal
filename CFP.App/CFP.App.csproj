@@ -147,6 +147,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Financeiros\UserControlCofre.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Financeiros\UserControlContas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -176,6 +180,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Formularios\Pesquisas\PesquisaBancos.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Formularios\Pesquisas\PesquisaCaixas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -262,6 +270,9 @@
     <Compile Include="Formularios\Financeiros\UserControlCaixa.xaml.cs">
       <DependentUpon>UserControlCaixa.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Financeiros\UserControlCofre.xaml.cs">
+      <DependentUpon>UserControlCofre.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Financeiros\UserControlContas.xaml.cs">
       <DependentUpon>UserControlContas.xaml</DependentUpon>
     </Compile>
@@ -285,6 +296,9 @@
     </Compile>
     <Compile Include="Formularios\Pesquisas\PesquisaBancos.xaml.cs">
       <DependentUpon>PesquisaBancos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Pesquisas\PesquisaCaixas.xaml.cs">
+      <DependentUpon>PesquisaCaixas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Pesquisas\PesquisaContas.xaml.cs">
       <DependentUpon>PesquisaContas.xaml</DependentUpon>

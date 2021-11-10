@@ -20,14 +20,20 @@ namespace Repositorio.Mapeamentos
             {
                 m.Generator(Generators.HighLow, g => g.Params(new { max_lo = 0 }));
             });
-
+            Property(x => x.Codigo);
             Property(x => x.Nome, m => m.Length(70));
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
-            ManyToOne(x => x.Caixa);
-            ManyToOne(x => x.Banco);
-            Property(x => x.Valor);
+            Property(x => x.Valor, m =>
+            {
+                m.Precision(10);
+                m.Scale(2);
+            });
             Property(x => x.Situacao, m => m.Type<EnumType<SituacaoCofre>>());
+            ManyToOne(x => x.Caixa, m => m.Column("Caixa"));
+            ManyToOne(x => x.Banco, m => m.Column("Banco"));
+            ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));
+            ManyToOne(x => x.UsuarioAlteracao, m => m.Column("UsuarioAlteracao"));
 
         }
     }

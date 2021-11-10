@@ -8,6 +8,8 @@ namespace Dominio.ObejtoValor
 {
     public enum SituacaoCofre
     {
+        RecebimentoCaixa,
+        RetiradoCaixa,
         Transferido,
         Depositado,
         Sacado,

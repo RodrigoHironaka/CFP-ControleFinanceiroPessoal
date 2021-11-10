@@ -298,6 +298,7 @@ namespace CFP.App.Formularios.Financeiros
             try
             {
                 //tab Geral
+                conta.UsuarioCriacao = MainWindow.UsuarioLogado;
                 conta.Nome = txtNome.Text;
                 conta.TipoConta = (TipoConta)cmbTipoConta.SelectedIndex;
                 conta.GrupoGasto = (GrupoGasto)cmbTipoGasto.SelectedItem;

@@ -44,6 +44,7 @@ namespace Repositorio.Mapeamentos
          
             ManyToOne(x => x.FormaCompra, m => m.Column("FormaCompra"));
             ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
+            ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));
             ManyToOne(x => x.GrupoGasto, m => m.Column("GrupoGasto"));
             ManyToOne(x => x.SubGrupoGasto, m => m.Column("SubGrupoGasto"));
 
