@@ -143,6 +143,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Formularios\Financeiros\TelasConfirmacoes\ValoresCofre.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Formularios\Financeiros\UserControlCaixa.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -266,6 +270,9 @@
     </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\EntradaSaidaManual.xaml.cs">
       <DependentUpon>EntradaSaidaManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Financeiros\TelasConfirmacoes\ValoresCofre.xaml.cs">
+      <DependentUpon>ValoresCofre.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Financeiros\UserControlCaixa.xaml.cs">
       <DependentUpon>UserControlCaixa.xaml</DependentUpon>

@@ -13,7 +13,7 @@ namespace Dominio.Dominio
     {
         public override string ToString()
         {
-            return Nome;
+            return String.Format("{0} {1}", Nome, TipoContaBanco);
         }
         public virtual TipoContaBanco TipoContaBanco { get; set; }
         public virtual Situacao Situacao { get; set; }
