@@ -94,7 +94,7 @@
                     VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Tansferir Receita para o cofre">
+                    ToolTip="Tansferir Receita para o cofre" Click="btTransferirCofre_Click">
                 <materialDesign:PackIcon 
                     Kind="TransferUp"  
                     Width="50" 

@@ -31,7 +31,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
     {
 
         ISession Session;
-        Cofre cofre;
+        public Cofre cofre;
+        Caixa caixa;
 
         #region Repositorio
         private RepositorioCofre _repositorio;
@@ -66,10 +67,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             try
             {
-                cofre = new Cofre();
-                cofre.Codigo = Repositorio.RetornaUltimoCodigo() + 1;
-                cofre.Nome = txtNome.Text;
                 cofre.Valor = Decimal.Parse(txtValor.Text);
+                cofre.Nome = txtNome.Text;
                 cofre.Situacao = (SituacaoCofre)cmbSituacaoCofre.SelectedItem;
                 cofre.Banco = (Banco)cmbBanco.SelectedItem;
                 return true;
@@ -81,10 +80,37 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         }
         #endregion
+
+        #region Preeenche Campos
+        private void PreencheCampos()
+        {
+            txtValor.Text = cofre.Valor.ToString();
+            txtNome.Text = cofre.Nome;
+            cmbBanco.SelectedItem = cofre.Banco;
+            cmbSituacaoCofre.SelectedItem = cofre.Situacao;
+        }
+        #endregion
+
         public ValoresCofre(ISession _session)
         {
             InitializeComponent();
             Session = _session;
+            cofre = new Cofre();
+        }
+
+        public ValoresCofre(Cofre _cofre, ISession _session)
+        {
+            InitializeComponent();
+            Session = _session;
+            cofre = _cofre;
+            PreencheCampos();
+        }
+
+        public ValoresCofre(Caixa _caixa, ISession _session)
+        {
+            InitializeComponent();
+            Session = _session;
+            caixa = _caixa;
         }
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
@@ -98,8 +124,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             {
                 if (cofre.Id == 0)
                 {
+                    cofre.Codigo = Repositorio.RetornaUltimoCodigo() + 1;
                     cofre.DataGeracao = DateTime.Now;
-                    cofre.Caixa = null;
                     cofre.UsuarioCriacao = MainWindow.UsuarioLogado;
                     cofre.Situacao = SituacaoCofre.Depositado;
                     Repositorio.Salvar(cofre);
@@ -110,9 +136,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     cofre.UsuarioAlteracao = MainWindow.UsuarioLogado;
                     Repositorio.Alterar(cofre);
                 }
-                Close();
+                this.DialogResult = true;
             }
-
         }
 
         private void txtValorInicial_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -134,6 +159,20 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CarregaCombo();
+        }
+
+        private void txtValor_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (caixa != null && !String.IsNullOrEmpty(txtValor.Text))
+            {
+                if (caixa.BalancoFinal >= Decimal.Parse(txtValor.Text))
+                    cofre.Caixa = caixa;
+                else
+                {
+                    MessageBox.Show("Valor digitado é maior que o saldo do caixa!", "Atencao", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtValor.Clear();
+                }  
+            }
         }
     }
 }

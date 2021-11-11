@@ -85,7 +85,7 @@
             <Grid Margin="30 30 30 40">
                 <DataGrid x:Name="DataGridCofre"  
                            AutoGenerateColumns="False"                                        
-                           Background="white" IsReadOnly="True">
+                           Background="white" IsReadOnly="True" MouseDoubleClick="DataGridCofre_MouseDoubleClick">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Situação" Binding="{Binding Situacao}" />
                         <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" />
@@ -93,7 +93,7 @@
                         <DataGridTextColumn Header="Banco" Binding="{Binding Banco}" />
                         <DataGridTextColumn Header="Valor Guardado" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                         <DataGridTextColumn Header="Data Geração" Binding="{Binding DataGeracao, StringFormat=d,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Data Alteração" Binding="{Binding DataAlteracao, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                        
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

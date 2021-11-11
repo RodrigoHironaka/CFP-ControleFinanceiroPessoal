@@ -240,6 +240,8 @@ namespace CFP.App.Formularios.Financeiros
             txtTotalEntrada.Text = String.Format("TOTAL ENTRADA: R${0:n2}", totalEntrada);
             txtSaldoFinal.Text = String.Format("SALDO FINAL : R${0:n2}", saldoFinal);
             txtTotalAReceber.Text = String.Format("TOTAL: R${0:n2}", aReceberPessoa);
+
+            SalvaTotais();
         }
         #endregion
 
@@ -263,6 +265,16 @@ namespace CFP.App.Formularios.Financeiros
             var converter = new System.Windows.Media.BrushConverter();
             var HexaToBrush = (Brush)converter.ConvertFromString("#FF1F3D68");
             btPesquisar.Background = HexaToBrush;
+        }
+        #endregion
+
+        #region Salva os totais
+        private void SalvaTotais()
+        {
+            caixa.TotalEntrada = totalEntrada;
+            caixa.TotalSaida = totalSaida;
+            caixa.BalancoFinal = saldoFinal;
+            Repositorio.Alterar(caixa);
         }
         #endregion
 
@@ -329,6 +341,7 @@ namespace CFP.App.Formularios.Financeiros
             }
         }
 
+       
         private void btNovoRegistroConta_Click(object sender, RoutedEventArgs e)
         {
             panelCadastro.Children.Clear();
@@ -425,5 +438,37 @@ namespace CFP.App.Formularios.Financeiros
         {
             e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
         }
+
+        private void btTransferirCofre_Click(object sender, RoutedEventArgs e)
+        {
+            ValoresCofre janela = new ValoresCofre(caixa, Session);
+            bool? res = janela.ShowDialog();
+            //if ((bool)res)
+            //    EntradaSaidaCofre(true, janela.cofre);
+        }
+
+        #region Entrada e saida manual Fluxo caixa
+        //public void EntradaSaidaCofre(Boolean Entrada, Cofre _cofre)
+        //{
+        //    FluxoCaixa fluxoCaixa = new FluxoCaixa();
+        //    if (Entrada)
+        //    {
+        //        fluxoCaixa.TipoFluxo = EntradaSaida.Entrada;
+        //        fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Recebimento do cofre. Descrição: {0}", _cofre.Nome);
+        //    }
+        //    else
+        //    {
+        //        fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
+        //        fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Transferencia para o cofre. Descrição: {0}", _cofre.Nome);
+        //    }
+        //    fluxoCaixa.DataGeracao = DateTime.Now;
+        //    fluxoCaixa.Conta = null;
+        //    fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
+        //    fluxoCaixa.Valor = _cofre.Valor;
+        //    fluxoCaixa.Caixa = caixa;
+        //    //fluxoCaixa.FormaPagamento = _cofre.;
+        //    new RepositorioFluxoCaixa(Session).Salvar(fluxoCaixa);
+        //}
+        #endregion
     }
 }

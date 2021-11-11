@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="ValoresCofre" 
-        Height="250" Width="350" 
+        Height="250" Width="400" 
         WindowStartupLocation="CenterScreen"
         WindowStyle="None" Loaded="Window_Loaded">
     <Grid >
@@ -47,7 +47,7 @@
                   Foreground="#FF1F3D68"
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Stretch" 
-                  Margin="20 0 20 0" TabIndex="0"/>
+                  Margin="20 0 20 0" TabIndex="0" LostFocus="txtValor_LostFocus"/>
 
                 <Button x:Name="btConfirmar"
                     Grid.Column="1"

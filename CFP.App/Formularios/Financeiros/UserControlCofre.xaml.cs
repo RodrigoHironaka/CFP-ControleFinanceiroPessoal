@@ -46,9 +46,11 @@ namespace CFP.App.Formularios.Financeiros
         #region Preenche DataGrid
         private void PreencheDataGrid()
         {
-            DataGridCofre.ItemsSource = Repositorio.ObterTodos().Where(x => x.UsuarioCriacao == MainWindow.UsuarioLogado);
+            DataGridCofre.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).ToList();
         }
         #endregion
+
+      
         public UserControlCofre( ISession _session)
         {
             InitializeComponent();
@@ -65,9 +67,9 @@ namespace CFP.App.Formularios.Financeiros
         private void btCancelar_Click(object sender, RoutedEventArgs e)
         {
             var selecoes = DataGridCofre.SelectedItems;
-            foreach (var item in selecoes)
+            foreach (Cofre item in selecoes)
             {
-                switch (item)
+                switch (item.Situacao)
                 {
                     case SituacaoCofre.Cancelado:
                         MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -79,19 +81,11 @@ namespace CFP.App.Formularios.Financeiros
                         MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
                         break;
                     case SituacaoCofre.Transferido:
-                        cofre.Situacao = SituacaoCofre.Cancelado;
-                        cofre.DataAlteracao = DateTime.Now;
-                        Repositorio.Alterar(cofre);
-                        break;
                     case SituacaoCofre.Depositado:
-                        cofre.Situacao = SituacaoCofre.Cancelado;
-                        cofre.DataAlteracao = DateTime.Now;
-                        Repositorio.Alterar(cofre);
-                        break;
                     case SituacaoCofre.RecebimentoCaixa:
-                        cofre.Situacao = SituacaoCofre.Cancelado;
-                        cofre.DataAlteracao = DateTime.Now;
-                        Repositorio.Alterar(cofre);
+                        item.Situacao = SituacaoCofre.Cancelado;
+                        item.DataAlteracao = DateTime.Now;
+                        Repositorio.Alterar(item);
                         break;
                 }
             }
@@ -105,6 +99,15 @@ namespace CFP.App.Formularios.Financeiros
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            PreencheDataGrid();
+        }
+
+        private void DataGridCofre_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Cofre selecao = (Cofre)DataGridCofre.SelectedItem;
+            cofre = Repositorio.ObterPorCodigo(selecao.Codigo);
+            ValoresCofre janela = new ValoresCofre(cofre, Session);
+            janela.ShowDialog();
             PreencheDataGrid();
         }
     }
