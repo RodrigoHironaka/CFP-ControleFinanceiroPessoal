@@ -217,7 +217,7 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
-        #region Totalizadores
+        #region Totalizadores - Deixei variaveis fora pq uso no metodo SalvarTotais()
         private decimal totalSaida = 0;
         private decimal totalEntrada = 0;
         private decimal saldoFinal = 0;
@@ -225,21 +225,38 @@ namespace CFP.App.Formularios.Financeiros
         private void TotalizadoresEntradaSaida()
         {
             PreencheDataGrid();
-            //recebe valores do banco
-            totalSaida = RepositorioFluxoCaixa.ObterTodos().Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Saída).Sum(x => x.Valor);
-            totalEntrada = RepositorioFluxoCaixa.ObterTodos().Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Entrada).Sum(x => x.Valor);
-            saldoFinal = caixa.ValorInicial + totalEntrada - totalSaida;
-            aReceberPessoa = new RepositorioContaPagamento(Session).ObterTodos().Where(x => x.Conta.Pessoa != null &&
-            (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-            x.DataVencimento.Value.Month.ToString() == DateTime.Now.Month.ToString() &&
-            x.DataVencimento.Value.Year.ToString() == DateTime.Now.Year.ToString() && x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado)
-                .Sum(x => x.ValorParcela);
 
-            //Add no texboxx
+            #region Total Saída
+            totalSaida = RepositorioFluxoCaixa.ObterTodos()
+                .Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Saída)
+                .Sum(x => x.Valor);
             txtTotalSaida.Text = String.Format("TOTAL SAÍDA: R${0:n2}", totalSaida);
+            #endregion
+
+            #region Total Entrada
+            totalEntrada = RepositorioFluxoCaixa.ObterTodos()
+                .Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Entrada)
+                .Sum(x => x.Valor);
             txtTotalEntrada.Text = String.Format("TOTAL ENTRADA: R${0:n2}", totalEntrada);
+            #endregion
+
+            #region Saldo Final
+            saldoFinal = caixa.ValorInicial + totalEntrada - totalSaida;
             txtSaldoFinal.Text = String.Format("SALDO FINAL : R${0:n2}", saldoFinal);
+            #endregion
+
+            #region Total A receber de pessoas referenciadas
+            aReceberPessoa = new RepositorioContaPagamento(Session)
+                .ObterTodos()
+                .Where(x => x.Conta.Pessoa != null &&
+                (x.SituacaoParcelas == SituacaoParcela.Pendente ||
+                x.SituacaoParcelas == SituacaoParcela.Parcial) &&
+                x.DataVencimento.Value.Month <= DateTime.Now.Month &&
+                x.DataVencimento.Value.Year <= DateTime.Now.Year &&
+                x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado)
+                .Sum(x => x.ValorParcela);
             txtTotalAReceber.Text = String.Format("TOTAL: R${0:n2}", aReceberPessoa);
+            #endregion
 
             SalvaTotais();
         }
@@ -248,14 +265,43 @@ namespace CFP.App.Formularios.Financeiros
         #region PreencheDataGrid
         public void PreencheDataGrid()
         {
+            #region Agrupamento por forma de pagamento e soma dos valores do fluxo de caixa - ENTRADAS
+            DataGridEntrada.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Entrada && x.Caixa.Id == caixa.Id)
+               .ToList()
+               .GroupBy(x => x.FormaPagamento)
+               .Select(m => new
+               {
+                   FormaPagamento = m.Key,
+                   Valor = m.Sum(x => x.Valor)
+               });
+            #endregion
+
+            #region Agrupamento por forma de pagamento e soma dos valores do fluxo de caixa -SAÍDAS
+            DataGridSaida.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Saída && x.Caixa.Id == caixa.Id)
+                .ToList()
+                .GroupBy(m => m.FormaPagamento)
+                .Select(m => new
+                {
+                    FormaPagamento = m.Key,
+                    Valor = m.Sum(x => x.Valor)
+                });
+            #endregion
+
+            #region Lista inteira Fluxo de Caixa
             DataGridFluxoCaixa.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.Caixa.Id == caixa.Id);
-            DataGridEntrada.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Entrada && x.Caixa.Id == caixa.Id);
-            DataGridSaida.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.TipoFluxo == EntradaSaida.Saída && x.Caixa.Id == caixa.Id);
-            DataGridAReceber.ItemsSource = new RepositorioContaPagamento(Session).ObterPorParametros(x => x.Conta.Pessoa != null &&
-            (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-            x.DataVencimento.Value.Month.ToString() == DateTime.Now.Month.ToString() &&
-            x.DataVencimento.Value.Year.ToString() == DateTime.Now.Year.ToString() && x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado)
-                .OrderBy(x => x.DataVencimento).ToList();
+            #endregion
+
+            #region Lista dos valores a receber no mês de pessoas referenciadas
+            DataGridAReceber.ItemsSource = new RepositorioContaPagamento(Session)
+                .ObterPorParametros(x => x.Conta.Pessoa != null &&
+                (x.SituacaoParcelas == SituacaoParcela.Pendente ||
+                 x.SituacaoParcelas == SituacaoParcela.Parcial) &&
+                 x.DataVencimento.Value.Month <= DateTime.Now.Month &&
+                 x.DataVencimento.Value.Year <= DateTime.Now.Year &&
+                 x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado)
+                 .OrderBy(x => x.DataVencimento)
+                 .ToList();
+            #endregion
         }
         #endregion
 
@@ -341,7 +387,6 @@ namespace CFP.App.Formularios.Financeiros
             }
         }
 
-       
         private void btNovoRegistroConta_Click(object sender, RoutedEventArgs e)
         {
             panelCadastro.Children.Clear();

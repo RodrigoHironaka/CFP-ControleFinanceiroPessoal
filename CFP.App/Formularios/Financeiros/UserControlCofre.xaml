@@ -85,7 +85,7 @@
             <Grid Margin="30 30 30 40">
                 <DataGrid x:Name="DataGridCofre"  
                            AutoGenerateColumns="False"                                        
-                           Background="white" IsReadOnly="True" MouseDoubleClick="DataGridCofre_MouseDoubleClick">
+                           Background="white" IsReadOnly="True" MouseDoubleClick="DataGridCofre_MouseDoubleClick" LoadingRow="DataGridCofre_LoadingRow">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Situação" Binding="{Binding Situacao}" />
                         <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" />

@@ -32,5 +32,6 @@ namespace Dominio.Dominio
         public virtual Decimal TotalSaida { get; set; }
         public virtual Decimal BalancoFinal { get; set; }
         public virtual IList<FluxoCaixa> FluxoCaixas { get; set; }
+
     }
 }

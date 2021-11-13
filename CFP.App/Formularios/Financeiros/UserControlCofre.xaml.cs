@@ -47,6 +47,12 @@ namespace CFP.App.Formularios.Financeiros
         private void PreencheDataGrid()
         {
             DataGridCofre.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).ToList();
+            //foreach (Cofre item in DataGridCofre.ItemsSource)
+            //{
+            //    if (item.Situacao == SituacaoCofre.Transferido)
+                    
+            //        Foreground = Brushes.Red;
+            //}
         }
         #endregion
 
@@ -109,6 +115,11 @@ namespace CFP.App.Formularios.Financeiros
             ValoresCofre janela = new ValoresCofre(cofre, Session);
             janela.ShowDialog();
             PreencheDataGrid();
+        }
+
+        private void DataGridCofre_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+          
         }
     }
 }
