@@ -82,6 +82,7 @@
     <Compile Include="ObjetoValor\EntradaSaida.cs" />
     <Compile Include="ObjetoValor\NomeTelas.cs" />
     <Compile Include="ObjetoValor\PessoaTipoRenda.cs" />
+    <Compile Include="ObjetoValor\SimNao.cs" />
     <Compile Include="ObjetoValor\Situacao.cs" />
     <Compile Include="ObjetoValor\SituacaoCaixa.cs" />
     <Compile Include="ObjetoValor\SituacaoCofre.cs" />

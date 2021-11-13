@@ -1,4 +1,5 @@
 ﻿using CFP.Dominio.Dominio;
+using CFP.Dominio.ObjetoValor;
 using Dominio.ObejtoValor;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Dominio.Dominio
         public virtual Decimal Valor { get; set; }
         public virtual Usuario UsuarioCriacao { get; set; }
         public virtual Usuario UsuarioAlteracao { get; set; }
-        public virtual SituacaoCofre Situacao { get; set; }
+        public virtual FormaPagamento TransacoesBancarias { get; set; }
+        public virtual EntradaSaida Situacao { get; set; }
     }
 }

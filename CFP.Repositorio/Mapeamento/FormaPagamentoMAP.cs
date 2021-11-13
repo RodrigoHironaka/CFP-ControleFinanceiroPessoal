@@ -1,4 +1,5 @@
-﻿using Dominio.Dominio;
+﻿using CFP.Dominio.ObjetoValor;
+using Dominio.Dominio;
 using Dominio.ObjetoValor;
 using NHibernate.Mapping.ByCode;
 using NHibernate.Mapping.ByCode.Conformist;
@@ -27,6 +28,7 @@ namespace Repositorio.Mapeamentos
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
             Property(x => x.Situacao, m => m.Type<EnumType<Situacao>>());
+            Property(x => x.TransacoesBancarias, m => m.Type<EnumType<SimNao>>());
         }
     }
 }

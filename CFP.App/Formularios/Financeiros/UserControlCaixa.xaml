@@ -72,17 +72,17 @@
                     Width="50" 
                     Height="50"/>
             </Button>
-            <Button x:Name="btRetirandoCofre"
-                    Grid.Column="11"
+            <Button x:Name="btCofre"
+                    Grid.Column="10"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Bottom"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Retirando Receita para o cofre" Click="btRetirandoCofre_Click">
+                    ToolTip="Retirando Receita para o cofre" Margin="2,0,2,5.4" Click="btCofre_Click" >
                 <materialDesign:PackIcon 
-                    Kind="TransferDown"  
+                    Kind="SafeSquare"  
                     Width="50" 
                     Height="50"/>
             </Button>
@@ -96,7 +96,7 @@
                     BorderBrush="#FF1F3D68"
                     ToolTip="Tansferir Receita para o cofre" Click="btTransferirCofre_Click">
                 <materialDesign:PackIcon 
-                    Kind="TransferUp"  
+                    Kind="BankTransfer"  
                     Width="50" 
                     Height="50"/>
             </Button>
@@ -279,7 +279,7 @@
                                        HorizontalAlignment="Center"
                                        Margin="5"/>
 
-                           
+
                         </Grid>
                     </Grid>
                 </TabItem>
@@ -311,7 +311,7 @@
                                 <DataGridTextColumn Header="Pessoa" Binding="{Binding Conta.Pessoa}" />
                                 <DataGridTextColumn Header="Data" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
                                 <DataGridTextColumn Header="Conta" Binding="{Binding Conta.Nome}" />
-                               
+
                             </DataGrid.Columns>
                         </DataGrid>
 

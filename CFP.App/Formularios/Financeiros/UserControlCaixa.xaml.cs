@@ -102,7 +102,7 @@ namespace CFP.App.Formularios.Financeiros
             //Bloqueando
             GridCampos.IsEnabled = !GridCampos.IsEnabled;
             btNovoRegistroConta.IsEnabled = !btNovoRegistroConta.IsEnabled;
-            btRetirandoCofre.IsEnabled = !btRetirandoCofre.IsEnabled;
+            btCofre.IsEnabled = !btCofre.IsEnabled;
             btTransferirCofre.IsEnabled = !btTransferirCofre.IsEnabled;
 
             //Desbloqueando
@@ -122,7 +122,7 @@ namespace CFP.App.Formularios.Financeiros
             //Desbloqueando
             GridCampos.IsEnabled = true;
             btNovoRegistroConta.IsEnabled = true;
-            btRetirandoCofre.IsEnabled = true;
+            btCofre.IsEnabled = true;
             btTransferirCofre.IsEnabled = true;
 
         }
@@ -197,7 +197,7 @@ namespace CFP.App.Formularios.Financeiros
                     MenuItemAdicionaEntrada.IsEnabled = true;
                     MenuItemAdicionaSaida.IsEnabled = true;
                     btNovoRegistroConta.Visibility = Visibility.Visible;
-                    btRetirandoCofre.Visibility = Visibility.Visible;
+                    btCofre.Visibility = Visibility.Visible;
                     btTransferirCofre.Visibility = Visibility.Visible;
                     btAbrirFecharCaixa.Visibility = Visibility.Visible;
                     break;
@@ -208,7 +208,7 @@ namespace CFP.App.Formularios.Financeiros
                     MenuItemAdicionaEntrada.IsEnabled = false;
                     MenuItemAdicionaSaida.IsEnabled = false;
                     btNovoRegistroConta.Visibility = Visibility.Hidden;
-                    btRetirandoCofre.Visibility = Visibility.Hidden;
+                    btCofre.Visibility = Visibility.Hidden;
                     btTransferirCofre.Visibility = Visibility.Hidden;
                     btAbrirFecharCaixa.Visibility = Visibility.Hidden;
                     break;
@@ -324,6 +324,31 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
+        #region Entrada e saida do Fluxo caixa - Cofre
+        public void EntradaSaidaCofre(Cofre _cofre)
+        {
+            FluxoCaixa fluxoCaixa = new FluxoCaixa();
+            if (_cofre.Situacao == EntradaSaida.Entrada)
+            {
+                fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
+                fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Transferencia para o cofre. Banco: {0}", _cofre.Banco);
+            }
+            else
+            {
+                fluxoCaixa.TipoFluxo = EntradaSaida.Entrada;
+                fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Recebimento do cofre. Banco: {0}", _cofre.Banco);
+            }
+            fluxoCaixa.DataGeracao = DateTime.Now;
+            fluxoCaixa.Conta = null;
+            fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
+            fluxoCaixa.Valor = _cofre.Valor;
+            fluxoCaixa.Caixa = caixa;
+            fluxoCaixa.FormaPagamento = _cofre.TransacoesBancarias;
+            new RepositorioFluxoCaixa(Session).Salvar(fluxoCaixa);
+            TotalizadoresEntradaSaida();
+        }
+        #endregion
+
         public UserControlCaixa(ISession _session)
         {
             InitializeComponent();
@@ -393,10 +418,6 @@ namespace CFP.App.Formularios.Financeiros
             panelCadastro.Children.Add(new UserControlContas(new Conta(), Session));
         }
 
-        private void btRetirandoCofre_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void MenuItemAtualiza_Click(object sender, RoutedEventArgs e)
         {
@@ -488,32 +509,14 @@ namespace CFP.App.Formularios.Financeiros
         {
             ValoresCofre janela = new ValoresCofre(caixa, Session);
             bool? res = janela.ShowDialog();
-            //if ((bool)res)
-            //    EntradaSaidaCofre(true, janela.cofre);
+            if ((bool)res)
+                EntradaSaidaCofre(janela.cofre);
         }
 
-        #region Entrada e saida manual Fluxo caixa
-        //public void EntradaSaidaCofre(Boolean Entrada, Cofre _cofre)
-        //{
-        //    FluxoCaixa fluxoCaixa = new FluxoCaixa();
-        //    if (Entrada)
-        //    {
-        //        fluxoCaixa.TipoFluxo = EntradaSaida.Entrada;
-        //        fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Recebimento do cofre. Descrição: {0}", _cofre.Nome);
-        //    }
-        //    else
-        //    {
-        //        fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
-        //        fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Transferencia para o cofre. Descrição: {0}", _cofre.Nome);
-        //    }
-        //    fluxoCaixa.DataGeracao = DateTime.Now;
-        //    fluxoCaixa.Conta = null;
-        //    fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
-        //    fluxoCaixa.Valor = _cofre.Valor;
-        //    fluxoCaixa.Caixa = caixa;
-        //    //fluxoCaixa.FormaPagamento = _cofre.;
-        //    new RepositorioFluxoCaixa(Session).Salvar(fluxoCaixa);
-        //}
-        #endregion
+        private void btCofre_Click(object sender, RoutedEventArgs e)
+        {
+            panelCadastro.Children.Clear();
+            panelCadastro.Children.Add(new UserControlCofre(Session));
+        }
     }
 }

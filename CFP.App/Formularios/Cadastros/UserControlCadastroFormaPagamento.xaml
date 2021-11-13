@@ -128,6 +128,15 @@
                      FontSize="22" 
                      Foreground="#FF1F3D68" Margin="0,188,0,148" TabIndex="4">
                 </ComboBox>
+
+                <CheckBox x:Name="chkTransacaoBancaria" 
+                          Content="Realiza Transações Bancárias?"
+                          FontFamily="Champagne &amp; Limousines" 
+                                FontSize="22"  
+                                Foreground="#FF1F3D68"
+                                Style="{StaticResource MaterialDesignFilterChipAccentCheckBox}" Margin="0,77,0,-76.4">
+
+                </CheckBox>
             </Grid>
 
 

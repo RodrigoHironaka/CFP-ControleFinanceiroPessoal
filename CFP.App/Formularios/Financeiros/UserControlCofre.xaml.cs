@@ -72,29 +72,29 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
         {
-            var selecoes = DataGridCofre.SelectedItems;
-            foreach (Cofre item in selecoes)
-            {
-                switch (item.Situacao)
-                {
-                    case SituacaoCofre.Cancelado:
-                        MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
-                        break;
-                    case SituacaoCofre.Sacado:
-                        MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
-                        break;
-                    case SituacaoCofre.RetiradoCaixa:
-                        MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
-                        break;
-                    case SituacaoCofre.Transferido:
-                    case SituacaoCofre.Depositado:
-                    case SituacaoCofre.RecebimentoCaixa:
-                        item.Situacao = SituacaoCofre.Cancelado;
-                        item.DataAlteracao = DateTime.Now;
-                        Repositorio.Alterar(item);
-                        break;
-                }
-            }
+            //var selecoes = DataGridCofre.SelectedItems;
+            //foreach (Cofre item in selecoes)
+            //{
+            //    switch (item.Situacao)
+            //    {
+            //        case SituacaoCofre.Cancelado:
+            //            MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+            //            break;
+            //        case SituacaoCofre.Sacado:
+            //            MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+            //            break;
+            //        case SituacaoCofre.RetiradoCaixa:
+            //            MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+            //            break;
+            //        case SituacaoCofre.Transferido:
+            //        case SituacaoCofre.Depositado:
+            //        case SituacaoCofre.RecebimentoCaixa:
+            //            item.Situacao = SituacaoCofre.Cancelado;
+            //            item.DataAlteracao = DateTime.Now;
+            //            Repositorio.Alterar(item);
+            //            break;
+            //    }
+            //}
            
         }
 

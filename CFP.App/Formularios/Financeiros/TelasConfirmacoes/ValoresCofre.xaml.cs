@@ -31,7 +31,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
     {
 
         ISession Session;
-        public Cofre cofre;
+        public Cofre cofre = new Cofre();
         Caixa caixa;
 
         #region Repositorio
@@ -52,13 +52,20 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         #region Carrega combo
         private void CarregaCombo()
         {
-            cmbSituacaoCofre.ItemsSource = Enum.GetValues(typeof(SituacaoCofre));
-            cmbSituacaoCofre.SelectedIndex = 0;
+            cmbSituacao.ItemsSource = Enum.GetValues(typeof(EntradaSaida));
+            
+
+            cmbTransacaoBancaria.ItemsSource = new RepositorioFormaPagamento(Session)
+              .ObterPorParametros(x => x.Situacao == Situacao.Ativo && x.TransacoesBancarias == SimNao.Sim)
+              .OrderBy(x => x.Nome)
+              .ToList();
+          
 
             cmbBanco.ItemsSource = new RepositorioBanco(Session)
                .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
                .OrderBy(x => x.Nome)
                .ToList();
+           
         }
         #endregion
 
@@ -69,8 +76,26 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             {
                 cofre.Valor = Decimal.Parse(txtValor.Text);
                 cofre.Nome = txtNome.Text;
-                cofre.Situacao = (SituacaoCofre)cmbSituacaoCofre.SelectedItem;
                 cofre.Banco = (Banco)cmbBanco.SelectedItem;
+                cofre.TransacoesBancarias = (FormaPagamento)cmbTransacaoBancaria.SelectedItem;
+                cofre.Situacao = (EntradaSaida)cmbSituacao.SelectedIndex;
+
+                #region Verificando se valor é maior que o saldo final do Caixa quando for transferencia do caixa para o cofre
+                if (caixa != null && !String.IsNullOrEmpty(txtValor.Text))
+                {
+                    if (cofre.Situacao == EntradaSaida.Entrada)
+                    {
+                        if (caixa.BalancoFinal >= Decimal.Parse(txtValor.Text))
+                            cofre.Caixa = caixa;
+                        else
+                        {
+                            MessageBox.Show("Valor digitado é maior que o saldo do caixa!", "Atencao", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            txtValor.Clear();
+                            return false;
+                        }
+                    }
+                }
+                #endregion
                 return true;
             }
             catch
@@ -86,8 +111,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             txtValor.Text = cofre.Valor.ToString();
             txtNome.Text = cofre.Nome;
-            cmbBanco.SelectedItem = cofre.Banco;
-            cmbSituacaoCofre.SelectedItem = cofre.Situacao;
+            cmbBanco.SelectedValue = cofre.Banco;
+            cmbTransacaoBancaria.SelectedValue = cofre.TransacoesBancarias;
+            cmbSituacao.SelectedValue = cofre.Situacao;
         }
         #endregion
 
@@ -95,7 +121,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             InitializeComponent();
             Session = _session;
-            cofre = new Cofre();
+            cmbBanco.SelectedIndex = 0;
+            cmbTransacaoBancaria.SelectedIndex = 0;
+            cmbSituacao.SelectedIndex = 0;
         }
 
         public ValoresCofre(Cofre _cofre, ISession _session)
@@ -115,7 +143,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtValor.Text) || string.IsNullOrEmpty(txtNome.Text) || cmbBanco.SelectedItem == null || cmbSituacaoCofre.SelectedIndex == -1)
+            if (string.IsNullOrEmpty(txtValor.Text) || string.IsNullOrEmpty(txtNome.Text) || cmbTransacaoBancaria.SelectedItem == null || cmbTransacaoBancaria.SelectedItem == null || cmbSituacao.SelectedIndex == -1)
             {
                 MessageBox.Show("Todos os campos são Obrigatórios. Por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -127,7 +155,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     cofre.Codigo = Repositorio.RetornaUltimoCodigo() + 1;
                     cofre.DataGeracao = DateTime.Now;
                     cofre.UsuarioCriacao = MainWindow.UsuarioLogado;
-                    cofre.Situacao = SituacaoCofre.Depositado;
                     Repositorio.Salvar(cofre);
                 }
                 else
@@ -138,17 +165,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 }
                 this.DialogResult = true;
             }
-        }
-
-        private void txtValorInicial_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
-        }
-
-        private void txtValorInicial_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Space)
-                e.Handled = true;
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -163,16 +179,18 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValor_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (caixa != null && !String.IsNullOrEmpty(txtValor.Text))
-            {
-                if (caixa.BalancoFinal >= Decimal.Parse(txtValor.Text))
-                    cofre.Caixa = caixa;
-                else
-                {
-                    MessageBox.Show("Valor digitado é maior que o saldo do caixa!", "Atencao", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    txtValor.Clear();
-                }  
-            }
+            
+        }
+
+        private void txtValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+        }
+
+        private void txtValor_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
         }
     }
 }

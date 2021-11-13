@@ -1,4 +1,5 @@
 ﻿using CFP.App.Formularios.Pesquisas;
+using CFP.Dominio.ObjetoValor;
 using Dominio.Dominio;
 using Dominio.ObjetoValor;
 using NHibernate;
@@ -99,6 +100,8 @@ namespace CFP.App.Formularios.Cadastros
                     (item as CheckBox).IsChecked = false;
                 if (item is RadioButton)
                     (item as RadioButton).IsChecked = false;
+                if (item is CheckBox)
+                    (item as CheckBox).IsChecked = false;
             }
         }
         #endregion
@@ -112,6 +115,7 @@ namespace CFP.App.Formularios.Cadastros
                 formaPagamento.QtdParcelas = Int32.Parse(txtQtdParcelas.Text);
                 formaPagamento.DiasParaVencimento = Int32.Parse(txtDiasVencimento.Text);
                 formaPagamento.Situacao = (Situacao)cmbSituacao.SelectedIndex;
+                formaPagamento.TransacoesBancarias = (bool)chkTransacaoBancaria.IsChecked ? SimNao.Sim : SimNao.Não;
                 return true;
             }
             catch
@@ -132,6 +136,7 @@ namespace CFP.App.Formularios.Cadastros
                 txtQtdParcelas.Text = formaPagamento.QtdParcelas.ToString();
                 txtDiasVencimento.Text = formaPagamento.DiasParaVencimento.ToString();
                 cmbSituacao.SelectedIndex = formaPagamento.Situacao.GetHashCode();
+                chkTransacaoBancaria.IsChecked = formaPagamento.TransacoesBancarias == SimNao.Não ? !chkTransacaoBancaria.IsChecked : chkTransacaoBancaria.IsChecked;
             }
         }
         #endregion
