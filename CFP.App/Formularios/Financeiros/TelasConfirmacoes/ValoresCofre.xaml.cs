@@ -74,11 +74,14 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             try
             {
-                cofre.Valor = Decimal.Parse(txtValor.Text);
                 cofre.Nome = txtNome.Text;
                 cofre.Banco = (Banco)cmbBanco.SelectedItem;
                 cofre.TransacoesBancarias = (FormaPagamento)cmbTransacaoBancaria.SelectedItem;
                 cofre.Situacao = (EntradaSaida)cmbSituacao.SelectedIndex;
+                if (cofre.Situacao == EntradaSaida.Entrada)
+                    cofre.Valor = Decimal.Parse(txtValor.Text);
+                else
+                    cofre.Valor = Decimal.Parse(txtValor.Text) * -1;
 
                 #region Verificando se valor é maior que o saldo final do Caixa quando for transferencia do caixa para o cofre
                 if (caixa != null && !String.IsNullOrEmpty(txtValor.Text))
@@ -90,6 +93,21 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                         else
                         {
                             MessageBox.Show("Valor digitado é maior que o saldo do caixa!", "Atencao", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            txtValor.Clear();
+                            return false;
+                        }
+                    }
+                    if (cofre.Situacao == EntradaSaida.Saída)
+                    {
+                        DateTime data = DateTime.Today;
+                        var dataInicio = new DateTime(data.Year, data.Month, 1);
+                        var dataFinal = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
+                        var valor = Repositorio.ObterPorParametros(x => x.Banco == cmbBanco.SelectedItem && x.DataGeracao >= dataInicio && x.DataGeracao <= dataFinal).Sum(x => x.Valor);
+                        if (valor >= Decimal.Parse(txtValor.Text))
+                            cofre.Caixa = caixa;
+                        else
+                        {
+                            MessageBox.Show("Valor digitado é maior que o saldo do cofre!", "Atencao", MessageBoxButton.OK, MessageBoxImage.Warning);
                             txtValor.Clear();
                             return false;
                         }

@@ -606,16 +606,17 @@ namespace CFP.App.Formularios.Financeiros
                         {
                             fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
                             fluxoCaixa.Nome = String.Format("Pagamento parcela número {0} - Conta: {1}", item.Numero, conta.Codigo);
+                            fluxoCaixa.Valor = item.ValorPago * -1;
                         }
                         else
                         {
                             fluxoCaixa.TipoFluxo = EntradaSaida.Entrada;
                             fluxoCaixa.Nome = String.Format("Recebimento parcela número {0} - Conta: {1}", item.Numero, conta.Codigo);
+                            fluxoCaixa.Valor = item.ValorPago;
                         }
                         fluxoCaixa.DataGeracao = DateTime.Now;
                         fluxoCaixa.Conta = item.Conta;
                         fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
-                        fluxoCaixa.Valor = item.ValorPago;
                         fluxoCaixa.Caixa = caixa;
                         fluxoCaixa.FormaPagamento = item.FormaPagamento;
                         RepositorioFluxoCaixa.Salvar(fluxoCaixa);

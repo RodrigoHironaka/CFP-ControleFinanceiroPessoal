@@ -229,7 +229,7 @@ namespace CFP.App.Formularios.Financeiros
             #region Total Saída
             totalSaida = RepositorioFluxoCaixa.ObterTodos()
                 .Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Saída)
-                .Sum(x => x.Valor);
+                .Sum(x => x.Valor) * -1;
             txtTotalSaida.Text = String.Format("TOTAL SAÍDA: R${0:n2}", totalSaida);
             #endregion
 
@@ -273,7 +273,7 @@ namespace CFP.App.Formularios.Financeiros
                {
                    FormaPagamento = m.Key,
                    Valor = m.Sum(x => x.Valor)
-               });
+               }).OrderBy(x => x.FormaPagamento.Nome);
             #endregion
 
             #region Agrupamento por forma de pagamento e soma dos valores do fluxo de caixa -SAÍDAS
@@ -284,7 +284,7 @@ namespace CFP.App.Formularios.Financeiros
                 {
                     FormaPagamento = m.Key,
                     Valor = m.Sum(x => x.Valor)
-                });
+                }).OrderBy(x => x.FormaPagamento.Nome);
             #endregion
 
             #region Lista inteira Fluxo de Caixa
@@ -332,6 +332,7 @@ namespace CFP.App.Formularios.Financeiros
             {
                 fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
                 fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Transferencia para o cofre. Banco: {0}", _cofre.Banco);
+                
             }
             else
             {
@@ -341,7 +342,7 @@ namespace CFP.App.Formularios.Financeiros
             fluxoCaixa.DataGeracao = DateTime.Now;
             fluxoCaixa.Conta = null;
             fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
-            fluxoCaixa.Valor = _cofre.Valor;
+            fluxoCaixa.Valor = _cofre.Valor * -1;
             fluxoCaixa.Caixa = caixa;
             fluxoCaixa.FormaPagamento = _cofre.TransacoesBancarias;
             new RepositorioFluxoCaixa(Session).Salvar(fluxoCaixa);
@@ -408,6 +409,7 @@ namespace CFP.App.Formularios.Financeiros
                     Repositorio.Alterar(caixa);
                     LimpaCampos();
                     ControleAcessoInicial();
+                    caixa = null;
                 }
             }
         }

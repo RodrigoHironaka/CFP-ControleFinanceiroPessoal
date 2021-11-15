@@ -48,7 +48,7 @@ namespace CFP.App.Formularios.Financeiros
         #endregion
 
         #region Preenche DataGrid
-        private void PreencheDataGrid()
+        public void PreencheDataGrid()
         {
             var predicado = Repositorio.CriarPredicado();
             predicado = predicado.And(x => x.UsuarioCriacao == MainWindow.UsuarioLogado);
@@ -70,9 +70,10 @@ namespace CFP.App.Formularios.Financeiros
                     predicado = predicado.And(x => x.DataGeracao <= dtpFinal.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59));
             }
 
-            var filtro = Repositorio.ObterPorParametros(predicado);
+            var filtro = Repositorio.ObterPorParametros(predicado).ToList();
             DataGridCofre.ItemsSource = filtro;
-            txtTotalFiltro.Text = String.Format("Total: {0}", filtro.Sum(x => x.Valor).ToString("N2"));
+            if(filtro.Count > 0)
+                txtTotalFiltro.Text = String.Format("Total: {0}", filtro.Sum(x => x.Valor).ToString("N2"));
             //DataGridCofre.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).ToList();
         }
         #endregion

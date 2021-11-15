@@ -52,21 +52,29 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
+            if (String.IsNullOrEmpty(txtValorInicial.Text) || String.IsNullOrEmpty(txtNome.Text) || cmbFormaPagamento.SelectedItem == null)
+            {
+                MessageBox.Show("Todos os campos são Obrigatórios. Por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             FluxoCaixa fluxoCaixa = new FluxoCaixa();
             if (Entrada)
             {
                 fluxoCaixa.TipoFluxo = EntradaSaida.Entrada;
                 fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Entrada manual no caixa. Descrição: {0}", txtNome.Text);
+                fluxoCaixa.Valor = Decimal.Parse(txtValorInicial.Text);
             }
             else
             {
                 fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
                 fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Saída manual no caixa. Descrição: {0}", txtNome.Text);
+                fluxoCaixa.Valor = Decimal.Parse(txtValorInicial.Text) * -1;
             }
             fluxoCaixa.DataGeracao = DateTime.Now;
             fluxoCaixa.Conta = null;
             fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
-            fluxoCaixa.Valor = Decimal.Parse(txtValorInicial.Text);
+            
             fluxoCaixa.Caixa = caixa;
             fluxoCaixa.FormaPagamento = (FormaPagamento)cmbFormaPagamento.SelectedItem;
             new RepositorioFluxoCaixa(Session).Salvar(fluxoCaixa);
