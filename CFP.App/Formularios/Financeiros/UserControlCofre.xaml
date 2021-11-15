@@ -32,8 +32,50 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
+
+            <!--#region Filtro-->
+
+            <ComboBox x:Name="cmbEntradaSaida"
+                      Grid.ColumnSpan="2" 
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      materialDesign:HintAssist.Hint="Tipo"
+                      FontFamily="Champagne &amp; Limousines"
+                      FontSize="12"
+                      Margin="20 0 20 0" KeyDown="cmbEntradaSaida_KeyDown"/>
+            <ComboBox x:Name="cmbBanco"
+                      Grid.Column="2"
+                      Grid.ColumnSpan="4"
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                       materialDesign:HintAssist.Hint="Banco"
+                      FontFamily="Champagne &amp; Limousines"
+                      FontSize="12"
+                      Margin="20 0 20 0" KeyDown="cmbBanco_KeyDown"/>
+
+            <DatePicker x:Name="dtpInicio"
+                        Grid.Column="6"
+                        Grid.ColumnSpan="2"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                        Margin="5"/>
+
+            <DatePicker x:Name="dtpFinal"
+                        Grid.Column="8"
+                        Grid.ColumnSpan="2"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                        Margin="5"/>
+
+            <TextBlock x:Name="txtTotalFiltro" 
+                       Grid.Column="11"
+                       Grid.ColumnSpan="3"
+                       Foreground="White"
+                       FontFamily="Champagne &amp; Limousines"
+                       FontSize="18"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Margin="10"/>
+            <!--#Endregion Filtro-->
+
             <Button x:Name="btAdicionar"
-                    Grid.Column="13"
+                    Grid.Column="14"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     HorizontalAlignment="Center"
@@ -46,17 +88,17 @@
                     Width="50" 
                     Height="50"/>
             </Button>
-            <Button x:Name="btCancelar"
-                    Grid.Column="14"
+            <Button x:Name="btFiltro"
+                    Grid.Column="10"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Cancelar Registro" Click="btCancelar_Click" >
+                    ToolTip="Cancelar Registro" Click="btFiltro_Click" >
                 <materialDesign:PackIcon 
-                    Kind="Cancel"  
+                    Kind="FilterOutline"  
                     Width="50" 
                     Height="50"/>
             </Button>
@@ -93,8 +135,13 @@
                         <DataGridTextColumn Header="Banco" Binding="{Binding Banco}" />
                         <DataGridTextColumn Header="Valor Guardado" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                         <DataGridTextColumn Header="Data Geração" Binding="{Binding DataGeracao, StringFormat=d,  ConverterCulture='pt-BR'}" />
-                        
                     </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="menuItemExportarExcel" Header="Exportar Excel" Click="menuItemExportarExcel_Click"></MenuItem>
+                            <MenuItem x:Name="menuItemExportarPdf" Header="Exportar PDF" Click="menuItemExportarPdf_Click"></MenuItem>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </Grid>
 

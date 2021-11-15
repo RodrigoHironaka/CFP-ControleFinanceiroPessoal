@@ -1,6 +1,10 @@
 ﻿using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
+using CFP.Dominio.ObjetoValor;
+using CFP.Ferramentas.Exportar;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
+using Dominio.ObjetoValor;
+using LinqKit;
 using NHibernate;
 using Repositorio.Repositorios;
 using System;
@@ -46,17 +50,54 @@ namespace CFP.App.Formularios.Financeiros
         #region Preenche DataGrid
         private void PreencheDataGrid()
         {
-            DataGridCofre.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).ToList();
-            //foreach (Cofre item in DataGridCofre.ItemsSource)
-            //{
-            //    if (item.Situacao == SituacaoCofre.Transferido)
-                    
-            //        Foreground = Brushes.Red;
-            //}
+            var predicado = Repositorio.CriarPredicado();
+            predicado = predicado.And(x => x.UsuarioCriacao == MainWindow.UsuarioLogado);
+
+            if (cmbEntradaSaida.SelectedIndex != -1)
+                predicado = predicado.And(x => x.Situacao == (cmbEntradaSaida.SelectedIndex == 0 ? EntradaSaida.Entrada : EntradaSaida.Saída));
+
+            if (cmbBanco.SelectedItem != null)
+                predicado = predicado.And(x => x.Banco == cmbBanco.SelectedItem);
+
+            if (dtpInicio.SelectedDate != null)
+                predicado = predicado.And(x => x.DataGeracao >= dtpInicio.SelectedDate);
+
+            if (dtpFinal.SelectedDate != null)
+            {
+                if (dtpFinal.SelectedDate < dtpInicio.SelectedDate)
+                    MessageBox.Show("Data Final é menor que a data Inicial. Por favor Verifique!", "Atencao", MessageBoxButton.OK, MessageBoxImage.Warning);
+                else
+                    predicado = predicado.And(x => x.DataGeracao <= dtpFinal.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59));
+            }
+
+            var filtro = Repositorio.ObterPorParametros(predicado);
+            DataGridCofre.ItemsSource = filtro;
+            txtTotalFiltro.Text = String.Format("Total: {0}", filtro.Sum(x => x.Valor).ToString("N2"));
+            //DataGridCofre.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).ToList();
         }
         #endregion
 
-      
+        #region Carrega Combo
+        private void CarregaCombo()
+        {
+            cmbEntradaSaida.ItemsSource = Enum.GetValues(typeof(EntradaSaida));
+
+            cmbBanco.ItemsSource = new RepositorioBanco(Session)
+                .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+                .OrderBy(x => x.Nome)
+                .ToList();
+        }
+        #endregion
+
+        #region Verificando primeiro e ultimo dia do Mes
+        private void PrimeiroUltimoDiaMes()
+        {
+            DateTime data = DateTime.Today;
+            dtpInicio.SelectedDate = new DateTime(data.Year, data.Month, 1);
+            dtpFinal.SelectedDate = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
+        }
+        #endregion
+
         public UserControlCofre( ISession _session)
         {
             InitializeComponent();
@@ -70,34 +111,6 @@ namespace CFP.App.Formularios.Financeiros
             PreencheDataGrid();
         }
 
-        private void btCancelar_Click(object sender, RoutedEventArgs e)
-        {
-            //var selecoes = DataGridCofre.SelectedItems;
-            //foreach (Cofre item in selecoes)
-            //{
-            //    switch (item.Situacao)
-            //    {
-            //        case SituacaoCofre.Cancelado:
-            //            MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
-            //            break;
-            //        case SituacaoCofre.Sacado:
-            //            MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
-            //            break;
-            //        case SituacaoCofre.RetiradoCaixa:
-            //            MessageBox.Show("Você não pode Cancelar este registro!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
-            //            break;
-            //        case SituacaoCofre.Transferido:
-            //        case SituacaoCofre.Depositado:
-            //        case SituacaoCofre.RecebimentoCaixa:
-            //            item.Situacao = SituacaoCofre.Cancelado;
-            //            item.DataAlteracao = DateTime.Now;
-            //            Repositorio.Alterar(item);
-            //            break;
-            //    }
-            //}
-           
-        }
-
         private void btSair_Click(object sender, RoutedEventArgs e)
         {
             (Parent as StackPanel).Children.Remove(this);
@@ -105,7 +118,10 @@ namespace CFP.App.Formularios.Financeiros
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            PrimeiroUltimoDiaMes();
+            CarregaCombo();
             PreencheDataGrid();
+            btFiltro_Click(sender, e);
         }
 
         private void DataGridCofre_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -120,6 +136,34 @@ namespace CFP.App.Formularios.Financeiros
         private void DataGridCofre_LoadingRow(object sender, DataGridRowEventArgs e)
         {
           
+        }
+
+        private void btFiltro_Click(object sender, RoutedEventArgs e)
+        {
+            PreencheDataGrid();
+        }
+
+        private void cmbEntradaSaida_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                cmbEntradaSaida.SelectedIndex = -1;
+        }
+
+        private void cmbBanco_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                cmbBanco.SelectedItem = null;
+        }
+
+        private void menuItemExportarExcel_Click(object sender, RoutedEventArgs e)
+        {
+            Ferramentas.Exportar.ExportarExcel.ExpExcel(DataGridCofre);
+        }
+
+        private void menuItemExportarPdf_Click(object sender, RoutedEventArgs e)
+        {
+            ExportarPDF p = new ExportarPDF();
+            p.ExpPdf(DataGridCofre);
         }
     }
 }
