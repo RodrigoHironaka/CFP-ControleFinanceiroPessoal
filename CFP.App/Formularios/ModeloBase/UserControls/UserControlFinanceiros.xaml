@@ -101,7 +101,7 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch" 
                     ToolTip="Cadastro de Hora Extra"
-                    Margin="10 0 10 0">
+                    Margin="10 0 10 0" Click="btHorasTrabalho_Click">
                 <materialDesign:PackIcon
                     Kind="PointOfSale"
                     Width="70"

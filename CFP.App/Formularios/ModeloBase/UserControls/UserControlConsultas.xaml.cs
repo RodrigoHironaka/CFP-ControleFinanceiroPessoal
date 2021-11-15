@@ -1,6 +1,4 @@
-﻿using CFP.App.Formularios.Financeiros;
-using CFP.App.Formularios.Principais;
-using Dominio.Dominio;
+﻿using CFP.App.Formularios.Financeiros.Consultas;
 using NHibernate;
 using SGE.Repositorio.Configuracao;
 using System;
@@ -21,9 +19,9 @@ using System.Windows.Shapes;
 namespace CFP.App.Formularios.ModeloBase.UserControls
 {
     /// <summary>
-    /// Interação lógica para UserControlFinanceiro.xam
+    /// Interação lógica para UserControlRelatorios.xam
     /// </summary>
-    public partial class UserControlFinanceiro : UserControl
+    public partial class UserControlConsultas : UserControl
     {
         #region Session
         private static ISession session;
@@ -41,34 +39,15 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
             }
         }
         #endregion
-
-        public UserControlFinanceiro()
+        public UserControlConsultas()
         {
             InitializeComponent();
         }
 
-        private void BtConta_Click(object sender, RoutedEventArgs e)
+        private void BtRelConta_Click(object sender, RoutedEventArgs e)
         {
             panelCadastros.Children.Clear();
-            panelCadastros.Children.Add(new UserControlContas(new Conta(), Session));
-        }
-
-        private void btCaixa_Click(object sender, RoutedEventArgs e)
-        {
-            panelCadastros.Children.Clear();
-            panelCadastros.Children.Add(new UserControlCaixa(Session));
-        }
-
-        private void btCofre_Click(object sender, RoutedEventArgs e)
-        {
-            panelCadastros.Children.Clear();
-            panelCadastros.Children.Add(new UserControlCofre(Session));
-        }
-
-        private void btHorasTrabalho_Click(object sender, RoutedEventArgs e)
-        {
-            panelCadastros.Children.Clear();
-            panelCadastros.Children.Add(new UserControlHoraExtra(Session));
+            panelCadastros.Children.Add(new ucConsultaContas(Session));
         }
     }
 }

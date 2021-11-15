@@ -131,6 +131,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Financeiros\Consultas\ucConsultaContas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmacaoPagamentoParcela.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -159,6 +163,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Financeiros\UserControlHoraExtra.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\ModeloBase\UserControls\userControlBaseFormularios.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -175,7 +183,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Formularios\ModeloBase\UserControls\UserControlRelatorios.xaml">
+    <Page Include="Formularios\ModeloBase\UserControls\UserControlConsultas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -262,6 +270,9 @@
     <Compile Include="Formularios\Cadastros\UserControlUsuario.xaml.cs">
       <DependentUpon>UserControlUsuario.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Financeiros\Consultas\ucConsultaContas.xaml.cs">
+      <DependentUpon>ucConsultaContas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmacaoPagamentoParcela.xaml.cs">
       <DependentUpon>ConfirmacaoPagamentoParcela.xaml</DependentUpon>
     </Compile>
@@ -283,6 +294,9 @@
     <Compile Include="Formularios\Financeiros\UserControlContas.xaml.cs">
       <DependentUpon>UserControlContas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Financeiros\UserControlHoraExtra.xaml.cs">
+      <DependentUpon>UserControlHoraExtra.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\ModeloBase\UserControls\userControlBaseFormularios.xaml.cs">
       <DependentUpon>userControlBaseFormularios.xaml</DependentUpon>
     </Compile>
@@ -295,8 +309,8 @@
     <Compile Include="Formularios\ModeloBase\UserControls\UserControlInicio.xaml.cs">
       <DependentUpon>UserControlInicio.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\ModeloBase\UserControls\UserControlRelatorios.xaml.cs">
-      <DependentUpon>UserControlRelatorios.xaml</DependentUpon>
+    <Compile Include="Formularios\ModeloBase\UserControls\UserControlConsultas.xaml.cs">
+      <DependentUpon>UserControlConsultas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Pesquisas\JanelaPesquisas.xaml.cs">
       <DependentUpon>JanelaPesquisas.xaml</DependentUpon>

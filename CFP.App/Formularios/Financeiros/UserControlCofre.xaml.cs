@@ -74,7 +74,6 @@ namespace CFP.App.Formularios.Financeiros
             DataGridCofre.ItemsSource = filtro;
             if(filtro.Count > 0)
                 txtTotalFiltro.Text = String.Format("Total: {0}", filtro.Sum(x => x.Valor).ToString("N2"));
-            //DataGridCofre.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).ToList();
         }
         #endregion
 

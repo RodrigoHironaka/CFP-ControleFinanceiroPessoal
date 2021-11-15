@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CFP.App.Formularios.ModeloBase.UserControls
+namespace CFP.App.Formularios.Financeiros
 {
     /// <summary>
-    /// Interação lógica para UserControlRelatorios.xam
+    /// Interação lógica para UserControlHoraExtra.xam
     /// </summary>
-    public partial class UserControlRelatorios : UserControl
+    public partial class UserControlHoraExtra : UserControl
     {
-        public UserControlRelatorios()
+        ISession Session;
+        public UserControlHoraExtra(ISession _session)
         {
             InitializeComponent();
+            Session = _session;
         }
     }
 }

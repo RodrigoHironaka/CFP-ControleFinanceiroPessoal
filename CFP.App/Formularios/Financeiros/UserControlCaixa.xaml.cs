@@ -420,7 +420,6 @@ namespace CFP.App.Formularios.Financeiros
             panelCadastro.Children.Add(new UserControlContas(new Conta(), Session));
         }
 
-
         private void MenuItemAtualiza_Click(object sender, RoutedEventArgs e)
         {
             TotalizadoresEntradaSaida();

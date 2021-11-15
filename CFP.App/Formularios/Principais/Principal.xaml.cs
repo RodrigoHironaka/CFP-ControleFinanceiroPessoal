@@ -74,7 +74,7 @@ namespace CFP.App
                     break;
                 case 3:
                     GridPrincipal.Children.Clear();
-                    GridPrincipal.Children.Add(new UserControlRelatorios());
+                    GridPrincipal.Children.Add(new UserControlConsultas());
                     break;
                 default:
                     break;

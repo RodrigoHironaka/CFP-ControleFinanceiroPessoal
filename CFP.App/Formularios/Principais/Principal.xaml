@@ -148,14 +148,14 @@
                     </ListViewItem>
                     <ListViewItem Height="60">
                         <StackPanel Orientation="Horizontal"
-                                ToolTip="Relatórios">
+                                ToolTip="Consultas simples e avancadas">
                             <materialDesign:PackIcon 
-                                Kind="FileReport" 
+                                Kind="FileFindOutline" 
                                 Width="25" 
                                 Height="25" 
                                 Margin="10" 
                                 VerticalAlignment="Center"/>
-                            <TextBlock Text="Relatórios" 
+                            <TextBlock Text="Consultas" 
                                        VerticalAlignment="Center" 
                                        Margin="20 10"/>
                         </StackPanel>
