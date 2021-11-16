@@ -4,13 +4,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros.Consultas"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="1020">
+             d:DesignHeight="550" d:DesignWidth="1020" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
             <RowDefinition Height="500"/>
         </Grid.RowDefinitions>
+
         <Grid x:Name="GridCabecalho" Grid.Row="0" Background="#FF1F3D68">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -30,9 +32,137 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Button x:Name="btSair"
+                    Grid.Column="15"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="60" Width="60" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Botão para sair da tela" Margin="1,0,2,5">
+                <materialDesign:PackIcon 
+                    Kind="ExitToApp"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
+
+            <Button x:Name="btFiltro"
+                    Grid.Column="12"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="60" Width="60" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Botão filtrar contas em geral" Click="btFiltro_Click" >
+                <materialDesign:PackIcon 
+                    Kind="FilterOutline"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
+
+            <Button x:Name="btPagar"
+                    Grid.Column="14"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="60" Width="60" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Botão pagar, pode ser tudo ou selecionados">
+                <materialDesign:PackIcon 
+                    Kind="CashCheck"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
+
+            <DatePicker x:Name="dtpInicio"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        FontSize="12"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                        Margin="5,16,33,16"/>
+
+            <DatePicker x:Name="dtpFinal"
+                        Grid.Column="1"
+                        Grid.ColumnSpan="2"
+                        FontSize="12"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                        Margin="36,16,10,16"/>
+
+            <ComboBox x:Name="cmbTipoConta"
+                      Grid.Column="2"
+                      Grid.ColumnSpan="3" 
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      materialDesign:HintAssist.Hint="Tipo Conta"
+                      FontFamily="Champagne &amp; Limousines"
+                      FontSize="12"
+                      Margin="59,20,45,16" />
+
+            <ComboBox x:Name="cmbPeriodo"
+                      Grid.Column="4"
+                      Grid.ColumnSpan="2" 
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      materialDesign:HintAssist.Hint="Período"
+                      FontFamily="Champagne &amp; Limousines"
+                      FontSize="12"
+                      Margin="24,20,18,16" />
+
+            <ComboBox x:Name="cmbFormaCompra"
+                      Grid.Column="5"
+                      Grid.ColumnSpan="3" 
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      materialDesign:HintAssist.Hint="Forma da Compra"
+                      FontFamily="Champagne &amp; Limousines"
+                      FontSize="12"
+                      Margin="51,20,27,16" />
+
+            <ComboBox x:Name="cmbPessoaReferenciada"
+                      Grid.Column="7"
+                      Grid.ColumnSpan="3" 
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      materialDesign:HintAssist.Hint="Pessoa Referenciada"
+                      FontFamily="Champagne &amp; Limousines"
+                      FontSize="12"
+                      Margin="42,20,24,16" />
+
+            <TextBox x:Name="txtPesquisa"
+                     Grid.Column="9"
+                     Grid.ColumnSpan="3" 
+                     materialDesign:HintAssist.Hint="Pesquisa Geral" 
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                     FontFamily="Champagne &amp; Limousines" 
+                     FontSize="12" 
+                     VerticalAlignment="Center" Margin="45,20,10,16" />
+
+
         </Grid>
         <Grid x:Name="GridCampos" Grid.Row="1" Background="LightGray">
-
+            <Grid Margin="20 20 20 50">
+                <DataGrid x:Name="dgContasFiltradas"  
+                           AutoGenerateColumns="False"                                        
+                           Background="white" IsReadOnly="True" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Tipo Conta" Binding="{Binding TipoConta}" />
+                        <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" />
+                        <DataGridTextColumn Header="Descrição" Binding="{Binding Nome}" />
+                        <DataGridTextColumn Header="Nº Parcela" Binding="{Binding NumeroParcela}" />
+                        <DataGridTextColumn Header="Valor" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Data Vencimento" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Forma da Compra" Binding="{Binding FormaCompra}" />
+                        <DataGridTextColumn Header="Nº Doc" Binding="{Binding NumeroDocumento}" />
+                        <DataGridTextColumn Header="Pessoa Ref" Binding="{Binding Pessoa}" />
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="menuItemExportarExcel" Header="Exportar Excel" ></MenuItem>
+                            <MenuItem x:Name="menuItemExportarPdf" Header="Exportar PDF" ></MenuItem>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
+               
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

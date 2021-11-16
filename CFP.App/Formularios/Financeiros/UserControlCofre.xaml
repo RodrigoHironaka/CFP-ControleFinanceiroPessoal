@@ -96,7 +96,7 @@
                     VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Cancelar Registro" Click="btFiltro_Click" >
+                    ToolTip="Botão filtrar cofre" Click="btFiltro_Click" >
                 <materialDesign:PackIcon 
                     Kind="FilterOutline"  
                     Width="50" 
