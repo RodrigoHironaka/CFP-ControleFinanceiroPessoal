@@ -299,7 +299,7 @@
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch" 
                                     Margin="10 0 0 0" 
-                                    MaxLength="20" TabIndex="12"/>
+                                    MaxLength="20" TabIndex="12" PreviewTextInput="txtNumDocumento_PreviewTextInput"/>
                             </Grid>
                             <TextBox
                                      x:Name="txtObservacao"
@@ -360,6 +360,21 @@
                                     HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btCancelarParcela_Click" TabIndex="1"  >
                                     <materialDesign:PackIcon 
                                         Kind="CashRemove"  
+                                        Width="50" 
+                                        Height="50"/>
+                                </Button>
+
+                                <Button x:Name="btNovasParcelas" 
+                                    Grid.Row="0"
+                                    Grid.Column="3"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                                    Height="60" Width="60" 
+                                    Background="#FF1F3D68"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68"
+                                    ToolTip="Adicionar novas parcelas" Click="btNovasParcelas_Click">
+                                    <materialDesign:PackIcon 
+                                        Kind="CashMultiple"  
                                         Width="50" 
                                         Height="50"/>
                                 </Button>

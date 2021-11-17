@@ -29,58 +29,61 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         ISession Session;
 
         #region Repositorio
-        private RepositorioConta _repositorio;
-        public RepositorioConta Repositorio
+        private RepositorioContaPagamento _repositorioContaPagamento;
+        public RepositorioContaPagamento RepositorioContaPagamento
         {
             get
             {
-                if (_repositorio == null)
-                    _repositorio = new RepositorioConta(Session);
+                if (_repositorioContaPagamento == null)
+                    _repositorioContaPagamento = new RepositorioContaPagamento(Session);
 
-                return _repositorio;
+                return _repositorioContaPagamento;
             }
-            set { _repositorio = value; }
+            set { _repositorioContaPagamento = value; }
         }
         #endregion
 
         #region Preenche DataGrid
         public void PreencheDataGrid()
         {
-            var predicado = Repositorio.CriarPredicado();
-            predicado = predicado.And(x => x.UsuarioCriacao == MainWindow.UsuarioLogado);
+            var predicado = RepositorioContaPagamento.CriarPredicado();
+            predicado = predicado.And(x => x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado);
 
             if(!String.IsNullOrEmpty(txtPesquisa.Text))
-                predicado = predicado.And(x => x.Nome.Contains(txtPesquisa.Text) || x.ValorTotal.ToString().Contains(txtPesquisa.Text) || x.Codigo.ToString().Contains(txtPesquisa.Text));
+                predicado = predicado.And(x => x.Conta.Nome.Contains(txtPesquisa.Text) || x.ValorParcela.ToString().Contains(txtPesquisa.Text) || x.Conta.Codigo.ToString().Contains(txtPesquisa.Text) || x.Conta.NumeroDocumento.ToString().Contains(txtPesquisa.Text));
+
+            if (cmbSituacaoParcelas.SelectedIndex != -1)
+                predicado = predicado.And(x => x.SituacaoParcelas == (SituacaoParcela)cmbSituacaoParcelas.SelectedIndex);
+            else
+                predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial);
 
             if (cmbTipoConta.SelectedIndex != -1)
-                predicado = predicado.And(x => x.TipoConta == (cmbTipoConta.SelectedIndex == 0 ? TipoConta.Pagar : TipoConta.Receber));
+                predicado = predicado.And(x => x.Conta.TipoConta == (TipoConta)cmbTipoConta.SelectedIndex);
 
             if (cmbPeriodo.SelectedIndex != -1)
-                predicado = predicado.And(x => x.TipoPeriodo == (TipoPeriodo)cmbPeriodo.SelectedIndex);
-
+                predicado = predicado.And(x => x.Conta.TipoPeriodo == (TipoPeriodo)cmbPeriodo.SelectedIndex);
+           
             if (cmbFormaCompra.SelectedItem != null)
-                predicado = predicado.And(x => x.FormaCompra == cmbFormaCompra.SelectedItem);
+                predicado = predicado.And(x => x.Conta.FormaCompra == cmbFormaCompra.SelectedItem);
 
             if (cmbPessoaReferenciada.SelectedItem != null)
-                predicado = predicado.And(x => x.Pessoa == cmbPessoaReferenciada.SelectedItem);
+                predicado = predicado.And(x => x.Conta.Pessoa == cmbPessoaReferenciada.SelectedItem);
 
             if (dtpInicio.SelectedDate != null)
-                predicado = predicado.And(x => x.DataGeracao >= dtpInicio.SelectedDate);
+                predicado = predicado.And(x => x.DataVencimento >= dtpInicio.SelectedDate);
 
             if (dtpFinal.SelectedDate != null)
             {
                 if (dtpFinal.SelectedDate < dtpInicio.SelectedDate)
                     MessageBox.Show("Data Final é menor que a data Inicial. Por favor Verifique!", "Atencao", MessageBoxButton.OK, MessageBoxImage.Warning);
                 else
-                    predicado = predicado.And(x => x.DataGeracao <= dtpFinal.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59));
+                    predicado = predicado.And(x => x.DataVencimento <= dtpFinal.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59));
             }
 
-           
-
-            var filtro = Repositorio.ObterPorParametros(predicado).ToList();
+            var filtro = RepositorioContaPagamento.ObterPorParametros(predicado).ToList();
             dgContasFiltradas.ItemsSource = filtro;
-            //if (filtro.Count > 0)
-            //    txtTotalFiltro.Text = String.Format("Total: {0}", filtro.Sum(x => x.Valor).ToString("N2"));
+            if (filtro.Count > 0)
+                txtTotalFiltro.Text = String.Format("Total: {0}", filtro.Sum(x => x.ValorParcela).ToString("N2"));
         }
         #endregion
 
@@ -89,6 +92,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         {
             cmbTipoConta.ItemsSource = Enum.GetValues(typeof(TipoConta));
             cmbPeriodo.ItemsSource = Enum.GetValues(typeof(TipoPeriodo));
+            cmbSituacaoParcelas.ItemsSource = Enum.GetValues(typeof(SituacaoParcela));
 
             cmbFormaCompra.ItemsSource = new RepositorioFormaPagamento(Session)
                 .ObterPorParametros(x => x.Situacao == Situacao.Ativo && x.TransacoesBancarias == SimNao.Não)
@@ -126,6 +130,59 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         private void btFiltro_Click(object sender, RoutedEventArgs e)
         {
             PreencheDataGrid();
+        }
+
+        private void dtpInicio_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                dtpInicio.Text = string.Empty;
+        }
+
+        private void dtpFinal_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                dtpFinal.Text = string.Empty;
+        }
+
+        private void cmbTipoConta_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                cmbTipoConta.SelectedIndex = -1;
+        }
+
+        private void cmbPeriodo_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                cmbPeriodo.SelectedIndex = -1;
+        }
+
+        private void cmbFormaCompra_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                cmbFormaCompra.SelectedItem = null;
+        }
+
+        private void cmbPessoaReferenciada_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                cmbPessoaReferenciada.SelectedItem = null;
+        }
+
+        private void txtPesquisa_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                txtPesquisa.Text = string.Empty;
+        }
+
+        private void btSair_Click(object sender, RoutedEventArgs e)
+        {
+            (Parent as StackPanel).Children.Remove(this);
+        }
+
+        private void cmbSituacaoParcelas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                cmbSituacaoParcelas.SelectedIndex = -1;
         }
     }
 }

@@ -9,7 +9,7 @@
              d:DesignHeight="550" d:DesignWidth="1020" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="500"/>
         </Grid.RowDefinitions>
 
@@ -37,10 +37,10 @@
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
+                    VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Botão para sair da tela" Margin="1,0,2,5">
+                    ToolTip="Botão para sair da tela" Margin="1,0,2,5" Click="btSair_Click">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 
@@ -80,79 +80,109 @@
             <DatePicker x:Name="dtpInicio"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        FontSize="12"
+                        FontSize="10"
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                        Margin="5,16,33,16"/>
+                        KeyDown="dtpInicio_KeyDown"
+                        VerticalAlignment="Top"
+                        Margin="5 2 5 0"/>
 
             <DatePicker x:Name="dtpFinal"
-                        Grid.Column="1"
+                        Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        FontSize="12"
+                        FontSize="10"
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                        Margin="36,16,10,16"/>
+                        KeyDown="dtpFinal_KeyDown"
+                        VerticalAlignment="Bottom"
+                        Margin="5 0 5 0"/>
 
             <ComboBox x:Name="cmbTipoConta"
                       Grid.Column="2"
-                      Grid.ColumnSpan="3" 
+                      Grid.ColumnSpan="2" 
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                       materialDesign:HintAssist.Hint="Tipo Conta"
                       FontFamily="Champagne &amp; Limousines"
-                      FontSize="12"
-                      Margin="59,20,45,16" />
+                      FontSize="12" KeyDown="cmbTipoConta_KeyDown"
+                      VerticalAlignment="Top"
+                      Margin="5 0 5 0"/>
 
             <ComboBox x:Name="cmbPeriodo"
-                      Grid.Column="4"
+                      Grid.Column="2"
                       Grid.ColumnSpan="2" 
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                       materialDesign:HintAssist.Hint="Período"
                       FontFamily="Champagne &amp; Limousines"
-                      FontSize="12"
-                      Margin="24,20,18,16" />
+                      FontSize="12" KeyDown="cmbPeriodo_KeyDown" 
+                      VerticalAlignment="Bottom"
+                      Margin="5 0 5 0"/>
 
             <ComboBox x:Name="cmbFormaCompra"
-                      Grid.Column="5"
+                      Grid.Column="4"
                       Grid.ColumnSpan="3" 
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                       materialDesign:HintAssist.Hint="Forma da Compra"
                       FontFamily="Champagne &amp; Limousines"
-                      FontSize="12"
-                      Margin="51,20,27,16" />
+                      FontSize="12" KeyDown="cmbFormaCompra_KeyDown"
+                      VerticalAlignment="Top"
+                      Margin="5 0 5 0"/>
 
             <ComboBox x:Name="cmbPessoaReferenciada"
-                      Grid.Column="7"
+                      Grid.Column="4"
                       Grid.ColumnSpan="3" 
                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                       materialDesign:HintAssist.Hint="Pessoa Referenciada"
                       FontFamily="Champagne &amp; Limousines"
-                      FontSize="12"
-                      Margin="42,20,24,16" />
+                      FontSize="12" KeyDown="cmbPessoaReferenciada_KeyDown" 
+                      VerticalAlignment="Bottom"
+                      Margin="5 0 5 0"/>
+
+            <ComboBox x:Name="cmbSituacaoParcelas"
+                      Grid.Column="7"
+                      Grid.ColumnSpan="2" 
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      materialDesign:HintAssist.Hint="Situacao Parcelas"
+                      FontFamily="Champagne &amp; Limousines"
+                      FontSize="12" KeyDown="cmbSituacaoParcelas_KeyDown"
+                      VerticalAlignment="Top"
+                      Margin="5 0 5 0"/>
 
             <TextBox x:Name="txtPesquisa"
-                     Grid.Column="9"
-                     Grid.ColumnSpan="3" 
+                     Grid.Column="7"
+                     Grid.ColumnSpan="4" 
                      materialDesign:HintAssist.Hint="Pesquisa Geral" 
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="12" 
-                     VerticalAlignment="Center" Margin="45,20,10,16" />
+                     VerticalAlignment="Bottom" KeyDown="txtPesquisa_KeyDown"
+                     Margin="5 0 5 0"/>
 
+            <TextBlock x:Name="txtTotalFiltro" 
+                       Text="R$ 0.00"
+                       Grid.Column="9"
+                       Grid.ColumnSpan="3"
+                       Foreground="White"
+                       FontFamily="Champagne &amp; Limousines"
+                       FontSize="18"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Center"
+                       Margin="10"/>
 
         </Grid>
         <Grid x:Name="GridCampos" Grid.Row="1" Background="LightGray">
-            <Grid Margin="20 20 20 50">
+            <Grid Margin="20 5 20 50">
                 <DataGrid x:Name="dgContasFiltradas"  
                            AutoGenerateColumns="False"                                        
                            Background="white" IsReadOnly="True" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Tipo Conta" Binding="{Binding TipoConta}" />
-                        <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" />
-                        <DataGridTextColumn Header="Descrição" Binding="{Binding Nome}" />
-                        <DataGridTextColumn Header="Nº Parcela" Binding="{Binding NumeroParcela}" />
-                        <DataGridTextColumn Header="Valor" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Data Vencimento" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Forma da Compra" Binding="{Binding FormaCompra}" />
-                        <DataGridTextColumn Header="Nº Doc" Binding="{Binding NumeroDocumento}" />
-                        <DataGridTextColumn Header="Pessoa Ref" Binding="{Binding Pessoa}" />
+                        <DataGridTextColumn Header="Tipo" Binding="{Binding Conta.TipoConta}" />
+                        <DataGridTextColumn Header="Código" Binding="{Binding Conta.Codigo}" />
+                        <DataGridTextColumn Header="Descrição" Binding="{Binding Conta.Nome}" />
+                        <DataGridTextColumn Header="Parcela" Binding="{Binding Numero}" />
+                        <DataGridTextColumn Header="Valor" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Vencimento" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Forma da Compra" Binding="{Binding Conta.FormaCompra}" />
+                        <DataGridTextColumn Header="Nº Doc" Binding="{Binding Conta.NumeroDocumento}" />
+                        <DataGridTextColumn Header="Pessoa Ref" Binding="{Binding Conta.Pessoa}" />
+                        <DataGridTextColumn Header="Situacao Parcela" Binding="{Binding SituacaoParcelas}" />
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>

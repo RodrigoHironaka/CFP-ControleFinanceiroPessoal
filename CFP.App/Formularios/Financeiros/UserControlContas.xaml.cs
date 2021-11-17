@@ -407,17 +407,21 @@ namespace CFP.App.Formularios.Financeiros
                 txtNumDocumento.Text = conta.NumeroDocumento > 0 ? conta.NumeroDocumento.ToString() : string.Empty;
                 cmbFormaCompra.SelectedItem = conta.FormaCompra;
                 txtObservacao.Text = conta.Observacao;
+
+                #region Lista Pagamentos
                 var listaContaPagamentos = conta.ContaPagamentos;
                 foreach (var item in listaContaPagamentos)
                 {
                     contaPagamento.Add(item);
                 }
-
+                #endregion
+                #region Lista Arquivos
                 var listaContaArquivos = conta.ContaArquivos;
                 foreach (var arquivo in listaContaArquivos)
                 {
                     contaArquivos.Add(arquivo);
                 }
+                #endregion
             }
         }
         #endregion
@@ -446,9 +450,9 @@ namespace CFP.App.Formularios.Financeiros
                     btGerarParcelas.IsEnabled = true;
                     break;
                 case 2:
-                    txtQtdParcelas.IsEnabled = false;
-                    btGerarParcelas.IsEnabled = false;
-                    txtQtdParcelas.Clear();
+                    txtQtdParcelas.IsEnabled = true;
+                    btGerarParcelas.IsEnabled = true;
+                    txtQtdParcelas.Text = "1";
                     break;
                 default:
                     break;
@@ -950,6 +954,7 @@ namespace CFP.App.Formularios.Financeiros
                             VerificandoSituacaoConta();
                             FiltroSituacaoParcelas();
                             CalculoTotalPorSituacaoParcela();
+                            VerificaTipoPeriodo();
                         }
                         else
                         {
@@ -993,6 +998,7 @@ namespace CFP.App.Formularios.Financeiros
                 VerificandoSituacaoConta();
                 FiltroSituacaoParcelas();
                 CalculoTotalPorSituacaoParcela();
+                VerificaTipoPeriodo();
             }
         }
 
@@ -1395,6 +1401,28 @@ namespace CFP.App.Formularios.Financeiros
                         ControleAcessoInicial();
                     }
                 }
+            }
+        }
+
+        private void txtNumDocumento_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
+        private void btNovasParcelas_Click(object sender, RoutedEventArgs e)
+        {
+            NovasParcelas janela = new NovasParcelas(conta, Session);
+            bool? res = janela.ShowDialog();
+            if ((bool)res)
+            {
+                foreach (var item in janela.contaPagamento)
+                {
+                    contaPagamento.Add(item);
+                }
+                Salvar();
+                DataGridContaPagamento.ItemsSource = contaPagamento;
+                DataGridContaPagamento.Items.Refresh();
+                FiltroSituacaoParcelas();
             }
         }
     }
