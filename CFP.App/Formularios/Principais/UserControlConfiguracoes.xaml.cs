@@ -1,6 +1,10 @@
 ﻿using CFP.Dominio.Dominio;
+using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
+using Dominio.Dominio;
+using Dominio.ObjetoValor;
 using NHibernate;
+using Repositorio.Repositorios;
 using SGE.Repositorio.Configuracao;
 using System;
 using System.Collections.Generic;
@@ -65,6 +69,7 @@ namespace CFP.App.Formularios.Principais
             {
                 configuracao.CaminhoArquivos = txtCaminhoArquivos.Text;
                 configuracao.CaminhoBackup = txtCaminhoBackup.Text;
+                configuracao.FormaPagamentoPadraoConta = (FormaPagamento)cmbFormaPagamentoPadrão.SelectedItem;
                 return true;
             }
             catch
@@ -87,6 +92,7 @@ namespace CFP.App.Formularios.Principais
                 txtCodigo.Text = configuracao.Id.ToString();
                 txtCaminhoArquivos.Text = configuracao.CaminhoArquivos;
                 txtCaminhoBackup.Text = configuracao.CaminhoBackup;
+                cmbFormaPagamentoPadrão.SelectedItem = configuracao.FormaPagamentoPadraoConta;
                 
             }
         }
@@ -113,6 +119,16 @@ namespace CFP.App.Formularios.Principais
                 lblAtualizadoEm.Text = string.Format("Atualizado em: {0}", configuracao.DataAlteracao);
             else
                 lblAtualizadoEm.Text = configuracao != null && configuracao.DataGeracao != DateTime.MinValue ? string.Format("Atualizado em: {0}", configuracao.DataGeracao) : string.Empty;
+        }
+        #endregion
+
+        #region Carrega Combo
+        private void CarregaCombo()
+        {
+            cmbFormaPagamentoPadrão.ItemsSource = new RepositorioFormaPagamento(Session)
+                .ObterPorParametros(x => x.Situacao == Situacao.Ativo && x.TransacoesBancarias == SimNao.Não)
+                .OrderBy(x => x.Nome)
+                .ToList();
         }
         #endregion
 
@@ -162,6 +178,11 @@ namespace CFP.App.Formularios.Principais
                     UltimaAltualizacao();
                 }
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            CarregaCombo();
         }
     }
 }

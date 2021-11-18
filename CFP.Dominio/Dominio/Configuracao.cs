@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dominio.Dominio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace CFP.Dominio.Dominio
         #region Sistema
         public virtual String CaminhoArquivos { get; set; }
         public virtual String CaminhoBackup { get; set; }
+        public virtual FormaPagamento FormaPagamentoPadraoConta { get; set; }
         #endregion
 
     }

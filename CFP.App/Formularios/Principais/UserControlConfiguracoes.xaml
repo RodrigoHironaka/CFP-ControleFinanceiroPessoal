@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.Principais"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="1020">
+             d:DesignHeight="550" d:DesignWidth="1020" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -81,11 +81,11 @@
                       Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
             <TextBlock x:Name="lblAtualizadoEm" Text="Atualizado em:" 
-                       HorizontalAlignment="Left" 
-                       VerticalAlignment="Bottom" 
+                       HorizontalAlignment="Right" 
+                       VerticalAlignment="Top" 
                        FontSize="15"
                       Foreground="#FF1F3D68"
-                       Margin="5,5,0,35"/>
+                       Margin="5"/>
             <Grid Margin="50">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -171,6 +171,17 @@
                                         Width="30" 
                                         Height="30"/>
                             </Button>
+
+                            
+                        </Grid>
+                        
+                        <Grid x:Name="Row3" Grid.Row="2">
+                            <ComboBox x:Name="cmbFormaPagamentoPadrão"    
+                                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                      materialDesign:HintAssist.Hint="Forma Pagamento Padrão Contas"
+                                      FontFamily="Champagne &amp; Limousines"
+                                      FontSize="15" 
+                                      VerticalAlignment="Top"/>
                         </Grid>
                     </Grid>
 

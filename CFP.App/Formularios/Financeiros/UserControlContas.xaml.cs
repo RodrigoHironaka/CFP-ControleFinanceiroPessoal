@@ -1149,7 +1149,11 @@ namespace CFP.App.Formularios.Financeiros
                                 contaPagamento.Add(parcelaAtualizada);
                             }
                             else
+                            {
+                                parcelaAtualizada.Numero++;
                                 contaPagamento.Add(parcelaAtualizada);
+                            }
+                                
                         }
 
                         if (Salvar())

@@ -1,4 +1,8 @@
-﻿using CFP.Dominio.ObjetoValor;
+﻿using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
+using CFP.Dominio.Dominio;
+using CFP.Dominio.ObjetoValor;
+using CFP.Repositorio.Repositorio;
+using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
 using LinqKit;
@@ -27,6 +31,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
     public partial class ucConsultaContas : UserControl
     {
         ISession Session;
+        Caixa caixa;
 
         #region Repositorio
         private RepositorioContaPagamento _repositorioContaPagamento;
@@ -49,7 +54,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             var predicado = RepositorioContaPagamento.CriarPredicado();
             predicado = predicado.And(x => x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado);
 
-            if(!String.IsNullOrEmpty(txtPesquisa.Text))
+            if (!String.IsNullOrEmpty(txtPesquisa.Text))
                 predicado = predicado.And(x => x.Conta.Nome.Contains(txtPesquisa.Text) || x.ValorParcela.ToString().Contains(txtPesquisa.Text) || x.Conta.Codigo.ToString().Contains(txtPesquisa.Text) || x.Conta.NumeroDocumento.ToString().Contains(txtPesquisa.Text));
 
             if (cmbSituacaoParcelas.SelectedIndex != -1)
@@ -62,7 +67,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
 
             if (cmbPeriodo.SelectedIndex != -1)
                 predicado = predicado.And(x => x.Conta.TipoPeriodo == (TipoPeriodo)cmbPeriodo.SelectedIndex);
-           
+
             if (cmbFormaCompra.SelectedItem != null)
                 predicado = predicado.And(x => x.Conta.FormaCompra == cmbFormaCompra.SelectedItem);
 
@@ -113,6 +118,71 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             dtpInicio.SelectedDate = new DateTime(data.Year, data.Month, 1);
             dtpFinal.SelectedDate = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
         }
+        #endregion
+
+        #region Verificando se caixa esta aberto
+        private bool VerificaCaixa()
+        {
+            caixa = new RepositorioCaixa(Session).ObterPorParametros(x => x.Situacao == SituacaoCaixa.Aberto && x.UsuarioAbertura == MainWindow.UsuarioLogado).FirstOrDefault();
+            if (caixa == null || caixa.Situacao == SituacaoCaixa.Fechado)
+            {
+                MessageBoxResult avisoCaixa = MessageBox.Show("Caixa esta fechado! Deseja abrir?", "Pergunta", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (avisoCaixa == MessageBoxResult.Yes)
+                {
+                    caixa = new Caixa();
+                    MessageBoxResult colocarValor = MessageBox.Show("Deseja digitar um valor inicial?", "Pergunta", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (colocarValor == MessageBoxResult.Yes)
+                    {
+                        ConfirmaValorInicialCaixa janela = new ConfirmaValorInicialCaixa();
+                        bool? res = janela.ShowDialog();
+                        if ((bool)res)
+                            caixa.ValorInicial = Decimal.Parse(janela.valorDigitado);
+                        else
+                            caixa.ValorInicial = 0;
+                    }
+                    else
+                        caixa.ValorInicial = 0;
+
+                    caixa.Codigo = new RepositorioCaixa(Session).RetornaUltimoCodigo() + 1;
+                    caixa.DataAbertura = DateTime.Now;
+                    caixa.UsuarioAbertura = MainWindow.UsuarioLogado;
+                    new RepositorioCaixa(Session).Salvar(caixa);
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        }
+        #endregion
+
+        #region Salvar Fluxo
+
+        private void SalvarFluxo(ContaPagamento dado)
+        {
+            if (dado.SituacaoParcelas == SituacaoParcela.Pago)
+            {
+                FluxoCaixa fluxoCaixa = new FluxoCaixa();
+                if (dado.Conta.TipoConta == TipoConta.Pagar)
+                {
+                    fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
+                    fluxoCaixa.Nome = String.Format("Pagamento parcela número {0} - Conta: {1}", dado.Numero, dado.Conta.Codigo);
+                    fluxoCaixa.Valor = dado.ValorPago * -1;
+                }
+                else
+                {
+                    fluxoCaixa.TipoFluxo = EntradaSaida.Entrada;
+                    fluxoCaixa.Nome = String.Format("Recebimento parcela número {0} - Conta: {1}", dado.Numero, dado.Conta.Codigo);
+                    fluxoCaixa.Valor = dado.ValorPago;
+                }
+                fluxoCaixa.DataGeracao = DateTime.Now;
+                fluxoCaixa.Conta = dado.Conta;
+                fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
+                fluxoCaixa.Caixa = caixa;
+                fluxoCaixa.FormaPagamento = dado.FormaPagamento;
+                new RepositorioFluxoCaixa(Session).Salvar(fluxoCaixa);
+            }
+        }
+
         #endregion
 
         public ucConsultaContas(ISession _session)
@@ -183,6 +253,62 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         {
             if (e.Key == Key.Escape || e.Key == Key.Delete)
                 cmbSituacaoParcelas.SelectedIndex = -1;
+        }
+
+        private void btPagar_Click(object sender, RoutedEventArgs e)
+        {
+            if (VerificaCaixa())
+            {
+                FormaPagamento configFormaPagamentoPadraoConta = new RepositorioConfiguracao(Session).ObterTodos().FirstOrDefault().FormaPagamentoPadraoConta;
+                if (configFormaPagamentoPadraoConta != null)
+                {
+                    var selecoes = dgContasFiltradas.SelectedItems;
+                    foreach (ContaPagamento parcela in selecoes)
+                    {
+                        parcela.SituacaoParcelas = SituacaoParcela.Pago;
+                        parcela.ValorPago = parcela.ValorParcela;
+                        parcela.DataPagamento = DateTime.Now;
+                        parcela.FormaPagamento = configFormaPagamentoPadraoConta;
+                        RepositorioContaPagamento.Alterar(parcela);
+                        SalvarFluxo(parcela);
+                    }
+                    btFiltro_Click(sender, e);
+                }
+                else
+                {
+                    MessageBox.Show("Por favor defina a forma de pagamento padrão em Configurações para continuar!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+            }
+        }
+
+        private void dgContasFiltradas_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (VerificaCaixa())
+            {
+                IList<ContaPagamento> linhasContaPagamento = new List<ContaPagamento>();
+                linhasContaPagamento.Add((ContaPagamento)dgContasFiltradas.SelectedItem);
+                ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhasContaPagamento, Session);
+                bool? res = janela.ShowDialog();
+                if ((bool)res)
+                {
+                    foreach (ContaPagamento parcelaAtualizada in linhasContaPagamento)
+                    {
+                        if (parcelaAtualizada.ID != 0)
+                        {
+                            RepositorioContaPagamento.Alterar(parcelaAtualizada);
+                            SalvarFluxo(parcelaAtualizada);
+                        }
+                        else
+                        {
+                            parcelaAtualizada.Numero++;
+                            parcelaAtualizada.Conta = linhasContaPagamento.First().Conta;
+                            RepositorioContaPagamento.Salvar(parcelaAtualizada);
+                        }
+                    }
+                    btFiltro_Click(sender, e);
+                }
+            }
         }
     }
 }
