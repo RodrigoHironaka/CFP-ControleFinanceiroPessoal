@@ -1,25 +1,18 @@
-﻿using CFP.App.Formularios.Cadastros;
-using CFP.App.Formularios.ModeloBase;
+﻿using CFP.App.Formularios.Financeiros.Consultas;
 using CFP.App.Formularios.ModeloBase.UserControls;
 using CFP.App.Formularios.Principais;
-using CFP.Dominio.Dominio;
+using CFP.Ferramentas;
+using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
+using MySql.Data.MySqlClient;
 using NHibernate;
 using SGE.Repositorio.Configuracao;
 using System;
-using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace CFP.App
 {
@@ -30,6 +23,23 @@ namespace CFP.App
     {
         #region Usuario Logado
         public static Usuario UsuarioLogado;
+        #endregion
+
+        #region Session
+        private static ISession session;
+        protected static ISession Session
+        {
+            get
+            {
+                if (session == null || !session.IsOpen)
+                {
+                    if (session != null)
+                        session.Dispose();
+                    session = NHibernateHelper.GetSession();
+                }
+                return session;
+            }
+        }
         #endregion
 
         public MainWindow()
@@ -62,7 +72,7 @@ namespace CFP.App
             {
                 case 0:
                     GridPrincipal.Children.Clear();
-                    GridPrincipal.Children.Add(new UserControlInicio());
+                    //GridPrincipal.Children.Add(new UserControlInicio());
                     break;
                 case 1:
                     GridPrincipal.Children.Clear();
@@ -74,7 +84,7 @@ namespace CFP.App
                     break;
                 case 3:
                     GridPrincipal.Children.Clear();
-                    GridPrincipal.Children.Add(new UserControlConsultas());
+                    GridPrincipal.Children.Add(new ucConsultaContas(Session));
                     break;
                 default:
                     break;
@@ -100,14 +110,80 @@ namespace CFP.App
             }
             #endregion
 
-            if(UsuarioLogado != null)
-                GridPrincipal.Children.Add(new UserControlInicio());
+            //if(UsuarioLogado != null)
+            //    GridPrincipal.Children.Add(new UserControlInicio());
         }
 
         private void ButtonConfiguracoes_Click(object sender, RoutedEventArgs e)
         {
             GridPrincipal.Children.Clear();
             GridPrincipal.Children.Add(new UserControlConfiguracoes());
+        }
+
+        private void ButtonBackup_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string data = System.DateTime.Now.ToShortDateString().Replace("/", "");
+                string hora = System.DateTime.Now.ToLongTimeString().Replace(":", "");
+                string caminhoPadrao = new RepositorioConfiguracao(Session).ObterTodos().FirstOrDefault().CaminhoBackup;
+                string backupSalvar = caminhoPadrao + "\\CFP_" + data + "_" + hora + ".sql";
+
+                if (caminhoPadrao != null)
+                {
+                    using (MySqlConnection conn = new MySqlConnection(ArquivosXML.StringConexao()))
+                    {
+                        using (MySqlCommand cmd = new MySqlCommand())
+                        {
+                            using (MySqlBackup bk = new MySqlBackup(cmd))
+                            {
+                                cmd.Connection = conn;
+                                conn.Open();
+                                Mouse.OverrideCursor = Cursors.Wait;
+                                bk.ExportToFile(backupSalvar);
+                                Mouse.OverrideCursor = null;
+                                conn.Close();
+                                MessageBox.Show("Backup Salvo em " + backupSalvar);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Defina o caminho padrão para realizar o backup em configurações!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private void ButtonRestore_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult d = MessageBox.Show(" Deseja realmente Restaurar o Banco de Dados? ", " ATENÇÃO ", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (d == MessageBoxResult.Yes)
+            {
+                using (MySqlConnection conn = new MySqlConnection(ArquivosXML.StringConexao()))
+                {
+                    using (MySqlCommand cmd = new MySqlCommand())
+                    {
+                        using (MySqlBackup bk = new MySqlBackup(cmd))
+                        {
+                            cmd.Connection = conn;
+                            conn.Open();
+                            Mouse.OverrideCursor = Cursors.Wait;
+                            bk.ImportFromFile(@"D:\teste\backup\CFP_18112021_132833.sql");
+                            Mouse.OverrideCursor = null;
+                            conn.Close();
+                            MessageBox.Show("Restauração bem Sucedida. O sistema será fechado.");
+                            Application.Current.Shutdown();
+                        }
+                    }
+                }
+
+            }
         }
     }
 }

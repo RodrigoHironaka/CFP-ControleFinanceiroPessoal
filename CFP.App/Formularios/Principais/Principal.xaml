@@ -53,8 +53,9 @@
                            FontSize="22"/>
                 <materialDesign:PopupBox Margin="10" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                     <StackPanel Width="150">
-                        <!--<Button x:Name="ButtonContaUsuario" Content="Conta" Click="ButtonContaUsuario_Click" />-->
                         <Button x:Name="ButtonConfiguracoes" Content="Configurações" Click="ButtonConfiguracoes_Click"/>
+                        <Button x:Name="ButtonBackup" Content="Backup" Click="ButtonBackup_Click" />
+                        <Button x:Name="ButtonRestore" Content="Restaurar" Click="ButtonRestore_Click"/>
                         <Separator/>
                         <Button x:Name="ButtonPopUpSair" Content="Sair" Click="ButtonPopUpSair_Click"/>
                     </StackPanel>
@@ -63,10 +64,7 @@
             </StackPanel>
 
             <Grid Margin="60,50,0,-539" >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="379*"/>
-                    <ColumnDefinition Width="8*"/>
-                </Grid.ColumnDefinitions>
+                
                 <Grid x:Name="GridPrincipal" HorizontalAlignment="Center" VerticalAlignment="Top" 
                       Margin="0,10,0,0" Height="539" Width="1020" Grid.ColumnSpan="2"/>
             </Grid>
@@ -146,7 +144,7 @@
                                        Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem Height="60">
+                    <ListViewItem Height="60" >
                         <StackPanel Orientation="Horizontal"
                                 ToolTip="Consultas simples e avancadas">
                             <materialDesign:PackIcon 
