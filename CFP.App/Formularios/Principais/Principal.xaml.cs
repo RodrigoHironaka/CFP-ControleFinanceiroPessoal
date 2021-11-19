@@ -4,6 +4,7 @@ using CFP.App.Formularios.Principais;
 using CFP.Ferramentas;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
+using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using NHibernate;
 using SGE.Repositorio.Configuracao;
@@ -157,32 +158,6 @@ namespace CFP.App
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
-            }
-        }
-
-        private void ButtonRestore_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult d = MessageBox.Show(" Deseja realmente Restaurar o Banco de Dados? ", " ATENÇÃO ", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (d == MessageBoxResult.Yes)
-            {
-                using (MySqlConnection conn = new MySqlConnection(ArquivosXML.StringConexao()))
-                {
-                    using (MySqlCommand cmd = new MySqlCommand())
-                    {
-                        using (MySqlBackup bk = new MySqlBackup(cmd))
-                        {
-                            cmd.Connection = conn;
-                            conn.Open();
-                            Mouse.OverrideCursor = Cursors.Wait;
-                            bk.ImportFromFile(@"D:\teste\backup\CFP_18112021_132833.sql");
-                            Mouse.OverrideCursor = null;
-                            conn.Close();
-                            MessageBox.Show("Restauração bem Sucedida. O sistema será fechado.");
-                            Application.Current.Shutdown();
-                        }
-                    }
-                }
-
             }
         }
     }

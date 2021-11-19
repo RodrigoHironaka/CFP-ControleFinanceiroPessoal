@@ -33,16 +33,16 @@
             </Grid.ColumnDefinitions>
 
             <TextBox x:Name="txtCodigo"
-                                     Grid.ColumnSpan="3"
-                                     materialDesign:HintAssist.Hint="Código"
-                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                     FontFamily="Champagne &amp; Limousines" 
-                                     FontSize="20" 
-                                     Foreground="White"  
-                                     VerticalAlignment="Center"
-                                     HorizontalAlignment="Left"
-                                     Margin="20 -10 5 0"
-                                     IsReadOnly="True"/>
+                     Grid.ColumnSpan="3"
+                     materialDesign:HintAssist.Hint="Código"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                     FontFamily="Champagne &amp; Limousines" 
+                     FontSize="20" 
+                     Foreground="White"  
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Left"
+                     Margin="20 -10 5 0"
+                     IsReadOnly="True"/>
 
             <Button x:Name="btSalvar"
                     Grid.Column="14"
@@ -91,8 +91,12 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <GroupBox x:Name="GroupSistema" 
-                          Grid.Column="0"
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <GroupBox x:Name="GroupSistema"
                           Margin="5"
                           Header="Sistema"
                           FontFamily="Champagne &amp; Limousines" 
@@ -100,24 +104,20 @@
                           Foreground="#FF1F3D68"
                           Style="{StaticResource MaterialDesignGroupBox}"
                           Background="Transparent">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
 
-                        <Grid x:Name="Row1" Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="50"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox x:Name="txtCaminhoArquivos"
+                            </Grid.RowDefinitions>
+
+                            <Grid x:Name="Row1" Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="txtCaminhoArquivos"
                                      Grid.Column="0" 
                                      materialDesign:HintAssist.Hint="Caminho de Arquivos"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
@@ -127,7 +127,7 @@
                                      VerticalAlignment="Stretch"
                                      Margin="0"/>
 
-                            <Button x:Name="btPesquisaCaminhoArquivos"
+                                <Button x:Name="btPesquisaCaminhoArquivos"
                                     Grid.Column="1"
                                     Width="40" 
                                     Height="40"
@@ -135,20 +135,21 @@
                                     Background="#FF1F3D68"
                                     BorderBrush="#FF1F3D68"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Stretch" Click="btPesquisaCaminhoArquivos_Click">
-                                <materialDesign:PackIcon 
+                                    HorizontalAlignment="Stretch" 
+                                    Click="btPesquisaCaminhoArquivos_Click">
+                                    <materialDesign:PackIcon 
                                         Kind="Search"  
                                         Width="30" 
                                         Height="30"/>
-                            </Button>
-                        </Grid>
+                                </Button>
+                            </Grid>
 
-                        <Grid x:Name="Row2" Grid.Row="1">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition Width="50"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox x:Name="txtCaminhoBackup"
+                            <Grid x:Name="Row2" Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="50"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="txtCaminhoBackup"
                                      Grid.Column="0" 
                                      materialDesign:HintAssist.Hint="Caminho para Backup"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
@@ -158,130 +159,116 @@
                                      VerticalAlignment="Stretch"
                                      Margin="0"/>
 
-                            <Button x:Name="btPesquisaCaminhoBackup"
+                                <Button x:Name="btPesquisaCaminhoBackup"
                                     Grid.Column="1"
                                     Width="40" 
-                                    Height="Auto"
+                                    Height="40"
                                     Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
                                     Background="#FF1F3D68"
                                     BorderBrush="#FF1F3D68"
-                                    HorizontalAlignment="Stretch" Margin="4.8,1,4.8,1.4" Click="btPesquisaCaminhoBackup_Click" >
-                                <materialDesign:PackIcon 
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Click="btPesquisaCaminhoBackup_Click" >
+                                    <materialDesign:PackIcon 
                                         Kind="Search"  
                                         Width="30" 
                                         Height="30"/>
-                            </Button>
+                                </Button>
 
-                            
-                        </Grid>
-                        
-                        <Grid x:Name="Row3" Grid.Row="2">
-                            <ComboBox x:Name="cmbFormaPagamentoPadrão"    
+
+                            </Grid>
+
+                            <Grid x:Name="Row3" Grid.Row="2">
+                                <ComboBox x:Name="cmbFormaPagamentoPadrão"    
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                       materialDesign:HintAssist.Hint="Forma Pagamento Padrão Contas"
                                       FontFamily="Champagne &amp; Limousines"
                                       FontSize="15" 
                                       VerticalAlignment="Top"/>
+                            </Grid>
                         </Grid>
-                    </Grid>
 
-                </GroupBox>
+                    </GroupBox>
 
-                <GroupBox x:Name="GroupBancoDados" 
-                          Grid.Column="1"
+                    <GroupBox x:Name="GroupBancoDados"
                           Margin="5"
+                              Grid.Row="1"
                           Header="Banco de Dados"
                           FontFamily="Champagne &amp; Limousines" 
                           FontSize="15" 
                           Foreground="#FF1F3D68"
                           Style="{StaticResource MaterialDesignGroupBox}"
                           Background="Transparent">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="btRestaurarBancoDados" 
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Height="auto"
+                                    Grid.Column="0" Grid.Row="0"
+                                    VerticalAlignment="Stretch"
+                                    ToolTip="Restaurar Banco de Dados" Margin="0,0,0,68.6" Grid.RowSpan="2" Click="btRestaurarBancoDados_Click">
+                                <materialDesign:PackIcon
+                                    Kind="DatabaseImport"
+                                    Width="50"
+                                    Height="50"
+                                    Foreground="#FF1F3D68"/>
+                            </Button>
+                            <Button x:Name="btConfigBancoDados" 
+                                    Style="{StaticResource MaterialDesignFlatButton}" 
+                                    Height="auto" Width="auto"
+                                    Grid.Column="1" Grid.Row="0" 
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    ToolTip="Restaurar Banco de Dados" Click="btConfigBancoDados_Click">
+                                <materialDesign:PackIcon
+                                    Kind="DatabaseEdit"
+                                    Width="50"
+                                    Height="50"
+                                    Foreground="#FF1F3D68"/>
+                            </Button>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
 
-                        <TextBox x:Name="txtServidor"
-                                     Grid.Row="0" 
-                                     materialDesign:HintAssist.Hint="Servidor"
-                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                     FontFamily="Champagne &amp; Limousines" 
-                                     FontSize="15" 
-                                     Foreground="#FF1F3D68"  
-                                     VerticalAlignment="Stretch"
-                                     Margin="0"/>
 
-                        <TextBox x:Name="txtBase"
-                                     Grid.Row="1" 
-                                     materialDesign:HintAssist.Hint="Nome Base"
-                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                     FontFamily="Champagne &amp; Limousines" 
-                                     FontSize="15" 
-                                     Foreground="#FF1F3D68"  
-                                     VerticalAlignment="Stretch"
-                                     Margin="0"/>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <GroupBox x:Name="semNome2"
+                          Margin="5"
+                          Grid.Row="0"
+                          Header="Sem nome"
+                          FontFamily="Champagne &amp; Limousines" 
+                          FontSize="15" 
+                          Foreground="#FF1F3D68"
+                          Style="{StaticResource MaterialDesignGroupBox}"
+                          Background="Transparent">
 
-                        <TextBox x:Name="txtUsuario"
-                                     Grid.Row="2" 
-                                     materialDesign:HintAssist.Hint="Usuário"
-                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                     FontFamily="Champagne &amp; Limousines" 
-                                     FontSize="15" 
-                                     Foreground="#FF1F3D68"  
-                                     VerticalAlignment="Stretch"
-                                     Margin="0"/>
+                    </GroupBox>
+                    <GroupBox x:Name="semNome"
+                          Margin="5"
+                          Grid.Row="1"
+                          Header="Sem nome"
+                          FontFamily="Champagne &amp; Limousines" 
+                          FontSize="15" 
+                          Foreground="#FF1F3D68"
+                          Style="{StaticResource MaterialDesignGroupBox}"
+                          Background="Transparent">
 
-                        <PasswordBox x:Name="txtSenha"
-                                     Grid.Row="3" 
-                                     materialDesign:HintAssist.Hint="Senha"
-                                     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" 
-                                     FontFamily="Champagne &amp; Limousines" 
-                                     FontSize="15" 
-                                     Foreground="#FF1F3D68"  
-                                     VerticalAlignment="Stretch"
-                                     Margin="0"/>
+                    </GroupBox>
+                </Grid>
 
-                        <TextBox x:Name="txtPorta"
-                                     Grid.Row="4" 
-                                     materialDesign:HintAssist.Hint="Porta"
-                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                     FontFamily="Champagne &amp; Limousines" 
-                                     FontSize="15" 
-                                     Foreground="#FF1F3D68"  
-                                     VerticalAlignment="Stretch"
-                                     Margin="0"/>
-
-                        <Button x:Name="btTestarConexao"
-                                    Grid.Row="5"
-                                    Width="40" 
-                                    Height="40"
-                                    Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
-                                    Background="#FF1F3D68"
-                                    BorderBrush="#FF1F3D68"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Left" >
-                            <materialDesign:PackIcon 
-                                        Kind="Connection"  
-                                        Width="30" 
-                                        Height="30"/>
-                        </Button>
-
-                        <TextBlock x:Name="lblStatusConexao" 
-                                   Grid.Row="5"
-                                   Text="Conexão Pendente" 
-                                   HorizontalAlignment="Center" 
-                                   VerticalAlignment="Center" 
-                                   FontSize="20"
-                                   Foreground="#FF1F3D68"/>
-                    </Grid>
-                </GroupBox>
 
 
             </Grid>

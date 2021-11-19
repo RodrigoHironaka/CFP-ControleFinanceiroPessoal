@@ -1,8 +1,11 @@
 ﻿using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
+using CFP.Ferramentas;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObjetoValor;
+using Microsoft.Win32;
+using MySql.Data.MySqlClient;
 using NHibernate;
 using Repositorio.Repositorios;
 using SGE.Repositorio.Configuracao;
@@ -86,14 +89,14 @@ namespace CFP.App.Formularios.Principais
             List<Configuracao> todasConfiguracoes = (List<Configuracao>)Repositorio.ObterTodos().ToList();
             foreach (var item in todasConfiguracoes)
                 configuracao = Repositorio.ObterPorId(item.Id);
-            
+
             if (configuracao != null)
             {
                 txtCodigo.Text = configuracao.Id.ToString();
                 txtCaminhoArquivos.Text = configuracao.CaminhoArquivos;
                 txtCaminhoBackup.Text = configuracao.CaminhoBackup;
                 cmbFormaPagamentoPadrão.SelectedItem = configuracao.FormaPagamentoPadraoConta;
-                
+
             }
         }
         #endregion
@@ -115,7 +118,7 @@ namespace CFP.App.Formularios.Principais
         #region DataAtualizacao
         private void UltimaAltualizacao()
         {
-            if(configuracao != null && configuracao.DataAlteracao != DateTime.MinValue)
+            if (configuracao != null && configuracao.DataAlteracao != DateTime.MinValue)
                 lblAtualizadoEm.Text = string.Format("Atualizado em: {0}", configuracao.DataAlteracao);
             else
                 lblAtualizadoEm.Text = configuracao != null && configuracao.DataGeracao != DateTime.MinValue ? string.Format("Atualizado em: {0}", configuracao.DataGeracao) : string.Empty;
@@ -183,6 +186,48 @@ namespace CFP.App.Formularios.Principais
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             CarregaCombo();
+        }
+
+        private void btRestaurarBancoDados_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult d = MessageBox.Show(" Deseja realmente Restaurar o Banco de Dados? ", " ATENÇÃO ", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (d == MessageBoxResult.Yes)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "SQL (*.sql;)|*.sql;" };
+                bool? response = openFileDialog.ShowDialog();
+                if (response == true)
+                {
+                    using (MySqlConnection conn = new MySqlConnection(ArquivosXML.StringConexao()))
+                    {
+                        using (MySqlCommand cmd = new MySqlCommand())
+                        {
+                            using (MySqlBackup bk = new MySqlBackup(cmd))
+                            {
+                                cmd.Connection = conn;
+                                conn.Open();
+                                Mouse.OverrideCursor = Cursors.Wait;
+                                bk.ImportFromFile(openFileDialog.FileName);
+                                Mouse.OverrideCursor = null;
+                                conn.Close();
+                                MessageBox.Show("Restauração bem Sucedida. O sistema será fechado.");
+                                Application.Current.Shutdown();
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void btConfigBancoDados_Click(object sender, RoutedEventArgs e)
+        {
+            ConfiguracaoBanco config = new ConfiguracaoBanco();
+            config.ShowDialog();
+            if (config.Sucesso == true)
+                MessageBox.Show("Configuração Realizada com Sucesso, por favor abra novamente o sistema!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                MessageBox.Show("Houve algum erro na configuração! Configure corretamente pois pode haver erros ao conectar.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+
         }
     }
 }

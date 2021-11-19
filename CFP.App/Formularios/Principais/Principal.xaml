@@ -55,7 +55,6 @@
                     <StackPanel Width="150">
                         <Button x:Name="ButtonConfiguracoes" Content="Configurações" Click="ButtonConfiguracoes_Click"/>
                         <Button x:Name="ButtonBackup" Content="Backup" Click="ButtonBackup_Click" />
-                        <Button x:Name="ButtonRestore" Content="Restaurar" Click="ButtonRestore_Click"/>
                         <Separator/>
                         <Button x:Name="ButtonPopUpSair" Content="Sair" Click="ButtonPopUpSair_Click"/>
                     </StackPanel>

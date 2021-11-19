@@ -1,4 +1,7 @@
 
+alter table Configuracoes  drop foreign key FK_CE2F688A
+;
+
 alter table ContaArquivos  drop foreign key FK_72DE5358
 ;
 
@@ -93,7 +96,7 @@ drop table if exists PessoaTipoRendas;
 drop table if exists TiposRenda;
 drop table if exists Usuarios;
 drop table if exists hibernate_unique_key;
-create table Configuracoes (Id BIGINT not null, DataGeracao DATETIME, DataAlteracao DATETIME, CaminhoArquivos VARCHAR(250), CaminhoBackup VARCHAR(250), primary key (Id)) ENGINE=InnoDB;
+create table Configuracoes (Id BIGINT not null, DataGeracao DATETIME, DataAlteracao DATETIME, CaminhoArquivos VARCHAR(250), CaminhoBackup VARCHAR(250), FormaPagamentoPadraoConta BIGINT, primary key (Id)) ENGINE=InnoDB;
 create table ContaArquivos (Id BIGINT not null, Conta BIGINT, Caminho VARCHAR(250), Nome VARCHAR(250), DataGeracao DATETIME, DataAlteracao DATETIME, primary key (Id)) ENGINE=InnoDB;
 create table FluxoCaixas (Id BIGINT not null, Nome VARCHAR(150), DataGeracao DATETIME, DataAlteracao DATETIME, Valor DECIMAL(10, 2), TipoFluxo INTEGER, Conta BIGINT, Caixa BIGINT, UsuarioLogado BIGINT, FormaPagamento BIGINT, primary key (Id)) ENGINE=InnoDB;
 create table SubGrupoGastos (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, GrupoGasto BIGINT, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
@@ -109,6 +112,7 @@ create table Pessoas (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME
 create table PessoaTipoRendas (ID BIGINT not null, RendaBruta DECIMAL(10, 2), RendaLiquida DECIMAL(10, 2), TipoRenda BIGINT, Pessoa BIGINT, primary key (ID)) ENGINE=InnoDB;
 create table TiposRenda (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
 create table Usuarios (Id BIGINT not null, Nome VARCHAR(70), NomeAcesso VARCHAR(70), Senha VARCHAR(255), ConfirmaSenha VARCHAR(255), TipoUsuario INTEGER, Situacao INTEGER, DataGeracao DATETIME, DataAlteracao DATETIME, primary key (Id)) ENGINE=InnoDB;
+alter table Configuracoes add index (FormaPagamentoPadraoConta), add constraint FK_CE2F688A foreign key (FormaPagamentoPadraoConta) references FormasPagamento (Id);
 alter table ContaArquivos add index (Conta), add constraint FK_72DE5358 foreign key (Conta) references Contas (Id);
 alter table FluxoCaixas add index (Conta), add constraint FK_D59D810C foreign key (Conta) references Contas (Id);
 alter table FluxoCaixas add index (Caixa), add constraint FK_2056DEA5 foreign key (Caixa) references Caixas (Id);
