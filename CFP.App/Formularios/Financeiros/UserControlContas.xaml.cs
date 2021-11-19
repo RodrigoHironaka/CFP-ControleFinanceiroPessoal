@@ -815,7 +815,7 @@ namespace CFP.App.Formularios.Financeiros
             }
             else
             {
-                (this.Parent as StackPanel).Children.Remove(this);
+                (this.Parent as Grid).Children.Remove(this);
             }
         }
 

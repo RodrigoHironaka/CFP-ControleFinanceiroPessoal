@@ -363,7 +363,7 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btSair_Click(object sender, RoutedEventArgs e)
         {
-            (Parent as StackPanel).Children.Remove(this);
+            (Parent as Grid).Children.Remove(this);
         }
 
         private void btAbrirFecharCaixa_Click(object sender, RoutedEventArgs e)

@@ -180,7 +180,7 @@ namespace CFP.App.Formularios.Cadastros
             }
             else
             {
-                (this.Parent as StackPanel).Children.Remove(this);
+                (this.Parent as Grid).Children.Remove(this);
             }
         }
 

@@ -1,6 +1,9 @@
-﻿using CFP.App.Formularios.Financeiros.Consultas;
+﻿using CFP.App.Formularios.Cadastros;
+using CFP.App.Formularios.Financeiros;
+using CFP.App.Formularios.Financeiros.Consultas;
 using CFP.App.Formularios.ModeloBase.UserControls;
 using CFP.App.Formularios.Principais;
+using CFP.Dominio.Dominio;
 using CFP.Ferramentas;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
@@ -73,19 +76,16 @@ namespace CFP.App
             {
                 case 0:
                     GridPrincipal.Children.Clear();
-                    //GridPrincipal.Children.Add(new UserControlInicio());
                     break;
                 case 1:
                     GridPrincipal.Children.Clear();
-                    GridPrincipal.Children.Add(new UserControlFinanceiro());
+                    GridPrincipal.Children.Add(new ucConsultaContas(Session));
                     break;
                 case 2:
                     GridPrincipal.Children.Clear();
-                    GridPrincipal.Children.Add(new UserControlCadastros());
+                    GridPrincipal.Children.Add(new UserControlContas(new Conta(), Session));
                     break;
                 case 3:
-                    GridPrincipal.Children.Clear();
-                    GridPrincipal.Children.Add(new ucConsultaContas(Session));
                     break;
                 default:
                     break;
@@ -110,9 +110,6 @@ namespace CFP.App
                 Close();
             }
             #endregion
-
-            //if(UsuarioLogado != null)
-            //    GridPrincipal.Children.Add(new UserControlInicio());
         }
 
         private void ButtonConfiguracoes_Click(object sender, RoutedEventArgs e)
@@ -159,6 +156,72 @@ namespace CFP.App
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void BtConta_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlContas(new Conta(), Session));
+        }
+
+        private void btCaixa_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlCaixa(Session));
+        }
+
+        private void btCofre_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlCofre(Session));
+        }
+
+        private void btHorasTrabalho_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlHoraExtra(Session));
+        }
+
+        private void btFormaPagamento_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlCadastroFormaPagamento(new FormaPagamento(), Session));
+        }
+
+        private void btTipoGasto_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlTipoGasto(new GrupoGasto(), Session));
+        }
+
+        private void btTipoRenda_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlTipoRenda(new TipoRenda(), Session));
+        }
+
+        private void btPessoa_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlPessoa(new Pessoa(), Session));
+        }
+
+        private void btBanco_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlBanco(new Banco(), Session));
+        }
+
+        private void btTipoSubGasto_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlTipoSubGasto(new SubGrupoGasto(), Session));
+        }
+
+        private void ButtonUsuarios_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new UserControlUsuario(new Usuario(), Session));
         }
     }
 }

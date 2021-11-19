@@ -252,7 +252,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
 
         private void btSair_Click(object sender, RoutedEventArgs e)
         {
-            (Parent as StackPanel).Children.Remove(this);
+            (Parent as Grid).Children.Remove(this);
         }
 
         private void cmbSituacaoParcelas_KeyDown(object sender, KeyEventArgs e)

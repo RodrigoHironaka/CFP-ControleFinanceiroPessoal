@@ -54,6 +54,7 @@
                 <materialDesign:PopupBox Margin="10" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                     <StackPanel Width="150">
                         <Button x:Name="ButtonConfiguracoes" Content="Configurações" Click="ButtonConfiguracoes_Click"/>
+                        <Button x:Name="ButtonUsuarios" Content="Usuários" Click="ButtonUsuarios_Click" />
                         <Button x:Name="ButtonBackup" Content="Backup" Click="ButtonBackup_Click" />
                         <Separator/>
                         <Button x:Name="ButtonPopUpSair" Content="Sair" Click="ButtonPopUpSair_Click"/>
@@ -63,7 +64,268 @@
             </StackPanel>
 
             <Grid Margin="60,50,0,-539" >
-                
+                <!--Botoes-->
+                 <Grid x:Name="GridBotoesCadastros"  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+            <!--Financeiro -->
+                    <Button x:Name="btCaixa"
+                Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="1" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Visualização do Caixa"
+                    Margin="10 0 10 0" Click="btCaixa_Click">
+                        <materialDesign:PackIcon
+                    Kind="CashRegister"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+                    </Button>
+                    <Label 
+                Grid.Column="1" Grid.Row="1" 
+                Content="Caixa" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+                    <Button x:Name="btCofre"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="2" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Visualização do Cofre"
+                    Margin="10 0 10 0" Click="btCofre_Click">
+                        <materialDesign:PackIcon
+                    Kind="SafeSquare"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+
+                    </Button>
+                    <Label 
+                Grid.Column="2" Grid.Row="1" 
+                Content="Cofre" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+                    <Button x:Name="BtConta"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="3" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Cadastro de Contas"
+                    Margin="10 0 10 0"
+                    Click="BtConta_Click">
+                        <materialDesign:PackIcon
+                    Kind="AccountCash"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+                    </Button>
+                    <Label 
+                Grid.Column="3" Grid.Row="1" 
+                Content="Contas" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+                    <Button x:Name="btHorasTrabalho"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="4" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Cadastro de Hora Extra"
+                    Margin="10 0 10 0" Click="btHorasTrabalho_Click">
+                        <materialDesign:PackIcon
+                    Kind="PointOfSale"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+                    </Button>
+                    <Label 
+                Grid.Column="4" Grid.Row="1" 
+                Content="Hora Extra" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+                    <!--Fim Financeiro -->
+                     
+            <!--Cadastros -->      
+            <Button x:Name="btPessoa" 
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="0" Grid.Row="2" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Click="btPessoa_Click"
+                    ToolTip="Cadastro de Pessoas"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="PeopleAdd"
+                     Width="80"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="0" Grid.Row="2" 
+                Content="Pessoas" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btTipoRenda" 
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="1" Grid.Row="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Click="btTipoRenda_Click"
+                    ToolTip="Cadastro de Rendas"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="Payment"
+                      Width="80"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="1" Grid.Row="2" 
+                Content="Rendas" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+           
+
+            <Button x:Name="btTipoGasto"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="3" Grid.Row="2" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                     Click="btTipoGasto_Click"
+                     ToolTip="Cadastro de Gastos"
+                     Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="Group"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="3" Grid.Row="2" 
+                Content="Gastos" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btTipoSubGasto"
+               Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="4" Grid.Row="2" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Click="btTipoSubGasto_Click" 
+                    ToolTip="Cadastro de SubGastos"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="Group"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="4" Grid.Row="2" 
+                Content="SubGastos" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btFormaPagamento"
+                    Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="5" Grid.Row="2" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Click="btFormaPagamento_Click"
+                     ToolTip="Cadastro de Formas de Pagamento"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="CurrencyUsd"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="5" Grid.Row="2" 
+                Content="F. Pagamentos" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btBanco"
+                Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="2" Grid.Row="2" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                 Click="btBanco_Click"  
+                     ToolTip="Cadastro de Bancos"
+                    Margin="10 0 10 0">
+                <materialDesign:PackIcon
+                    Kind="Bank"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="2" Grid.Row="2" 
+                Content="Bancos" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+            <!-- Fim Cadastros -->
+                </Grid>
+                <!--Fim Botoes-->
                 <Grid x:Name="GridPrincipal" HorizontalAlignment="Center" VerticalAlignment="Top" 
                       Margin="0,10,0,0" Height="539" Width="1020" Grid.ColumnSpan="2"/>
             </Grid>
@@ -115,34 +377,6 @@
                                        Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem x:Name="ListVIewItemFinanceiro" Height="60" >
-                        <StackPanel Orientation="Horizontal" 
-                                ToolTip="Financeiro">
-                            <materialDesign:PackIcon 
-                                Kind="Calculator" 
-                                Width="25" 
-                                Height="25" 
-                                Margin="10" 
-                                VerticalAlignment="Center"/>
-                            <TextBlock Text="Financeiro" 
-                                       VerticalAlignment="Center" 
-                                       Margin="20 10"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem Height="60">
-                        <StackPanel Orientation="Horizontal" 
-                                ToolTip="Cadastros em Geral">
-                            <materialDesign:PackIcon 
-                                Kind="Add" 
-                                Width="25" 
-                                Height="25" 
-                                Margin="10" 
-                                VerticalAlignment="Center"/>
-                            <TextBlock Text="Cadastros" 
-                                       VerticalAlignment="Center" 
-                                       Margin="20 10"/>
-                        </StackPanel>
-                    </ListViewItem>
                     <ListViewItem Height="60" >
                         <StackPanel Orientation="Horizontal"
                                 ToolTip="Consultas simples e avancadas">
@@ -157,6 +391,23 @@
                                        Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
+
+                    <ListViewItem x:Name="ListVIewItemFinanceiro" Height="60" >
+                        <StackPanel Orientation="Horizontal" 
+                                ToolTip="Contas">
+                            <materialDesign:PackIcon 
+                                Kind="AccountCash" 
+                                Width="25" 
+                                Height="25" 
+                                Margin="10" 
+                                VerticalAlignment="Center"/>
+                            <TextBlock Text="Contas" 
+                                       VerticalAlignment="Center" 
+                                       Margin="20 10"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    
+                    
 
 
                 </ListView>
