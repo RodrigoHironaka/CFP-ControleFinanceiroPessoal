@@ -32,7 +32,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         ISession Session;
         public ObservableCollection<ContaPagamento> contaPagamento = new ObservableCollection<ContaPagamento>();
-        Conta conta;
+        public Conta conta;
 
         public NovasParcelas(Conta _conta, ISession _session)
         {
@@ -45,43 +45,61 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (String.IsNullOrEmpty(txtValorTotal.Text) || String.IsNullOrEmpty(txtQtd.Text) || dtpVencimento.SelectedDate == null)
             {
-                MessageBox.Show("Todos os campos são Obrigatórios. Por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtAlerta.Text = "Todos os campos são obrigatórios";
                 return;
             }
             else
             {
-                Decimal valorTotal = Decimal.Parse(txtValorTotal.Text);
-                Int32 qtdParcelas = Int32.Parse(txtQtd.Text);
-                DateTime dataPrimeiroVencimento = (DateTime)dtpVencimento.SelectedDate;
-                if (!valorTotal.Equals(0) || !qtdParcelas.Equals(0))
+                txtAlerta.Text = string.Empty;
+                try
                 {
-                    var numero = conta.ContaPagamentos.Count() != 0 ? conta.ContaPagamentos.OrderByDescending(x => x.Numero).FirstOrDefault().Numero + 1 : 1;
-                    Decimal valorParcela = Math.Round(valorTotal / qtdParcelas, 2);
-                    Decimal valorDiferenca = valorTotal - valorParcela * qtdParcelas;
-                    for (int i = 0; i < qtdParcelas; i++)
+                    Decimal valorTotal = Decimal.Parse(txtValorTotal.Text);
+                    Int32 qtdParcelas = Int32.Parse(txtQtd.Text);
+                    DateTime dataPrimeiroVencimento = (DateTime)dtpVencimento.SelectedDate;
+
+                    if (!valorTotal.Equals(0) && !qtdParcelas.Equals(0))
                     {
-
-                        contaPagamento.Add(new ContaPagamento()
+                        var numero = conta.QtdParcelas != null ? conta.QtdParcelas : 1;
+                        Decimal valorParcela = Math.Round(valorTotal / qtdParcelas, 2);
+                        Decimal valorDiferenca = Math.Round(valorTotal - valorParcela * qtdParcelas, 2);
+                        for (int i = 0; i < qtdParcelas; i++)
                         {
-                            SituacaoParcelas = SituacaoParcela.Pendente,
-                            Conta = conta,
-                            Numero = numero++,
-                            ValorParcela = Decimal.Parse(!(i + 1 == qtdParcelas) ? valorParcela.ToString() : (valorParcela + valorDiferenca).ToString()),
-                            DataVencimento = dataPrimeiroVencimento.AddMonths(i)
-                        });
+                            numero++;
+                            contaPagamento.Add(new ContaPagamento()
+                            {
+                                
+                                SituacaoParcelas = SituacaoParcela.Pendente,
+                                Conta = conta,
+                                Numero = (int)numero,
+                                ValorParcela = !(i + 1 == qtdParcelas) ? valorParcela : valorParcela + valorDiferenca,
+                                DataVencimento = dataPrimeiroVencimento.AddMonths(i)
+                            }) ;
 
-                        #region Outra Opcao 
-                        //var contaPagamentoNovo = new ContaPagamento();
-                        //contaPagamentoNovo.SituacaoParcelas = SituacaoParcela.Pendente;
-                        //contaPagamentoNovo.Conta = conta;
-                        //contaPagamentoNovo.Numero = new RepositorioContaPagamento(Session).ObterPorParametros(x => x.Conta.Id == conta.Id).Select(x => x.Numero).Count() + 1;
-                        //contaPagamentoNovo.ValorParcela = Decimal.Parse(!(i + 1 == qtdParcelas) ? valorParcela.ToString() : (valorParcela + valorDiferenca).ToString());
-                        //contaPagamentoNovo.DataVencimento = dataPrimeiroVencimento.AddMonths(i);
-                        //Repositorio.Salvar(contaPagamentoNovo);
-                        #endregion
+                            #region Outra Opcao 
+                            //var contaPagamentoNovo = new ContaPagamento();
+                            //contaPagamentoNovo.SituacaoParcelas = SituacaoParcela.Pendente;
+                            //contaPagamentoNovo.Conta = conta;
+                            //contaPagamentoNovo.Numero = new RepositorioContaPagamento(Session).ObterPorParametros(x => x.Conta.Id == conta.Id).Select(x => x.Numero).Count() + 1;
+                            //contaPagamentoNovo.ValorParcela = Decimal.Parse(!(i + 1 == qtdParcelas) ? valorParcela.ToString() : (valorParcela + valorDiferenca).ToString());
+                            //contaPagamentoNovo.DataVencimento = dataPrimeiroVencimento.AddMonths(i);
+                            //Repositorio.Salvar(contaPagamentoNovo);
+                            #endregion
+                        }
+                        conta.ValorTotal = conta.ValorTotal != null ? conta.ValorTotal + valorTotal : valorTotal;
+                        conta.QtdParcelas = conta.QtdParcelas != null ? conta.QtdParcelas + qtdParcelas : qtdParcelas;
+                        DialogResult = true;
                     }
                 }
-                DialogResult = true;
+                catch (Exception ex)
+                {
+                    if (ex is DivideByZeroException)
+                    {
+                        txtAlerta.Text = ex.Message.ToString();
+                        return;
+                    }
+                    else
+                        throw new Exception(ex.Message.ToString());
+                }
             }
         }
 

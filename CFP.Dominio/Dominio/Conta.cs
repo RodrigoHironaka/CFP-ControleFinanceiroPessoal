@@ -17,12 +17,10 @@ namespace Dominio.Dominio
         public virtual TipoPeriodo TipoPeriodo { get; set; }
         public virtual SituacaoConta Situacao { get; set; }
         public virtual DateTime? DataEmissao { get; set; }
-        public virtual DateTime? DataPrimeiroVencimento { get; set; }
         public virtual Decimal? ValorTotal { get; set; }
         public virtual Int64? QtdParcelas { get; set; }
         public virtual Int64? NumeroDocumento { get; set; }
         public virtual SubGrupoGasto SubGrupoGasto { get; set; }
-        public virtual GrupoGasto GrupoGasto { get; set; }
         public virtual FormaPagamento FormaCompra { get; set; }
         public virtual Pessoa Pessoa { get; set; }
         public virtual Usuario UsuarioCriacao { get; set; }

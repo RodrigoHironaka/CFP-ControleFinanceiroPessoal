@@ -35,7 +35,7 @@
                      FontSize="15" 
                      Foreground="White"  
                      VerticalAlignment="Top" KeyDown="txtCodigo_KeyDown" PreviewTextInput="txtCodigo_PreviewTextInput" PreviewKeyDown="txtCodigo_PreviewKeyDown"/>
-            
+
             <Button x:Name="btFinalizarConta" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="60" Width="60" 
@@ -45,11 +45,11 @@
                     BorderBrush="#FF1F3D68" 
                     Click="btFinalizarConta_Click">
                 <materialDesign:PackIcon 
-                    Kind="CashCheck"  
+                    Kind="Like"  
                     Width="50" 
                     Height="50"/>
             </Button>
-            
+
             <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="Auto" 
@@ -62,7 +62,7 @@
                     Width="50" 
                     Height="50"/>
             </Button>
-            
+
             <Button x:Name="btSalvar"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
@@ -74,7 +74,7 @@
                     Width="50" 
                     Height="50"/>
             </Button>
-            
+
             <Button x:Name="btCancelar" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="60" Width="60" 
@@ -103,7 +103,7 @@
             <Grid x:Name="GridControls" Margin="30,25,30,25" >
                 <TabControl x:Name="tabContas" Margin="0,0,0,-20">
                     <TabItem x:Name="tabItemGeral" Header="Geral">
-                        <Grid x:Name="GridControls2" Margin="100 20 100 20">
+                        <Grid x:Name="GridControls2" Margin="150 20 150 20">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -127,9 +127,11 @@
 
                             <Grid x:Name="GridRow1" Grid.Row="1">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="130"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
+                                
                                 <ComboBox
                                     x:Name="cmbTipoConta"
                                     Grid.Column="0"
@@ -138,7 +140,8 @@
                                     FontFamily="Champagne &amp; Limousines" 
                                     FontSize="18"
                                     Foreground="#FF1F3D68" 
-                                    VerticalAlignment="Stretch"  TabIndex="1"/>
+                                    VerticalAlignment="Stretch"  
+                                    TabIndex="1"/>
 
                                 <ComboBox
                                 x:Name="cmbTipoPeriodo"
@@ -149,31 +152,31 @@
                                 FontSize="18"
                                 Foreground="#FF1F3D68" 
                                 VerticalAlignment="Stretch"
-                                LostFocus="cmbTipoPeriodo_LostFocus" TabIndex="2"
+                                TabIndex="2"
                                 Margin="10 0 0 0" />
+                                <ComboBox 
+                                     x:Name="cmbFormaCompra"
+                                     Grid.Column="2" Grid.Row="1"
+                                     materialDesign:HintAssist.Hint="Forma de Compra" 
+                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                                     FontFamily="Champagne &amp; Limousines" 
+                                     FontSize="18"
+                                     Foreground="#FF1F3D68" 
+                                     VerticalAlignment="Stretch"
+                                     TabIndex="5" />
                             </Grid>
 
                             <Grid x:Name="GridRow2" Grid.Row="2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="130"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <ComboBox
-                                    x:Name="cmbTipoGasto"
-                                    Grid.Column="0"
-                                    materialDesign:HintAssist.Hint="Tipo de Gasto" 
-                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                    FontFamily="Champagne &amp; Limousines"
-                                    FontSize="18"
-                                    Foreground="#FF1F3D68"
-                                    VerticalAlignment="Stretch"
-                                    TabIndex="3" LostFocus="cmbTipoGasto_LostFocus"/>
 
                                 <ComboBox
                                     x:Name="cmbTipoSubGasto"
                                     Grid.Column="1"
-                                    materialDesign:HintAssist.Hint="Tipo de Sub Gasto" 
+                                    materialDesign:HintAssist.Hint="Tipo Gasto" 
                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                                     FontFamily="Champagne &amp; Limousines"
                                     FontSize="18"
@@ -182,23 +185,19 @@
                                     TabIndex="4"
                                     Margin="10 0 0 0"/>
 
-                                <ComboBox 
-                                     x:Name="cmbFormaCompra"
-                                     Grid.Column="2"
-                                     materialDesign:HintAssist.Hint="Forma de Compra" 
-                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
-                                     FontFamily="Champagne &amp; Limousines" 
-                                     FontSize="18"
-                                     Foreground="#FF1F3D68" 
-                                     VerticalAlignment="Stretch"
-                                     TabIndex="5" Margin="10,0,0,0"/>
-                            </Grid>
+                                <TextBox
+                                    x:Name="txtNumDocumento"
+                                    Grid.Row="5"
+                                    Grid.Column="2"
+                                    materialDesign:HintAssist.Hint="Num Documento" 
+                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                    FontFamily="Champagne &amp; Limousines" 
+                                    FontSize="18"
+                                    Foreground="#FF1F3D68"
+                                    VerticalAlignment="Stretch" 
+                                    Margin="10 0 0 0" 
+                                    MaxLength="20" TabIndex="12" PreviewTextInput="txtNumDocumento_PreviewTextInput"/>
 
-                            <Grid x:Name="GridRow3" Grid.Row="3">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
 
                                 <DatePicker
                                 x:Name="txtEmissao"
@@ -210,77 +209,11 @@
                                 Foreground="#FF1F3D68"
                                 VerticalAlignment="Stretch"
                                 TabIndex="6"/>
-
-                                <DatePicker
-                                     x:Name="txtPrimeiroVencimento"
-                                     Grid.Column="1"
-                                     materialDesign:HintAssist.Hint="Primeiro Vencimento" 
-                                     Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
-                                     FontFamily="Champagne &amp; Limousines" 
-                                     FontSize="18"
-                                     Foreground="#FF1F3D68"
-                                     VerticalAlignment="Stretch" 
-                                     Margin="10 0 0 0 " TabIndex="7" 
-                                    LostFocus="txtPrimeiroVencimento_LostFocus"/>
                             </Grid>
 
-                            <Grid x:Name="GridRow4" Grid.Row="4" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="50"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox
-                                    x:Name="txtValorTotal"
-                                    Grid.Row="4"
-                                    Grid.Column="0"
-                                    materialDesign:HintAssist.Hint="Valor Total" 
-                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                    FontFamily="Champagne &amp; Limousines" 
-                                    FontSize="18"
-                                    Foreground="#FF1F3D68"
-                                    VerticalAlignment="Stretch" 
-                                    TabIndex="8" 
-                                    PreviewTextInput="txtValorTotal_PreviewTextInput" PreviewKeyDown="txtValorTotal_PreviewKeyDown" 
-                                    />
-
-                                <Button x:Name="btGerarParcelas" 
-                                    Grid.Row="4"
-                                    Grid.Column="2"
-                                         Width="40" 
-                                        Height="40"
-                                    Style="{StaticResource MaterialDesignFloatingActionAccentButton}"
-                                    Background="#FF1F3D68"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Stretch" TabIndex="10" Click="btGerarParcelas_Click" >
-                                    <materialDesign:PackIcon 
-                                        Kind="Money"  
-                                        Width="30" 
-                                        Height="30"/>
-                                </Button>
-
-                                <TextBox
-                                    x:Name="txtQtdParcelas"
-                                    Grid.Row="3"
-                                    Grid.Column="1"
-                                    materialDesign:HintAssist.Hint="Qtd Parcelas" 
-                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                    FontFamily="Champagne &amp; Limousines"
-                                    FontSize="18"
-                                    Foreground="#FF1F3D68"
-                                    VerticalAlignment="Stretch" 
-                                    Margin="10 0 10 0" IsEnabled="False" 
-                                    MaxLength="3" TabIndex="9" PreviewTextInput="txtQtdParcelas_PreviewTextInput" PreviewKeyDown="txtQtdParcelas_PreviewKeyDown"/>
-                            </Grid>
-                            <Grid x:Name="GridRow5" Grid.Row="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                            <Grid x:Name="GridRow3" Grid.Row="3">
                                 <ComboBox 
                                     x:Name="cmbReferenciaPessoa"
-                                    Grid.Row="5"
-                                    Grid.Column="0"
                                     materialDesign:HintAssist.Hint="Referenciado a" 
                                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                                     FontFamily="Champagne &amp; Limousines" 
@@ -288,22 +221,15 @@
                                     Foreground="#FF1F3D68" 
                                     VerticalAlignment="Stretch" TabIndex="11"/>
 
-                                <TextBox
-                                    x:Name="txtNumDocumento"
-                                    Grid.Row="5"
-                                    Grid.Column="1"
-                                    materialDesign:HintAssist.Hint="Número Documento" 
-                                    Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                                    FontFamily="Champagne &amp; Limousines" 
-                                    FontSize="18"
-                                    Foreground="#FF1F3D68"
-                                    VerticalAlignment="Stretch" 
-                                    Margin="10 0 0 0" 
-                                    MaxLength="20" TabIndex="12" PreviewTextInput="txtNumDocumento_PreviewTextInput"/>
+
+
+
                             </Grid>
-                            <TextBox
+
+                            <Grid x:Name="GridRow4" Grid.Row="4" Grid.RowSpan="2">
+                                <TextBox
                                      x:Name="txtObservacao"
-                                     Grid.Row="6" Grid.RowSpan="2"
+                                     
                                      materialDesign:HintAssist.Hint="Observacão" 
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                      FontFamily="Champagne &amp; Limousines" 
@@ -313,7 +239,17 @@
                                      TextWrapping="Wrap"
                                      AcceptsReturn="True"
                                      VerticalScrollBarVisibility="Visible" 
-                                     MaxLength="400" TabIndex="13" Margin="0,0,0.4,10.4"/>
+                                     MaxLength="400" TabIndex="13" />
+                               </Grid>
+                            <Grid x:Name="GridRow5" Grid.Row="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+
+                               </Grid>
+                            
                         </Grid>
 
                     </TabItem>
@@ -338,12 +274,16 @@
 
                                 <Button x:Name="btEditar" 
                                     Grid.Row="0"
-                                    Grid.Column="0"
+                                    Grid.Column="4"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                                     Height="60" Width="60" 
                                     Background="#FF1F3D68"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btEditar_Click" TabIndex="0" >
+                                    HorizontalAlignment="Center" 
+                                    BorderBrush="#FF1F3D68" 
+                                    Click="btEditar_Click" 
+                                    TabIndex="0" 
+                                    ToolTip="Pagar ou Receber Contas">
                                     <materialDesign:PackIcon 
                                         Kind="CashCheck"  
                                         Width="50" 
@@ -357,7 +297,11 @@
                                     Height="60" Width="60" 
                                     Background="#FF1F3D68"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btCancelarParcela_Click" TabIndex="1"  >
+                                    HorizontalAlignment="Center" 
+                                        BorderBrush="#FF1F3D68" 
+                                        Click="btCancelarParcela_Click" 
+                                        TabIndex="1" 
+                                        ToolTip="Cancelar Parcela">
                                     <materialDesign:PackIcon 
                                         Kind="CashRemove"  
                                         Width="50" 
@@ -366,7 +310,7 @@
 
                                 <Button x:Name="btNovasParcelas" 
                                     Grid.Row="0"
-                                    Grid.Column="3"
+                                    Grid.Column="0"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                                     Height="60" Width="60" 
                                     Background="#FF1F3D68"
@@ -600,10 +544,10 @@
                                         <ListView.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem x:Name="MenuItemRemover" Header="Remover" Click="MenuItemRemover_Click" />
-                                               
+
                                             </ContextMenu>
                                         </ListView.ContextMenu>
-                                        
+
                                     </ListView>
                                 </Grid>
                             </Grid>

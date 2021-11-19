@@ -75,7 +75,7 @@ namespace CFP.App.Formularios.Cadastros
             //define o foco no primeiro campo
             txtNome.Focus();
             txtNome.Select(txtNome.Text.Length, 0);
-            
+
         }
         #endregion
 
@@ -129,14 +129,14 @@ namespace CFP.App.Formularios.Cadastros
         #region Preenche campos no user control
         private void PreencheCampos()
         {
-            if(formaPagamento != null)
+            if (formaPagamento != null)
             {
                 txtCodigo.Text = formaPagamento.Id.ToString();
                 txtNome.Text = formaPagamento.Nome;
                 txtQtdParcelas.Text = formaPagamento.QtdParcelas.ToString();
                 txtDiasVencimento.Text = formaPagamento.DiasParaVencimento.ToString();
                 cmbSituacao.SelectedIndex = formaPagamento.Situacao.GetHashCode();
-                chkTransacaoBancaria.IsChecked = formaPagamento.TransacoesBancarias == SimNao.Não ? !chkTransacaoBancaria.IsChecked : chkTransacaoBancaria.IsChecked;
+                chkTransacaoBancaria.IsChecked = formaPagamento.TransacoesBancarias == SimNao.Sim ? chkTransacaoBancaria.IsChecked = true : chkTransacaoBancaria.IsChecked = false;
             }
         }
         #endregion
@@ -262,7 +262,7 @@ namespace CFP.App.Formularios.Cadastros
         {
             JanelaPesquisas p = new JanelaPesquisas();
             p.ShowDialog();
-            if(p.objeto != null)
+            if (p.objeto != null)
             {
                 formaPagamento = p.objeto;
                 PreencheCampos();
@@ -294,7 +294,7 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
         {
-            if(formaPagamento != null)
+            if (formaPagamento != null)
             {
                 MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + formaPagamento.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (d == MessageBoxResult.Yes)
@@ -302,10 +302,10 @@ namespace CFP.App.Formularios.Cadastros
                     Repositorio.Excluir(formaPagamento);
                     LimpaCampos();
                     ControleAcessoInicial();
-                   
+
                 }
             }
-  
+
         }
     }
 }

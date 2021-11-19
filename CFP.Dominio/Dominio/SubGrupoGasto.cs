@@ -12,7 +12,7 @@ namespace CFP.Dominio.Dominio
     {
         public override string ToString()
         {
-            return Nome;
+            return String.Format("{0}/{1}", GrupoGasto.Nome, Nome);
         }
         public virtual GrupoGasto GrupoGasto { get; set; }
         public virtual Situacao Situacao { get; set; }

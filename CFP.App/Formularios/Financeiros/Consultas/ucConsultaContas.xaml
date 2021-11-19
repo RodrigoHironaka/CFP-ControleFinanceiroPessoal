@@ -49,7 +49,7 @@
             </Button>
 
             <Button x:Name="btFiltro"
-                    Grid.Column="12"
+                    Grid.Column="13"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     HorizontalAlignment="Center"
@@ -147,6 +147,16 @@
                       FontSize="12" KeyDown="cmbSituacaoParcelas_KeyDown"
                       VerticalAlignment="Top"
                       Margin="5 0 5 0"/>
+            
+            <ComboBox x:Name="cmbSituacaoConta"
+                      Grid.Column="9"
+                      Grid.ColumnSpan="2" 
+                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                      materialDesign:HintAssist.Hint="Situacao Conta"
+                      FontFamily="Champagne &amp; Limousines"
+                      FontSize="12"
+                      VerticalAlignment="Top"
+                      Margin="5 0 5 0" KeyDown="cmbSituacaoConta_KeyDown"/>
 
             <TextBox x:Name="txtPesquisa"
                      Grid.Column="7"
@@ -160,8 +170,8 @@
 
             <TextBlock x:Name="txtTotalFiltro" 
                        Text="R$ 0.00"
-                       Grid.Column="9"
-                       Grid.ColumnSpan="3"
+                       Grid.Column="11"
+                       Grid.ColumnSpan="2"
                        Foreground="White"
                        FontFamily="Champagne &amp; Limousines"
                        FontSize="18"

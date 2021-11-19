@@ -106,8 +106,14 @@
                          VerticalAlignment="Center"
                         HorizontalAlignment="Stretch"/>
                 </Grid>
-               
-               </Grid>
+                <TextBlock x:Name="txtAlerta"
+                           Grid.Row="2" Grid.Column="1" 
+                           VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" 
+                           FontFamily="Champagne &amp; Limousines" 
+                           FontSize="14"
+                           Foreground="Red"/>
+            </Grid>
         </Border>
     </Grid>
 

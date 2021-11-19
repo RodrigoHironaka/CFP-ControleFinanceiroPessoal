@@ -54,6 +54,11 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             var predicado = RepositorioContaPagamento.CriarPredicado();
             predicado = predicado.And(x => x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado);
 
+            if(cmbSituacaoConta.SelectedIndex != -1)
+                predicado = predicado.And(x => x.Conta.Situacao == (SituacaoConta)cmbSituacaoConta.SelectedIndex);
+            else
+                predicado = predicado.And(x => x.Conta.Situacao == SituacaoConta.Aberto);
+
             if (!String.IsNullOrEmpty(txtPesquisa.Text))
                 predicado = predicado.And(x => x.Conta.Nome.Contains(txtPesquisa.Text) || x.ValorParcela.ToString().Contains(txtPesquisa.Text) || x.Conta.Codigo.ToString().Contains(txtPesquisa.Text) || x.Conta.NumeroDocumento.ToString().Contains(txtPesquisa.Text));
 
@@ -98,6 +103,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             cmbTipoConta.ItemsSource = Enum.GetValues(typeof(TipoConta));
             cmbPeriodo.ItemsSource = Enum.GetValues(typeof(TipoPeriodo));
             cmbSituacaoParcelas.ItemsSource = Enum.GetValues(typeof(SituacaoParcela));
+            cmbSituacaoConta.ItemsSource = Enum.GetValues(typeof(SituacaoConta));
 
             cmbFormaCompra.ItemsSource = new RepositorioFormaPagamento(Session)
                 .ObterPorParametros(x => x.Situacao == Situacao.Ativo && x.TransacoesBancarias == SimNao.Não)
@@ -309,6 +315,12 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                     btFiltro_Click(sender, e);
                 }
             }
+        }
+
+        private void cmbSituacaoConta_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                cmbSituacaoConta.SelectedIndex = -1;
         }
     }
 }

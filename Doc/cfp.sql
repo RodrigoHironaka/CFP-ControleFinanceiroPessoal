@@ -53,9 +53,6 @@ alter table Cofres  drop foreign key FK_C9974506
 alter table Contas  drop foreign key FK_27A3E395
 ;
 
-alter table Contas  drop foreign key FK_63270F71
-;
-
 alter table Contas  drop foreign key FK_108F2CD5
 ;
 
@@ -103,7 +100,7 @@ create table SubGrupoGastos (Id BIGINT not null, Nome VARCHAR(70), DataGeracao D
 create table Bancos (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, TipoContaBanco INTEGER, Situacao INTEGER, Pessoa BIGINT, UsuarioCriacao BIGINT, primary key (Id)) ENGINE=InnoDB;
 create table Caixas (Id BIGINT not null, Codigo BIGINT, DataAbertura DATETIME, DataFechamento DATETIME, ValorInicial DECIMAL(10, 2), Situacao INTEGER, Pessoa BIGINT, UsuarioAbertura BIGINT, UsuarioFechamento BIGINT, TotalEntrada DECIMAL(10, 2), TotalSaida DECIMAL(10, 2), BalancoFinal DECIMAL(10, 2), primary key (Id)) ENGINE=InnoDB;
 create table Cofres (Id BIGINT not null, Codigo BIGINT, Caixa BIGINT, Banco BIGINT, Valor DECIMAL(10, 2), UsuarioCriacao BIGINT, UsuarioAlteracao BIGINT, TransacoesBancarias BIGINT, Situacao INTEGER, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, primary key (Id)) ENGINE=InnoDB;
-create table Contas (Id BIGINT not null, Codigo BIGINT, TipoConta INTEGER, TipoPeriodo INTEGER, Situacao INTEGER, DataEmissao DATETIME, DataPrimeiroVencimento DATETIME, ValorTotal DECIMAL(10, 2), QtdParcelas BIGINT, NumeroDocumento BIGINT, SubGrupoGasto BIGINT, GrupoGasto BIGINT, FormaCompra BIGINT, Pessoa BIGINT, UsuarioCriacao BIGINT, Observacao TEXT, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, primary key (Id)) ENGINE=InnoDB;
+create table Contas (Id BIGINT not null, Codigo BIGINT, TipoConta INTEGER, TipoPeriodo INTEGER, Situacao INTEGER, DataEmissao DATETIME, ValorTotal DECIMAL(10, 2), QtdParcelas BIGINT, NumeroDocumento BIGINT, SubGrupoGasto BIGINT, FormaCompra BIGINT, Pessoa BIGINT, UsuarioCriacao BIGINT, Observacao TEXT, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, primary key (Id)) ENGINE=InnoDB;
 create table ContasPagamento (ID BIGINT not null, Numero INTEGER, ValorParcela DECIMAL(10, 2), DataVencimento DATETIME, DataPagamento DATETIME, JurosPorcentual DECIMAL(19,5), JurosValor DECIMAL(10, 2), DescontoPorcentual DECIMAL(19,5), DescontoValor DECIMAL(10, 2), ValorReajustado DECIMAL(10, 2), ValorPago DECIMAL(10, 2), ValorRestante DECIMAL(10, 2), SituacaoParcelas INTEGER, FormaPagamento BIGINT, Conta BIGINT, primary key (ID)) ENGINE=InnoDB;
 create table FormasPagamento (Id BIGINT not null, Nome VARCHAR(70), QtdParcelas INTEGER, DiasParaVencimento INTEGER, Situacao INTEGER, TransacoesBancarias INTEGER, DataGeracao DATETIME, DataAlteracao DATETIME, primary key (Id)) ENGINE=InnoDB;
 create table GrupoGastos (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
@@ -130,7 +127,6 @@ alter table Cofres add index (UsuarioCriacao), add constraint FK_34B96F4A foreig
 alter table Cofres add index (UsuarioAlteracao), add constraint FK_A1EFEF63 foreign key (UsuarioAlteracao) references Usuarios (Id);
 alter table Cofres add index (TransacoesBancarias), add constraint FK_C9974506 foreign key (TransacoesBancarias) references FormasPagamento (Id);
 alter table Contas add index (SubGrupoGasto), add constraint FK_27A3E395 foreign key (SubGrupoGasto) references SubGrupoGastos (Id);
-alter table Contas add index (GrupoGasto), add constraint FK_63270F71 foreign key (GrupoGasto) references GrupoGastos (Id);
 alter table Contas add index (FormaCompra), add constraint FK_108F2CD5 foreign key (FormaCompra) references FormasPagamento (Id);
 alter table Contas add index (Pessoa), add constraint FK_4BC4A722 foreign key (Pessoa) references Pessoas (Id);
 alter table Contas add index (UsuarioCriacao), add constraint FK_747B3355 foreign key (UsuarioCriacao) references Usuarios (Id);
