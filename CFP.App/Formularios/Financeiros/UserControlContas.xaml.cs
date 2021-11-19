@@ -1317,6 +1317,20 @@ namespace CFP.App.Formularios.Financeiros
                 FiltroSituacaoParcelas();
             }
         }
+
+        private void MenuItemHabilitaEdicao_Click(object sender, RoutedEventArgs e)
+        {
+            if(DataGridContaPagamento.IsReadOnly == true)
+            {
+                MenuItemHabilitaEdicao.Header = "Desabilitar Edição";
+                DataGridContaPagamento.IsReadOnly = false;
+            }
+            else
+            {
+                MenuItemHabilitaEdicao.Header = "Habilitar Edição";
+                DataGridContaPagamento.IsReadOnly = true;
+            }
+        }
     }
 }
 

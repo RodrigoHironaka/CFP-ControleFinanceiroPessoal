@@ -59,7 +59,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
                     if (!valorTotal.Equals(0) && !qtdParcelas.Equals(0))
                     {
-                        var numero = conta.QtdParcelas != null ? conta.QtdParcelas : 1;
+                        var numero = conta.QtdParcelas != null ? conta.QtdParcelas : 0;
                         Decimal valorParcela = Math.Round(valorTotal / qtdParcelas, 2);
                         Decimal valorDiferenca = Math.Round(valorTotal - valorParcela * qtdParcelas, 2);
                         for (int i = 0; i < qtdParcelas; i++)

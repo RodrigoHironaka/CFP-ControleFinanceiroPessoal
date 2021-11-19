@@ -437,12 +437,10 @@
                                 <DataGrid x:Name="DataGridContaPagamento"  
                                           AutoGenerateColumns="False" 
                                           VerticalScrollBarVisibility="Auto" 
-                                          CellEditEnding="DataGridContaPagamento_CellEditEnding" 
                                           IsReadOnly="True" 
                                           MouseDoubleClick="DataGridContaPagamento_MouseDoubleClick" 
                                           TabIndex="6">
                                     <DataGrid.Columns>
-
                                         <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoParcelas}" />
                                         <DataGridTextColumn Header="Número" Binding="{Binding Numero}" />
                                         <DataGridTextColumn Header="Parcela ($)" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
@@ -482,6 +480,11 @@
                                                                 DisplayMemberPath="{Binding FormaPagamento}"
                                                                 />
                                     </DataGrid.Columns>
+                                    <DataGrid.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem x:Name="MenuItemHabilitaEdicao" Header="Habilita Edição" Click="MenuItemHabilitaEdicao_Click"/>
+                                        </ContextMenu>
+                                    </DataGrid.ContextMenu>
                                 </DataGrid>
                             </Grid>
                         </Grid>
