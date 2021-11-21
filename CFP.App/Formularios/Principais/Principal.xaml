@@ -379,14 +379,14 @@
                     </ListViewItem>
                     <ListViewItem Height="60" >
                         <StackPanel Orientation="Horizontal"
-                                ToolTip="Consultas simples e avancadas">
+                                ToolTip="Consultas de contas">
                             <materialDesign:PackIcon 
                                 Kind="FileFindOutline" 
                                 Width="25" 
                                 Height="25" 
                                 Margin="10" 
                                 VerticalAlignment="Center"/>
-                            <TextBlock Text="Consultas" 
+                            <TextBlock Text="Consulta Conta" 
                                        VerticalAlignment="Center" 
                                        Margin="20 10"/>
                         </StackPanel>
@@ -406,9 +406,36 @@
                                        Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
-                    
-                    
 
+                    <ListViewItem x:Name="ListVIewItemCaixa" Height="60" >
+                        <StackPanel Orientation="Horizontal" 
+                                ToolTip="Caixa">
+                            <materialDesign:PackIcon 
+                                Kind="CashRegister" 
+                                Width="25" 
+                                Height="25" 
+                                Margin="10" 
+                                VerticalAlignment="Center"/>
+                            <TextBlock Text="Caixa" 
+                                       VerticalAlignment="Center" 
+                                       Margin="20 10"/>
+                        </StackPanel>
+                    </ListViewItem>
+
+                    <ListViewItem x:Name="ListVIewItemCofre" Height="60" >
+                        <StackPanel Orientation="Horizontal" 
+                                ToolTip="Cofre">
+                            <materialDesign:PackIcon 
+                                Kind="SafeSquare" 
+                                Width="25" 
+                                Height="25" 
+                                Margin="10" 
+                                VerticalAlignment="Center"/>
+                            <TextBlock Text="Caixa" 
+                                       VerticalAlignment="Center" 
+                                       Margin="20 10"/>
+                        </StackPanel>
+                    </ListViewItem>
 
                 </ListView>
             </StackPanel>

@@ -86,6 +86,12 @@ namespace CFP.App
                     GridPrincipal.Children.Add(new UserControlContas(new Conta(), Session));
                     break;
                 case 3:
+                    GridPrincipal.Children.Clear();
+                    GridPrincipal.Children.Add(new UserControlCaixa(Session));
+                    break;
+                case 4:
+                    GridPrincipal.Children.Clear();
+                    GridPrincipal.Children.Add(new UserControlCofre(Session));
                     break;
                 default:
                     break;
