@@ -48,7 +48,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         }
         #endregion
 
-
         #region Repositorio
 
         private RepositorioContaPagamento _repositorioContaPagamento;
@@ -101,7 +100,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             decimal somaValorPago = 0;
             foreach (var linha in linhaContaPagemento)
             {
-                numParcela = numParcela + linha.Numero.ToString(" ");
+                numParcela =  numParcela != string.Empty ? String.Format("{0}, {1}",numParcela, linha.Numero) : linha.Numero.ToString();
                 somaValorParcela = somaValorParcela + linha.ValorParcela;
                 somaValorJuros += linha.JurosValor;
                 somaValorDesconto += linha.DescontoValor;
@@ -109,15 +108,15 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
                 txtCodigoConta.Text = linha.Conta.Codigo.ToString();
                 txtNumeroParcela.Text = numParcela;
-                txtValorParcela.Text = somaValorParcela.ToString("N2");
+                txtValorParcela.Text = somaValorParcela != 0 ? somaValorParcela.ToString("N2") : string.Empty;
                 txtDataPagamento.SelectedDate = linha.DataPagamento != null ? linha.DataPagamento : null;
                 txtDataVencimento.SelectedDate = linha.DataVencimento != null ? linha.DataVencimento : null;
                 txtJurosPorcentagem.Text = linha.JurosPorcentual != 0 ? linha.JurosPorcentual.ToString("N2") : string.Empty;
-                txtJurosValor.Text = somaValorJuros.ToString("N2");
+                txtJurosValor.Text = somaValorJuros != 0 ? somaValorJuros.ToString("N2") : string.Empty;
                 txtDescontoPorcentagem.Text = linha.DescontoPorcentual != 0 ? linha.DescontoPorcentual.ToString("N2") : string.Empty;
-                txtDescontoValor.Text = somaValorDesconto.ToString("N2");
+                txtDescontoValor.Text = somaValorDesconto != 0 ? somaValorDesconto.ToString("N2") : string.Empty;
                 txtValorReajustado.Text = linha.ValorReajustado != 0 ? linha.ValorReajustado.ToString("N2") : txtValorParcela.Text;
-                txtValorPago.Text = somaValorPago.ToString("N2");
+                txtValorPago.Text = somaValorPago != 0 ? somaValorPago.ToString("N2") : string.Empty;
                 txtValorRestante.Text = linha.ValorRestante != 0 ? linha.ValorRestante.ToString("N2") : string.Empty;
                 cmbFormaPagamento.SelectedItem = linha.FormaPagamento;
             }
@@ -127,13 +126,13 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         #region Calculo Juros e Desconto (% e $)
         private decimal CalculaValorPorcentagem(decimal valor, decimal porcentagem)
         {
-            decimal resultado = (valor * (porcentagem / 100));
+            decimal resultado = Math.Round(valor * (porcentagem / 100), 2);
             return resultado;
         }
 
         private decimal CalculaPorcentagemValor(decimal valor, decimal valor2)
         {
-            decimal porcentagem = (valor2 * 100) / valor;
+            decimal porcentagem = Math.Round((valor2 * 100) / valor, 2);
             return porcentagem;
         }
 
@@ -178,7 +177,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         }
         #endregion
-
 
         #region Preenche Objeto para salvar
         DateTime dataVencimento = DateTime.Now;
@@ -367,7 +365,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void txtJurosPorcentagem_LostFocus(object sender, RoutedEventArgs e)
@@ -439,10 +437,13 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-
-            
             if(contaPagamento != null && contaPagamento.SituacaoParcelas == SituacaoParcela.Pago)
                 SalvarFluxo(linhaContaPagemento, true);
+
+            txtJurosValor_LostFocus(sender, e);
+            txtDescontoValor_LostFocus(sender, e);
+            txtJurosPorcentagem_LostFocus(sender, e);
+            txtDescontoPorcentagem_LostFocus(sender, e);
 
             if (PreencheObjeto())
             {
@@ -491,8 +492,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                             ValorParcela = Decimal.Parse(txtValorRestante.Text),
                             DataVencimento = dataVencimento
                         });
+                        DialogResult = true;
                     }
-                    DialogResult = true;
+                    
                 }
             }
 

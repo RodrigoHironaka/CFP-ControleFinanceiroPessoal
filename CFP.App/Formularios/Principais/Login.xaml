@@ -94,17 +94,18 @@
                                  Height="50"/>
                         </Button>
                     </Grid>
-                    <Button x:Name="btPrimeiroAcesso"
-                            Content=" Este é seu primeiro acesso?"
+                    <TextBlock x:Name="txtInfo"
+                            Text="Seja Bem Vindo!"
                             FontFamily="Champagne &amp; Limousines"
                             Foreground="#FF1F3D68"
+                            FontSize="18"
                             Grid.Column="1" Grid.Row="5"
-                            Style="{StaticResource MaterialDesignFlatButton}" 
-                            VerticalAlignment="Stretch"
+                            Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                            VerticalAlignment="Center"
                             Background="Transparent" 
-                            HorizontalAlignment="Stretch" >
+                            HorizontalAlignment="Center" >
 
-                    </Button>
+                    </TextBlock>
                 </Grid>
             </Border>
 

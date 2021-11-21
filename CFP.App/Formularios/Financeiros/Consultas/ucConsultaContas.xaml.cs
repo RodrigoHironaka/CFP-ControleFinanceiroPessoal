@@ -322,5 +322,10 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             if (e.Key == Key.Escape || e.Key == Key.Delete)
                 cmbSituacaoConta.SelectedIndex = -1;
         }
+
+        private void menuItemExportarExcel_Click(object sender, RoutedEventArgs e)
+        {
+            Ferramentas.Exportar.ExportarExcel.ExpExcel(dgContasFiltradas);
+        }
     }
 }

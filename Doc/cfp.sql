@@ -71,6 +71,12 @@ alter table ContasPagamento  drop foreign key FK_77677524
 alter table HorasExtra  drop foreign key FK_9FA1A2B6
 ;
 
+alter table HorasExtra  drop foreign key FK_72687FDB
+;
+
+alter table HorasExtra  drop foreign key FK_A6951426
+;
+
 alter table PessoaTipoRendas  drop foreign key FK_2F54ECD9
 ;
 
@@ -104,7 +110,7 @@ create table Contas (Id BIGINT not null, Codigo BIGINT, TipoConta INTEGER, TipoP
 create table ContasPagamento (ID BIGINT not null, Numero INTEGER, ValorParcela DECIMAL(10, 2), DataVencimento DATETIME, DataPagamento DATETIME, JurosPorcentual DECIMAL(19,5), JurosValor DECIMAL(10, 2), DescontoPorcentual DECIMAL(19,5), DescontoValor DECIMAL(10, 2), ValorReajustado DECIMAL(10, 2), ValorPago DECIMAL(10, 2), ValorRestante DECIMAL(10, 2), SituacaoParcelas INTEGER, FormaPagamento BIGINT, Conta BIGINT, primary key (ID)) ENGINE=InnoDB;
 create table FormasPagamento (Id BIGINT not null, Nome VARCHAR(70), QtdParcelas INTEGER, DiasParaVencimento INTEGER, Situacao INTEGER, TransacoesBancarias INTEGER, DataGeracao DATETIME, DataAlteracao DATETIME, primary key (Id)) ENGINE=InnoDB;
 create table GrupoGastos (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
-create table HorasExtra (ID BIGINT not null, Pessoa BIGINT, Data DATETIME, HoraInicioManha BIGINT, HoraFinalManha BIGINT, TotalManha BIGINT, HoraInicioTarde BIGINT, HoraFinalTarde BIGINT, TotalTarde BIGINT, HoraFinalDia BIGINT, primary key (ID)) ENGINE=InnoDB;
+create table HorasExtra (Id BIGINT not null, Nome VARCHAR(255), DataGeracao DATETIME, DataAlteracao DATETIME, Pessoa BIGINT, UsuarioCriacao BIGINT, UsuarioAlteracao BIGINT, DataHoraExtra DATETIME, HoraInicioManha BIGINT, HoraFinalManha BIGINT, TotalManha BIGINT, HoraInicioTarde BIGINT, HoraFinalTarde BIGINT, TotalTarde BIGINT, HoraFinalDia BIGINT, primary key (Id)) ENGINE=InnoDB;
 create table Pessoas (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, ValorTotalBruto DECIMAL(10, 2), ValorTotalLiquido DECIMAL(10, 2), Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
 create table PessoaTipoRendas (ID BIGINT not null, RendaBruta DECIMAL(10, 2), RendaLiquida DECIMAL(10, 2), TipoRenda BIGINT, Pessoa BIGINT, primary key (ID)) ENGINE=InnoDB;
 create table TiposRenda (Id BIGINT not null, Nome VARCHAR(70), DataGeracao DATETIME, DataAlteracao DATETIME, Situacao INTEGER, primary key (Id)) ENGINE=InnoDB;
@@ -133,6 +139,8 @@ alter table Contas add index (UsuarioCriacao), add constraint FK_747B3355 foreig
 alter table ContasPagamento add index (FormaPagamento), add constraint FK_1109C842 foreign key (FormaPagamento) references FormasPagamento (Id);
 alter table ContasPagamento add index (Conta), add constraint FK_77677524 foreign key (Conta) references Contas (Id);
 alter table HorasExtra add index (Pessoa), add constraint FK_9FA1A2B6 foreign key (Pessoa) references Pessoas (Id);
+alter table HorasExtra add index (UsuarioCriacao), add constraint FK_72687FDB foreign key (UsuarioCriacao) references Usuarios (Id);
+alter table HorasExtra add index (UsuarioAlteracao), add constraint FK_A6951426 foreign key (UsuarioAlteracao) references Usuarios (Id);
 alter table PessoaTipoRendas add index (TipoRenda), add constraint FK_2F54ECD9 foreign key (TipoRenda) references TiposRenda (Id);
 alter table PessoaTipoRendas add index (Pessoa), add constraint FK_DC98FCA8 foreign key (Pessoa) references Pessoas (Id);
 create table hibernate_unique_key ( next_hi BIGINT );

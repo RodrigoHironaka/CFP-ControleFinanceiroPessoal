@@ -199,8 +199,7 @@
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem x:Name="menuItemExportarExcel" Header="Exportar Excel" ></MenuItem>
-                            <MenuItem x:Name="menuItemExportarPdf" Header="Exportar PDF" ></MenuItem>
+                            <MenuItem x:Name="menuItemExportarExcel" Header="Exportar Excel" Click="menuItemExportarExcel_Click" ></MenuItem>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>

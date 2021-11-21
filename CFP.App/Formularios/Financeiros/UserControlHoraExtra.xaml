@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1020">
     <Grid>
@@ -30,9 +31,162 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+
+            <Button x:Name="btSalvar"
+                    Grid.Column="13"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="60" Width="60" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Salvar">
+                <materialDesign:PackIcon 
+                    Kind="ContentSave"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
+            <Button x:Name="btexcluir"
+                    Grid.Column="14"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="60" Width="60" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Botão para Excluir">
+                <materialDesign:PackIcon 
+                    Kind="Trash"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
+            <Button x:Name="btSair"
+                    Grid.Column="15"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="60" Width="60" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Botão para sair da tela" >
+                <materialDesign:PackIcon 
+                    Kind="ExitToApp"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
+
         </Grid>
         <Grid x:Name="GridCampos" Grid.Row="1" Background="LightGray">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="360"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="20 0 20 20">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBox x:Name="txtNome"
+                         Grid.Row="0"
+                     materialDesign:HintAssist.Hint="Descricão" 
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                     FontFamily="Champagne &amp; Limousines" 
+                     FontSize="22" 
+                     Foreground="#FF1F3D68" 
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Center"
+                     Margin="5"/>
 
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <DatePicker x:Name="txtEmissao"
+                                Grid.Column="0"
+                                materialDesign:HintAssist.Hint="Data" 
+                                Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                                FontFamily="Champagne &amp; Limousines" 
+                                FontSize="18" 
+                                Foreground="#FF1F3D68"
+                                VerticalAlignment="Stretch"
+                        Margin="5"/>
+                    
+                    <materialDesign:TimePicker x:Name="txtHoraInicio"
+                                               Grid.Column="1"
+                                               Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                                               materialDesign:HintAssist.Hint="Hora Início"
+                                               FontFamily="Champagne &amp; Limousines" 
+                                               FontSize="18"
+                                               Foreground="#FF1F3D68" 
+                                               VerticalAlignment="Stretch"
+                                               HorizontalAlignment="Stretch"
+                                               Margin="5"
+                                               Is24Hours="True" SelectedTimeFormat="Long"/>
+
+                    <materialDesign:TimePicker x:Name="txtHoraFinal"
+                                               Grid.Column="2"
+                                               Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                                               materialDesign:HintAssist.Hint="Hora Final"
+                                               FontFamily="Champagne &amp; Limousines" 
+                                               FontSize="18"
+                                               Foreground="#FF1F3D68" 
+                                               VerticalAlignment="Stretch"
+                                               HorizontalAlignment="Stretch"
+                                               Margin="5"
+                                               Is24Hours="True" SelectedTimeFormat="Long"/>
+
+                    <TextBox x:Name="txtTotalPeriodo"
+                                               Grid.Column="3"
+                                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                               materialDesign:HintAssist.Hint="Hora Período"
+                                               FontFamily="Champagne &amp; Limousines" 
+                                               FontSize="18"
+                                               Foreground="#FF1F3D68" 
+                                               VerticalAlignment="Stretch"
+                                               HorizontalAlignment="Stretch"
+                                               Margin="5"/>
+                    
+                    <Button x:Name="btAdd"
+                            Grid.Column="4"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="#FF1F3D68" 
+                            BorderBrush="#FF1F3D68"
+                            Height="60"
+                            Width="60">
+                        <materialDesign:PackIcon 
+                            Kind="Check"  
+                            Width="50" 
+                            Height="50"/>
+                    </Button>
+
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1" Margin="20 -10 20 40">
+                <DataGrid x:Name="dgHoraExtra"
+                          AutoGenerateColumns="False" 
+                          IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Data" Binding="{Binding DataGeracao, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Inicio manha" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Fim manha" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Total manha" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Inicio Tarde" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Fim Tarde" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Total Tarde" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Total Dia" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Descricão" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
+
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

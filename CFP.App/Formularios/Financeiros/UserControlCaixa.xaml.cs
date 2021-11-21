@@ -416,8 +416,8 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btNovoRegistroConta_Click(object sender, RoutedEventArgs e)
         {
-            panelCadastro.Children.Clear();
-            panelCadastro.Children.Add(new UserControlContas(new Conta(), Session));
+            GridCadastro.Children.Clear();
+            GridCadastro.Children.Add(new UserControlContas(new Conta(), Session));
         }
 
         private void MenuItemAtualiza_Click(object sender, RoutedEventArgs e)
@@ -516,8 +516,8 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btCofre_Click(object sender, RoutedEventArgs e)
         {
-            panelCadastro.Children.Clear();
-            panelCadastro.Children.Add(new UserControlCofre(Session));
+            GridCadastro.Children.Clear();
+            GridCadastro.Children.Add(new UserControlCofre(Session));
         }
     }
 }

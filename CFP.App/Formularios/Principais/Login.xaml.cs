@@ -82,13 +82,23 @@ namespace CFP.App.Formularios.Principais
                     if(retorno)
                         this.DialogResult = true;
                     else
-                        MessageBox.Show("Senha Inválida!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    {
+                        txtInfo.Text = "Senha Incorreta!";
+                        txtInfo.Foreground = Brushes.Red;
+                    }
                 }
                 else
-                    MessageBox.Show("Usuario não encontrado!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                {
+                    txtInfo.Text = "Usuario não encontrado!";
+                    txtInfo.Foreground = Brushes.Red;
+                }
             }
             else
-                MessageBox.Show("Usuário/Senha inválidos!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+            {
+                txtInfo.Text = "Usuário / Senha inválidos!";
+                txtInfo.Foreground = Brushes.Red;
+                
+            }
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)

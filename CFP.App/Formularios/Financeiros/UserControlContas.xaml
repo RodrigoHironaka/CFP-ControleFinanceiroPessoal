@@ -43,9 +43,9 @@
                     Margin="0,5,223,5.4" 
                     HorizontalAlignment="Right" 
                     BorderBrush="#FF1F3D68" 
-                    Click="btFinalizarConta_Click">
+                    Click="btFinalizarConta_Click" TabIndex="17">
                 <materialDesign:PackIcon 
-                    Kind="Like"  
+                    Kind="CashCheck"  
                     Width="50" 
                     Height="50"/>
             </Button>
@@ -56,7 +56,7 @@
                     Width="60"
                     Background="#FF1F3D68" 
                     Margin="0,5,72,5.4" 
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click" TabIndex="16">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click" TabIndex="15">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
@@ -68,7 +68,7 @@
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,137,0"
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click" TabIndex="7" VerticalAlignment="Top">
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click" TabIndex="14" VerticalAlignment="Top">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -80,7 +80,7 @@
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
                     Margin="0,5,7,5.4" 
-                    HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68" TabIndex="17">
+                    HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68" TabIndex="16">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 
@@ -163,7 +163,7 @@
                                      FontSize="18"
                                      Foreground="#FF1F3D68" 
                                      VerticalAlignment="Stretch"
-                                     TabIndex="5" />
+                                     TabIndex="3" />
                             </Grid>
 
                             <Grid x:Name="GridRow2" Grid.Row="2">
@@ -182,7 +182,7 @@
                                     FontSize="18"
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch"
-                                    TabIndex="4"
+                                    TabIndex="5"
                                     Margin="10 0 0 0"/>
 
                                 <TextBox
@@ -196,7 +196,7 @@
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch" 
                                     Margin="10 0 0 0" 
-                                    MaxLength="20" TabIndex="12" PreviewTextInput="txtNumDocumento_PreviewTextInput"/>
+                                    MaxLength="20" TabIndex="6" PreviewTextInput="txtNumDocumento_PreviewTextInput"/>
 
 
                                 <DatePicker
@@ -208,7 +208,7 @@
                                 FontSize="18" 
                                 Foreground="#FF1F3D68"
                                 VerticalAlignment="Stretch"
-                                TabIndex="6"/>
+                                TabIndex="4"/>
                             </Grid>
 
                             <Grid x:Name="GridRow3" Grid.Row="3">
@@ -219,7 +219,7 @@
                                     FontFamily="Champagne &amp; Limousines" 
                                     FontSize="18"
                                     Foreground="#FF1F3D68" 
-                                    VerticalAlignment="Stretch" TabIndex="11"/>
+                                    VerticalAlignment="Stretch" TabIndex="7"/>
 
 
 
@@ -239,7 +239,7 @@
                                      TextWrapping="Wrap"
                                      AcceptsReturn="True"
                                      VerticalScrollBarVisibility="Visible" 
-                                     MaxLength="400" TabIndex="13" />
+                                     MaxLength="400" TabIndex="8" />
                             </Grid>
                             <Grid x:Name="GridRow5" Grid.Row="5">
                                 <Grid.ColumnDefinitions>
@@ -253,7 +253,7 @@
                         </Grid>
 
                     </TabItem>
-                    <TabItem x:Name="tabItemPagamento" Header="Pagamento">
+                    <TabItem x:Name="tabItemPagamento" Header="Parcelas" TabIndex="9">
                         <Grid x:Name="GridItemPagamento" >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="70"/>
@@ -274,7 +274,7 @@
 
                                 <Button x:Name="btEditar" 
                                     Grid.Row="0"
-                                    Grid.Column="4"
+                                    Grid.Column="1"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                                     Height="60" Width="60" 
                                     Background="#FF1F3D68"
@@ -282,28 +282,10 @@
                                     HorizontalAlignment="Center" 
                                     BorderBrush="#FF1F3D68" 
                                     Click="btEditar_Click" 
-                                    TabIndex="0" 
+                                    TabIndex="11" 
                                     ToolTip="Pagar ou Receber Contas">
                                     <materialDesign:PackIcon 
-                                        Kind="CashCheck"  
-                                        Width="50" 
-                                        Height="50"/>
-                                </Button>
-
-                                <Button x:Name="btCancelarParcela" 
-                                    Grid.Row="0"
-                                    Grid.Column="1"
-                                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                                    Height="60" Width="60" 
-                                    Background="#FF1F3D68"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center" 
-                                        BorderBrush="#FF1F3D68" 
-                                        Click="btCancelarParcela_Click" 
-                                        TabIndex="1" 
-                                        ToolTip="Cancelar Parcela">
-                                    <materialDesign:PackIcon 
-                                        Kind="CashRemove"  
+                                        Kind="Dollar"  
                                         Width="50" 
                                         Height="50"/>
                                 </Button>
@@ -316,9 +298,9 @@
                                     Background="#FF1F3D68"
                                     VerticalAlignment="Bottom"
                                     HorizontalAlignment="Center" BorderBrush="#FF1F3D68"
-                                    ToolTip="Adicionar novas parcelas" Click="btNovasParcelas_Click" Margin="11,0,10.6,5.4">
+                                    ToolTip="Adicionar novas parcelas" Click="btNovasParcelas_Click" Margin="11,0,10.6,5.4" TabIndex="10">
                                     <materialDesign:PackIcon 
-                                        Kind="CashMultiple"  
+                                        Kind="AddBold"  
                                         Width="50" 
                                         Height="50"/>
                                 </Button>
@@ -437,8 +419,7 @@
                                 <DataGrid x:Name="DataGridContaPagamento"  
                                           AutoGenerateColumns="False" 
                                           VerticalScrollBarVisibility="Auto" 
-                                          IsReadOnly="True" 
-                                          MouseDoubleClick="DataGridContaPagamento_MouseDoubleClick" 
+                                          IsReadOnly="True"
                                           TabIndex="6">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoParcelas}" />
@@ -483,6 +464,8 @@
                                     <DataGrid.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem x:Name="MenuItemPagarParcela" Header="Pagar Parcela Selecionada" Click="MenuItemPagarParcela_Click"/>
+                                            <MenuItem x:Name="MenuItemEditarParcela" Header="Editar Parcela" Click="MenuItemEditarParcela_Click"/>
+                                            <MenuItem x:Name="MenuItemCancelarParcela" Header="Cancelar Parcela" Click="MenuItemCancelarParcela_Click"/>
                                         </ContextMenu>
                                     </DataGrid.ContextMenu>
                                 </DataGrid>
@@ -490,7 +473,7 @@
                         </Grid>
 
                     </TabItem>
-                    <TabItem x:Name="tabItemArquivos" Header="Arquivos">
+                    <TabItem x:Name="tabItemArquivos" Header="Arquivos" TabIndex="12">
                         <Grid x:Name="GridArquivos">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="80"/>
@@ -528,7 +511,7 @@
                                         Height="60" Width="60" 
                                         Background="#FF1F3D68" 
                                         VerticalAlignment="Stretch" 
-                                        BorderBrush="#FF1F3D68" Margin="0,10,12.4,10" HorizontalAlignment="Right" Click="btBuscarArquivos_Click">
+                                        BorderBrush="#FF1F3D68" Margin="0,10,12.4,10" HorizontalAlignment="Right" Click="btBuscarArquivos_Click" TabIndex="13">
                                     <materialDesign:PackIcon 
                                         Kind="Upload"  
                                         Width="50" 

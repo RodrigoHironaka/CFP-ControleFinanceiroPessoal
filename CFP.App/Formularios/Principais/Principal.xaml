@@ -39,7 +39,7 @@
 
     <Grid Background="LightGray">
         <Grid x:Name="GridCabecalho" Height="60" VerticalAlignment="Top" Background="#FF1368BD" >
-            <TextBlock x:Name="lblTitulo" Text="CONTROLE FINANCEIRO PESSOAL" 
+            <TextBlock x:Name="lblTitulo" Text="CONTROLE FINANCEIRO" 
                        FontFamily="Champagne &amp; Limousines"
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Center" 

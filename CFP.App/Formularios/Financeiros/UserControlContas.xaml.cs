@@ -999,65 +999,17 @@ namespace CFP.App.Formularios.Financeiros
                                 //conta.ValorTotal =  contaPagamento.Sum(x => x.ValorParcela);
                             }
                         }
-
                         if (Salvar())
                             SalvarFluxo(linhasContaPagamento.ToList());
+
+                        DataGridContaPagamento.Items.Refresh();
+                        CalculoTotalPorSituacaoParcela();
+                        FiltroSituacaoParcelas();
                     }
-                    DataGridContaPagamento.Items.Refresh();
-                    CalculoTotalPorSituacaoParcela();
-                    FiltroSituacaoParcelas();
                 }
             }
             else
                 MessageBox.Show("Selecione uma ou mais Parcelas!", "Mensagem", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void btCancelarParcela_Click(object sender, RoutedEventArgs e)
-        {
-            ContaPagamento selecao = (ContaPagamento)DataGridContaPagamento.SelectedItem;
-            if ((selecao != null) && (selecao.SituacaoParcelas == SituacaoParcela.Pendente || selecao.SituacaoParcelas == SituacaoParcela.Parcial))
-            {
-                MessageBoxResult d = MessageBox.Show("Deseja cancelar esta Parcela?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (d == MessageBoxResult.Yes)
-                {
-                    foreach (var item in conta.ContaPagamentos)
-                    {
-                        if (item == selecao)
-                        {
-                            item.SituacaoParcelas = SituacaoParcela.Cancelado;
-                            RepositorioContaPagamento.Alterar(item);
-                            break;
-                        }
-                    }
-                }
-                DataGridContaPagamento.Items.Refresh();
-                FiltroSituacaoParcelas();
-                CalculoTotalPorSituacaoParcela();
-            }
-            else
-                MessageBox.Show("Voce não pode cancelar esta Parcela!", " Informacão ", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
-        private void DataGridContaPagamento_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ContaPagamento selecao = (ContaPagamento)DataGridContaPagamento.SelectedItem;
-            //bool sitParcela = selecao.SituacaoParcelas == SituacaoParcela.Pago ? true : false;
-            ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(true, selecao, Session);
-            bool? res = janela.ShowDialog();
-            if ((bool)res)
-            {
-                //contaPagamento.Remove(selecao);
-                //contaPagamento.Add(selecao);
-                List<ContaPagamento> lista = new List<ContaPagamento>();
-                lista.Add(selecao);
-
-                if (Salvar())
-                    SalvarFluxo(lista);
-
-                DataGridContaPagamento.Items.Refresh();
-                CalculoTotalPorSituacaoParcela();
-                FiltroSituacaoParcelas();
-            }
         }
 
         private void chkPagos_Click(object sender, RoutedEventArgs e)
@@ -1281,6 +1233,51 @@ namespace CFP.App.Formularios.Financeiros
         private void MenuItemPagarParcela_Click(object sender, RoutedEventArgs e)
         {
             btEditar_Click(sender, e);
+        }
+
+        private void MenuItemEditarParcela_Click(object sender, RoutedEventArgs e)
+        {
+            ContaPagamento selecao = (ContaPagamento)DataGridContaPagamento.SelectedItem;
+            ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(true, selecao, Session);
+            bool? res = janela.ShowDialog();
+            if ((bool)res)
+            {
+                List<ContaPagamento> lista = new List<ContaPagamento>();
+                lista.Add(selecao);
+
+                if (Salvar())
+                    SalvarFluxo(lista);
+
+                DataGridContaPagamento.Items.Refresh();
+                CalculoTotalPorSituacaoParcela();
+                FiltroSituacaoParcelas();
+            }
+        }
+
+        private void MenuItemCancelarParcela_Click(object sender, RoutedEventArgs e)
+        {
+            ContaPagamento selecao = (ContaPagamento)DataGridContaPagamento.SelectedItem;
+            if ((selecao != null) && (selecao.SituacaoParcelas == SituacaoParcela.Pendente || selecao.SituacaoParcelas == SituacaoParcela.Parcial))
+            {
+                MessageBoxResult d = MessageBox.Show("Deseja cancelar esta Parcela?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (d == MessageBoxResult.Yes)
+                {
+                    foreach (var item in conta.ContaPagamentos)
+                    {
+                        if (item == selecao)
+                        {
+                            item.SituacaoParcelas = SituacaoParcela.Cancelado;
+                            RepositorioContaPagamento.Alterar(item);
+                            break;
+                        }
+                    }
+                }
+                DataGridContaPagamento.Items.Refresh();
+                FiltroSituacaoParcelas();
+                CalculoTotalPorSituacaoParcela();
+            }
+            else
+                MessageBox.Show("Voce não pode cancelar esta Parcela!", " Informacão ", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

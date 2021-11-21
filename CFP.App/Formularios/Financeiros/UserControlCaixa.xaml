@@ -187,7 +187,8 @@
                                      AutoGenerateColumns="False" 
                                      Grid.Column="0" 
                                      Background="white"
-                                     Margin="0 0 5 0" IsReadOnly="True">
+                                     Margin="0 0 5 0" 
+                                          IsReadOnly="True">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Forma de Pagamento" Width="200" Binding="{Binding FormaPagamento}" />
                                         <DataGridTextColumn Header="Valor Total" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
@@ -328,6 +329,6 @@
                 </TabItem>
             </TabControl>
         </Grid>
-        <StackPanel x:Name="panelCadastro" Width="auto" Height="auto" Grid.RowSpan="2"/>
+        <Grid x:Name="GridCadastro" Width="auto" Height="auto" Grid.RowSpan="2"/>
     </Grid>
 </UserControl>
