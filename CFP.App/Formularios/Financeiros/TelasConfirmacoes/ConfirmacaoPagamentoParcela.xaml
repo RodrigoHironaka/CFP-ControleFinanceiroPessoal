@@ -18,14 +18,21 @@
                 <RowDefinition Height="280"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="#FF1F3D68"/>
+            <Grid Grid.Row="0" Background="#FF1F3D68">
+                <TextBlock x:Name="txtTituloTela"
+                            FontFamily="Champagne &amp; Limousines" 
+                            FontSize="18"
+                            Foreground="White"
+                           HorizontalAlignment="Center"
+                           Margin="0 20 0 0"/>
+            </Grid>
             <Grid Grid.Row="1" Background="LightSlateGray"/>
         </Grid>
         <Grid>
-            <Border Margin="35,35,35,42"  
+            <Border Margin="35,50,35,30"  
                     Background="LightGray" 
                     Opacity="0.9"
-                    CornerRadius="50 50 50 50"
+                    CornerRadius="25"
                     BorderBrush="#FF1F3D68">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
@@ -39,43 +46,54 @@
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBox
-                  x:Name="txtCodigoConta"
-                  Grid.Column="0"
-                  materialDesign:HintAssist.Hint="Códido Conta" 
-                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                  FontFamily="Champagne &amp; Limousines" 
-                  FontSize="18"
-                  Foreground="#FF1F3D68"
-                  VerticalAlignment="Center" IsReadOnly="True" 
-                 />
+                                x:Name="txtCodigoConta"
+                                Grid.Column="0"
+                                materialDesign:HintAssist.Hint="Conta" 
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                FontFamily="Champagne &amp; Limousines" 
+                                FontSize="18"
+                                Foreground="#FF1F3D68"
+                                VerticalAlignment="Center" 
+                                IsReadOnly="True"/>
                         <TextBox
-                  x:Name="txtNumeroParcela"
-                  Grid.Column="1"
-                  materialDesign:HintAssist.Hint="Numero Parcela" 
-                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                  FontFamily="Champagne &amp; Limousines" 
-                  FontSize="18"
-                  Foreground="#FF1F3D68"
-                  VerticalAlignment="Center" IsReadOnly="True"/>
-                    </Grid>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                                x:Name="txtNumeroParcela"
+                                Grid.Column="1"
+                                materialDesign:HintAssist.Hint="Numero Parcela" 
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                FontFamily="Champagne &amp; Limousines" 
+                                FontSize="18"
+                                Foreground="#FF1F3D68"
+                                VerticalAlignment="Center" IsReadOnly="True"/>
+
                         <TextBox
                              x:Name="txtValorParcela"
-                             Grid.Column="0"
+                             Grid.Column="2"
                              materialDesign:HintAssist.Hint="Valor Parcela" 
                              Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                              FontFamily="Champagne &amp; Limousines" 
                              FontSize="18"
                              Foreground="#FF1F3D68"
                              VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <DatePicker
+                             x:Name="txtDataVencimento"
+                             Grid.Column="0"
+                             materialDesign:HintAssist.Hint="Data Vencimento" 
+                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                             FontFamily="Champagne &amp; Limousines" 
+                             FontSize="18"
+                             Foreground="#FF1F3D68"
+                             VerticalAlignment="Center" TabIndex="0" />
 
                         <DatePicker
                              x:Name="txtDataPagamento"
@@ -164,7 +182,8 @@
                             FontFamily="Champagne &amp; Limousines" 
                             FontSize="18"
                             Foreground="#FF1F3D68"
-                            VerticalAlignment="Center"/>
+                            VerticalAlignment="Center"
+                            IsReadOnly="True"/>
                         <TextBox
                             x:Name="txtValorPago"
                             Grid.Column="1"
@@ -173,7 +192,11 @@
                             FontFamily="Champagne &amp; Limousines" 
                             FontSize="18"
                             Foreground="#FF1F3D68"
-                            VerticalAlignment="Center" KeyDown="txtValorPago_KeyDown" TabIndex="5" PreviewTextInput="txtValorPago_PreviewTextInput" PreviewKeyDown="txtValorPago_PreviewKeyDown"/>
+                            VerticalAlignment="Center" 
+                            KeyDown="txtValorPago_KeyDown" 
+                            TabIndex="5" 
+                            PreviewTextInput="txtValorPago_PreviewTextInput" 
+                            PreviewKeyDown="txtValorPago_PreviewKeyDown"/>
                     </Grid>
                     <Grid Grid.Row="5">
                         <Grid.ColumnDefinitions>
@@ -188,7 +211,8 @@
                             FontFamily="Champagne &amp; Limousines" 
                             FontSize="18"
                             Foreground="#FF1F3D68"
-                            VerticalAlignment="Center" IsReadOnly="True" />
+                            VerticalAlignment="Center" 
+                            IsReadOnly="True"/>
 
                         <ComboBox 
                             x:Name="cmbFormaPagamento"

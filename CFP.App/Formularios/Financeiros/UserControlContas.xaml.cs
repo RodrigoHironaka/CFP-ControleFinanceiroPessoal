@@ -785,7 +785,7 @@ namespace CFP.App.Formularios.Financeiros
                     else
                         caixa.ValorInicial = 0;
 
-                    caixa.Codigo = Repositorio.RetornaUltimoCodigo() + 1;
+                    caixa.Codigo = RepositorioCaixa.RetornaUltimoCodigo() + 1;
                     caixa.DataAbertura = DateTime.Now;
                     caixa.UsuarioAbertura = MainWindow.UsuarioLogado;
                     RepositorioCaixa.Salvar(caixa);
@@ -908,10 +908,6 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
         {
-            //if ((TipoPeriodo)cmbTipoPeriodo.SelectedIndex == TipoPeriodo.Unica && DataGridContaPagamento.ItemsSource == null)
-            //{
-            //    GerarParcelas(txtValorTotal.Text, "1", txtPrimeiroVencimento.SelectedDate.Value);
-            //}
             if (Salvar())
             {
                 tabItemGeral.IsSelected = true;
@@ -952,22 +948,6 @@ namespace CFP.App.Formularios.Financeiros
             }
         }
 
-        //private void txtQtdParcelas_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        //{
-        //    e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
-        //}
-
-        //private void txtQtdParcelas_PreviewKeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.Key == Key.Space)
-        //        e.Handled = true;
-        //}
-
-        //private void txtValorTotal_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        //{
-        //    e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
-        //}
-
         private void txtValorParcela_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
@@ -978,32 +958,6 @@ namespace CFP.App.Formularios.Financeiros
             if (e.Key == Key.Space)
                 e.Handled = true;
         }
-
-        //private void txtValorTotal_PreviewKeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.Key == Key.Space)
-        //        e.Handled = true;
-        //}
-
-        //private void txtPrimeiroVencimento_LostFocus(object sender, RoutedEventArgs e)
-        //{
-        //    if (txtPrimeiroVencimento.SelectedDate < txtEmissao.SelectedDate)
-        //    {
-        //        MessageBox.Show("Data de vencimento não pode ser menor que data de emissão!");
-        //        return;
-        //    }
-        //}
-
-        //private void btGerarParcelas_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if (ValidaCampos())
-        //    {
-        //        GerarParcelas(txtValorTotal.Text, txtQtdParcelas.Text, txtPrimeiroVencimento.SelectedDate.Value);
-        //        Salvar();
-        //    }
-        //}
-
-
 
         private void btEditar_Click(object sender, RoutedEventArgs e)
         {
@@ -1041,8 +995,9 @@ namespace CFP.App.Formularios.Financeiros
                             {
                                 parcelaAtualizada.Numero++;
                                 contaPagamento.Add(parcelaAtualizada);
+                                conta.QtdParcelas = contaPagamento.Count();
+                                //conta.ValorTotal =  contaPagamento.Sum(x => x.ValorParcela);
                             }
-
                         }
 
                         if (Salvar())
@@ -1083,21 +1038,26 @@ namespace CFP.App.Formularios.Financeiros
                 MessageBox.Show("Voce não pode cancelar esta Parcela!", " Informacão ", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void DataGridContaPagamento_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            //Neste exemplo pego o valor de uma coluna
-            //if (DataGridContaPagamento.SelectedItem != null)
-            //{
-            //    ContaPagamento id = (ContaPagamento)DataGridContaPagamento.SelectedItem;
-            //    MessageBox.Show(id.ValorParcela.ToString());
-
-            //}
-
-        }
-
         private void DataGridContaPagamento_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            btEditar_Click(sender, e);
+            ContaPagamento selecao = (ContaPagamento)DataGridContaPagamento.SelectedItem;
+            //bool sitParcela = selecao.SituacaoParcelas == SituacaoParcela.Pago ? true : false;
+            ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(true, selecao, Session);
+            bool? res = janela.ShowDialog();
+            if ((bool)res)
+            {
+                //contaPagamento.Remove(selecao);
+                //contaPagamento.Add(selecao);
+                List<ContaPagamento> lista = new List<ContaPagamento>();
+                lista.Add(selecao);
+
+                if (Salvar())
+                    SalvarFluxo(lista);
+
+                DataGridContaPagamento.Items.Refresh();
+                CalculoTotalPorSituacaoParcela();
+                FiltroSituacaoParcelas();
+            }
         }
 
         private void chkPagos_Click(object sender, RoutedEventArgs e)
@@ -1301,7 +1261,7 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btNovasParcelas_Click(object sender, RoutedEventArgs e)
         {
-            NovasParcelas janela = new NovasParcelas(conta, Session);
+            NovasParcelas janela = new NovasParcelas((TipoPeriodo)cmbTipoPeriodo.SelectedItem, conta, Session);
             bool? res = janela.ShowDialog();
             if ((bool)res)
             {
@@ -1318,18 +1278,9 @@ namespace CFP.App.Formularios.Financeiros
             }
         }
 
-        private void MenuItemHabilitaEdicao_Click(object sender, RoutedEventArgs e)
+        private void MenuItemPagarParcela_Click(object sender, RoutedEventArgs e)
         {
-            if(DataGridContaPagamento.IsReadOnly == true)
-            {
-                MenuItemHabilitaEdicao.Header = "Desabilitar Edição";
-                DataGridContaPagamento.IsReadOnly = false;
-            }
-            else
-            {
-                MenuItemHabilitaEdicao.Header = "Habilitar Edição";
-                DataGridContaPagamento.IsReadOnly = true;
-            }
+            btEditar_Click(sender, e);
         }
     }
 }

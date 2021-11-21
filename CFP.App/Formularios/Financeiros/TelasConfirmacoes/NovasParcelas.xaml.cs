@@ -33,12 +33,34 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         ISession Session;
         public ObservableCollection<ContaPagamento> contaPagamento = new ObservableCollection<ContaPagamento>();
         public Conta conta;
+        TipoPeriodo tipo;
 
-        public NovasParcelas(Conta _conta, ISession _session)
+        #region Verificando tipo período
+        private void TipoPeriodoDefinido()
+        {
+            switch (tipo)
+            {
+                case (TipoPeriodo.Unica):
+                    txtQtd.Text = "1";
+                    txtQtd.IsEnabled = false;
+                    break;
+                case (TipoPeriodo.Mensal):
+                    txtQtd.Clear();
+                    txtQtd.IsEnabled = true;
+                    break;
+                case (TipoPeriodo.Fixa):
+                    txtQtd.Clear();
+                    txtQtd.IsEnabled = true;
+                    break;
+            }
+        }
+        #endregion
+        public NovasParcelas(TipoPeriodo _tipo, Conta _conta, ISession _session)
         {
             InitializeComponent();
             Session = _session;
             conta = _conta;
+            tipo = _tipo;
         }
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
@@ -50,6 +72,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             }
             else
             {
+
                 txtAlerta.Text = string.Empty;
                 try
                 {
@@ -67,23 +90,12 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                             numero++;
                             contaPagamento.Add(new ContaPagamento()
                             {
-                                
                                 SituacaoParcelas = SituacaoParcela.Pendente,
                                 Conta = conta,
                                 Numero = (int)numero,
-                                ValorParcela = !(i + 1 == qtdParcelas) ? valorParcela : valorParcela + valorDiferenca,
+                                ValorParcela = tipo != TipoPeriodo.Fixa ? !(i + 1 == qtdParcelas) ? valorParcela : valorParcela + valorDiferenca : valorTotal,
                                 DataVencimento = dataPrimeiroVencimento.AddMonths(i)
-                            }) ;
-
-                            #region Outra Opcao 
-                            //var contaPagamentoNovo = new ContaPagamento();
-                            //contaPagamentoNovo.SituacaoParcelas = SituacaoParcela.Pendente;
-                            //contaPagamentoNovo.Conta = conta;
-                            //contaPagamentoNovo.Numero = new RepositorioContaPagamento(Session).ObterPorParametros(x => x.Conta.Id == conta.Id).Select(x => x.Numero).Count() + 1;
-                            //contaPagamentoNovo.ValorParcela = Decimal.Parse(!(i + 1 == qtdParcelas) ? valorParcela.ToString() : (valorParcela + valorDiferenca).ToString());
-                            //contaPagamentoNovo.DataVencimento = dataPrimeiroVencimento.AddMonths(i);
-                            //Repositorio.Salvar(contaPagamentoNovo);
-                            #endregion
+                            });
                         }
                         conta.ValorTotal = conta.ValorTotal != null ? conta.ValorTotal + valorTotal : valorTotal;
                         conta.QtdParcelas = conta.QtdParcelas != null ? conta.QtdParcelas + qtdParcelas : qtdParcelas;
@@ -100,6 +112,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     else
                         throw new Exception(ex.Message.ToString());
                 }
+
+
             }
         }
 
@@ -110,6 +124,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            TipoPeriodoDefinido();
             dtpVencimento.SelectedDate = DateTime.Now;
         }
 

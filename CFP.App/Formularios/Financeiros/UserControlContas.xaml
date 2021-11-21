@@ -131,7 +131,7 @@
                                     <ColumnDefinition Width="130"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <ComboBox
                                     x:Name="cmbTipoConta"
                                     Grid.Column="0"
@@ -240,16 +240,16 @@
                                      AcceptsReturn="True"
                                      VerticalScrollBarVisibility="Visible" 
                                      MaxLength="400" TabIndex="13" />
-                               </Grid>
+                            </Grid>
                             <Grid x:Name="GridRow5" Grid.Row="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                
 
-                               </Grid>
-                            
+
+                            </Grid>
+
                         </Grid>
 
                     </TabItem>
@@ -314,9 +314,9 @@
                                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                                     Height="60" Width="60" 
                                     Background="#FF1F3D68"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Bottom"
                                     HorizontalAlignment="Center" BorderBrush="#FF1F3D68"
-                                    ToolTip="Adicionar novas parcelas" Click="btNovasParcelas_Click">
+                                    ToolTip="Adicionar novas parcelas" Click="btNovasParcelas_Click" Margin="11,0,10.6,5.4">
                                     <materialDesign:PackIcon 
                                         Kind="CashMultiple"  
                                         Width="50" 
@@ -482,7 +482,7 @@
                                     </DataGrid.Columns>
                                     <DataGrid.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem x:Name="MenuItemHabilitaEdicao" Header="Habilita Edição" Click="MenuItemHabilitaEdicao_Click"/>
+                                            <MenuItem x:Name="MenuItemPagarParcela" Header="Pagar Parcela Selecionada" Click="MenuItemPagarParcela_Click"/>
                                         </ContextMenu>
                                     </DataGrid.ContextMenu>
                                 </DataGrid>
