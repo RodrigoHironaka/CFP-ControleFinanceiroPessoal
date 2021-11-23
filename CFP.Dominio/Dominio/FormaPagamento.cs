@@ -15,5 +15,6 @@ namespace Dominio.Dominio
         public virtual Int32 DiasParaVencimento { get; set; }
         public virtual Situacao Situacao { get; set; }
         public virtual SimNao TransacoesBancarias { get; set; }
+        public virtual SimNao UsadoParaCompras { get; set; }
     }
 }

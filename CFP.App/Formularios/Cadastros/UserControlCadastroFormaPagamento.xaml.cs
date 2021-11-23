@@ -116,6 +116,7 @@ namespace CFP.App.Formularios.Cadastros
                 formaPagamento.DiasParaVencimento = Int32.Parse(txtDiasVencimento.Text);
                 formaPagamento.Situacao = (Situacao)cmbSituacao.SelectedIndex;
                 formaPagamento.TransacoesBancarias = (bool)chkTransacaoBancaria.IsChecked ? SimNao.Sim : SimNao.Não;
+                formaPagamento.UsadoParaCompras = (bool)chkUsadoParaCompras.IsChecked ? SimNao.Sim : SimNao.Não;
                 return true;
             }
             catch
@@ -137,6 +138,8 @@ namespace CFP.App.Formularios.Cadastros
                 txtDiasVencimento.Text = formaPagamento.DiasParaVencimento.ToString();
                 cmbSituacao.SelectedIndex = formaPagamento.Situacao.GetHashCode();
                 chkTransacaoBancaria.IsChecked = formaPagamento.TransacoesBancarias == SimNao.Sim ? chkTransacaoBancaria.IsChecked = true : chkTransacaoBancaria.IsChecked = false;
+                chkUsadoParaCompras.IsChecked = formaPagamento.UsadoParaCompras == SimNao.Sim ? chkUsadoParaCompras.IsChecked = true : chkUsadoParaCompras.IsChecked = false;
+
             }
         }
         #endregion

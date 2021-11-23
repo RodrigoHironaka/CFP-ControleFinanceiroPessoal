@@ -106,7 +106,9 @@
                                     Grid.Column="0"  Grid.RowSpan="2" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" 
-                                    ToolTip="Visualização das conta a pagar">
+                                    ToolTip="Visualização das conta a pagar"
+                                    Background="#FF1F3D68"
+                                    BorderBrush="#FF1F3D68">
                                 <materialDesign:PackIcon
                                             Kind="AccountCash"
                                             Width="90"
@@ -123,7 +125,8 @@
                                        Style="{StaticResource MaterialDesignTextBlock}"
                                        Foreground="#FF1F3D68"
                                        Margin="5,5,0,0"/>
-                            <TextBlock Text="R$ 0,00" 
+                            <TextBlock x:Name="txtValorTotalPagar"
+                                       Text="R$ 0,00" 
                                        Grid.Row="1" Grid.Column="1"
                                        HorizontalAlignment="Center" 
                                        VerticalAlignment="Center"
@@ -161,7 +164,9 @@
                                     Grid.Column="0"  Grid.RowSpan="2" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" 
-                                    ToolTip="Visualização das conta a receber">
+                                    ToolTip="Visualização das conta a receber"
+                                    Background="#FF1F3D68"
+                                    BorderBrush="#FF1F3D68">
                                 <materialDesign:PackIcon
                                             Kind="AccountCash"
                                             Width="90"
@@ -178,7 +183,8 @@
                                        Style="{StaticResource MaterialDesignTextBlock}"
                                        Foreground="#FF1F3D68"
                                        Margin="5,5,0,0"/>
-                            <TextBlock Text="R$ 0,00" 
+                            <TextBlock x:Name="txtValorTotalReceber"
+                                       Text="R$ 0,00" 
                                        Grid.Row="1" Grid.Column="1"
                                        HorizontalAlignment="Center" 
                                        VerticalAlignment="Center"
@@ -193,7 +199,7 @@
                         </Grid>
                     </Border>
 
-                    <!--Total-->
+                    <!--Total--><!--
                     <Border Margin="10 20 10 10" 
                                 Grid.Column="4" Grid.ColumnSpan="2" 
                                 Background="Azure" 
@@ -209,14 +215,15 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!--A receber -->
+                            --><!--A receber --><!--
                             <Button x:Name="btVisualizarTotal"
                                     Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
                                     Height="90" Width="90"
                                     Grid.Column="0"  Grid.RowSpan="2" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" 
-                                    ToolTip="Visualização das conta a receber">
+                                    ToolTip="Visualização das conta a receber"
+                                    Background="#FF1F3D68">
                                 <materialDesign:PackIcon
                                             Kind="Dollar"
                                             Width="90"
@@ -242,16 +249,16 @@
                                        Style="{StaticResource MaterialDesignTextBlock}"
                                        Foreground="#FF1F3D68"
                                        Margin="5,5,0,0"/>
-                            <!--Fim a receber -->
+                            --><!--Fim a receber --><!--
 
 
                         </Grid>
-                    </Border>
+                    </Border>-->
 
                     <!--Backup-->
                     <Border Margin="10 20 10 10" 
-                            Grid.Row="1"
-                                Grid.Column="0" Grid.ColumnSpan="2" 
+                            Grid.Row="0"
+                                Grid.Column="4" Grid.ColumnSpan="2" 
                                 Background="Azure" 
                                 VerticalAlignment="Stretch" 
                                 CornerRadius="20">
@@ -272,7 +279,9 @@
                                     Grid.Column="0"  Grid.RowSpan="2" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" 
-                                    ToolTip="Visualização das conta a receber">
+                                    ToolTip="Visualização das conta a receber"
+                                    Background="#FF1F3D68"
+                                    BorderBrush="#FF1F3D68">
                                 <materialDesign:PackIcon
                                             Kind="CreditCardMultiple"
                                             Width="90"
@@ -289,7 +298,8 @@
                                        Style="{StaticResource MaterialDesignTextBlock}"
                                        Foreground="#FF1F3D68"
                                        Margin="5,5,0,0"/>
-                            <TextBlock Text="R$ 0,00" 
+                            <TextBlock x:Name="txtValorTotalCartoes" 
+                                       Text="R$ 0,00" 
                                        Grid.Row="1" Grid.Column="1"
                                        HorizontalAlignment="Center" 
                                        VerticalAlignment="Center"
@@ -304,7 +314,7 @@
                         </Grid>
                     </Border>
 
-                    <!--Backup-->
+                    <!--Backup--><!--
                     <Border Margin="10 20 10 10" 
                             Grid.Row="1"
                                 Grid.Column="2" Grid.ColumnSpan="2" 
@@ -321,7 +331,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <!--Backup -->
+                            --><!--Backup --><!--
                             <Button x:Name="btBackup"
                                     Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
                                     Height="90" Width="90"
@@ -354,11 +364,11 @@
                                        Style="{StaticResource MaterialDesignTextBlock}"
                                        Foreground="#FF1F3D68"
                                        Margin="5,5,0,0"/>
-                            <!--Fim Backup -->
+                            --><!--Fim Backup --><!--
 
 
                         </Grid>
-                    </Border>
+                    </Border>-->
 
                     <!--Alerta Atraso-->
                     <Border Margin="10 20 10 10" 
@@ -384,7 +394,9 @@
                                     Grid.Column="0"  Grid.RowSpan="2" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" 
-                                    ToolTip="Visualização das conta a receber">
+                                    ToolTip="Visualização das conta a receber"
+                                    Background="#FF1F3D68"
+                                    BorderBrush="#FF1F3D68">
                                 <materialDesign:PackIcon
                                             Kind="Alert"
                                             Width="90"

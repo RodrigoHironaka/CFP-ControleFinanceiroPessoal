@@ -29,6 +29,7 @@ namespace Repositorio.Mapeamentos
             Property(x => x.DataAlteracao);
             Property(x => x.Situacao, m => m.Type<EnumType<Situacao>>());
             Property(x => x.TransacoesBancarias, m => m.Type<EnumType<SimNao>>());
+            Property(x => x.UsadoParaCompras, m => m.Type<EnumType<SimNao>>());
         }
     }
 }

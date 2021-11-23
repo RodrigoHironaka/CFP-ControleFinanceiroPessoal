@@ -4,12 +4,15 @@ using CFP.App.Formularios.Financeiros.Consultas;
 using CFP.App.Formularios.ModeloBase.UserControls;
 using CFP.App.Formularios.Principais;
 using CFP.Dominio.Dominio;
+using CFP.Dominio.ObjetoValor;
 using CFP.Ferramentas;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
+using Dominio.ObjetoValor;
 using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using NHibernate;
+using Repositorio.Repositorios;
 using SGE.Repositorio.Configuracao;
 using System;
 using System.IO.Compression;
@@ -43,6 +46,38 @@ namespace CFP.App
                 }
                 return session;
             }
+        }
+        #endregion
+
+        #region Resumo
+        public void ResumoTela()
+        {
+            DateTime data = DateTime.Today;
+            DateTime primeiroDia = new DateTime(data.Year, data.Month, 1);
+            DateTime ultimoDia = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
+
+            txtValorTotalPagar.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
+                .ObterTodos()
+                .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente ||
+                x.SituacaoParcelas == SituacaoParcela.Parcial) &&
+                x.Conta.TipoConta == TipoConta.Pagar && x.DataVencimento >= primeiroDia && x.DataVencimento <= ultimoDia)
+                .Sum(x => x.ValorParcela));
+            txtValorTotalReceber.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
+                .ObterTodos()
+                .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
+                x.Conta.TipoConta == TipoConta.Receber && x.DataVencimento >= primeiroDia && x.DataVencimento <= ultimoDia)
+                .Sum(x => x.ValorParcela));
+
+            txtValorTotalCartoes.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
+                .ObterTodos()
+                .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente ||
+                x.SituacaoParcelas == SituacaoParcela.Parcial) &&
+                x.Conta.TipoConta == TipoConta.Pagar &&
+                x.DataVencimento >= primeiroDia && 
+                x.DataVencimento <= ultimoDia && 
+                x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim)
+                .Sum(x => x.ValorParcela));
+
         }
         #endregion
 
@@ -120,6 +155,7 @@ namespace CFP.App
                 Close();
             }
             #endregion
+            ResumoTela();
         }
 
         private void ButtonConfiguracoes_Click(object sender, RoutedEventArgs e)
