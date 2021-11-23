@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CFP.App.Formularios.Cadastros
+namespace CFP.App.Formularios.Financeiros
 {
     /// <summary>
-    /// Interação lógica para PageCadastroFormaPagamento.xam
+    /// Interação lógica para CartoesCredito.xam
     /// </summary>
-    public partial class PageCadastroFormaPagamento : Page
+    public partial class CartoesCredito : UserControl
     {
-        public PageCadastroFormaPagamento()
+        public CartoesCredito()
         {
             InitializeComponent();
         }

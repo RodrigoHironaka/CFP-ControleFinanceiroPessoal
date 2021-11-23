@@ -65,265 +65,358 @@
 
             <Grid Margin="60,50,0,-539" >
                 <!--Botoes-->
-                 <Grid x:Name="GridBotoesCadastros"  >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <Grid x:Name="GridBotoesCadastros"  >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-            <!--Financeiro -->
-                    <Button x:Name="btCaixa"
-                Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="1" Grid.Row="1" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch" 
-                    ToolTip="Visualização do Caixa"
-                    Margin="10 0 10 0" Click="btCaixa_Click">
-                        <materialDesign:PackIcon
-                    Kind="CashRegister"
-                    Width="70"
-                    Height="80"
-                    Foreground="#FF1F3D68"/>
-                    </Button>
-                    <Label 
-                Grid.Column="1" Grid.Row="1" 
-                Content="Caixa" 
-                Foreground="#FF1F3D68" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="18"/>
+                    <!--Resumo -->
 
-                    <Button x:Name="btCofre"
-                 Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="2" Grid.Row="1" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch" 
-                    ToolTip="Visualização do Cofre"
-                    Margin="10 0 10 0" Click="btCofre_Click">
-                        <materialDesign:PackIcon
-                    Kind="SafeSquare"
-                    Width="70"
-                    Height="80"
-                    Foreground="#FF1F3D68"/>
+                    <!--Pagar -->
+                    <Border Margin="10 20 10 10" 
+                                Grid.Column="0" Grid.ColumnSpan="2" 
+                                Background="Azure" 
+                                VerticalAlignment="Stretch" 
+                                CornerRadius="20">
+                        <Grid Margin="20 0 20 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                    </Button>
-                    <Label 
-                Grid.Column="2" Grid.Row="1" 
-                Content="Cofre" 
-                Foreground="#FF1F3D68" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="18"/>
+                            <!--A pagar -->
+                            <Button x:Name="btApagar"
+                                    Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
+                                    Height="90" Width="90"
+                                    Grid.Column="0"  Grid.RowSpan="2" 
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" 
+                                    ToolTip="Visualização das conta a pagar">
+                                <materialDesign:PackIcon
+                                            Kind="AccountCash"
+                                            Width="90"
+                                            Height="90"
+                                            Background="#FF1F3D68"
+                                            Foreground="White"/>
+                            </Button>
+                            <TextBlock Text="A PAGAR" 
+                                       Grid.Row="0" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <TextBlock Text="R$ 0,00" 
+                                       Grid.Row="1" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <!--Fim a pagar -->
 
-                    <Button x:Name="BtConta"
-                 Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="3" Grid.Row="1" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch" 
-                    ToolTip="Cadastro de Contas"
-                    Margin="10 0 10 0"
-                    Click="BtConta_Click">
-                        <materialDesign:PackIcon
-                    Kind="AccountCash"
-                    Width="70"
-                    Height="80"
-                    Foreground="#FF1F3D68"/>
-                    </Button>
-                    <Label 
-                Grid.Column="3" Grid.Row="1" 
-                Content="Contas" 
-                Foreground="#FF1F3D68" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="18"/>
+                            
+                        </Grid>
+                    </Border>
 
-                    <Button x:Name="btHorasTrabalho"
-                 Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="4" Grid.Row="1" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch" 
-                    ToolTip="Cadastro de Hora Extra"
-                    Margin="10 0 10 0" Click="btHorasTrabalho_Click">
-                        <materialDesign:PackIcon
-                    Kind="PointOfSale"
-                    Width="70"
-                    Height="80"
-                    Foreground="#FF1F3D68"/>
-                    </Button>
-                    <Label 
-                Grid.Column="4" Grid.Row="1" 
-                Content="Hora Extra" 
-                Foreground="#FF1F3D68" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="18"/>
-                    <!--Fim Financeiro -->
-                     
-            <!--Cadastros -->      
-            <Button x:Name="btPessoa" 
-                    Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="0" Grid.Row="2" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Click="btPessoa_Click"
-                    ToolTip="Cadastro de Pessoas"
-                    Margin="10 0 10 0">
-                <materialDesign:PackIcon
-                    Kind="PeopleAdd"
-                     Width="80"
-                    Height="80"
-                    Foreground="#FF1F3D68"/>
-            </Button>
-            <Label 
-                Grid.Column="0" Grid.Row="2" 
-                Content="Pessoas" 
-                Foreground="#FF1F3D68" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="18"/>
+                    <!--Receber -->
+                    <Border Margin="10 20 10 10" 
+                                Grid.Column="2" Grid.ColumnSpan="2" 
+                                Background="Azure" 
+                                VerticalAlignment="Stretch" 
+                                CornerRadius="20">
+                        <Grid Margin="20 0 20 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-            <Button x:Name="btTipoRenda" 
-                    Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="1" Grid.Row="2"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Click="btTipoRenda_Click"
-                    ToolTip="Cadastro de Rendas"
-                    Margin="10 0 10 0">
-                <materialDesign:PackIcon
-                    Kind="Payment"
-                      Width="80"
-                    Height="80"
-                    Foreground="#FF1F3D68"/>
-            </Button>
-            <Label 
-                Grid.Column="1" Grid.Row="2" 
-                Content="Rendas" 
-                Foreground="#FF1F3D68" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="18"/>
+                            <!--A receber -->
+                            <Button x:Name="btReceber"
+                                    Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
+                                    Height="90" Width="90"
+                                    Grid.Column="0"  Grid.RowSpan="2" 
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" 
+                                    ToolTip="Visualização das conta a receber">
+                                <materialDesign:PackIcon
+                                            Kind="AccountCash"
+                                            Width="90"
+                                            Height="90"
+                                            Background="#FF1F3D68"
+                                            Foreground="White"/>
+                            </Button>
+                            <TextBlock Text="A RECEBER" 
+                                       Grid.Row="0" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <TextBlock Text="R$ 0,00" 
+                                       Grid.Row="1" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <!--Fim a receber -->
 
-           
 
-            <Button x:Name="btTipoGasto"
-                 Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="3" Grid.Row="2" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                     Click="btTipoGasto_Click"
-                     ToolTip="Cadastro de Gastos"
-                     Margin="10 0 10 0">
-                <materialDesign:PackIcon
-                    Kind="Group"
-                    Width="70"
-                    Height="80"
-                    Foreground="#FF1F3D68"/>
-            </Button>
-            <Label 
-                Grid.Column="3" Grid.Row="2" 
-                Content="Gastos" 
-                Foreground="#FF1F3D68" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="18"/>
+                        </Grid>
+                    </Border>
 
-            <Button x:Name="btTipoSubGasto"
-               Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="4" Grid.Row="2" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Click="btTipoSubGasto_Click" 
-                    ToolTip="Cadastro de SubGastos"
-                    Margin="10 0 10 0">
-                <materialDesign:PackIcon
-                    Kind="Group"
-                    Width="70"
-                    Height="80"
-                    Foreground="#FF1F3D68"/>
-            </Button>
-            <Label 
-                Grid.Column="4" Grid.Row="2" 
-                Content="SubGastos" 
-                Foreground="#FF1F3D68" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="18"/>
+                    <!--Total-->
+                    <Border Margin="10 20 10 10" 
+                                Grid.Column="4" Grid.ColumnSpan="2" 
+                                Background="Azure" 
+                                VerticalAlignment="Stretch" 
+                                CornerRadius="20">
+                        <Grid Margin="20 0 20 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-            <Button x:Name="btFormaPagamento"
-                    Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="5" Grid.Row="2" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Click="btFormaPagamento_Click"
-                     ToolTip="Cadastro de Formas de Pagamento"
-                    Margin="10 0 10 0">
-                <materialDesign:PackIcon
-                    Kind="CurrencyUsd"
-                    Width="70"
-                    Height="80"
-                    Foreground="#FF1F3D68"/>
-            </Button>
-            <Label 
-                Grid.Column="5" Grid.Row="2" 
-                Content="F. Pagamentos" 
-                Foreground="#FF1F3D68" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="18"/>
+                            <!--A receber -->
+                            <Button x:Name="btVisualizarTotal"
+                                    Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
+                                    Height="90" Width="90"
+                                    Grid.Column="0"  Grid.RowSpan="2" 
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" 
+                                    ToolTip="Visualização das conta a receber">
+                                <materialDesign:PackIcon
+                                            Kind="Dollar"
+                                            Width="90"
+                                            Height="90"
+                                            Background="#FF1F3D68"
+                                            Foreground="White"/>
+                            </Button>
+                            <TextBlock Text="TOTAL" 
+                                       Grid.Row="0" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <TextBlock Text="R$ 0,00" 
+                                       Grid.Row="1" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <!--Fim a receber -->
 
-            <Button x:Name="btBanco"
-                Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="2" Grid.Row="2" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                 Click="btBanco_Click"  
-                     ToolTip="Cadastro de Bancos"
-                    Margin="10 0 10 0">
-                <materialDesign:PackIcon
-                    Kind="Bank"
-                    Width="70"
-                    Height="80"
-                    Foreground="#FF1F3D68"/>
-            </Button>
-            <Label 
-                Grid.Column="2" Grid.Row="2" 
-                Content="Bancos" 
-                Foreground="#FF1F3D68" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Center"
-                FontFamily="Champagne &amp; Limousines" 
-                FontSize="18"/>
-            <!-- Fim Cadastros -->
+
+                        </Grid>
+                    </Border>
+
+                    <!--Backup-->
+                    <Border Margin="10 20 10 10" 
+                            Grid.Row="1"
+                                Grid.Column="0" Grid.ColumnSpan="2" 
+                                Background="Azure" 
+                                VerticalAlignment="Stretch" 
+                                CornerRadius="20">
+                        <Grid Margin="20 0 20 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Backup -->
+                            <Button x:Name="btCartoes"
+                                    Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
+                                    Height="90" Width="90"
+                                    Grid.Column="0"  Grid.RowSpan="2" 
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" 
+                                    ToolTip="Visualização das conta a receber">
+                                <materialDesign:PackIcon
+                                            Kind="CreditCardMultiple"
+                                            Width="90"
+                                            Height="90"
+                                            Background="#FF1F3D68"
+                                            Foreground="White"/>
+                            </Button>
+                            <TextBlock Text=" CARTÕES" 
+                                       Grid.Row="0" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <TextBlock Text="R$ 0,00" 
+                                       Grid.Row="1" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <!--Fim Backup -->
+
+
+                        </Grid>
+                    </Border>
+
+                    <!--Backup-->
+                    <Border Margin="10 20 10 10" 
+                            Grid.Row="1"
+                                Grid.Column="2" Grid.ColumnSpan="2" 
+                                Background="Azure" 
+                                VerticalAlignment="Stretch" 
+                                CornerRadius="20">
+                        <Grid Margin="20 0 20 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Backup -->
+                            <Button x:Name="btBackup"
+                                    Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
+                                    Height="90" Width="90"
+                                    Grid.Column="0"  Grid.RowSpan="2" 
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" 
+                                    ToolTip="Visualização das conta a receber">
+                                <materialDesign:PackIcon
+                                            Kind="Backup"
+                                            Width="90"
+                                            Height="90"
+                                            Background="#FF1F3D68"
+                                            Foreground="White"/>
+                            </Button>
+                            <TextBlock Text=" SIT BACKUP" 
+                                       Grid.Row="0" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <TextBlock Text="EM DIA" 
+                                       Grid.Row="1" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <!--Fim Backup -->
+
+
+                        </Grid>
+                    </Border>
+
+                    <!--Alerta Atraso-->
+                    <Border Margin="10 20 10 10" 
+                            Grid.Row="1"
+                                Grid.Column="4" Grid.ColumnSpan="2" 
+                                Background="Azure" 
+                                VerticalAlignment="Stretch" 
+                                CornerRadius="20">
+                        <Grid Margin="20 0 20 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!--Alerta Atrasado -->
+                            <Button x:Name="btConsultaContas"
+                                    Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
+                                    Height="90" Width="90"
+                                    Grid.Column="0"  Grid.RowSpan="2" 
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch" 
+                                    ToolTip="Visualização das conta a receber">
+                                <materialDesign:PackIcon
+                                            Kind="Alert"
+                                            Width="90"
+                                            Height="90"
+                                            Background="#FF1F3D68"
+                                            Foreground="White"/>
+                            </Button>
+                            <TextBlock Text="AVISO" 
+                                       Grid.Row="0" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <TextBlock Text="PENDENCIAS" 
+                                       Grid.Row="1" Grid.Column="1"
+                                       HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center"
+                                       FontFamily="Champagne &amp; Limousines"
+                                       FontSize="26"
+                                       Style="{StaticResource MaterialDesignTextBlock}"
+                                       Foreground="#FF1F3D68"
+                                       Margin="5,5,0,0"/>
+                            <!--Fim Backup -->
+
+
+                        </Grid>
+                    </Border>
+                    <!--Fim Resumo -->
+
                 </Grid>
                 <!--Fim Botoes-->
                 <Grid x:Name="GridPrincipal" HorizontalAlignment="Center" VerticalAlignment="Top" 
@@ -357,7 +450,7 @@
                     </Button>
                     <Image Source="/Resources/Logo.png" />
 
-                    
+
                 </Grid>
                 <ListView x:Name="ListViewMenu" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                           Background="#FF1F3D68" 
@@ -392,7 +485,7 @@
                         </StackPanel>
                     </ListViewItem>
 
-                    <ListViewItem x:Name="ListVIewItemFinanceiro" Height="60" >
+                    <ListViewItem x:Name="ListVIewItemContas" Height="60" >
                         <StackPanel Orientation="Horizontal" 
                                 ToolTip="Contas">
                             <materialDesign:PackIcon 
@@ -407,6 +500,21 @@
                         </StackPanel>
                     </ListViewItem>
 
+                    <ListViewItem x:Name="ListVIewItemCartoes" Height="60" >
+                        <StackPanel Orientation="Horizontal" 
+                                ToolTip="Cartões">
+                            <materialDesign:PackIcon 
+                                Kind="CreditCardMultiple" 
+                                Width="25" 
+                                Height="25" 
+                                Margin="10" 
+                                VerticalAlignment="Center"/>
+                            <TextBlock Text="Cartões" 
+                                       VerticalAlignment="Center" 
+                                       Margin="20 10"/>
+                        </StackPanel>
+                    </ListViewItem>
+                    
                     <ListViewItem x:Name="ListVIewItemCaixa" Height="60" >
                         <StackPanel Orientation="Horizontal" 
                                 ToolTip="Caixa">
@@ -422,11 +530,11 @@
                         </StackPanel>
                     </ListViewItem>
 
-                    <ListViewItem x:Name="ListVIewItemCofre" Height="60" >
+                    <ListViewItem x:Name="ListVIewItemCadastro" Height="60" >
                         <StackPanel Orientation="Horizontal" 
                                 ToolTip="Cofre">
                             <materialDesign:PackIcon 
-                                Kind="SafeSquare" 
+                                Kind="Add" 
                                 Width="25" 
                                 Height="25" 
                                 Margin="10" 

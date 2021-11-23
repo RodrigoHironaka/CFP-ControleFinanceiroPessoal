@@ -63,6 +63,7 @@
     <Compile Include="Dominio\Banco.cs" />
     <Compile Include="Dominio\Base.cs" />
     <Compile Include="Dominio\Caixa.cs" />
+    <Compile Include="Dominio\CartaoCredito.cs" />
     <Compile Include="Dominio\Cofre.cs" />
     <Compile Include="Dominio\Configuracao.cs" />
     <Compile Include="Dominio\Conta.cs" />

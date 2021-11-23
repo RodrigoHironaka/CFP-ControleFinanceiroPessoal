@@ -87,11 +87,15 @@ namespace CFP.App
                     break;
                 case 3:
                     GridPrincipal.Children.Clear();
-                    GridPrincipal.Children.Add(new UserControlCaixa(Session));
+                    GridPrincipal.Children.Add(new CartoesCredito());
                     break;
                 case 4:
                     GridPrincipal.Children.Clear();
-                    GridPrincipal.Children.Add(new UserControlCofre(Session));
+                    GridPrincipal.Children.Add(new UserControlCaixa(Session));
+                    break;
+                case 5:
+                    GridPrincipal.Children.Clear();
+                    GridPrincipal.Children.Add(new UserControlCadastros());
                     break;
                 default:
                     break;
@@ -228,6 +232,16 @@ namespace CFP.App
         {
             GridPrincipal.Children.Clear();
             GridPrincipal.Children.Add(new UserControlUsuario(new Usuario(), Session));
+        }
+
+        private void PackIcon_TextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
+
+        private void PackIcon_TextInput_1(object sender, TextCompositionEventArgs e)
+        {
+
         }
     }
 }

@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.ModeloBase.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="GridGeral">
+    <Grid x:Name="GridGeral" Background="LightGray">
        
         <Grid x:Name="GridBotoesCadastros"  >
             <Grid.RowDefinitions>
@@ -29,7 +29,7 @@
             <Button x:Name="btPessoa" 
                     Style="{StaticResource MaterialDesignFlatButton}" 
                     Height="auto" Width="auto"
-                    Grid.Column="0" Grid.Row="1" 
+                    Grid.Column="0" Grid.Row="2" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Click="btPessoa_Click"
@@ -42,7 +42,7 @@
                     Foreground="#FF1F3D68"/>
             </Button>
             <Label 
-                Grid.Column="0" Grid.Row="1" 
+                Grid.Column="0" Grid.Row="2" 
                 Content="Pessoas" 
                 Foreground="#FF1F3D68" 
                 VerticalAlignment="Bottom"
@@ -53,7 +53,7 @@
             <Button x:Name="btTipoRenda" 
                     Style="{StaticResource MaterialDesignFlatButton}" 
                     Height="auto" Width="auto"
-                    Grid.Column="1" Grid.Row="1"
+                    Grid.Column="1" Grid.Row="2"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Click="btTipoRenda_Click"
@@ -66,7 +66,7 @@
                     Foreground="#FF1F3D68"/>
             </Button>
             <Label 
-                Grid.Column="1" Grid.Row="1" 
+                Grid.Column="1" Grid.Row="2" 
                 Content="Rendas" 
                 Foreground="#FF1F3D68" 
                 VerticalAlignment="Bottom"
@@ -77,7 +77,7 @@
             <Button x:Name="btUsuario"
                     Style="{StaticResource MaterialDesignFlatButton}" 
                     Height="auto" Width="auto"
-                    Grid.Column="2" Grid.Row="1" 
+                    Grid.Column="2" Grid.Row="2" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Click="btUsuario_Click"
@@ -90,7 +90,7 @@
                     Foreground="#FF1F3D68"/>
             </Button>
             <Label 
-                Grid.Column="2" Grid.Row="1" 
+                Grid.Column="2" Grid.Row="2" 
                 Content="Usuários" 
                 Foreground="#FF1F3D68" 
                 VerticalAlignment="Bottom"
@@ -101,7 +101,7 @@
             <Button x:Name="btTipoGasto"
                  Style="{StaticResource MaterialDesignFlatButton}" 
                     Height="auto" Width="auto"
-                    Grid.Column="3" Grid.Row="1" 
+                    Grid.Column="3" Grid.Row="2" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                      Click="btTipoGasto_Click"
@@ -114,7 +114,7 @@
                     Foreground="#FF1F3D68"/>
             </Button>
             <Label 
-                Grid.Column="3" Grid.Row="1" 
+                Grid.Column="3" Grid.Row="2" 
                 Content="Gastos" 
                 Foreground="#FF1F3D68" 
                 VerticalAlignment="Bottom"
@@ -125,7 +125,7 @@
             <Button x:Name="btTipoSubGasto"
                Style="{StaticResource MaterialDesignFlatButton}" 
                     Height="auto" Width="auto"
-                    Grid.Column="4" Grid.Row="1" 
+                    Grid.Column="4" Grid.Row="2" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Click="btTipoSubGasto_Click" 
@@ -138,7 +138,7 @@
                     Foreground="#FF1F3D68"/>
             </Button>
             <Label 
-                Grid.Column="4" Grid.Row="1" 
+                Grid.Column="4" Grid.Row="2" 
                 Content="SubGastos" 
                 Foreground="#FF1F3D68" 
                 VerticalAlignment="Bottom"
@@ -149,7 +149,7 @@
             <Button x:Name="btFormaPagamento"
                     Style="{StaticResource MaterialDesignFlatButton}" 
                     Height="auto" Width="auto"
-                    Grid.Column="5" Grid.Row="1" 
+                    Grid.Column="5" Grid.Row="2" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Click="btFormaPagamento_Click"
@@ -162,7 +162,7 @@
                     Foreground="#FF1F3D68"/>
             </Button>
             <Label 
-                Grid.Column="5" Grid.Row="1" 
+                Grid.Column="5" Grid.Row="2" 
                 Content="F. Pagamentos" 
                 Foreground="#FF1F3D68" 
                 VerticalAlignment="Bottom"
@@ -173,7 +173,7 @@
             <Button x:Name="btBanco"
                 Style="{StaticResource MaterialDesignFlatButton}" 
                     Height="auto" Width="auto"
-                    Grid.Column="6" Grid.Row="1" 
+                    Grid.Column="6" Grid.Row="2" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                  Click="btBanco_Click"  
@@ -186,14 +186,134 @@
                     Foreground="#FF1F3D68"/>
             </Button>
             <Label 
-                Grid.Column="6" Grid.Row="1" 
+                Grid.Column="6" Grid.Row="2" 
                 Content="Bancos" 
                 Foreground="#FF1F3D68" 
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
                 FontFamily="Champagne &amp; Limousines" 
                 FontSize="18"/>
+
+            <Button x:Name="btCaixa"
+                Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="1" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Visualização do Caixa"
+                    Margin="10 0 10 0" Click="btCaixa_Click">
+                <materialDesign:PackIcon
+                    Kind="CashRegister"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="1" Grid.Row="1" 
+                Content="Caixa" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btCofre"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="2" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Visualização do Cofre"
+                    Margin="10 0 10 0" Click="btCofre_Click">
+                <materialDesign:PackIcon
+                    Kind="SafeSquare"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+
+            </Button>
+            <Label 
+                Grid.Column="2" Grid.Row="1" 
+                Content="Cofre" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="BtConta"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="3" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Cadastro de Contas"
+                    Margin="10 0 10 0"
+                    Click="BtConta_Click">
+                <materialDesign:PackIcon
+                    Kind="AccountCash"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="3" Grid.Row="1" 
+                Content="Contas" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="BtCartoes"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="4" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Cadastro de Contas"
+                    Margin="10 0 10 0" Click="BtCartoes_Click">
+                <materialDesign:PackIcon
+                    Kind="CreditCardMultiple"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="4" Grid.Row="1" 
+                Content="Cartões" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btHorasTrabalho"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="5" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Cadastro de Hora Extra"
+                    Margin="10 0 10 0" Click="btHorasTrabalho_Click">
+                <materialDesign:PackIcon
+                    Kind="PointOfSale"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+            </Button>
+            <Label 
+                Grid.Column="5" Grid.Row="1" 
+                Content="Hora Extra" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
         </Grid>
-        <StackPanel x:Name="panelCadastros" Width="auto" Height="auto" Grid.RowSpan="2"/>
+        <Grid x:Name="gridCadastros" 
+              Width="auto" 
+              Height="auto" 
+              Grid.RowSpan="2"/>
     </Grid>
 </UserControl>
