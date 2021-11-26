@@ -12,6 +12,7 @@ namespace CFP.Dominio.Dominio
         public virtual Int64 Id { get; set; }
         public virtual DateTime DataGeracao { get; set; }
         public virtual DateTime DataAlteracao { get; set; }
+        public virtual Usuario UsuarioCriacao { get; set; }
 
         #region Sistema
         public virtual String CaminhoArquivos { get; set; }

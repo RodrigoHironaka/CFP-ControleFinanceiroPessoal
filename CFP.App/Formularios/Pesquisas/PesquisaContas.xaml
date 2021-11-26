@@ -18,12 +18,12 @@
                   AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="DataGridPesquisa_MouseDoubleClick"
                   >
             <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Situacao}" Header="Situação"/>
                 <DataGridTextColumn Binding="{Binding Codigo}" Header="Código"/>
-				<DataGridTextColumn Binding="{Binding Situacao}" Header="Situação"/>
                 <DataGridTextColumn Binding="{Binding Nome}" Header="Nome"/>
-				<DataGridTextColumn Binding="{Binding ValorTotal}" Header="Valor"/>
-				<DataGridTextColumn Binding="{Binding Vencimento}" Header="Vencimento"/>
-                
+                <DataGridTextColumn Binding="{Binding ValorTotal}" Header="Valor"/>
+                <DataGridTextColumn Binding="{Binding NumeroDocumento}" Header="Número Documento"/>
+
             </DataGrid.Columns>
         </DataGrid>
         <TextBox x:Name="txtPesquisa"

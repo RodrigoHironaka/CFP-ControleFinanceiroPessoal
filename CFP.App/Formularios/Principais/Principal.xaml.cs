@@ -9,6 +9,7 @@ using CFP.Ferramentas;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObjetoValor;
+using LinqKit;
 using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using NHibernate;
@@ -28,6 +29,7 @@ namespace CFP.App
     /// </summary>
     public partial class MainWindow : Window
     {
+        Configuracao config;
         #region Usuario Logado
         public static Usuario UsuarioLogado;
         #endregion
@@ -55,29 +57,47 @@ namespace CFP.App
             DateTime data = DateTime.Today;
             DateTime primeiroDia = new DateTime(data.Year, data.Month, 1);
             DateTime ultimoDia = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
-
+           
             txtValorTotalPagar.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
                 .ObterTodos()
-                .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente ||
-                x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-                x.Conta.TipoConta == TipoConta.Pagar && x.DataVencimento >= primeiroDia && x.DataVencimento <= ultimoDia)
-                .Sum(x => x.ValorParcela));
+                .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
+                x.Conta.TipoConta == TipoConta.Pagar &&
+                x.DataVencimento >= primeiroDia &&
+                x.DataVencimento <= ultimoDia &&
+                x.Conta.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
+                .Select(x => x.ValorParcela)
+                .Sum());
+
             txtValorTotalReceber.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
                 .ObterTodos()
                 .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-                x.Conta.TipoConta == TipoConta.Receber && x.DataVencimento >= primeiroDia && x.DataVencimento <= ultimoDia)
-                .Sum(x => x.ValorParcela));
+                x.Conta.TipoConta == TipoConta.Receber && 
+                x.DataVencimento >= primeiroDia && 
+                x.DataVencimento <= ultimoDia &&
+                x.Conta.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
+               .Select(x => x.ValorParcela)
+                .Sum());
 
             txtValorTotalCartoes.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
                 .ObterTodos()
                 .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente ||
                 x.SituacaoParcelas == SituacaoParcela.Parcial) &&
                 x.Conta.TipoConta == TipoConta.Pagar &&
-                x.DataVencimento >= primeiroDia && 
-                x.DataVencimento <= ultimoDia && 
-                x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim)
-                .Sum(x => x.ValorParcela));
+                x.DataVencimento >= primeiroDia &&
+                x.DataVencimento <= ultimoDia &&
+                x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim &&
+                x.Conta.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
+                .Select(x => x.ValorParcela)
+                .Sum());
 
+        }
+        #endregion
+
+        #region Pegando as Configuracoes
+        private void ConfiguracoesSistema()
+        {
+            Session.Clear();
+            config = new RepositorioConfiguracao(Session).ObterTodos().Where(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).FirstOrDefault();
         }
         #endregion
 
@@ -122,13 +142,9 @@ namespace CFP.App
                     break;
                 case 3:
                     GridPrincipal.Children.Clear();
-                    GridPrincipal.Children.Add(new CartoesCredito());
-                    break;
-                case 4:
-                    GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(new UserControlCaixa(Session));
                     break;
-                case 5:
+                case 4:
                     GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(new UserControlCadastros());
                     break;
@@ -170,7 +186,7 @@ namespace CFP.App
             {
                 string data = System.DateTime.Now.ToShortDateString().Replace("/", "");
                 string hora = System.DateTime.Now.ToLongTimeString().Replace(":", "");
-                string caminhoPadrao = new RepositorioConfiguracao(Session).ObterTodos().FirstOrDefault().CaminhoBackup;
+                string caminhoPadrao = config.CaminhoBackup;//new RepositorioConfiguracao(Session).ObterTodos().Where(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).FirstOrDefault().CaminhoBackup;
                 string backupSalvar = caminhoPadrao + "\\CFP_" + data + "_" + hora + ".sql";
 
                 if (caminhoPadrao != null)
@@ -270,14 +286,5 @@ namespace CFP.App
             GridPrincipal.Children.Add(new UserControlUsuario(new Usuario(), Session));
         }
 
-        private void PackIcon_TextInput(object sender, TextCompositionEventArgs e)
-        {
-
-        }
-
-        private void PackIcon_TextInput_1(object sender, TextCompositionEventArgs e)
-        {
-
-        }
     }
 }

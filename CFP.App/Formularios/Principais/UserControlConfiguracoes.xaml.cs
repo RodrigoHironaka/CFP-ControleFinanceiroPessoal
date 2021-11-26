@@ -73,6 +73,7 @@ namespace CFP.App.Formularios.Principais
                 configuracao.CaminhoArquivos = txtCaminhoArquivos.Text;
                 configuracao.CaminhoBackup = txtCaminhoBackup.Text;
                 configuracao.FormaPagamentoPadraoConta = (FormaPagamento)cmbFormaPagamentoPadrão.SelectedItem;
+                configuracao.UsuarioCriacao = MainWindow.UsuarioLogado;
                 return true;
             }
             catch
@@ -86,7 +87,7 @@ namespace CFP.App.Formularios.Principais
         #region Preenche campos no user control
         private void PreencheCampos()
         {
-            List<Configuracao> todasConfiguracoes = (List<Configuracao>)Repositorio.ObterTodos().ToList();
+            List<Configuracao> todasConfiguracoes = (List<Configuracao>)Repositorio.ObterTodos().Where(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).ToList();
             foreach (var item in todasConfiguracoes)
                 configuracao = Repositorio.ObterPorId(item.Id);
 

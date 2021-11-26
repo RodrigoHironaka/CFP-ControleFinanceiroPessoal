@@ -67,7 +67,7 @@ namespace CFP.App.Formularios.Pesquisas
 
         private void CarregaDados()
         {
-            DataGridPesquisa.ItemsSource = Repositorio.ObterTodos();
+            DataGridPesquisa.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado);
         }
 
         private void PesquisarDados()
@@ -84,7 +84,8 @@ namespace CFP.App.Formularios.Pesquisas
                 {
                     Conta p = o as Conta;
                     return p.Nome.Contains(txtPesquisa.Text)
-                            || p.Id.ToString().Contains(txtPesquisa.Text);
+                            || p.Id.ToString().Contains(txtPesquisa.Text)
+                            || p.NumeroDocumento.ToString().Contains(txtPesquisa.Text);
                 };
             }
         }

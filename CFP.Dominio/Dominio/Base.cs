@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dominio.Dominio;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,5 +14,8 @@ namespace CFP.Dominio.Dominio
         public virtual String Nome { get; set; }
         public virtual DateTime DataGeracao { get; set; }
         public virtual DateTime DataAlteracao { get; set; }
+
+        public virtual Usuario UsuarioCriacao { get; set; }
+        public virtual Usuario UsuarioAlteracao { get; set; }
     }
 }

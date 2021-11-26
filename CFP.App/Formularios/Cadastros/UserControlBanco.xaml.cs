@@ -264,12 +264,14 @@ namespace CFP.App.Formularios.Cadastros
                 if ((banco.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
                 {
                     banco.DataGeracao = DateTime.Now;
+                    banco.UsuarioCriacao = MainWindow.UsuarioLogado;
                     Repositorio.Salvar(banco);
                     txtCodigo.Text = banco.Id.ToString();
                 }
                 else
                 {
                     banco.DataAlteracao = DateTime.Now;
+                    banco.UsuarioAlteracao = MainWindow.UsuarioLogado;
                     Repositorio.Alterar(banco);
                 }
 

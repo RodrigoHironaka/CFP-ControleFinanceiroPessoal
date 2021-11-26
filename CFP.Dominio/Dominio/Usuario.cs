@@ -13,7 +13,6 @@ namespace Dominio.Dominio
     {
         public virtual String NomeAcesso { get; set; }
         public virtual String Senha { get; set; }
-        public virtual String ConfirmaSenha { get; set; }
         public virtual TipoUsuario TipoUsuario { get; set; }
         public virtual Situacao Situacao { get; set; }
     }

@@ -126,7 +126,6 @@ namespace CFP.App.Formularios.Cadastros
                 usuario.Nome = txtNome.Text;
                 usuario.NomeAcesso = txtNomeAcesso.Text;
                 usuario.Senha = txtSenha.Password != string.Empty ? new Criptografia(SHA512.Create()).GerarHash(txtSenha.Password) : usuario.Senha;
-                usuario.ConfirmaSenha = txtConfirmaSenha.Password != string.Empty ? new Criptografia(SHA512.Create()).GerarHash(txtConfirmaSenha.Password) : usuario.ConfirmaSenha;
                 usuario.TipoUsuario = (TipoUsuario)cmbTipoUsuario.SelectedIndex;
                 usuario.Situacao = (Situacao)cmbSituacao.SelectedIndex;
                 return true;
@@ -165,13 +164,12 @@ namespace CFP.App.Formularios.Cadastros
         #endregion
 
         #region Confirma Senha 
-        private void ConfirmaSenha()
+        private bool ConfirmaSenha()
         {
             if (txtSenha.Password != txtConfirmaSenha.Password)
-            {
-                MessageBox.Show("Senhas não são iguais! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }   
+                return false;
+
+            return true;
         }
         #endregion
         public UserControlUsuario(Usuario _usuario, ISession _session)
@@ -287,27 +285,41 @@ namespace CFP.App.Formularios.Cadastros
 
             if (PreencheObjeto())
             {
-                if (usuario.Id == 0) 
+                if (usuario.Id == 0)
                 {
                     if (!String.IsNullOrEmpty(txtSenha.Password))
-                        ConfirmaSenha();
-                    else
                     {
-                        MessageBox.Show("Digite uma senha válida!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        return;
+                        if (ConfirmaSenha())
+                        {
+                            usuario.DataGeracao = DateTime.Now;
+                            usuario.UsuarioCriacao = MainWindow.UsuarioLogado;
+                            Repositorio.Salvar(usuario);
+                            txtCodigo.Text = usuario.Id.ToString();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Senhas não são iguais! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
                     }
-
-                    usuario.DataGeracao = DateTime.Now;
-                    Repositorio.Salvar(usuario);
-                    txtCodigo.Text = usuario.Id.ToString();
                 }
                 else
                 {
                     if (!String.IsNullOrEmpty(txtSenha.Password))
-                        ConfirmaSenha();
+                    {
+                        if (ConfirmaSenha())
+                        {
+                            usuario.DataAlteracao = DateTime.Now;
+                            usuario.UsuarioAlteracao = MainWindow.UsuarioLogado;
+                            Repositorio.Alterar(usuario);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Senhas não são iguais! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            return;
+                        }
+                    }
 
-                    usuario.DataAlteracao = DateTime.Now;
-                    Repositorio.Alterar(usuario);
                 }
 
                 ControleAcessoInicial();
@@ -337,7 +349,11 @@ namespace CFP.App.Formularios.Cadastros
 
         private void txtConfirmaSenha_LostFocus(object sender, RoutedEventArgs e)
         {
-            ConfirmaSenha();
+            if (!ConfirmaSenha())
+            {
+                MessageBox.Show("Senhas não são iguais! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
         }
     }
 }

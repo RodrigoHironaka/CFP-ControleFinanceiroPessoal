@@ -246,12 +246,14 @@ namespace CFP.App.Formularios.Cadastros
                 if ((tipoRenda.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
                 {
                     tipoRenda.DataGeracao = DateTime.Now;
+                    tipoRenda.UsuarioCriacao = MainWindow.UsuarioLogado;
                     Repositorio.Salvar(tipoRenda);
                     txtCodigo.Text = tipoRenda.Id.ToString();
                 }
                 else
                 {
                     tipoRenda.DataAlteracao = DateTime.Now;
+                    tipoRenda.UsuarioAlteracao = MainWindow.UsuarioLogado;
                     Repositorio.Alterar(tipoRenda);
                 }
 

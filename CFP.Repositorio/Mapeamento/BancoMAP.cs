@@ -31,6 +31,7 @@ namespace Repositorio.Mapeamentos
 
             ManyToOne(x => x.PessoaBanco, m => m.Column("Pessoa"));
             ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));
+            ManyToOne(x => x.UsuarioAlteracao, m => m.Column("UsuarioAlteracao"));
         }
     }
 }

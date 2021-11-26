@@ -281,12 +281,14 @@ namespace CFP.App.Formularios.Cadastros
                 if ((formaPagamento.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
                 {
                     formaPagamento.DataGeracao = DateTime.Now;
+                    formaPagamento.UsuarioCriacao = MainWindow.UsuarioLogado;
                     Repositorio.Salvar(formaPagamento);
                     txtCodigo.Text = formaPagamento.Id.ToString();
                 }
                 else
                 {
                     formaPagamento.DataAlteracao = DateTime.Now;
+                    formaPagamento.UsuarioAlteracao = MainWindow.UsuarioLogado;
                     Repositorio.Alterar(formaPagamento);
                 }
 

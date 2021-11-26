@@ -246,12 +246,14 @@ namespace CFP.App.Formularios.Cadastros
                 if ((grupoGasto.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
                 {
                     grupoGasto.DataGeracao = DateTime.Now;
+                    grupoGasto.UsuarioCriacao = MainWindow.UsuarioLogado;
                     Repositorio.Salvar(grupoGasto);
                     txtCodigo.Text = grupoGasto.Id.ToString();
                 }
                 else
                 {
                     grupoGasto.DataAlteracao = DateTime.Now;
+                    grupoGasto.UsuarioAlteracao = MainWindow.UsuarioLogado;
                     Repositorio.Alterar(grupoGasto);
                 }
 

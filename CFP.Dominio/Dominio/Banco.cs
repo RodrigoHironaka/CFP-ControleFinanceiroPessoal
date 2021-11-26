@@ -19,6 +19,5 @@ namespace Dominio.Dominio
         public virtual Situacao Situacao { get; set; }
 
         public virtual Pessoa PessoaBanco { get; set; }
-        public virtual Usuario UsuarioCriacao { get; set; }
     }
 }

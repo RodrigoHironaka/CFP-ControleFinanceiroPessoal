@@ -68,7 +68,7 @@ namespace CFP.App.Formularios.Pesquisas
 
         private void CarregaDados()
         {
-            DataGridPesquisa.ItemsSource = Repositorio.ObterTodos();
+            DataGridPesquisa.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado);
         }
 
         private void PesquisarDados()

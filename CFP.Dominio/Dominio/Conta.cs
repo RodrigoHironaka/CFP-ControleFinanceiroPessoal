@@ -23,7 +23,6 @@ namespace Dominio.Dominio
         public virtual SubGrupoGasto SubGrupoGasto { get; set; }
         public virtual FormaPagamento FormaCompra { get; set; }
         public virtual Pessoa Pessoa { get; set; }
-        public virtual Usuario UsuarioCriacao { get; set; }
         public virtual string Observacao { get; set; }
         public virtual IList<ContaPagamento> ContaPagamentos { get; set; }
         public virtual IList<ContaArquivo> ContaArquivos { get; set; }

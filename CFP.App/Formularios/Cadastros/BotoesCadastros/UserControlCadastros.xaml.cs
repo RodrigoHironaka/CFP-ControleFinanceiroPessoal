@@ -66,12 +66,6 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
             gridCadastros.Children.Add(new UserControlTipoRenda(new TipoRenda(), Session));
         }
 
-        private void btUsuario_Click(object sender, RoutedEventArgs e)
-        {
-            gridCadastros.Children.Clear();
-            gridCadastros.Children.Add(new UserControlUsuario(new Usuario(), Session));
-        }
-
         private void btPessoa_Click(object sender, RoutedEventArgs e)
         {
             gridCadastros.Children.Clear();

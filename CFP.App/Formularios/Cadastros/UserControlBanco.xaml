@@ -50,8 +50,8 @@
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
-                    Margin="0,5,137,5"
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click">
+                    Margin="0,5,137,0"
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btSalvar_Click" VerticalAlignment="Top">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 

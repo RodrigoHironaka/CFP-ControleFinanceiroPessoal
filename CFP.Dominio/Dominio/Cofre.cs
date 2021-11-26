@@ -18,8 +18,6 @@ namespace Dominio.Dominio
 
         //esse valor deve ser somado ou subtraido ao que ja tem na conta definida pelo usuario;
         public virtual Decimal Valor { get; set; }
-        public virtual Usuario UsuarioCriacao { get; set; }
-        public virtual Usuario UsuarioAlteracao { get; set; }
         public virtual FormaPagamento TransacoesBancarias { get; set; }
         public virtual EntradaSaida Situacao { get; set; }
     }

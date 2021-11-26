@@ -36,6 +36,8 @@ namespace Repositorio.Mapeamentos
                 m.Scale(2);
             });
             Property(x => x.Situacao, m => m.Type<EnumType<Situacao>>());
+            ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));
+            ManyToOne(x => x.UsuarioAlteracao, m => m.Column("UsuarioAlteracao"));
 
             Bag(x => x.PessoaTipoRendas, m =>
             {

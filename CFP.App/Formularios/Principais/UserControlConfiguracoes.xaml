@@ -49,10 +49,10 @@
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Top"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Salva as configurações" Click="btSalvar_Click">
+                    ToolTip="Salva as configurações" Click="btSalvar_Click" Margin="1.4,5,1.8,0">
                 <materialDesign:PackIcon 
                     Kind="ContentSave"  
                     Width="50" 
@@ -63,10 +63,10 @@
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Bottom"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Botão para sair da tela" Click="btSair_Click">
+                    ToolTip="Botão para sair da tela" Click="btSair_Click" Margin="1.2,0,2,5.4">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 

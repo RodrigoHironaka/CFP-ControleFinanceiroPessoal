@@ -32,6 +32,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
     {
         ISession Session;
         Caixa caixa;
+        Configuracao config;
 
         #region Repositorio
         private RepositorioContaPagamento _repositorioContaPagamento;
@@ -45,6 +46,27 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                 return _repositorioContaPagamento;
             }
             set { _repositorioContaPagamento = value; }
+        }
+
+        private RepositorioConfiguracao _repositorioConfiguracao;
+        public RepositorioConfiguracao RepositorioConfiguracao
+        {
+            get
+            {
+                if (_repositorioConfiguracao == null)
+                    _repositorioConfiguracao = new RepositorioConfiguracao(Session);
+
+                return _repositorioConfiguracao;
+            }
+            set { _repositorioConfiguracao = value; }
+        }
+        #endregion
+
+        #region Pegando as Configuracoes
+        private void ConfiguracoesSistema()
+        {
+            Session.Clear();
+            config = RepositorioConfiguracao.ObterTodos().Where(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).FirstOrDefault();
         }
         #endregion
 
@@ -182,7 +204,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                 }
                 fluxoCaixa.DataGeracao = DateTime.Now;
                 fluxoCaixa.Conta = dado.Conta;
-                fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
+                fluxoCaixa.UsuarioCriacao = MainWindow.UsuarioLogado;
                 fluxoCaixa.Caixa = caixa;
                 fluxoCaixa.FormaPagamento = dado.FormaPagamento;
                 new RepositorioFluxoCaixa(Session).Salvar(fluxoCaixa);
@@ -201,6 +223,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         {
             CarregaCombo();
             PrimeiroUltimoDiaMes();
+            ConfiguracoesSistema();
         }
 
         private void btFiltro_Click(object sender, RoutedEventArgs e)
@@ -265,8 +288,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         {
             if (VerificaCaixa())
             {
-                FormaPagamento configFormaPagamentoPadraoConta = new RepositorioConfiguracao(Session).ObterTodos().FirstOrDefault().FormaPagamentoPadraoConta;
-                if (configFormaPagamentoPadraoConta != null)
+                if (config != null && config.FormaPagamentoPadraoConta != null )
                 {
                     var selecoes = dgContasFiltradas.SelectedItems;
                     foreach (ContaPagamento parcela in selecoes)
@@ -274,7 +296,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                         parcela.SituacaoParcelas = SituacaoParcela.Pago;
                         parcela.ValorPago = parcela.ValorParcela;
                         parcela.DataPagamento = DateTime.Now;
-                        parcela.FormaPagamento = configFormaPagamentoPadraoConta;
+                        parcela.FormaPagamento = config.FormaPagamentoPadraoConta;
                         RepositorioContaPagamento.Alterar(parcela);
                         SalvarFluxo(parcela);
                     }

@@ -27,6 +27,8 @@ namespace CFP.Repositorio.Mapeamento
             Property(x => x.DataAlteracao);
             Property(x => x.Situacao, m => m.Type<EnumType<Situacao>>());
             ManyToOne(x => x.GrupoGasto, m => m.Column("GrupoGasto"));
+            ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));
+            ManyToOne(x => x.UsuarioAlteracao, m => m.Column("UsuarioAlteracao"));
         }
     }
 }

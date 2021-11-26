@@ -10,8 +10,6 @@ namespace Dominio.Dominio
     public class HoraExtra : Base
     {
         public virtual Pessoa Pessoa { get; set; }
-        public virtual Usuario UsuarioCriacao { get; set; }
-        public virtual Usuario UsuarioAlteracao { get; set; }
         public virtual DateTime DataHoraExtra { get; set; }
         public virtual TimeSpan HoraInicioManha { get; set; }
         public virtual TimeSpan HoraFinalManha { get; set; }

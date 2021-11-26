@@ -25,7 +25,9 @@ namespace CFP.Repositorio.Mapeamento
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
             Property(x => x.Caminho, m => m.Length(250));
-            
+            ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));
+            ManyToOne(x => x.UsuarioAlteracao, m => m.Column("UsuarioAlteracao"));
+
 
 
         }

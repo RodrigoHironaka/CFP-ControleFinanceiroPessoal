@@ -73,7 +73,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             }
             fluxoCaixa.DataGeracao = DateTime.Now;
             fluxoCaixa.Conta = null;
-            fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
+            fluxoCaixa.UsuarioCriacao = MainWindow.UsuarioLogado;
             
             fluxoCaixa.Caixa = caixa;
             fluxoCaixa.FormaPagamento = (FormaPagamento)cmbFormaPagamento.SelectedItem;

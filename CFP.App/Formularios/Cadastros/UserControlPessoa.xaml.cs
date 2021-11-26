@@ -378,6 +378,7 @@ namespace CFP.App.Formularios.Cadastros
                 if ((pessoa.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
                 {
                     pessoa.DataGeracao = DateTime.Now;
+                    pessoa.UsuarioCriacao = MainWindow.UsuarioLogado;
                     pessoa.PessoaTipoRendas.ToList().ForEach(x => x.Pessoa = pessoa);
                     Repositorio.Salvar(pessoa);
                     PreencheObjetoComListaDadaGrid();
@@ -397,6 +398,7 @@ namespace CFP.App.Formularios.Cadastros
                         pessoa.PessoaTipoRendas.Add(item);
                     }
                     pessoa.DataAlteracao = DateTime.Now;
+                    pessoa.UsuarioAlteracao = MainWindow.UsuarioLogado;
                     Repositorio.Alterar(pessoa);
                 }
 

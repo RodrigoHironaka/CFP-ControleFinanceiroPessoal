@@ -5,6 +5,7 @@ using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
+using Dominio.ObjetoValor;
 using NHibernate;
 using Repositorio.Repositorios;
 using System;
@@ -251,6 +252,7 @@ namespace CFP.App.Formularios.Financeiros
                 .Where(x => x.Conta.Pessoa != null &&
                 (x.SituacaoParcelas == SituacaoParcela.Pendente ||
                 x.SituacaoParcelas == SituacaoParcela.Parcial) &&
+                x.Conta.TipoConta == TipoConta.Pagar &&
                 x.DataVencimento.Value.Month <= DateTime.Now.Month &&
                 x.DataVencimento.Value.Year <= DateTime.Now.Year &&
                 x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado)
@@ -341,7 +343,7 @@ namespace CFP.App.Formularios.Financeiros
             }
             fluxoCaixa.DataGeracao = DateTime.Now;
             fluxoCaixa.Conta = null;
-            fluxoCaixa.UsuarioLogado = MainWindow.UsuarioLogado;
+            fluxoCaixa.UsuarioCriacao = MainWindow.UsuarioLogado;
             fluxoCaixa.Valor = _cofre.Valor * -1;
             fluxoCaixa.Caixa = caixa;
             fluxoCaixa.FormaPagamento = _cofre.TransacoesBancarias;
