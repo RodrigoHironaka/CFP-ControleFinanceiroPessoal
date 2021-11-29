@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="CFP.App.Formularios.Financeiros.Consultas.ucAlertaContas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros.Consultas"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="1020">
+    <Grid Background="LightGray">
+        <TextBlock x:Name="lblSituacao" Text="Alertas" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top" 
+                       FontSize="20"
+                      Foreground="#FF1F3D68"
+                      Margin="10 0"/>
+        <Grid Margin="50">
+
+        <DataGrid x:Name="dgAlertaContas"  
+                           AutoGenerateColumns="False"                                        
+                           Background="white" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Tipo Alerta" Binding="{Binding Conta.TipoConta}" />
+                    <DataGridTextColumn Header="Código" Binding="{Binding Conta.Codigo}" />
+                    <DataGridTextColumn Header="Descrição" Binding="{Binding Conta.Nome}" />
+                    <DataGridTextColumn Header="Numero" Binding="{Binding Numero}" />
+                    <DataGridTextColumn Header="Valor" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                    <DataGridTextColumn Header="Vencimento" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Click="ShowHideDetails" Content="teste" 
+                                        Background="#FF1F3D68"
+                                        BorderBrush="#FF1F3D68">
+                                        
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </Grid>
+    </Grid>
+</UserControl>

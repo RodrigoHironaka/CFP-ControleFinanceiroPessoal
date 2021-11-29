@@ -57,24 +57,24 @@ namespace CFP.App
             DateTime data = DateTime.Today;
             DateTime primeiroDia = new DateTime(data.Year, data.Month, 1);
             DateTime ultimoDia = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
-           
+
             txtValorTotalPagar.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
                 .ObterTodos()
                 .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
                 x.Conta.TipoConta == TipoConta.Pagar &&
                 x.DataVencimento >= primeiroDia &&
                 x.DataVencimento <= ultimoDia &&
-                x.Conta.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
+                x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id)
                 .Select(x => x.ValorParcela)
                 .Sum());
 
             txtValorTotalReceber.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
                 .ObterTodos()
                 .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-                x.Conta.TipoConta == TipoConta.Receber && 
-                x.DataVencimento >= primeiroDia && 
+                x.Conta.TipoConta == TipoConta.Receber &&
+                x.DataVencimento >= primeiroDia &&
                 x.DataVencimento <= ultimoDia &&
-                x.Conta.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
+                x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id)
                .Select(x => x.ValorParcela)
                 .Sum());
 
@@ -86,10 +86,9 @@ namespace CFP.App
                 x.DataVencimento >= primeiroDia &&
                 x.DataVencimento <= ultimoDia &&
                 x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim &&
-                x.Conta.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
+                x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id)
                 .Select(x => x.ValorParcela)
                 .Sum());
-
         }
         #endregion
 
@@ -131,6 +130,7 @@ namespace CFP.App
             {
                 case 0:
                     GridPrincipal.Children.Clear();
+                    ResumoTela();
                     break;
                 case 1:
                     GridPrincipal.Children.Clear();
@@ -286,5 +286,16 @@ namespace CFP.App
             GridPrincipal.Children.Add(new UserControlUsuario(new Usuario(), Session));
         }
 
+        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            ResumoTela();
+        }
+
+        private void btAlertas_Click(object sender, RoutedEventArgs e)
+        {
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new ucAlertaContas(Session));
+        }
     }
 }

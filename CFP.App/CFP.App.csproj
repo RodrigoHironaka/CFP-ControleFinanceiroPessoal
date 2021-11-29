@@ -131,6 +131,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Financeiros\Consultas\ucAlertaContas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Financeiros\Consultas\ucConsultaContas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -266,6 +270,9 @@
     </Compile>
     <Compile Include="Formularios\Financeiros\CartoesCredito.xaml.cs">
       <DependentUpon>CartoesCredito.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Financeiros\Consultas\ucAlertaContas.xaml.cs">
+      <DependentUpon>ucAlertaContas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Financeiros\Consultas\ucConsultaContas.xaml.cs">
       <DependentUpon>ucConsultaContas.xaml</DependentUpon>

@@ -86,7 +86,7 @@
                     <!--Pagar -->
                     <Border Margin="10 20 10 10" 
                                 Grid.Column="0" Grid.ColumnSpan="2" 
-                                Background="Azure" 
+                                Background="#FF1F3D68" 
                                 VerticalAlignment="Stretch" 
                                 CornerRadius="20">
                         <Grid Margin="20 0 20 0">
@@ -123,7 +123,7 @@
                                        FontFamily="Champagne &amp; Limousines"
                                        FontSize="26"
                                        Style="{StaticResource MaterialDesignTextBlock}"
-                                       Foreground="#FF1F3D68"
+                                       Foreground="White"
                                        Margin="5,5,0,0"/>
                             <TextBlock x:Name="txtValorTotalPagar"
                                        Text="R$ 0,00" 
@@ -133,7 +133,7 @@
                                        FontFamily="Champagne &amp; Limousines"
                                        FontSize="26"
                                        Style="{StaticResource MaterialDesignTextBlock}"
-                                       Foreground="#FF1F3D68"
+                                       Foreground="White"
                                        Margin="5,5,0,0"/>
                             <!--Fim a pagar -->
 
@@ -144,7 +144,7 @@
                     <!--Receber -->
                     <Border Margin="10 20 10 10" 
                                 Grid.Column="2" Grid.ColumnSpan="2" 
-                                Background="Azure" 
+                                Background="#FF1F3D68" 
                                 VerticalAlignment="Stretch" 
                                 CornerRadius="20">
                         <Grid Margin="20 0 20 0">
@@ -181,7 +181,7 @@
                                        FontFamily="Champagne &amp; Limousines"
                                        FontSize="26"
                                        Style="{StaticResource MaterialDesignTextBlock}"
-                                       Foreground="#FF1F3D68"
+                                       Foreground="White"
                                        Margin="5,5,0,0"/>
                             <TextBlock x:Name="txtValorTotalReceber"
                                        Text="R$ 0,00" 
@@ -191,7 +191,7 @@
                                        FontFamily="Champagne &amp; Limousines"
                                        FontSize="26"
                                        Style="{StaticResource MaterialDesignTextBlock}"
-                                       Foreground="#FF1F3D68"
+                                       Foreground="White"
                                        Margin="5,5,0,0"/>
                             <!--Fim a receber -->
 
@@ -259,7 +259,7 @@
                     <Border Margin="10 20 10 10" 
                             Grid.Row="0"
                                 Grid.Column="4" Grid.ColumnSpan="2" 
-                                Background="Azure" 
+                                Background="#FF1F3D68" 
                                 VerticalAlignment="Stretch" 
                                 CornerRadius="20">
                         <Grid Margin="20 0 20 0">
@@ -296,7 +296,7 @@
                                        FontFamily="Champagne &amp; Limousines"
                                        FontSize="26"
                                        Style="{StaticResource MaterialDesignTextBlock}"
-                                       Foreground="#FF1F3D68"
+                                       Foreground="White"
                                        Margin="5,5,0,0"/>
                             <TextBlock x:Name="txtValorTotalCartoes" 
                                        Text="R$ 0,00" 
@@ -306,7 +306,7 @@
                                        FontFamily="Champagne &amp; Limousines"
                                        FontSize="26"
                                        Style="{StaticResource MaterialDesignTextBlock}"
-                                       Foreground="#FF1F3D68"
+                                       Foreground="White"
                                        Margin="5,5,0,0"/>
                             <!--Fim Backup -->
 
@@ -373,8 +373,8 @@
                     <!--Alerta Atraso-->
                     <Border Margin="10 20 10 10" 
                             Grid.Row="1"
-                                Grid.Column="4" Grid.ColumnSpan="2" 
-                                Background="Azure" 
+                                Grid.Column="0" Grid.ColumnSpan="2" 
+                                Background="#FF1F3D68" 
                                 VerticalAlignment="Stretch" 
                                 CornerRadius="20">
                         <Grid Margin="20 0 20 0">
@@ -388,7 +388,7 @@
                             </Grid.ColumnDefinitions>
 
                             <!--Alerta Atrasado -->
-                            <Button x:Name="btConsultaContas"
+                            <Button x:Name="btAlertas"
                                     Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
                                     Height="90" Width="90"
                                     Grid.Column="0"  Grid.RowSpan="2" 
@@ -396,7 +396,7 @@
                                     VerticalAlignment="Stretch" 
                                     ToolTip="Visualização das conta a receber"
                                     Background="#FF1F3D68"
-                                    BorderBrush="#FF1F3D68">
+                                    BorderBrush="#FF1F3D68" Click="btAlertas_Click">
                                 <materialDesign:PackIcon
                                             Kind="Alert"
                                             Width="90"
@@ -411,7 +411,7 @@
                                        FontFamily="Champagne &amp; Limousines"
                                        FontSize="26"
                                        Style="{StaticResource MaterialDesignTextBlock}"
-                                       Foreground="#FF1F3D68"
+                                       Foreground="White"
                                        Margin="5,5,0,0"/>
                             <TextBlock Text="PENDENCIAS" 
                                        Grid.Row="1" Grid.Column="1"
@@ -420,7 +420,7 @@
                                        FontFamily="Champagne &amp; Limousines"
                                        FontSize="26"
                                        Style="{StaticResource MaterialDesignTextBlock}"
-                                       Foreground="#FF1F3D68"
+                                       Foreground="White"
                                        Margin="5,5,0,0"/>
                             <!--Fim Backup -->
 
@@ -460,7 +460,7 @@
                             Click="ButtonOpenMenu_Click">
                         <materialDesign:PackIcon Foreground="White" Kind="Menu" Width="25" Height="25"/>
                     </Button>
-                    <Image Source="/Resources/Logo.png" />
+                    <Image Source="/Resources/Logo.png" MouseLeftButtonDown="Image_MouseLeftButtonDown" />
 
 
                 </Grid>
