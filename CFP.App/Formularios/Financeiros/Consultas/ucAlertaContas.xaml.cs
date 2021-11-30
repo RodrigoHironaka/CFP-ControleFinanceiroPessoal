@@ -1,7 +1,9 @@
-﻿using NHibernate;
+﻿using CFP.Dominio.Dominio;
+using NHibernate;
 using Repositorio.Repositorios;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,16 +25,25 @@ namespace CFP.App.Formularios.Financeiros.Consultas
     public partial class ucAlertaContas : UserControl
     {
         ISession Session;
-        public ucAlertaContas(ISession _session)
+
+        private ObservableCollection<AlertaContas> alertas;
+
+        public ucAlertaContas(ObservableCollection<AlertaContas> _alertas,ISession _session)
         {
             InitializeComponent();
             Session = _session;
-            dgAlertaContas.ItemsSource = new RepositorioConta(Session).ObterTodos();
+            alertas = _alertas;
+            dgAlertaContas.ItemsSource = alertas.OrderBy(x => x.VencimentoParcela).ToList();
         }
 
         private void ShowHideDetails(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Teste");
+        }
+
+        private void btSair_Click(object sender, RoutedEventArgs e)
+        {
+            (Parent as Grid).Children.Remove(this);
         }
     }
 }

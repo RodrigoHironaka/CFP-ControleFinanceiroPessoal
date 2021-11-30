@@ -14,29 +14,43 @@
                        FontSize="20"
                       Foreground="#FF1F3D68"
                       Margin="10 0"/>
-        <Grid Margin="50">
+
+        <Button x:Name="btSair"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="40" Width="40" 
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Botão para sair da tela" 
+                    Margin="5" Click="btSair_Click">
+            <materialDesign:PackIcon 
+                    Kind="ExitToApp"  
+                    Width="30" 
+                    Height="30"/>
+        </Button>
+        <Grid Margin="20 50">
 
         <DataGrid x:Name="dgAlertaContas"  
                            AutoGenerateColumns="False"                                        
-                           Background="white" >
+                           Background="white" IsReadOnly="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Tipo Alerta" Binding="{Binding Conta.TipoConta}" />
-                    <DataGridTextColumn Header="Código" Binding="{Binding Conta.Codigo}" />
-                    <DataGridTextColumn Header="Descrição" Binding="{Binding Conta.Nome}" />
-                    <DataGridTextColumn Header="Numero" Binding="{Binding Numero}" />
+                    <DataGridTextColumn Header="Tipo Alerta" Binding="{Binding TipoAlertaContas}" />
+                    <DataGridTextColumn Header="Mensagem" Binding="{Binding Mensagem}" />
+                    <DataGridTextColumn Header="Conta" Binding="{Binding DescricaoCompleta}" />
                     <DataGridTextColumn Header="Valor" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                    <DataGridTextColumn Header="Vencimento" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
-                    <DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Vencimento" Binding="{Binding VencimentoParcela, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                    <!--<DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Click="ShowHideDetails" Content="teste" 
+                                <Button Click="ShowHideDetails" Content="Ver" 
                                         Background="#FF1F3D68"
                                         BorderBrush="#FF1F3D68">
                                         
                                 </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                 </DataGrid.Columns>
             </DataGrid>
 

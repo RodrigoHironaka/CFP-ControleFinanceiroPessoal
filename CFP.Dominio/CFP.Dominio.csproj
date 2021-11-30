@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dominio\AlertaContas.cs" />
     <Compile Include="Dominio\Banco.cs" />
     <Compile Include="Dominio\Base.cs" />
     <Compile Include="Dominio\Caixa.cs" />
@@ -79,7 +80,7 @@
     <Compile Include="Dominio\TipoRenda.cs" />
     <Compile Include="Dominio\Usuario.cs" />
     <Compile Include="IEntidade\IEntidade.cs" />
-    <Compile Include="ObjetoValor\AlertaContas.cs" />
+    <Compile Include="ObjetoValor\TipoAlertaContas.cs" />
     <Compile Include="ObjetoValor\EntradaSaida.cs" />
     <Compile Include="ObjetoValor\NomeTelas.cs" />
     <Compile Include="ObjetoValor\PessoaTipoRenda.cs" />

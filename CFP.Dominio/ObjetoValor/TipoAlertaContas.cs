@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CFP.Dominio.ObjetoValor
 {
-    public enum AlertaContas
+    public enum TipoAlertaContas
     {
         Aviso,
         Atrasado

@@ -22,6 +22,7 @@ namespace CFP.Repositorio.Mapeamento
 
             Property(x => x.CaminhoArquivos, m => m.Length(250));
             Property(x => x.CaminhoBackup, m => m.Length(250));
+            Property(x => x.DiasAlertaVencimento);
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
             ManyToOne(x => x.FormaPagamentoPadraoConta, m => m.Column("FormaPagamentoPadraoConta"));

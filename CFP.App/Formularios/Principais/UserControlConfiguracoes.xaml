@@ -174,18 +174,32 @@
                                         Width="30" 
                                         Height="30"/>
                                 </Button>
-
-
                             </Grid>
-
                             <Grid x:Name="Row3" Grid.Row="2">
-                                <ComboBox x:Name="cmbFormaPagamentoPadrão"    
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Row="2">
+                                    <ComboBox x:Name="cmbFormaPagamentoPadrão"    
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                       materialDesign:HintAssist.Hint="Forma Pagamento Padrão Contas"
                                       FontFamily="Champagne &amp; Limousines"
                                       FontSize="15" 
-                                      VerticalAlignment="Top"/>
+                                      VerticalAlignment="Stretch"/>
+                                </Grid>
+                                <TextBox x:Name="txtQtdDiasAlertaVencimento"
+                                     Grid.Column="1" 
+                                     materialDesign:HintAssist.Hint="Dias Alerta Venc"
+                                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                                     FontFamily="Champagne &amp; Limousines" 
+                                     FontSize="15" 
+                                     Foreground="#FF1F3D68"  
+                                     VerticalAlignment="Stretch"
+                                     Margin="0"
+                                     Text="5" PreviewTextInput="txtQtdDiasAlertaVencimento_PreviewTextInput" PreviewKeyDown="txtQtdDiasAlertaVencimento_PreviewKeyDown"/>
                             </Grid>
+                            
                         </Grid>
 
                     </GroupBox>

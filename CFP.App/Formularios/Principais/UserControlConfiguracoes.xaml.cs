@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -73,6 +74,7 @@ namespace CFP.App.Formularios.Principais
                 configuracao.CaminhoArquivos = txtCaminhoArquivos.Text;
                 configuracao.CaminhoBackup = txtCaminhoBackup.Text;
                 configuracao.FormaPagamentoPadraoConta = (FormaPagamento)cmbFormaPagamentoPadrão.SelectedItem;
+                configuracao.DiasAlertaVencimento = txtQtdDiasAlertaVencimento.Text != string.Empty ? Int32.Parse(txtQtdDiasAlertaVencimento.Text) : 0;
                 configuracao.UsuarioCriacao = MainWindow.UsuarioLogado;
                 return true;
             }
@@ -87,7 +89,7 @@ namespace CFP.App.Formularios.Principais
         #region Preenche campos no user control
         private void PreencheCampos()
         {
-            List<Configuracao> todasConfiguracoes = (List<Configuracao>)Repositorio.ObterTodos().Where(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).ToList();
+            List<Configuracao> todasConfiguracoes = Repositorio.ObterTodos().Where(x => x.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id).ToList();
             foreach (var item in todasConfiguracoes)
                 configuracao = Repositorio.ObterPorId(item.Id);
 
@@ -97,6 +99,7 @@ namespace CFP.App.Formularios.Principais
                 txtCaminhoArquivos.Text = configuracao.CaminhoArquivos;
                 txtCaminhoBackup.Text = configuracao.CaminhoBackup;
                 cmbFormaPagamentoPadrão.SelectedItem = configuracao.FormaPagamentoPadraoConta;
+                txtQtdDiasAlertaVencimento.Text = configuracao.DiasAlertaVencimento.ToString() != string.Empty ? configuracao.DiasAlertaVencimento.ToString() : string.Empty;
 
             }
         }
@@ -229,6 +232,17 @@ namespace CFP.App.Formularios.Principais
             else
                 MessageBox.Show("Houve algum erro na configuração! Configure corretamente pois pode haver erros ao conectar.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
 
+        }
+
+        private void txtQtdDiasAlertaVencimento_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
+        private void txtQtdDiasAlertaVencimento_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
         }
     }
 }

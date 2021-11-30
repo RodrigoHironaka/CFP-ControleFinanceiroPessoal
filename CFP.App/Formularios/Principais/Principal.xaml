@@ -106,7 +106,7 @@
                                     Grid.Column="0"  Grid.RowSpan="2" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" 
-                                    ToolTip="Visualização das conta a pagar"
+                                    ToolTip="Resumo Conta a Pagar"
                                     Background="#FF1F3D68"
                                     BorderBrush="#FF1F3D68">
                                 <materialDesign:PackIcon
@@ -164,7 +164,7 @@
                                     Grid.Column="0"  Grid.RowSpan="2" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" 
-                                    ToolTip="Visualização das conta a receber"
+                                    ToolTip="Resumo Conta a Receber"
                                     Background="#FF1F3D68"
                                     BorderBrush="#FF1F3D68">
                                 <materialDesign:PackIcon
@@ -279,7 +279,7 @@
                                     Grid.Column="0"  Grid.RowSpan="2" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" 
-                                    ToolTip="Visualização das conta a receber"
+                                    ToolTip="Resumo Cartões"
                                     Background="#FF1F3D68"
                                     BorderBrush="#FF1F3D68">
                                 <materialDesign:PackIcon
@@ -371,7 +371,7 @@
                     </Border>-->
 
                     <!--Alerta Atraso-->
-                    <Border Margin="10 20 10 10" 
+                    <Border x:Name="bAlertas" Margin="10 20 10 10" 
                             Grid.Row="1"
                                 Grid.Column="0" Grid.ColumnSpan="2" 
                                 Background="#FF1F3D68" 
@@ -394,7 +394,7 @@
                                     Grid.Column="0"  Grid.RowSpan="2" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch" 
-                                    ToolTip="Visualização das conta a receber"
+                                    ToolTip="Alertas em geral de contas e recebimentos"
                                     Background="#FF1F3D68"
                                     BorderBrush="#FF1F3D68" Click="btAlertas_Click">
                                 <materialDesign:PackIcon

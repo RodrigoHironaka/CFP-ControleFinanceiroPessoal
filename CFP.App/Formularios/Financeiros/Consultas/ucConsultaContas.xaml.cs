@@ -66,7 +66,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         private void ConfiguracoesSistema()
         {
             Session.Clear();
-            config = RepositorioConfiguracao.ObterTodos().Where(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).FirstOrDefault();
+            config = RepositorioConfiguracao.ObterTodos().Where(x => x.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id).FirstOrDefault();
         }
         #endregion
 
@@ -221,9 +221,10 @@ namespace CFP.App.Formularios.Financeiros.Consultas
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            ConfiguracoesSistema();
             CarregaCombo();
             PrimeiroUltimoDiaMes();
-            ConfiguracoesSistema();
+            
         }
 
         private void btFiltro_Click(object sender, RoutedEventArgs e)

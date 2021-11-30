@@ -16,6 +16,8 @@ using NHibernate;
 using Repositorio.Repositorios;
 using SGE.Repositorio.Configuracao;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Compression;
 using System.Linq;
 using System.Windows;
@@ -30,6 +32,8 @@ namespace CFP.App
     public partial class MainWindow : Window
     {
         Configuracao config;
+        List<ContaPagamento> contaPagamento = new List<ContaPagamento>();
+
         #region Usuario Logado
         public static Usuario UsuarioLogado;
         #endregion
@@ -57,38 +61,20 @@ namespace CFP.App
             DateTime data = DateTime.Today;
             DateTime primeiroDia = new DateTime(data.Year, data.Month, 1);
             DateTime ultimoDia = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
-
-            txtValorTotalPagar.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
-                .ObterTodos()
+            
+            contaPagamento = new RepositorioContaPagamento(Session).ObterTodos()
                 .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-                x.Conta.TipoConta == TipoConta.Pagar &&
-                x.DataVencimento >= primeiroDia &&
+                //x.DataVencimento >= primeiroDia &&
                 x.DataVencimento <= ultimoDia &&
-                x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id)
-                .Select(x => x.ValorParcela)
-                .Sum());
+                x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id).ToList();
 
-            txtValorTotalReceber.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
-                .ObterTodos()
-                .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-                x.Conta.TipoConta == TipoConta.Receber &&
-                x.DataVencimento >= primeiroDia &&
-                x.DataVencimento <= ultimoDia &&
-                x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id)
-               .Select(x => x.ValorParcela)
-                .Sum());
+            txtValorTotalPagar.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorParcela).Sum());
 
-            txtValorTotalCartoes.Text = String.Format("R$ {0}", new RepositorioContaPagamento(Session)
-                .ObterTodos()
-                .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente ||
-                x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-                x.Conta.TipoConta == TipoConta.Pagar &&
-                x.DataVencimento >= primeiroDia &&
-                x.DataVencimento <= ultimoDia &&
-                x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim &&
-                x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id)
-                .Select(x => x.ValorParcela)
-                .Sum());
+            txtValorTotalReceber.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorParcela).Sum());
+
+            txtValorTotalCartoes.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorParcela).Sum());
+
+            AlertaContas();
         }
         #endregion
 
@@ -96,7 +82,49 @@ namespace CFP.App
         private void ConfiguracoesSistema()
         {
             Session.Clear();
-            config = new RepositorioConfiguracao(Session).ObterTodos().Where(x => x.UsuarioCriacao == MainWindow.UsuarioLogado).FirstOrDefault();
+            config = new RepositorioConfiguracao(Session).ObterPorParametros(x => x.UsuarioCriacao.Id == UsuarioLogado.Id).FirstOrDefault();
+        }
+        #endregion
+
+        #region Consulta Alerta
+        private ObservableCollection<AlertaContas> alertas;
+      
+        private void AlertaContas()
+        {
+            string msg = string.Empty;
+            TipoAlertaContas tipoAlerta = TipoAlertaContas.Aviso;
+            alertas = new ObservableCollection<AlertaContas>();
+            foreach (var parcela in contaPagamento)
+            {
+                if(DateTime.Now > parcela.DataVencimento.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59))
+                {
+                    msg = "Parcela já passou da data de vencimento! VERIFIQUE!";
+                    tipoAlerta = TipoAlertaContas.Atrasado;
+                }
+                else
+                {
+                    int resData = DateTime.Compare(DateTime.Now, (DateTime)parcela.DataVencimento);
+                    if (resData > 0 && resData <= config.DiasAlertaVencimento)
+                    {
+                        msg = "Parcela esta próxima do vencimento, fique de olho!";
+                        tipoAlerta = TipoAlertaContas.Aviso;
+                    }
+                }
+                alertas.Add(new AlertaContas()
+                {
+                    TipoAlertaContas = tipoAlerta,
+                    Mensagem = msg,
+                    CodigoConta = parcela.Conta.Codigo,
+                    Descricao = parcela.Conta.Nome,
+                    NumeroParcela = parcela.Numero,
+                    ValorParcela = parcela.ValorParcela,
+                    VencimentoParcela = (DateTime)parcela.DataVencimento
+                });
+            }
+            if(alertas.Count == 0)
+                bAlertas.Visibility = Visibility.Hidden;
+            else
+                bAlertas.Visibility = Visibility.Visible;
         }
         #endregion
 
@@ -171,6 +199,7 @@ namespace CFP.App
                 Close();
             }
             #endregion
+            ConfiguracoesSistema();
             ResumoTela();
         }
 
@@ -295,7 +324,7 @@ namespace CFP.App
         private void btAlertas_Click(object sender, RoutedEventArgs e)
         {
             GridPrincipal.Children.Clear();
-            GridPrincipal.Children.Add(new ucAlertaContas(Session));
+            GridPrincipal.Children.Add(new ucAlertaContas(alertas,Session));
         }
     }
 }
