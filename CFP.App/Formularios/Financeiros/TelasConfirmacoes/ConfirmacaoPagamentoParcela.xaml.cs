@@ -492,9 +492,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                             ValorParcela = Decimal.Parse(txtValorRestante.Text),
                             DataVencimento = dataVencimento
                         });
-                        DialogResult = true;
+                       
                     }
-                    
+                    DialogResult = true;
                 }
             }
 

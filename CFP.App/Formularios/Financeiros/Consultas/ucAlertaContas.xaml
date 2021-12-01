@@ -33,13 +33,13 @@
 
         <DataGrid x:Name="dgAlertaContas"  
                            AutoGenerateColumns="False"                                        
-                           Background="white" IsReadOnly="True">
+                           Background="white" IsReadOnly="True" MouseDoubleClick="dgAlertaContas_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Tipo Alerta" Binding="{Binding TipoAlertaContas}" />
                     <DataGridTextColumn Header="Mensagem" Binding="{Binding Mensagem}" />
                     <DataGridTextColumn Header="Conta" Binding="{Binding DescricaoCompleta}" />
-                    <DataGridTextColumn Header="Valor" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                    <DataGridTextColumn Header="Vencimento" Binding="{Binding VencimentoParcela, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                    <DataGridTextColumn Header="Valor" Binding="{Binding ContaPagamento.ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                    <DataGridTextColumn Header="Vencimento" Binding="{Binding ContaPagamento.DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
                     <!--<DataGridTemplateColumn>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

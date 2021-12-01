@@ -12,17 +12,12 @@ namespace CFP.Dominio.Dominio
     {
         public TipoAlertaContas TipoAlertaContas { get; set; }
         public String Mensagem { get; set; }
-        public Int64 CodigoConta { get; set; }
-        public String Descricao { get; set; }
-        public Int32 NumeroParcela { get; set; }
-        public Decimal ValorParcela { get; set; }
-        public DateTime VencimentoParcela { get; set; }
-
+        public ContaPagamento ContaPagamento { get; set; }
         public String DescricaoCompleta
         {
             get
             {
-                return String.Format("{0}-{1}- Parcela {2}", CodigoConta, Descricao, NumeroParcela);
+                return String.Format("{0}-{1}- Parcela {2}", ContaPagamento.Conta.Codigo, ContaPagamento.Conta.Nome, ContaPagamento.Numero);
             }
         }
     }

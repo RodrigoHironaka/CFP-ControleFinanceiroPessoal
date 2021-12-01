@@ -62,10 +62,10 @@ namespace CFP.App
             DateTime primeiroDia = new DateTime(data.Year, data.Month, 1);
             DateTime ultimoDia = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
             
+            contaPagamento.Clear();
             contaPagamento = new RepositorioContaPagamento(Session).ObterTodos()
                 .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-                //x.DataVencimento >= primeiroDia &&
-                x.DataVencimento <= ultimoDia &&
+                x.DataVencimento <= ultimoDia.Date.AddHours(23).AddMinutes(59).AddSeconds(59) &&
                 x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id).ToList();
 
             txtValorTotalPagar.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorParcela).Sum());
@@ -87,12 +87,13 @@ namespace CFP.App
         #endregion
 
         #region Consulta Alerta
-        private ObservableCollection<AlertaContas> alertas;
+        public ObservableCollection<AlertaContas> alertas;
       
         private void AlertaContas()
         {
             string msg = string.Empty;
             TipoAlertaContas tipoAlerta = TipoAlertaContas.Aviso;
+            ConfiguracoesSistema();
             alertas = new ObservableCollection<AlertaContas>();
             foreach (var parcela in contaPagamento)
             {
@@ -104,21 +105,20 @@ namespace CFP.App
                 else
                 {
                     int resData = DateTime.Compare(DateTime.Now, (DateTime)parcela.DataVencimento);
-                    if (resData > 0 && resData <= config.DiasAlertaVencimento)
+                    if(config != null)
                     {
-                        msg = "Parcela esta próxima do vencimento, fique de olho!";
-                        tipoAlerta = TipoAlertaContas.Aviso;
+                        if (resData > 0 && resData <= config.DiasAlertaVencimento)
+                        {
+                            msg = "Parcela esta próxima do vencimento, fique de olho!";
+                            tipoAlerta = TipoAlertaContas.Aviso;
+                        }
                     }
                 }
                 alertas.Add(new AlertaContas()
                 {
                     TipoAlertaContas = tipoAlerta,
                     Mensagem = msg,
-                    CodigoConta = parcela.Conta.Codigo,
-                    Descricao = parcela.Conta.Nome,
-                    NumeroParcela = parcela.Numero,
-                    ValorParcela = parcela.ValorParcela,
-                    VencimentoParcela = (DateTime)parcela.DataVencimento
+                    ContaPagamento = parcela
                 });
             }
             if(alertas.Count == 0)
@@ -158,6 +158,7 @@ namespace CFP.App
             {
                 case 0:
                     GridPrincipal.Children.Clear();
+                    ConfiguracoesSistema();
                     ResumoTela();
                     break;
                 case 1:
@@ -318,6 +319,7 @@ namespace CFP.App
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             GridPrincipal.Children.Clear();
+            ConfiguracoesSistema();
             ResumoTela();
         }
 
