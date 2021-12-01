@@ -139,7 +139,7 @@
                 </CheckBox>
                 
                 <CheckBox x:Name="chkUsadoParaCompras" 
-                          Content="Usado Para Compras?"
+                          Content="Possui Fatura Mensal?"
                           FontFamily="Champagne &amp; Limousines" 
                                 FontSize="22"  
                                 Foreground="#FF1F3D68"

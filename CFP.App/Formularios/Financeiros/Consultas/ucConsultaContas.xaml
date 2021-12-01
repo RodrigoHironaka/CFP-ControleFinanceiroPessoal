@@ -160,7 +160,7 @@
 
             <TextBox x:Name="txtPesquisa"
                      Grid.Column="7"
-                     Grid.ColumnSpan="4" 
+                     Grid.ColumnSpan="3" 
                      materialDesign:HintAssist.Hint="Pesquisa Geral" 
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                      FontFamily="Champagne &amp; Limousines" 
@@ -170,12 +170,12 @@
 
             <TextBlock x:Name="txtTotalFiltro" 
                        Text="R$ 0.00"
-                       Grid.Column="11"
-                       Grid.ColumnSpan="2"
+                       Grid.Column="10"
+                       Grid.ColumnSpan="3"
                        Foreground="White"
                        FontFamily="Champagne &amp; Limousines"
                        FontSize="18"
-                       VerticalAlignment="Top"
+                       VerticalAlignment="Bottom"
                        HorizontalAlignment="Center"
                        Margin="10"/>
 

@@ -113,7 +113,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             }
 
             var filtro = RepositorioContaPagamento.ObterPorParametros(predicado).ToList();
-            dgContasFiltradas.ItemsSource = filtro;
+            dgContasFiltradas.ItemsSource = filtro.OrderBy(x =>x.DataVencimento);
             if (filtro.Count > 0)
                 txtTotalFiltro.Text = String.Format("Total: {0}", filtro.Sum(x => x.ValorParcela).ToString("N2"));
         }
@@ -219,12 +219,20 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             Session = _session;
         }
 
+        public ucConsultaContas(List<ContaPagamento> _contaPagamentos, ISession _session)
+        {
+            InitializeComponent();
+            Session = _session;
+            dgContasFiltradas.ItemsSource = _contaPagamentos.OrderBy(x => x.DataVencimento);
+            if (_contaPagamentos.Count > 0)
+                txtTotalFiltro.Text = String.Format("Total: {0}", _contaPagamentos.Sum(x => x.ValorParcela).ToString("N2"));
+        }
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             ConfiguracoesSistema();
             CarregaCombo();
             PrimeiroUltimoDiaMes();
-            
         }
 
         private void btFiltro_Click(object sender, RoutedEventArgs e)

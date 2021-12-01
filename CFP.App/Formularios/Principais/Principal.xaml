@@ -100,7 +100,7 @@
                             </Grid.ColumnDefinitions>
 
                             <!--A pagar -->
-                            <Button x:Name="btApagar"
+                            <Button x:Name="btAPagar"
                                     Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
                                     Height="90" Width="90"
                                     Grid.Column="0"  Grid.RowSpan="2" 
@@ -108,7 +108,7 @@
                                     VerticalAlignment="Stretch" 
                                     ToolTip="Resumo Conta a Pagar"
                                     Background="#FF1F3D68"
-                                    BorderBrush="#FF1F3D68">
+                                    BorderBrush="#FF1F3D68" Click="btAPagar_Click">
                                 <materialDesign:PackIcon
                                             Kind="AccountCash"
                                             Width="90"
@@ -166,7 +166,7 @@
                                     VerticalAlignment="Stretch" 
                                     ToolTip="Resumo Conta a Receber"
                                     Background="#FF1F3D68"
-                                    BorderBrush="#FF1F3D68">
+                                    BorderBrush="#FF1F3D68" Click="btReceber_Click">
                                 <materialDesign:PackIcon
                                             Kind="AccountCash"
                                             Width="90"
@@ -281,7 +281,7 @@
                                     VerticalAlignment="Stretch" 
                                     ToolTip="Resumo Cartões"
                                     Background="#FF1F3D68"
-                                    BorderBrush="#FF1F3D68">
+                                    BorderBrush="#FF1F3D68" Click="btCartoes_Click">
                                 <materialDesign:PackIcon
                                             Kind="CreditCardMultiple"
                                             Width="90"

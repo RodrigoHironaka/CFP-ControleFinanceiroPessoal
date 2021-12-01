@@ -328,5 +328,26 @@ namespace CFP.App
             GridPrincipal.Children.Clear();
             GridPrincipal.Children.Add(new ucAlertaContas(alertas,Session));
         }
+
+        private void btAPagar_Click(object sender, RoutedEventArgs e)
+        {
+            var listaApagar = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).ToList();
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new ucConsultaContas(listaApagar, Session));
+        }
+
+        private void btReceber_Click(object sender, RoutedEventArgs e)
+        {
+            var listaAreceber = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).ToList();
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new ucConsultaContas(listaAreceber, Session));
+        }
+
+        private void btCartoes_Click(object sender, RoutedEventArgs e)
+        {
+            var listaCartoes = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).ToList();
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new ucConsultaContas(listaCartoes, Session));
+        }
     }
 }
