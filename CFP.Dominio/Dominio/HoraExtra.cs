@@ -13,11 +13,35 @@ namespace Dominio.Dominio
         public virtual DateTime DataHoraExtra { get; set; }
         public virtual TimeSpan HoraInicioManha { get; set; }
         public virtual TimeSpan HoraFinalManha { get; set; }
-        public virtual TimeSpan TotalManha { get; set; }
         public virtual TimeSpan HoraInicioTarde { get; set; }
         public virtual TimeSpan HoraFinalTarde { get; set; }
-        public virtual TimeSpan TotalTarde { get; set; }
-        public virtual TimeSpan HoraFinalDia { get; set; }
+        public virtual TimeSpan TotalManha
+        {
+            get
+            {
+                if (HoraInicioManha != TimeSpan.Zero && HoraFinalManha != TimeSpan.Zero)
+                    return (HoraFinalManha.Subtract(HoraInicioManha)) - TimeSpan.Parse("04:00:00");
+                else
+                    return TimeSpan.Zero;
+            }
+        }
+        public virtual TimeSpan TotalTarde 
+        {
+            get
+            {
+                if (HoraInicioTarde!= TimeSpan.Zero && HoraFinalTarde != TimeSpan.Zero)
+                    return (HoraFinalTarde.Subtract(HoraInicioTarde)) - TimeSpan.Parse("04:00:00");
+                else
+                    return TimeSpan.Zero;
+            }
+        }
+        public virtual TimeSpan HoraFinalDia 
+        {
+            get
+            {
+                return TotalManha + TotalTarde;
+            }
+        }
 
 
     }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="1020">
+             d:DesignHeight="550" d:DesignWidth="1020" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -86,16 +86,35 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBox x:Name="txtNome"
-                         Grid.Row="0"
-                     materialDesign:HintAssist.Hint="Descricão" 
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                     FontFamily="Champagne &amp; Limousines" 
-                     FontSize="22" 
-                     Foreground="#FF1F3D68" 
-                     HorizontalAlignment="Stretch"
-                     VerticalAlignment="Center"
-                     Margin="5"/>
+                <Grid  Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="600"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtNome"
+                             Grid.Column="0"
+                             materialDesign:HintAssist.Hint="Descricão" 
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             FontFamily="Champagne &amp; Limousines" 
+                             FontSize="22" 
+                             Foreground="#FF1F3D68" 
+                             HorizontalAlignment="Stretch"
+                             VerticalAlignment="Center"
+                             Margin="5"/>
+
+                    <ComboBox x:Name="cmbPessoa"
+                               Grid.Column="1"
+                              Grid.ColumnSpan="2"
+                              materialDesign:HintAssist.Hint="Pessoa" 
+                              Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                              FontFamily="Champagne &amp; Limousines" 
+                              FontSize="20"
+                              Foreground="#FF1F3D68" 
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Stretch"
+                              Margin="5"/>
+                </Grid>
+               
 
                 <Grid Grid.Row="1">
                     <Grid.ColumnDefinitions>
@@ -107,7 +126,7 @@
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <DatePicker x:Name="txtEmissao"
+                    <DatePicker x:Name="txtDataHoraExtra"
                                 Grid.Column="0"
                                 materialDesign:HintAssist.Hint="Data" 
                                 Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
@@ -116,11 +135,11 @@
                                 Foreground="#FF1F3D68"
                                 VerticalAlignment="Stretch"
                         Margin="5"/>
-                    
+
                     <materialDesign:TimePicker x:Name="txtHoraInicio"
                                                Grid.Column="1"
                                                Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
-                                               materialDesign:HintAssist.Hint="Hora Início"
+                                               materialDesign:HintAssist.Hint="Início Manhã"
                                                FontFamily="Champagne &amp; Limousines" 
                                                FontSize="18"
                                                Foreground="#FF1F3D68" 
@@ -132,7 +151,7 @@
                     <materialDesign:TimePicker x:Name="txtHoraFinal"
                                                Grid.Column="2"
                                                Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
-                                               materialDesign:HintAssist.Hint="Hora Final"
+                                               materialDesign:HintAssist.Hint="Final Manhã"
                                                FontFamily="Champagne &amp; Limousines" 
                                                FontSize="18"
                                                Foreground="#FF1F3D68" 
@@ -141,26 +160,39 @@
                                                Margin="5"
                                                Is24Hours="True" SelectedTimeFormat="Long"/>
 
-                    <TextBox x:Name="txtTotalPeriodo"
+                    <materialDesign:TimePicker x:Name="txtHoraInicioTarde"
                                                Grid.Column="3"
-                                               Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                                               materialDesign:HintAssist.Hint="Hora Período"
+                                               Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                                               materialDesign:HintAssist.Hint="Início Tarde"
                                                FontFamily="Champagne &amp; Limousines" 
                                                FontSize="18"
                                                Foreground="#FF1F3D68" 
                                                VerticalAlignment="Stretch"
                                                HorizontalAlignment="Stretch"
-                                               Margin="5"/>
-                    
+                                               Margin="5"
+                                               Is24Hours="True" SelectedTimeFormat="Long"/>
+
+                    <materialDesign:TimePicker x:Name="txtHoraFinalTarde"
+                                               Grid.Column="4"
+                                               Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                                               materialDesign:HintAssist.Hint="Final Tarde"
+                                               FontFamily="Champagne &amp; Limousines" 
+                                               FontSize="18"
+                                               Foreground="#FF1F3D68" 
+                                               VerticalAlignment="Stretch"
+                                               HorizontalAlignment="Stretch"
+                                               Margin="5"
+                                               Is24Hours="True" SelectedTimeFormat="Long"/>
+
                     <Button x:Name="btAdd"
-                            Grid.Column="4"
+                            Grid.Column="6"
                             Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             Background="#FF1F3D68" 
                             BorderBrush="#FF1F3D68"
                             Height="60"
-                            Width="60">
+                            Width="60" Click="btAdd_Click">
                         <materialDesign:PackIcon 
                             Kind="Check"  
                             Width="50" 
@@ -174,15 +206,15 @@
                           AutoGenerateColumns="False" 
                           IsReadOnly="True">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Data" Binding="{Binding DataGeracao, StringFormat=d,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Inicio manha" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Fim manha" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Total manha" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Inicio Tarde" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Fim Tarde" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Total Tarde" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Total Dia" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Descricão" Binding="{Binding Valor, StringFormat=h,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Data" Binding="{Binding DataHoraExtra, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Inicio manha" Binding="{Binding HoraInicioManha, ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Fim manha" Binding="{Binding HoraFinalManha, ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Total Manhã" Binding="{Binding TotalManha, ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Inicio Tarde" Binding="{Binding HoraInicioTarde, ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Final Tarde" Binding="{Binding HoraFinalTarde, ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Total Tarde" Binding="{Binding TotalTarde, ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Total Dia" Binding="{Binding HoraFinalDia, ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Descricão" Binding="{Binding Nome, ConverterCulture='pt-BR'}" />
 
                     </DataGrid.Columns>
                 </DataGrid>
