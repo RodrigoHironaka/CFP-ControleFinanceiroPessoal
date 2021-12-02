@@ -104,14 +104,16 @@ namespace CFP.App
                 }
                 else
                 {
-                    int resData = DateTime.Compare(DateTime.Now, (DateTime)parcela.DataVencimento);
-                    if(config != null)
+                    var dias = DateTime.Parse(parcela.DataVencimento.ToString()).Subtract(DateTime.Now).Days;
+                    if (config != null)
                     {
-                        if (resData > 0 && resData <= config.DiasAlertaVencimento)
+                        if (dias > 0 && dias <= config.DiasAlertaVencimento)
                         {
                             msg = "Parcela esta próxima do vencimento, fique de olho!";
                             tipoAlerta = TipoAlertaContas.Aviso;
                         }
+                        else
+                            continue;
                     }
                 }
                 alertas.Add(new AlertaContas()
