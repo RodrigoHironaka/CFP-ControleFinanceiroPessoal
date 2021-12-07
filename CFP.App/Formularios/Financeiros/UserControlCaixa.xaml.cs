@@ -252,12 +252,12 @@ namespace CFP.App.Formularios.Financeiros
                 .Where(x => x.Conta.Pessoa != null &&
                 (x.SituacaoParcelas == SituacaoParcela.Pendente ||
                 x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-                x.Conta.TipoConta == TipoConta.Pagar &&
                 x.DataVencimento.Value.Month <= DateTime.Now.Month &&
                 x.DataVencimento.Value.Year <= DateTime.Now.Year &&
-                x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado)
-                .Sum(x => x.ValorParcela);
-            txtTotalAReceber.Text = String.Format("TOTAL: R${0:n2}", aReceberPessoa);
+                x.Conta.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
+                .Select(x => x.ValorParcela)
+                .Sum();
+            txtTotalAReceberPessoa.Text = String.Format("TOTAL: R${0:n2}", aReceberPessoa);
             #endregion
 
             SalvaTotais();
@@ -520,6 +520,32 @@ namespace CFP.App.Formularios.Financeiros
         {
             GridCadastro.Children.Clear();
             GridCadastro.Children.Add(new UserControlCofre(Session));
+        }
+
+        private void MenuItemAddTudoCaixa_Click(object sender, RoutedEventArgs e)
+        {
+            List<ContaPagamento> ValorRefPessoas = new List<ContaPagamento>();
+            foreach (ContaPagamento item in DataGridAReceber.ItemsSource)
+            {
+                ValorRefPessoas.Add(item);
+            }
+            ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(ValorRefPessoas, caixa, Session);
+            janela.ShowDialog();
+        }
+
+        private void MenuItemAddItemSelecionado_Click(object sender, RoutedEventArgs e)
+        {
+            ContaPagamento selecao = (ContaPagamento)DataGridAReceber.SelectedItem;
+            if(selecao != null)
+            {
+                ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(selecao, caixa, Session);
+                janela.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Nenhum item selecionado!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
         }
     }
 }

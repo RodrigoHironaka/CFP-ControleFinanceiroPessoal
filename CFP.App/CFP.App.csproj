@@ -143,6 +143,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmaEntradaSaidaRefPessoa.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmaValorInicialCaixa.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -279,6 +283,9 @@
     </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmacaoPagamentoParcela.xaml.cs">
       <DependentUpon>ConfirmacaoPagamentoParcela.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmaEntradaSaidaRefPessoa.xaml.cs">
+      <DependentUpon>ConfirmaEntradaSaidaRefPessoa.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmaValorInicialCaixa.xaml.cs">
       <DependentUpon>ConfirmaValorInicialCaixa.xaml</DependentUpon>
