@@ -15,6 +15,8 @@ namespace Dominio.Dominio
         public virtual TimeSpan HoraFinalManha { get; set; }
         public virtual TimeSpan HoraInicioTarde { get; set; }
         public virtual TimeSpan HoraFinalTarde { get; set; }
+        public virtual TimeSpan HoraInicioNoite { get; set; }
+        public virtual TimeSpan HoraFinalNoite { get; set; }
         public virtual TimeSpan TotalManha
         {
             get

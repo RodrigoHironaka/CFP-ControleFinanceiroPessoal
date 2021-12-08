@@ -28,6 +28,8 @@ namespace Repositorio.Mapeamentos
             Property(x => x.HoraFinalManha);
             Property(x => x.HoraInicioTarde);
             Property(x => x.HoraFinalTarde);
+            Property(x => x.HoraInicioNoite);
+            Property(x => x.HoraFinalNoite);
             ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
             ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));
             ManyToOne(x => x.UsuarioAlteracao, m => m.Column("UsuarioAlteracao"));

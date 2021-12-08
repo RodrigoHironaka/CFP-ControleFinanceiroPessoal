@@ -69,13 +69,11 @@ namespace CFP.App.Formularios.Financeiros
         {
             try
             {
-                horaExtra.Nome = txtNome.Text;
+                horaExtra.Nome = txtDescricao.Text;
                 horaExtra.Pessoa = (Pessoa)cmbPessoa.SelectedItem;
                 horaExtra.DataHoraExtra = (DateTime)txtDataHoraExtra.SelectedDate;
                 horaExtra.HoraInicioManha = txtHoraInicio.SelectedTime != null ? txtHoraInicio.SelectedTime.Value.TimeOfDay : TimeSpan.Zero;
                 horaExtra.HoraFinalManha = txtHoraFinal.SelectedTime != null ? txtHoraFinal.SelectedTime.Value.TimeOfDay : TimeSpan.Zero;
-                horaExtra.HoraInicioTarde = txtHoraInicioTarde.SelectedTime != null ? txtHoraInicioTarde.SelectedTime.Value.TimeOfDay : TimeSpan.Zero;
-                horaExtra.HoraFinalTarde = txtHoraFinalTarde.SelectedTime != null ? txtHoraFinalTarde.SelectedTime.Value.TimeOfDay : TimeSpan.Zero;
                 return true;
             }
             catch (Exception ex)
