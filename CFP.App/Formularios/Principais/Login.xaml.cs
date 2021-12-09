@@ -61,12 +61,14 @@ namespace CFP.App.Formularios.Principais
         Usuario usuario;
 
         internal Usuario UsuarioLogado;
-       
+
+        
 
         public Login()
         {
             InitializeComponent();
             txtUsuario.Focus();
+            txtVersao.Text = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)

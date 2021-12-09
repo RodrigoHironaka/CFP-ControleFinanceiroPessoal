@@ -106,6 +106,16 @@
                             HorizontalAlignment="Center" >
 
                     </TextBlock>
+                    <TextBlock x:Name="txtVersao"
+                        Text="Versao"
+                        FontFamily="Champagne &amp; Limousines"
+                        Foreground="#FF1F3D68"
+                        FontSize="18"
+                        Grid.Column="1" Grid.Row="5"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}" 
+                        VerticalAlignment="Center"
+                        Background="Transparent" 
+                        HorizontalAlignment="Center" Margin="50.6,71.4,49,-39.8" />
                 </Grid>
             </Border>
 
