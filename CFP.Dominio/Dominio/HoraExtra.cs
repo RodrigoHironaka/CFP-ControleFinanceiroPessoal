@@ -22,7 +22,7 @@ namespace Dominio.Dominio
             get
             {
                 if (HoraInicioManha != TimeSpan.Zero && HoraFinalManha != TimeSpan.Zero)
-                    return (HoraFinalManha.Subtract(HoraInicioManha)) - TimeSpan.Parse("04:00:00");
+                    return (HoraFinalManha.Subtract(HoraInicioManha));
                 else
                     return TimeSpan.Zero;
             }
@@ -32,19 +32,29 @@ namespace Dominio.Dominio
             get
             {
                 if (HoraInicioTarde!= TimeSpan.Zero && HoraFinalTarde != TimeSpan.Zero)
-                    return (HoraFinalTarde.Subtract(HoraInicioTarde)) - TimeSpan.Parse("04:00:00");
+                    return (HoraFinalTarde.Subtract(HoraInicioTarde));
                 else
                     return TimeSpan.Zero;
             }
         }
-        public virtual TimeSpan HoraFinalDia 
+
+        public virtual TimeSpan TotalNoite
         {
             get
             {
-                return TotalManha + TotalTarde;
+                if (HoraInicioNoite != TimeSpan.Zero && HoraFinalNoite != TimeSpan.Zero)
+                    return (HoraFinalNoite.Subtract(HoraInicioNoite));
+                else
+                    return TimeSpan.Zero;
             }
         }
+        public virtual TimeSpan HoraFinalDia
+        {
+            get
+            {
+                return (TotalManha + TotalTarde + TotalNoite) - TimeSpan.Parse("08:00:00");
 
-
+            }
+        }
     }
 }

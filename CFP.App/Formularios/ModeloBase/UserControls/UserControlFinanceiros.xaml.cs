@@ -68,7 +68,7 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
         private void btHorasTrabalho_Click(object sender, RoutedEventArgs e)
         {
             panelCadastros.Children.Clear();
-            panelCadastros.Children.Add(new UserControlHoraExtra(Session));
+            panelCadastros.Children.Add(new UserControlHoraExtra(new HoraExtra(),Session));
         }
     }
 }

@@ -86,6 +86,7 @@
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                         KeyDown="dtpInicio_KeyDown"
                         VerticalAlignment="Top"
+                        Foreground="DarkGray"
                         Margin="5 -4 5 1"/>
 
             <DatePicker x:Name="dtpFinal"
@@ -96,6 +97,7 @@
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                         KeyDown="dtpFinal_KeyDown"
                         VerticalAlignment="Bottom"
+                        Foreground="DarkGray"
                         Margin="5 0 5 1"/>
 
             <ComboBox x:Name="cmbTipoConta"
@@ -106,6 +108,7 @@
                       FontFamily="Champagne &amp; Limousines"
                       FontSize="12" KeyDown="cmbTipoConta_KeyDown"
                       VerticalAlignment="Top"
+                      Foreground="DarkGray"
                       Margin="5 0 5 0"/>
 
             <ComboBox x:Name="cmbPeriodo"
@@ -116,6 +119,7 @@
                       FontFamily="Champagne &amp; Limousines"
                       FontSize="12" KeyDown="cmbPeriodo_KeyDown" 
                       VerticalAlignment="Bottom"
+                      Foreground="DarkGray"
                       Margin="5 0 5 0"/>
 
             <ComboBox x:Name="cmbFormaCompra"
@@ -126,6 +130,7 @@
                       FontFamily="Champagne &amp; Limousines"
                       FontSize="12" KeyDown="cmbFormaCompra_KeyDown"
                       VerticalAlignment="Top"
+                      Foreground="DarkGray"
                       Margin="5 0 5 0"/>
 
             <ComboBox x:Name="cmbPessoaReferenciada"
@@ -136,6 +141,7 @@
                       FontFamily="Champagne &amp; Limousines"
                       FontSize="12" KeyDown="cmbPessoaReferenciada_KeyDown" 
                       VerticalAlignment="Bottom"
+                      Foreground="DarkGray"
                       Margin="5 0 5 0"/>
 
             <ComboBox x:Name="cmbSituacaoParcelas"
@@ -146,6 +152,7 @@
                       FontFamily="Champagne &amp; Limousines"
                       FontSize="12" KeyDown="cmbSituacaoParcelas_KeyDown"
                       VerticalAlignment="Top"
+                      Foreground="DarkGray"
                       Margin="5 0 5 0"/>
             
             <ComboBox x:Name="cmbSituacaoConta"
@@ -156,6 +163,7 @@
                       FontFamily="Champagne &amp; Limousines"
                       FontSize="12"
                       VerticalAlignment="Top"
+                      Foreground="DarkGray"
                       Margin="5 0 5 0" KeyDown="cmbSituacaoConta_KeyDown"/>
 
             <TextBox x:Name="txtPesquisa"
@@ -166,13 +174,14 @@
                      FontFamily="Champagne &amp; Limousines" 
                      FontSize="12" 
                      VerticalAlignment="Bottom" KeyDown="txtPesquisa_KeyDown"
+                     Foreground="DarkGray"
                      Margin="5 0 5 0"/>
 
             <TextBlock x:Name="txtTotalFiltro" 
                        Text="R$ 0.00"
                        Grid.Column="10"
                        Grid.ColumnSpan="3"
-                       Foreground="White"
+                       Foreground="DarkGray"
                        FontFamily="Champagne &amp; Limousines"
                        FontSize="18"
                        VerticalAlignment="Bottom"

@@ -79,8 +79,8 @@
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                     Height="60" Width="60" 
                     Background="#FF1F3D68" 
-                    Margin="0,5,7,5.4" 
-                    HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68" TabIndex="16">
+                    Margin="0,5,7,0" 
+                    HorizontalAlignment="Right" Click="btCancelar_Click" BorderBrush="#FF1F3D68" TabIndex="16" VerticalAlignment="Top">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 

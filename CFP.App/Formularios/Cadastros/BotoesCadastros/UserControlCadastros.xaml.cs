@@ -111,7 +111,7 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
         private void btHorasTrabalho_Click(object sender, RoutedEventArgs e)
         {
             gridCadastros.Children.Clear();
-            gridCadastros.Children.Add(new UserControlHoraExtra(Session));
+            gridCadastros.Children.Add(new UserControlHoraExtra(new HoraExtra(),Session));
         }
     }
 }
