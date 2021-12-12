@@ -68,7 +68,7 @@ namespace CFP.App.Formularios.Principais
         {
             InitializeComponent();
             txtUsuario.Focus();
-            txtVersao.Text = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            //txtVersao.Text = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)

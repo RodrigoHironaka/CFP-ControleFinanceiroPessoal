@@ -209,3 +209,4 @@ alter table TiposRenda add index (UsuarioCriacao), add constraint FK_DEE36B93 fo
 alter table TiposRenda add index (UsuarioAlteracao), add constraint FK_858D8654 foreign key (UsuarioAlteracao) references Usuarios (Id);
 create table hibernate_unique_key ( next_hi BIGINT );
 insert into hibernate_unique_key values ( 1 );
+INSERT usuarios VALUES (1, 'Admin', 'admin', '3C9909AFEC25354D551DAE21590BB26E38D53F2173B8D3DC3EEE4C047E7AB1C1EB8B85103E3BE7BA613B31BB5C9C36214DC9F14A42FD7A2FDB84856BCA5C44C2', 0, 0, '2021-12-12', null)
