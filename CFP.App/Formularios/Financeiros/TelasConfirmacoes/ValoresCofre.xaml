@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="ValoresCofre" 
-        Height="300" Width="400" 
+        Height="350" Width="400" 
         WindowStartupLocation="CenterScreen"
         WindowStyle="None" Loaded="Window_Loaded">
     <Grid >
@@ -17,10 +17,20 @@
                 <RowDefinition Height="130"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="#FF1F3D68"/>
-            <Grid Grid.Row="1" Background="LightSlateGray"/>
+            <Grid Grid.Row="0" Background="#FF1F3D68">
+                <TextBlock
+                  Text="Transação Cofre"
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="20"
+                  Foreground="White"
+                  VerticalAlignment="Top" 
+                  HorizontalAlignment="Center" 
+                  Margin="15"/>
+
+            </Grid>
+                <Grid Grid.Row="1" Background="LightSlateGray"/>
         </Grid>
-        <Border Margin="10"  
+        <Border Margin="10 50 10 10"  
                     Background="LightGray" 
                     Opacity="0.9"
                     CornerRadius="30"
