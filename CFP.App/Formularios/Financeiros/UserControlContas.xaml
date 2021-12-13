@@ -420,7 +420,7 @@
                                           AutoGenerateColumns="False" 
                                           VerticalScrollBarVisibility="Auto" 
                                           IsReadOnly="True"
-                                          TabIndex="6">
+                                          TabIndex="6" MouseDoubleClick="DataGridContaPagamento_MouseDoubleClick">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Situação" Binding="{Binding SituacaoParcelas}" />
                                         <DataGridTextColumn Header="Número" Binding="{Binding Numero}" />

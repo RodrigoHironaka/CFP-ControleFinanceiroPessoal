@@ -1279,6 +1279,11 @@ namespace CFP.App.Formularios.Financeiros
             else
                 MessageBox.Show("Voce não pode cancelar esta Parcela!", " Informacão ", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+        private void DataGridContaPagamento_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MenuItemEditarParcela_Click(sender, e);
+        }
     }
 }
 
