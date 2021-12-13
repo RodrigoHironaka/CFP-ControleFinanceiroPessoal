@@ -27,11 +27,11 @@ namespace CFP.App.Formularios.Principais
         #region Preencher Campos
         public void PreencheCampos()
         {
-            string caminho = @"D:\Projetos\ControleFinanceiroPessoal\CFP.App\config.xml";
+            string conexao = ArquivosXML.CaminhoArquivoXML();
 
-            if (File.Exists(caminho))
+            if (File.Exists(conexao))
             {
-                DadosBD dadosBDXml = ArquivosXML.Deserialize<DadosBD>(caminho);
+                DadosBD dadosBDXml = ArquivosXML.Deserialize<DadosBD>(conexao);
                 txtBase.Text = dadosBDXml.BaseBD;
                 txtPorta.Text = dadosBDXml.PortaBD;
                 txtServidor.Text = dadosBDXml.ServidorBD;
@@ -95,7 +95,7 @@ namespace CFP.App.Formularios.Principais
                     var d = ArquivosXML.Serialize<DadosBD>(dados);
                     XDocument doc = XDocument.Parse(d);
                     XElement root = doc.Root;
-                    root.Save(@"D:\Projetos\ControleFinanceiroPessoal\CFP.App\config.xml");
+                    root.Save("config.xml");// Salva no diretório padrão da aplicação
                     Gravado = true;
                 }
                 var session = NHibernateHelper.GetSession(true);

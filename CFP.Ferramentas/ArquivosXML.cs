@@ -69,8 +69,7 @@ namespace CFP.Ferramentas
 
         public static string CaminhoArquivoXML()
         {
-            return @"D:\Projetos\ControleFinanceiroPessoal\CFP.App\config.xml";
-            //return caminho;
+            return String.Format(@"{0}\config.xml", Directory.GetCurrentDirectory());
         }
 
         #region Serializar e Deserializar para XML

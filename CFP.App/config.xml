@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<DadosBD xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <ServidorBD>localhost</ServidorBD>
-  <BaseBD>cfp</BaseBD>
-  <UsuarioBD>root</UsuarioBD>
-  <SenhaBD>123456</SenhaBD>
-  <PortaBD>3306</PortaBD>
-  <Servidor>true</Servidor>
-</DadosBD>
