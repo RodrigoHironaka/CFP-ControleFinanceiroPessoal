@@ -76,7 +76,7 @@
                             Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                             Height="50" Width="50" 
                             Background="#FF1F3D68" 
-                            HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btConfirmar_Click" TabIndex="2" >
+                            HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btConfirmar_Click" TabIndex="2" IsDefault="True" >
                             <materialDesign:PackIcon 
                                  Kind="Check"  
                                  Width="50" 
