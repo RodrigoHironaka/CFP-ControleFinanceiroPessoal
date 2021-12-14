@@ -1284,6 +1284,12 @@ namespace CFP.App.Formularios.Financeiros
         {
             MenuItemEditarParcela_Click(sender, e);
         }
+
+        private void cmbReferenciaPessoa_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape || e.Key == Key.Delete)
+                cmbReferenciaPessoa.SelectedIndex = -1;
+        }
     }
 }
 

@@ -7,10 +7,10 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1020" Loaded="UserControl_Loaded">
-    <Grid>
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
-            <RowDefinition Height="500"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Grid x:Name="GridCabecalho" Grid.Row="0" Background="#FF1F3D68">
@@ -154,7 +154,7 @@
                       VerticalAlignment="Top"
                       Foreground="DarkGray"
                       Margin="5 0 5 0"/>
-            
+
             <ComboBox x:Name="cmbSituacaoConta"
                       Grid.Column="9"
                       Grid.ColumnSpan="2" 
@@ -189,11 +189,13 @@
                        Margin="10"/>
 
         </Grid>
-        <Grid x:Name="GridCampos" Grid.Row="1" Background="LightGray">
-            <Grid Margin="20 5 20 50">
+        <Grid x:Name="GridCampos" Grid.Row="1"  Background="LightGray" >
+            <Grid  Margin="10,10,10,20" HorizontalAlignment="Stretch"  >
                 <DataGrid x:Name="dgContasFiltradas"  
                            AutoGenerateColumns="False"                                        
-                           Background="white" IsReadOnly="True" MouseDoubleClick="dgContasFiltradas_MouseDoubleClick" >
+                           Background="white" 
+                          IsReadOnly="True" 
+                          MouseDoubleClick="dgContasFiltradas_MouseDoubleClick" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Tipo" Binding="{Binding Conta.TipoConta}" />
                         <DataGridTextColumn Header="Código" Binding="{Binding Conta.Codigo}" />
@@ -212,7 +214,6 @@
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>
-               
             </Grid>
         </Grid>
     </Grid>

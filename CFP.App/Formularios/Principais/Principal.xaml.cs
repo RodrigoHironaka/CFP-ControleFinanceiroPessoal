@@ -351,5 +351,26 @@ namespace CFP.App
             GridPrincipal.Children.Clear();
             GridPrincipal.Children.Add(new ucConsultaContas(listaCartoes, Session));
         }
+
+        private void ButtonPopUpMax_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized )
+            {
+                ButtonPopUpMax.Content = "Maximizar";
+                gridConteudo.Margin = new Thickness(60, 50, 0, -490);
+                WindowState = WindowState.Normal;
+            }
+            else
+            {
+                ButtonPopUpMax.Content = "Minimizar";
+                gridConteudo.Margin = new Thickness(60, 50, 0, -708);
+                WindowState = WindowState.Maximized;
+            }
+        }
+
+        private void Principal_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }

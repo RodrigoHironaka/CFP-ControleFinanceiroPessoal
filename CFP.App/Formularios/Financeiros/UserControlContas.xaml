@@ -219,7 +219,7 @@
                                     FontFamily="Champagne &amp; Limousines" 
                                     FontSize="18"
                                     Foreground="#FF1F3D68" 
-                                    VerticalAlignment="Stretch" TabIndex="7"/>
+                                    VerticalAlignment="Stretch" TabIndex="7" KeyDown="cmbReferenciaPessoa_KeyDown"/>
 
 
 

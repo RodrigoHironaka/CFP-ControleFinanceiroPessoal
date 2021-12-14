@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="ConfirmaEntradaSaidaRefPessoa" 
-        Height="150" Width="350" 
+        Height="200" Width="350" 
         WindowStartupLocation="CenterScreen"
         WindowStyle="None">
     <Grid >
@@ -17,10 +17,17 @@
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="#FF1F3D68"/>
+            <Grid Grid.Row="0" Background="#FF1F3D68">
+                <TextBlock x:Name="lblNomeTela" Text="Entrada/Saída Ref Pessoa no Caixa" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="top" 
+                       FontSize="15"
+                      Foreground="White"
+                       Margin="0,10,0,0"/>
+            </Grid>
             <Grid Grid.Row="1" Background="LightSlateGray"/>
         </Grid>
-        <Border Margin="10"  
+        <Border Margin="10 40 10 10"  
                     Background="LightGray" 
                     Opacity="0.9"
                     CornerRadius="30"
@@ -50,7 +57,7 @@
                 <ComboBox 
                     x:Name="cmbFormaPagamento"
                     Grid.ColumnSpan="3" Grid.Row="1"
-                    materialDesign:HintAssist.Hint="Tipo Entrada/Saída" 
+                    materialDesign:HintAssist.Hint="Forma" 
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                     FontFamily="Champagne &amp; Limousines" 
                     FontSize="18"

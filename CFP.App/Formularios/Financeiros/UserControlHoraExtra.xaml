@@ -10,7 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
-            <RowDefinition Height="500"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid x:Name="GridCabecalho" Grid.Row="0" Background="#FF1F3D68">
             <Grid.ColumnDefinitions>
@@ -83,7 +83,7 @@
                        FontSize="15"
                       Foreground="White"
                        Margin="5,5,0,0"/>
-            
+
             <Button x:Name="btFiltro"
                     Grid.Column="11"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
@@ -146,10 +146,11 @@
             <Button x:Name="btSair"
                     Grid.Column="15"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
-                    Height="Auto" Width="Auto"
+                    Height="60" Width="60"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Botão para sair da tela" Margin="1.2,5,2,5.4" Click="btSair_Click" >
+                    ToolTip="Botão para sair da tela" 
+                    Click="btSair_Click" >
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 
@@ -250,13 +251,13 @@
                                                Is24Hours="True" SelectedTimeFormat="Long"/>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="1">
+            <Grid x:Name="GridControls2" Grid.Row="1">
                 <DataGrid x:Name="dgHoraExtra"
                           AutoGenerateColumns="False" 
                           VerticalScrollBarVisibility="Visible"
                           HorizontalScrollBarVisibility="Visible"
                           IsReadOnly="True" 
-                          Margin="5,5,5,40" 
+                          Margin="5,5,5,20" 
                           MouseDoubleClick="dgHoraExtra_MouseDoubleClick">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Data" Binding="{Binding DataHoraExtra, StringFormat=d,  ConverterCulture='pt-BR'}" />
