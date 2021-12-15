@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.Cadastros"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800" Loaded="UserControl_Loaded">
+             d:DesignHeight="550" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <Grid x:Name="GridPrincipal" Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
-            <RowDefinition Height="530"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="#FF1F3D68">
             <Button x:Name="btPesquisar" 
@@ -75,116 +75,127 @@
                        FontSize="12"
                        Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
-            <Grid x:Name="GridControls" Margin="50">
+            <Grid x:Name="GridControls" Margin="25">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBox
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBox
                     x:Name="txtNome"
+                        Grid.Row="0"
                      materialDesign:HintAssist.Hint="Nome" 
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                      FontFamily="Champagne &amp; Limousines" 
-                     FontSize="22" 
-                     Foreground="#FF1F3D68"  
-                     VerticalAlignment="Top" Height="52" Margin="0,0,0.4,0"/>
+                     FontSize="20" 
+                     Foreground="#FF1F3D68" />
 
-                <ComboBox 
+                    <ComboBox 
                     x:Name="cmbSituacao"
+                    Grid.Row="1"
                      materialDesign:HintAssist.Hint="Situação" 
                      Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                      FontFamily="Champagne &amp; Limousines" 
-                     FontSize="22" 
-                     Foreground="#FF1F3D68" Margin="0,52,0.4,329.6" Height="48"  
+                     FontSize="20" 
+                     Foreground="#FF1F3D68" VerticalAlignment="Stretch"  
                      />
-                <GroupBox x:Name="GroupBoxRendas"
+
+                    <GroupBox x:Name="GroupBoxRendas"
                     Header="Defina sua Renda" 
-                    Height="285" 
-                    Margin="0,105,0.4,0"
-                    VerticalAlignment="Top"
+                              Grid.Row="2"
                     Style="{StaticResource MaterialDesignGroupBox}"
                           Background="Transparent">
 
-                    <StackPanel x:Name="StackPanelCamposRenda" >
-                        <ComboBox  x:Name="cmbRenda"
+                        <StackPanel x:Name="StackPanelCamposRenda" >
+                            <ComboBox  x:Name="cmbRenda"
                                    materialDesign:HintAssist.Hint="Renda" 
                                    Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                                    FontFamily="Champagne &amp; Limousines" 
-                                   FontSize="22" 
+                                   FontSize="20" 
                                    Foreground="#FF1F3D68"
                                    VerticalAlignment="Top"/>
 
-                        <TextBox x:Name="txtRendaBruto"
+                            <TextBox x:Name="txtRendaBruto"
                                  materialDesign:HintAssist.Hint="Renda Bruto" 
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                  FontFamily="Champagne &amp; Limousines" 
-                                 FontSize="22" 
+                                 FontSize="20" 
                                  Foreground="#FF1F3D68"  
                                  VerticalAlignment="Top" PreviewTextInput="txtRendaBruto_PreviewTextInput" PreviewKeyDown="txtRendaBruto_PreviewKeyDown" />
 
-                        <TextBox
+                            <TextBox
                                  x:Name="txtRendaLiquida"
                                  materialDesign:HintAssist.Hint="Renda Líquida" 
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                  FontFamily="Champagne &amp; Limousines" 
-                                 FontSize="22" 
+                                 FontSize="20" 
                                  Foreground="#FF1F3D68"  
                                  VerticalAlignment="Top" PreviewTextInput="txtRendaLiquida_PreviewTextInput" PreviewKeyDown="txtRendaLiquida_PreviewKeyDown"/>
 
-                        <Grid x:Name="GridBotoesGroupBoxRendas" Height="79" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="120"/>
+                            <Grid x:Name="GridBotoesGroupBoxRendas" Height="79" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
 
-                            </Grid.ColumnDefinitions>
+                                </Grid.ColumnDefinitions>
 
-                            <Button x:Name="btCalcular" Grid.Column="0"
+                                <Button x:Name="btCalcular" Grid.Column="0"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                                     Height="55" 
                                     Width="55" 
                                     Background="#FF1F3D68" BorderBrush="#FF1F3D68" HorizontalAlignment="Left">
-                                <materialDesign:PackIcon 
+                                    <materialDesign:PackIcon 
                                         VerticalAlignment="Center"
                                         Kind="Calculator"  
                                         Width="45" 
                                         Height="45"/>
-                            </Button>
+                                </Button>
 
-                            <Button x:Name="btAdd" Grid.Column="1"
+                                <Button x:Name="btAdd" Grid.Column="1"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                                     Height="55" 
                                     Width="55"
                                     Background="#FF1F3D68" BorderBrush="#FF1F3D68" HorizontalAlignment="Left" Click="btAdd_Click">
-                                <materialDesign:PackIcon 
+                                    <materialDesign:PackIcon 
                                         Kind="Add"  
                                         Width="45" 
                                         Height="45"/>
-                            </Button>
+                                </Button>
 
-                            <Button x:Name="btRem" Grid.Column="1"
+                                <Button x:Name="btRem" Grid.Column="1"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                                     Height="55" 
                                     Width="55"
                                     Background="#FF1F3D68" BorderBrush="#FF1F3D68" VerticalAlignment="Center" HorizontalAlignment="Right" Click="btRem_Click">
-                                <materialDesign:PackIcon 
+                                    <materialDesign:PackIcon 
                                         Kind="Remove"  
                                         Width="45" 
                                         Height="45"/>
-                            </Button>
-                        </Grid>
-                    </StackPanel>
-                </GroupBox>
-
-                <Grid x:Name="GridTotais" Grid.Column="1" Margin="9.6,0,10,39.6" >
+                                </Button>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+              
+                <Grid x:Name="GridTotais" Grid.Column="1"  >
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="266"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="60"/>
                     </Grid.RowDefinitions>
+
                     <ListView x:Name="lstRendas" Grid.Column="1" Grid.Row="0" 
                           FontFamily="Champagne &amp; Limousines" 
                           FontSize="15" 
                           Foreground="#FF1F3D68"
-                          Style="{StaticResource MaterialDesignChoiceChipAccentListBox}">
+                          Style="{StaticResource MaterialDesignChoiceChipAccentListBox}"
+                              VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch"
+                              Margin="5 0 5 0">
                         <ListView.View>
                             <GridView x:Name="grdNomes">
                                 <GridViewColumn Header="Tipo de Renda"  DisplayMemberBinding="{Binding TipoRenda}"/>
@@ -193,27 +204,35 @@
                             </GridView>
                         </ListView.View>
                     </ListView>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox
+                            x:Name="txtTotalBruto" 
+                            Grid.Column="0"
+                            materialDesign:HintAssist.Hint="Total Renda Bruta" 
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                            FontFamily="Champagne &amp; Limousines" 
+                            FontSize="22" 
+                            Foreground="#FF1F3D68"
+                            IsReadOnly="True"
+                            Margin="5 0 5 0"/>
 
-                    <TextBox
-                        x:Name="txtTotalBruto" Grid.Row="1"
-                        materialDesign:HintAssist.Hint="Total Renda Bruta" 
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                        FontFamily="Champagne &amp; Limousines" 
-                        FontSize="22" 
-                        Foreground="#FF1F3D68"  
-                        VerticalAlignment="Top"
-                        IsReadOnly="True" Margin="-1,14.4,0,0"
-                    />
+                        <TextBox
+                             x:Name="txtTotalLiquido" Grid.Column="1"
+                             materialDesign:HintAssist.Hint="Total Renda Líquida" 
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                             FontFamily="Champagne &amp; Limousines" 
+                             FontSize="22" 
+                             Foreground="#FF1F3D68" 
+                             IsReadOnly="True"
+                            Margin="5 0 5 0"/>
+                    </Grid >
+                   
 
-                    <TextBox
-                        x:Name="txtTotalLiquido" Grid.Row="1"
-                        materialDesign:HintAssist.Hint="Total Renda Líquida" 
-                        Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                        FontFamily="Champagne &amp; Limousines" 
-                        FontSize="22" 
-                        Foreground="#FF1F3D68"  
-                        VerticalAlignment="Top" Margin="0,67.4,0,0"
-                        IsReadOnly="True" Height="56"/>
+                    
                 </Grid>
 
 

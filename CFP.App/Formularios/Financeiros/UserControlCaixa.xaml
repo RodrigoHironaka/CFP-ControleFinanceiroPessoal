@@ -10,7 +10,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
-            <RowDefinition Height="500"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid x:Name="GridCabecalho" Grid.Row="0" Background="#FF1F3D68">
             <Grid.ColumnDefinitions>
@@ -303,8 +303,8 @@
                 <TabItem x:Name="tabItemRef" Header="Ref Pessoas">
                     <Grid Margin="200 10 200 30">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="380"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
                         <DataGrid x:Name="DataGridAReceber" Grid.Row="0" AutoGenerateColumns="False" IsReadOnly="True">
                             <DataGrid.Columns>

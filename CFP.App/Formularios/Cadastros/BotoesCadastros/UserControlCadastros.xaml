@@ -274,9 +274,6 @@
                 FontFamily="Champagne &amp; Limousines" 
                 FontSize="18"/>
         </Grid>
-        <Grid x:Name="gridCadastros" 
-              Width="auto" 
-              Height="auto" 
-              Grid.RowSpan="2"/>
+        <Grid x:Name="gridCadastros" />
     </Grid>
 </UserControl>
