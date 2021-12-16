@@ -1290,6 +1290,28 @@ namespace CFP.App.Formularios.Financeiros
             if (e.Key == Key.Escape || e.Key == Key.Delete)
                 cmbReferenciaPessoa.SelectedIndex = -1;
         }
+
+        private void btExcluirParcelas_Click(object sender, RoutedEventArgs e)
+        {
+            List<String> aviso = new List<String>();
+            var selecoes = DataGridContaPagamento.SelectedItems;
+            foreach (ContaPagamento item in selecoes)
+            {
+                if(item.SituacaoParcelas == SituacaoParcela.Pendente)
+                {
+                    contaPagamento.Remove(item);
+                    //RepositorioContaPagamento.Excluir(item); preciso ver como excluir essa parcela em si
+                } 
+                else
+                    aviso.Add(String.Format("Parcela nº {0} - Valor {1:C} não foi excluída porque não esta pendente!"));
+            }
+            Salvar();
+            DataGridContaPagamento.ItemsSource = contaPagamento;
+            DataGridContaPagamento.Items.Refresh();
+            FiltroSituacaoParcelas();
+            if(aviso.Count > 0)
+                MessageBox.Show(aviso.ToString());
+        }
     }
 }
 

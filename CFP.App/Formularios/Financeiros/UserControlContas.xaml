@@ -271,9 +271,11 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
+                                
+                                
                                 <Button x:Name="btEditar" 
                                     Grid.Row="0"
-                                    Grid.Column="1"
+                                    Grid.Column="2"
                                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
                                     Height="60" Width="60" 
                                     Background="#FF1F3D68"
@@ -303,6 +305,23 @@
                                         Width="50" 
                                         Height="50"/>
                                 </Button>
+
+                                <Button x:Name="btExcluirParcelas" 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                                    Height="60" Width="60" 
+                                    Background="#FF1F3D68"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Stretch"
+                                        BorderBrush="#FF1F3D68"
+                                    ToolTip="Excluir parcelas" TabIndex="11" Click="btExcluirParcelas_Click">
+                                    <materialDesign:PackIcon 
+                                        Kind="RemoveBold"  
+                                        Width="50" 
+                                        Height="50"/>
+                                </Button>
+
                                 <Grid Grid.Row="0" Grid.Column="6">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
