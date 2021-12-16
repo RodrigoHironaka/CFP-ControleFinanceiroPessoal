@@ -67,7 +67,7 @@ namespace CFP.App.Formularios.Financeiros
 
             cmbTipoSubGasto.ItemsSource = new RepositorioSubGrupoGasto(Session)
            .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
-           .OrderBy(x => x.Nome)
+           .OrderBy(x => x.GrupoGasto.Nome).ThenBy(x => x.Nome)
            .ToList();
             cmbTipoSubGasto.SelectedIndex = 0;
 
@@ -1293,24 +1293,35 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btExcluirParcelas_Click(object sender, RoutedEventArgs e)
         {
-            List<String> aviso = new List<String>();
             var selecoes = DataGridContaPagamento.SelectedItems;
-            foreach (ContaPagamento item in selecoes)
+            if (selecoes.Count > 0)
             {
-                if(item.SituacaoParcelas == SituacaoParcela.Pendente)
+                foreach (ContaPagamento item in selecoes)
                 {
-                    contaPagamento.Remove(item);
-                    //RepositorioContaPagamento.Excluir(item); preciso ver como excluir essa parcela em si
-                } 
-                else
-                    aviso.Add(String.Format("Parcela nº {0} - Valor {1:C} não foi excluída porque não esta pendente!"));
+                    if (item.SituacaoParcelas != SituacaoParcela.Pendente)
+                    {
+                        MessageBox.Show("Só é permitido excluir parcelas pendentes. Por favor Verifique!", " Atencão ", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+                foreach (ContaPagamento selecao in selecoes)
+                {
+                    contaPagamento.Remove(selecao);
+                    conta.ContaPagamentos.Remove(selecao);
+                    RepositorioContaPagamento.Excluir(selecao);
+                    conta.ValorTotal = conta.ValorTotal - selecao.ValorParcela;
+                    conta.QtdParcelas = conta.QtdParcelas - 1;
+                }
+
+                Salvar();
+                DataGridContaPagamento.ItemsSource = contaPagamento;
+                DataGridContaPagamento.Items.Refresh();
+                FiltroSituacaoParcelas();
+                CalculoTotalPorSituacaoParcela();
             }
-            Salvar();
-            DataGridContaPagamento.ItemsSource = contaPagamento;
-            DataGridContaPagamento.Items.Refresh();
-            FiltroSituacaoParcelas();
-            if(aviso.Count > 0)
-                MessageBox.Show(aviso.ToString());
+            else
+                MessageBox.Show("Selecione uma ou mais parcelas!", " Informacão ", MessageBoxButton.OK, MessageBoxImage.Information);
+
         }
     }
 }

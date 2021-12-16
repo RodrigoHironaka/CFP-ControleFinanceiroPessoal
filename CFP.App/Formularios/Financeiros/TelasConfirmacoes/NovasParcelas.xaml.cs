@@ -97,7 +97,11 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                                 DataVencimento = dataPrimeiroVencimento.AddMonths(i)
                             });
                         }
-                        conta.ValorTotal = conta.ValorTotal != null ? conta.ValorTotal + valorTotal : valorTotal;
+                        if (tipo != TipoPeriodo.Fixa)
+                            conta.ValorTotal = conta.ValorTotal != null ? conta.ValorTotal + valorTotal : valorTotal;
+                        else
+                            conta.ValorTotal = conta.ValorTotal != null ? conta.ValorTotal + (valorTotal * qtdParcelas) : valorTotal * qtdParcelas;
+
                         conta.QtdParcelas = conta.QtdParcelas != null ? conta.QtdParcelas + qtdParcelas : qtdParcelas;
                         DialogResult = true;
                     }
