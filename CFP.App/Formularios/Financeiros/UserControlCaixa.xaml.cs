@@ -535,10 +535,35 @@ namespace CFP.App.Formularios.Financeiros
 
         private void MenuItemAddItemSelecionado_Click(object sender, RoutedEventArgs e)
         {
-            ContaPagamento selecao = (ContaPagamento)DataGridAReceber.SelectedItem;
-            if(selecao != null)
+            List<ContaPagamento> ValorRefPessoasItens = new List<ContaPagamento>();
+            foreach (ContaPagamento item in DataGridAReceber.SelectedItems)
             {
-                ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(selecao, caixa, Session);
+                ValorRefPessoasItens.Add(item);
+            }
+           
+            if(ValorRefPessoasItens.Count > 0)
+            {
+                ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(ValorRefPessoasItens, caixa, Session);
+                janela.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Nenhum item selecionado!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+        }
+
+        private void MenuItemAddItemSelecionadoCofre_Click(object sender, RoutedEventArgs e)
+        {
+            List<ContaPagamento> ValorRefPessoasItens = new List<ContaPagamento>();
+            foreach (ContaPagamento item in DataGridAReceber.SelectedItems)
+            {
+                ValorRefPessoasItens.Add(item);
+            }
+
+            if (ValorRefPessoasItens.Count > 0)
+            {
+                ConfirmaEntradaSaidaRefPessoaCofre janela = new ConfirmaEntradaSaidaRefPessoaCofre(ValorRefPessoasItens, caixa, Session);
                 janela.ShowDialog();
             }
             else

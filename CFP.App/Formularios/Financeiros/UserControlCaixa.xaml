@@ -317,20 +317,39 @@
                             <DataGrid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem x:Name="MenuItemAddTudoCaixa" Header="Adicionar todos ao caixa" Click="MenuItemAddTudoCaixa_Click"/>
-                                    <MenuItem x:Name="MenuItemAddItemSelecionado" Header="Adicionar item selecionado ao caixa" Click="MenuItemAddItemSelecionado_Click"/>
+                                    <MenuItem x:Name="MenuItemAddItemSelecionado" Header="Adicionar items selecionados ao caixa" Click="MenuItemAddItemSelecionado_Click"/>
+                                    <MenuItem x:Name="MenuItemAddItemSelecionadoCofre" Header="Adicionar items selecionados ao cofre" Click="MenuItemAddItemSelecionadoCofre_Click" />
                                 </ContextMenu>
                             </DataGrid.ContextMenu>
                         </DataGrid>
 
-                        <TextBlock x:Name="txtTotalAReceberPessoa"
-                                Grid.Row="1"
-                                       Text="TOTAL: R$ 0,00"
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="txtTotalAReceberPessoa"
+                                Grid.Column="0"
+                                       Text="TOTAL GERAL: R$ 0,00"
                                        FontFamily="Champagne &amp; Limousines" 
                                        FontSize="15" 
                                        Foreground="#FF1F3D68"
                                        VerticalAlignment="Top"
-                                       HorizontalAlignment="Center"
+                                       HorizontalAlignment="Right"
                                        Margin="10"/>
+
+                            <TextBlock x:Name="txtTotalAReceberPessoaSelecionados"
+                                Grid.Column="1"
+                                       Text="TOTAL ITENS: R$ 0,00"
+                                       FontFamily="Champagne &amp; Limousines" 
+                                       FontSize="15" 
+                                       Foreground="#FF1F3D68"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"
+                                       Margin="10"/>
+                        </Grid>
+                        
+                        
                     </Grid>
                 </TabItem>
             </TabControl>
