@@ -32,8 +32,10 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         ISession Session;
         List<ContaPagamento> contasPagamento = new List<ContaPagamento>();
+        Cofre cofre = new Cofre();
         Caixa caixa;
-        Cofre cofre;
+        Configuracao config = new Configuracao();
+        Decimal totalcontasPagamentoselecionadas = 0;
 
         #region Repositorio
         private RepositorioCofre _repositorio;
@@ -48,6 +50,32 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             }
             set { _repositorio = value; }
         }
+
+        private RepositorioFluxoCaixa _repositorioFluxoCaixa;
+        public RepositorioFluxoCaixa RepositorioFluxoCaixa
+        {
+            get
+            {
+                if (_repositorioFluxoCaixa == null)
+                    _repositorioFluxoCaixa = new RepositorioFluxoCaixa(Session);
+
+                return _repositorioFluxoCaixa;
+            }
+            set { _repositorioFluxoCaixa = value; }
+        }
+
+        private RepositorioConfiguracao _repositorioConfiguracao;
+        public RepositorioConfiguracao RepositorioConfiguracao
+        {
+            get
+            {
+                if (_repositorioConfiguracao == null)
+                    _repositorioConfiguracao = new RepositorioConfiguracao(Session);
+
+                return _repositorioConfiguracao;
+            }
+            set { _repositorioConfiguracao = value; }
+        }
         #endregion
 
         #region Carrega combo
@@ -57,69 +85,54 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
                .OrderBy(x => x.Nome)
                .ToList();
-           
+
+            cmbFormaPagamento.ItemsSource = new RepositorioFormaPagamento(Session)
+               .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+               .OrderBy(x => x.Nome)
+               .ToList();
         }
         #endregion
 
         #region Preenche Objeto para Salvar
-        //private bool PreencheObjeto()
-        //{
-            //try
-            //{
-            //    cofre.Nome = txtNome.Text;
-            //    cofre.Banco = (Banco)cmbBanco.SelectedItem;
-            //    cofre.TransacoesBancarias = (FormaPagamento)cmbTransacaoBancaria.SelectedItem;
-            //    cofre.Situacao = (EntradaSaida)cmbSituacao.SelectedIndex;
-            //    if (cofre.Situacao == EntradaSaida.Entrada)
-            //        cofre.Valor = Decimal.Parse(txtValor.Text);
-            //    else
-            //        cofre.Valor = Decimal.Parse(txtValor.Text) * -1;
+        private bool PreencheObjeto()
+        {
+            try
+            {
+                cofre.DataGeracao = (DateTime)txtData.SelectedDate;
+                cofre.Nome = txtNome.Text;
+                cofre.Banco = (Banco)cmbBanco.SelectedItem;
+                cofre.TransacoesBancarias = (FormaPagamento)cmbFormaPagamento.SelectedItem;
+                cofre.Valor = Decimal.Parse(txtValor.Text);
+                cofre.Situacao = EntradaSaida.Entrada;
 
-            //    #region Verificando se valor é maior que o saldo final do Caixa quando for transferencia do caixa para o cofre
-            //    if (caixa != null && !String.IsNullOrEmpty(txtValor.Text))
-            //    {
-            //        if (cofre.Situacao == EntradaSaida.Entrada)
-            //        {
-            //            if (caixa.BalancoFinal >= Decimal.Parse(txtValor.Text))
-            //                cofre.Caixa = caixa;
-            //            else
-            //            {
-            //                MessageBox.Show("Valor digitado é maior que o saldo do caixa!", "Atencao", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //                txtValor.Clear();
-            //                return false;
-            //            }
-            //        }
-            //        if (cofre.Situacao == EntradaSaida.Saída)
-            //        {
-            //            DateTime data = DateTime.Today;
-            //            var dataInicio = new DateTime(data.Year, data.Month, 1);
-            //            var dataFinal = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
-            //            var valor = Repositorio.ObterPorParametros(x => x.Banco == cmbBanco.SelectedItem && x.DataGeracao >= dataInicio && x.DataGeracao <= dataFinal).Sum(x => x.Valor);
-            //            if (valor >= Decimal.Parse(txtValor.Text))
-            //                cofre.Caixa = caixa;
-            //            else
-            //            {
-            //                MessageBox.Show("Valor digitado é maior que o saldo do cofre!", "Atencao", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //                txtValor.Clear();
-            //                return false;
-            //            }
-            //        }
-            //    }
-            //    #endregion
-            //    return true;
-            //}
-            //catch
-            //{
-            //    return false;
-            //}
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
 
-        //}
+        }
         #endregion
 
         #region Preeenche Campos
         private void PreencheCampos()
         {
             txtValor.Text = contasPagamento.Sum(x => x.ValorParcela).ToString("n2");
+            totalcontasPagamentoselecionadas = contasPagamento.Select(x => x.ValorParcela).Sum();
+        }
+        #endregion
+
+        #region Pegando as Configuracoes
+        private void ConfiguracoesSistema()
+        {
+            Session.Clear();
+            config = RepositorioConfiguracao.ObterTodos().Where(x => x.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id).FirstOrDefault();
+            if (config == null || config.TransacaoBancariaPadrao == null)
+            {
+                MessageBox.Show("Por favor verifique suas configurações!\r\nPode ser que ela não esteja criada ou sua transação bancária padrão não esteja definida!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
+            }
         }
         #endregion
 
@@ -149,28 +162,66 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            //if (string.IsNullOrEmpty(txtValor.Text) || string.IsNullOrEmpty(txtNome.Text) || cmbTransacaoBancaria.SelectedItem == null || cmbTransacaoBancaria.SelectedItem == null || cmbSituacao.SelectedIndex == -1)
-            //{
-            //    MessageBox.Show("Todos os campos são Obrigatórios. Por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-            //    return;
-            //}
-            //if (PreencheObjeto())
-            //{
-            //    if (cofre.Id == 0)
-            //    {
-            //        cofre.Codigo = Repositorio.RetornaUltimoCodigo() + 1;
-            //        cofre.DataGeracao = DateTime.Now;
-            //        cofre.UsuarioCriacao = MainWindow.UsuarioLogado;
-            //        Repositorio.Salvar(cofre);
-            //    }
-            //    else
-            //    {
-            //        cofre.DataAlteracao = DateTime.Now;
-            //        cofre.UsuarioAlteracao = MainWindow.UsuarioLogado;
-            //        Repositorio.Alterar(cofre);
-            //    }
-            //    this.DialogResult = true;
-            //}
+            if (string.IsNullOrEmpty(txtValor.Text) || string.IsNullOrEmpty(txtNome.Text) || cmbBanco.SelectedItem == null || cmbFormaPagamento.SelectedItem == null || string.IsNullOrEmpty(txtData.Text))
+            {
+                MessageBox.Show("Todos os campos são Obrigatórios. Por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (PreencheObjeto())
+            {
+                try
+                {
+                    if (cofre.Id == 0)
+                    {
+                        cofre.Codigo = Repositorio.RetornaUltimoCodigo() + 1;
+                        cofre.UsuarioCriacao = MainWindow.UsuarioLogado;
+                        Repositorio.Salvar(cofre);
+                    }
+                    if (chkEnviarCaixa.IsChecked == true)
+                    {
+                        #region Retirada do cofre definido pelo usuario
+                        foreach (var item in contasPagamento)
+                        {
+                            Cofre cofreRetirada = new Cofre
+                            {
+                                Codigo = Repositorio.RetornaUltimoCodigo() + 1,
+                                Caixa = caixa,
+                                Banco = (Banco)cmbBanco.SelectedItem,
+                                Valor = item.ValorParcela * -1,
+                                TransacoesBancarias = config.TransacaoBancariaPadrao,
+                                Situacao = EntradaSaida.Saída,
+                                Nome = String.Format("Transferência para caixa Ref a {0}, Conta: {1}", item.Conta.Pessoa, item.Conta.Codigo),
+                                DataGeracao = (DateTime)txtData.SelectedDate,
+                                UsuarioCriacao = MainWindow.UsuarioLogado
+                            };
+                            Repositorio.Salvar(cofreRetirada);
+                        }
+                        #endregion
+
+                        #region Entrada no caixa com base na saída do cofre
+                        FluxoCaixa fluxoCaixa = new FluxoCaixa
+                        {
+                            TipoFluxo = EntradaSaida.Entrada,
+                            Nome = "Transferência do cofre através do referenciamento de pessoas.",
+                            Valor = totalcontasPagamentoselecionadas,
+                            DataGeracao = (DateTime)txtData.SelectedDate,
+                            Conta = null,
+                            UsuarioCriacao = MainWindow.UsuarioLogado,
+                            Caixa = caixa,
+                            FormaPagamento = config.TransacaoBancariaPadrao
+                        };
+                        RepositorioFluxoCaixa.Salvar(fluxoCaixa);
+                        #endregion
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            Close();
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -180,12 +231,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            ConfiguracoesSistema();
             CarregaCombo();
-        }
-
-        private void txtValor_LostFocus(object sender, RoutedEventArgs e)
-        {
-            
+            txtData.SelectedDate = DateTime.Now;
         }
 
         private void txtValor_PreviewTextInput(object sender, TextCompositionEventArgs e)

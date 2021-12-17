@@ -1,0 +1,7 @@
+16/12/2021
+ALTER TABLE `configuracoes`
+	ADD COLUMN `TransacaoBancariaPadrao` BIGINT(19) NULL DEFAULT NULL AFTER `FormaPagamentoPadraoConta`;
+	
+ALTER TABLE `cofres`
+	CHANGE COLUMN `Nome` `Nome` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8_general_ci' AFTER `Situacao`;
+

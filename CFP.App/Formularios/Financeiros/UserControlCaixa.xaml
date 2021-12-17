@@ -318,6 +318,7 @@
                                 <ContextMenu>
                                     <MenuItem x:Name="MenuItemAddTudoCaixa" Header="Adicionar todos ao caixa" Click="MenuItemAddTudoCaixa_Click"/>
                                     <MenuItem x:Name="MenuItemAddItemSelecionado" Header="Adicionar items selecionados ao caixa" Click="MenuItemAddItemSelecionado_Click"/>
+                                    <MenuItem x:Name="MenuItemAddTudoCofre" Header="Adicionar todos ao cofre" Click="MenuItemAddTudoCofre_Click"/>
                                     <MenuItem x:Name="MenuItemAddItemSelecionadoCofre" Header="Adicionar items selecionados ao cofre" Click="MenuItemAddItemSelecionadoCofre_Click" />
                                 </ContextMenu>
                             </DataGrid.ContextMenu>

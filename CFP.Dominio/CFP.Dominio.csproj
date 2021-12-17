@@ -95,6 +95,7 @@
     <Compile Include="ObjetoValor\TipoPeriodo.cs" />
     <Compile Include="ObjetoValor\TipoContaBanco.cs" />
     <Compile Include="ObjetoValor\TipoUsuario.cs" />
+    <Compile Include="ObjetoValor\TransacaoBancaria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

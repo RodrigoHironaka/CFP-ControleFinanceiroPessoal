@@ -572,5 +572,16 @@ namespace CFP.App.Formularios.Financeiros
                 return;
             }
         }
+
+        private void MenuItemAddTudoCofre_Click(object sender, RoutedEventArgs e)
+        {
+            List<ContaPagamento> ValorRefPessoas = new List<ContaPagamento>();
+            foreach (ContaPagamento item in DataGridAReceber.ItemsSource)
+            {
+                ValorRefPessoas.Add(item);
+            }
+            ConfirmaEntradaSaidaRefPessoaCofre janela = new ConfirmaEntradaSaidaRefPessoaCofre(ValorRefPessoas, caixa, Session);
+            janela.ShowDialog();
+        }
     }
 }

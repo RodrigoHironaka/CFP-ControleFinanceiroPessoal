@@ -18,6 +18,7 @@ namespace CFP.Dominio.Dominio
         public virtual String CaminhoArquivos { get; set; }
         public virtual String CaminhoBackup { get; set; }
         public virtual FormaPagamento FormaPagamentoPadraoConta { get; set; }
+        public virtual FormaPagamento TransacaoBancariaPadrao { get; set; }
         public virtual Int32 DiasAlertaVencimento { get; set; }
         #endregion
 

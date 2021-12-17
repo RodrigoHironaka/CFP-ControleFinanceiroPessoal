@@ -22,7 +22,7 @@ namespace Repositorio.Mapeamentos
                 m.Generator(Generators.HighLow, g => g.Params(new { max_lo = 0 }));
             });
             Property(x => x.Codigo);
-            Property(x => x.Nome, m => m.Length(70));
+            Property(x => x.Nome, m => m.Length(200));
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
             Property(x => x.Valor, m =>
