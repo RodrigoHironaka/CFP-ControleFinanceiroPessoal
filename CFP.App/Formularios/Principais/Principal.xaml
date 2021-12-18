@@ -479,7 +479,7 @@
                           Background="#FF1F3D68" 
                           Foreground="White" 
                           BorderBrush="#FF1F3D68" SelectionChanged="ListViewMenu_SelectionChanged">
-                    <ListViewItem Height="60">
+                    <ListViewItem x:Name="ListViewItemHome" Height="60">
                         <StackPanel Orientation="Horizontal" 
                                 ToolTip="Início">
                             <materialDesign:PackIcon 
@@ -493,7 +493,7 @@
                                        Margin="20 10"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem Height="60" >
+                    <ListViewItem x:Name="ListVIewItemConsultaConta" Height="60" >
                         <StackPanel Orientation="Horizontal"
                                 ToolTip="Consultas de contas">
                             <materialDesign:PackIcon 

@@ -162,22 +162,27 @@ namespace CFP.App
                     GridPrincipal.Children.Clear();
                     ConfiguracoesSistema();
                     ResumoTela();
+                    ListViewItemHome.IsSelected = false;
                     break;
                 case 1:
                     GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(new ucConsultaContas(Session));
+                    ListVIewItemConsultaConta.IsSelected = false;
                     break;
                 case 2:
                     GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(new UserControlContas(new Conta(), Session));
+                    ListVIewItemContas.IsSelected = false;
                     break;
                 case 3:
                     GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(new UserControlCaixa(Session));
+                    ListVIewItemCaixa.IsSelected = false;
                     break;
                 case 4:
                     GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(new UserControlCadastros());
+                    ListVIewItemCadastro.IsSelected = false;
                     break;
                 default:
                     break;
