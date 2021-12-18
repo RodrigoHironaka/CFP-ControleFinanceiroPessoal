@@ -58,7 +58,7 @@
                   Foreground="#FF1F3D68"
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Stretch" 
-                  Margin="20 0 20 0" TabIndex="0" LostFocus="txtValor_LostFocus" PreviewTextInput="txtValor_PreviewTextInput" PreviewKeyDown="txtValor_PreviewKeyDown"/>
+                  Margin="20 0 20 0" TabIndex="0" LostFocus="txtValor_LostFocus" PreviewTextInput="txtValor_PreviewTextInput" PreviewKeyDown="txtValor_PreviewKeyDown" TextChanged="txtValor_TextChanged"/>
 
                 <Button x:Name="btConfirmar"
                     Grid.Column="1"

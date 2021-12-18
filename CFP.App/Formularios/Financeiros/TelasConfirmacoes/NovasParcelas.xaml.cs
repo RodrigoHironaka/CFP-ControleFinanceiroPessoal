@@ -158,5 +158,35 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             DragMove();
         }
+
+        private void txtValorTotal_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtValorTotal.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtValorTotal.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtValorTotal.Clear();
+                    txtValorTotal.Focus();
+                }
+            }
+        }
+
+        private void txtQtd_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtQtd.Text))
+            {
+                Int32 valido;
+                var qtd = Int32.TryParse(txtQtd.Text, out valido);
+                if (!qtd)
+                {
+                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtQtd.Clear();
+                    txtQtd.Focus();
+                }
+            }
+        }
     }
 }

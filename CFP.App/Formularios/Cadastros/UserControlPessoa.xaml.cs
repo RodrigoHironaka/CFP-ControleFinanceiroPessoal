@@ -478,5 +478,35 @@ namespace CFP.App.Formularios.Cadastros
                 CorPadrãoBotaoPesquisar();
             }
         }
+
+        private void txtRendaBruto_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtRendaBruto.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtRendaBruto.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Valor colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtRendaBruto.Clear();
+                    txtRendaBruto.Focus();
+                }
+            }
+        }
+
+        private void txtRendaLiquida_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtRendaLiquida.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtRendaLiquida.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Valor colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtRendaLiquida.Clear();
+                    txtRendaLiquida.Focus();
+                }
+            }
+        }
     }
 }

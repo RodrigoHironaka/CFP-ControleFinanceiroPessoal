@@ -59,7 +59,7 @@
                         FontSize="20"
                         Foreground="#FF1F3D68"
                         VerticalAlignment="Center" 
-                        HorizontalAlignment="Stretch" PreviewTextInput="txtValorTotal_PreviewTextInput" PreviewKeyDown="txtValorTotal_PreviewKeyDown"/>
+                        HorizontalAlignment="Stretch" PreviewTextInput="txtValorTotal_PreviewTextInput" PreviewKeyDown="txtValorTotal_PreviewKeyDown" TextChanged="txtValorTotal_TextChanged"/>
 
                     <Button x:Name="btConfirmar"
                     Grid.Column="1"
@@ -101,7 +101,7 @@
                         FontSize="20"
                         Foreground="#FF1F3D68"
                         VerticalAlignment="Center" 
-                        HorizontalAlignment="Stretch" PreviewKeyDown="txtQtd_PreviewKeyDown"/>
+                        HorizontalAlignment="Stretch" PreviewKeyDown="txtQtd_PreviewKeyDown" TextChanged="txtQtd_TextChanged"/>
 
                     <DatePicker
                          x:Name="dtpVencimento"

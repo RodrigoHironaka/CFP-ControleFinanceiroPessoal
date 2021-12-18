@@ -43,7 +43,7 @@
                   HorizontalAlignment="Stretch" 
                   PreviewTextInput="txtValorInicial_PreviewTextInput" 
                   PreviewKeyDown="txtValorInicial_PreviewKeyDown"
-                  Margin="10"/>
+                  Margin="10" TextChanged="txtValorInicial_TextChanged"/>
 
                 <Button x:Name="btConfirmar"
                     Grid.Column="1"

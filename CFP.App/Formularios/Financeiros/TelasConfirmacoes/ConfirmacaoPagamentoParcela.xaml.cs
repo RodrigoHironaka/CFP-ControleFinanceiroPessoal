@@ -569,5 +569,96 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             }
                 
         }
+
+        private void txtValorParcela_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtValorParcela.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtValorParcela.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtValorParcela.Clear();
+                    txtValorParcela.Focus();
+                }
+            }
+        }
+
+        private void txtJurosPorcentagem_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtJurosPorcentagem.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtJurosPorcentagem.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtJurosPorcentagem.Clear();
+                    txtJurosPorcentagem.Focus();
+                }
+            }
+        }
+
+        private void txtDescontoPorcentagem_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            if (!String.IsNullOrEmpty(txtDescontoPorcentagem.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtDescontoPorcentagem.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtDescontoPorcentagem.Clear();
+                    txtDescontoPorcentagem.Focus();
+                }
+            }
+        }
+
+        private void txtJurosValor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtJurosValor.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtJurosValor.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtJurosValor.Clear();
+                    txtJurosValor.Focus();
+                }
+            }
+        }
+
+        private void txtDescontoValor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtDescontoValor.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtDescontoValor.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtDescontoValor.Clear();
+                    txtDescontoValor.Focus();
+                }
+            }
+        }
+
+        private void txtValorPago_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtValorPago.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtValorPago.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtValorPago.Clear();
+                    txtValorPago.Focus();
+                }
+            }
+        }
     }
 }

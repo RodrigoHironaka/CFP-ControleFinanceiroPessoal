@@ -195,7 +195,7 @@
                                     Foreground="#FF1F3D68"
                                     VerticalAlignment="Stretch" 
                                     Margin="10 0 0 0" 
-                                    MaxLength="19" TabIndex="6" PreviewTextInput="txtNumDocumento_PreviewTextInput"/>
+                                    MaxLength="19" TabIndex="6" PreviewTextInput="txtNumDocumento_PreviewTextInput" TextChanged="txtNumDocumento_TextChanged"/>
 
 
                                 <DatePicker

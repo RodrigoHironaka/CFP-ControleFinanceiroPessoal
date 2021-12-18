@@ -197,7 +197,15 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValor_LostFocus(object sender, RoutedEventArgs e)
         {
-            
+            //Decimal valido ;
+            //var valor = decimal.TryParse(txtValor.Text, out valido);
+            //if (!valor)
+            //{
+            //    MessageBox.Show("Valor colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+            //    txtValor.Focus();
+            //    txtValor.SelectAll();
+            //}
+                
         }
 
         private void txtValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -214,6 +222,22 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void txtValor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtValor.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtValor.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Valor colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtValor.Clear();
+                    txtValor.Focus();
+                }
+            }
+           
         }
     }
 }

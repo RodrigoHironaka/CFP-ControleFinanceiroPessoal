@@ -53,5 +53,20 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             Close();
         }
+
+        private void txtValorInicial_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtValorInicial.Text))
+            {
+                Decimal valido;
+                var valor = decimal.TryParse(txtValorInicial.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtValorInicial.Clear();
+                    txtValorInicial.Focus();
+                }
+            }
+        }
     }
 }

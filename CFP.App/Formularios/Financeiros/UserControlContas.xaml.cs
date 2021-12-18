@@ -1341,6 +1341,21 @@ namespace CFP.App.Formularios.Financeiros
                 MessageBox.Show("Selecione uma ou mais parcelas!", " Informacão ", MessageBoxButton.OK, MessageBoxImage.Information);
 
         }
+
+        private void txtNumDocumento_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtNumDocumento.Text))
+            {
+                Int64 valido;
+                var valor = Int64.TryParse(txtNumDocumento.Text, out valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtNumDocumento.Clear();
+                    txtNumDocumento.Focus();
+                }
+            }
+        }
     }
 }
 

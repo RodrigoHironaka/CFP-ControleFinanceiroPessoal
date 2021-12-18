@@ -126,7 +126,7 @@
                                  FontFamily="Champagne &amp; Limousines" 
                                  FontSize="20" 
                                  Foreground="#FF1F3D68"  
-                                 VerticalAlignment="Top" PreviewTextInput="txtRendaBruto_PreviewTextInput" PreviewKeyDown="txtRendaBruto_PreviewKeyDown" />
+                                 VerticalAlignment="Top" PreviewTextInput="txtRendaBruto_PreviewTextInput" PreviewKeyDown="txtRendaBruto_PreviewKeyDown" TextChanged="txtRendaBruto_TextChanged" />
 
                             <TextBox
                                  x:Name="txtRendaLiquida"
@@ -135,7 +135,7 @@
                                  FontFamily="Champagne &amp; Limousines" 
                                  FontSize="20" 
                                  Foreground="#FF1F3D68"  
-                                 VerticalAlignment="Top" PreviewTextInput="txtRendaLiquida_PreviewTextInput" PreviewKeyDown="txtRendaLiquida_PreviewKeyDown"/>
+                                 VerticalAlignment="Top" PreviewTextInput="txtRendaLiquida_PreviewTextInput" PreviewKeyDown="txtRendaLiquida_PreviewKeyDown" TextChanged="txtRendaLiquida_TextChanged"/>
 
                             <Grid x:Name="GridBotoesGroupBoxRendas" Height="79" >
                                 <Grid.ColumnDefinitions>
