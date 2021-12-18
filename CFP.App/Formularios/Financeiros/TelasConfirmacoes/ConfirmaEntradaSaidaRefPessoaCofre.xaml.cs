@@ -36,6 +36,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         Caixa caixa;
         Configuracao config = new Configuracao();
         Decimal totalcontasPagamentoselecionadas = 0;
+        Decimal totalRefPessoaContaPagar = 0;
+        Decimal totalRefPessoaContaReceber = 0;
 
         #region Repositorio
         private RepositorioCofre _repositorio;
@@ -120,6 +122,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             txtValor.Text = contasPagamento.Sum(x => x.ValorParcela).ToString("n2");
             totalcontasPagamentoselecionadas = contasPagamento.Select(x => x.ValorParcela).Sum();
+            totalRefPessoaContaPagar = contasPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorParcela).Sum();
+            totalRefPessoaContaReceber = contasPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorParcela).Sum();
         }
         #endregion
 
@@ -200,18 +204,39 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                         #endregion
 
                         #region Entrada no caixa com base na saída do cofre
-                        FluxoCaixa fluxoCaixa = new FluxoCaixa
+
+                       if(totalRefPessoaContaPagar > 0)
                         {
-                            TipoFluxo = EntradaSaida.Entrada,
-                            Nome = "Transferência do cofre através do referenciamento de pessoas.",
-                            Valor = totalcontasPagamentoselecionadas,
-                            DataGeracao = (DateTime)txtData.SelectedDate,
-                            Conta = null,
-                            UsuarioCriacao = MainWindow.UsuarioLogado,
-                            Caixa = caixa,
-                            FormaPagamento = config.TransacaoBancariaPadrao
-                        };
-                        RepositorioFluxoCaixa.Salvar(fluxoCaixa);
+                            FluxoCaixa fluxoCaixa = new FluxoCaixa
+                            {
+                                TipoFluxo = EntradaSaida.Entrada,
+                                Nome = "Transferência do cofre através do referenciamento de pessoas (Entrada).",
+                                Valor = totalRefPessoaContaPagar,
+                                DataGeracao = (DateTime)txtData.SelectedDate,
+                                Conta = null,
+                                UsuarioCriacao = MainWindow.UsuarioLogado,
+                                Caixa = caixa,
+                                FormaPagamento = config.TransacaoBancariaPadrao
+                            };
+                            RepositorioFluxoCaixa.Salvar(fluxoCaixa);
+                        }
+
+                        if (totalRefPessoaContaReceber > 0)
+                        {
+                            FluxoCaixa fluxoCaixa = new FluxoCaixa
+                            {
+                                TipoFluxo = EntradaSaida.Saída,
+                                Nome = "Transferência do cofre através do referenciamento de pessoas (Saída).",
+                                Valor = totalRefPessoaContaReceber * -1,
+                                DataGeracao = (DateTime)txtData.SelectedDate,
+                                Conta = null,
+                                UsuarioCriacao = MainWindow.UsuarioLogado,
+                                Caixa = caixa,
+                                FormaPagamento = config.TransacaoBancariaPadrao
+                            };
+                            RepositorioFluxoCaixa.Salvar(fluxoCaixa);
+                        }
+
                         #endregion
 
                     }

@@ -583,5 +583,6 @@ namespace CFP.App.Formularios.Financeiros
             ConfirmaEntradaSaidaRefPessoaCofre janela = new ConfirmaEntradaSaidaRefPessoaCofre(ValorRefPessoas, caixa, Session);
             janela.ShowDialog();
         }
+
     }
 }
