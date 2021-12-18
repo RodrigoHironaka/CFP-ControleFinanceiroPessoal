@@ -76,7 +76,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             var predicado = RepositorioContaPagamento.CriarPredicado();
             predicado = predicado.And(x => x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado);
 
-            if(cmbSituacaoConta.SelectedIndex != -1)
+            if (cmbSituacaoConta.SelectedIndex != -1)
                 predicado = predicado.And(x => x.Conta.Situacao == (SituacaoConta)cmbSituacaoConta.SelectedIndex);
             else
                 predicado = predicado.And(x => x.Conta.Situacao == SituacaoConta.Aberto);
@@ -113,7 +113,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             }
 
             var filtro = RepositorioContaPagamento.ObterPorParametros(predicado).ToList();
-            dgContasFiltradas.ItemsSource = filtro.OrderBy(x =>x.DataVencimento);
+            dgContasFiltradas.ItemsSource = filtro.OrderBy(x => x.DataVencimento);
             if (filtro.Count > 0)
                 txtTotalFiltro.Text = String.Format("TOTAL {0:C}", filtro.Sum(x => x.ValorParcela));
         }
@@ -295,28 +295,37 @@ namespace CFP.App.Formularios.Financeiros.Consultas
 
         private void btPagar_Click(object sender, RoutedEventArgs e)
         {
-            if (VerificaCaixa())
+            var selecoes = dgContasFiltradas.ItemsSource;
+            if (selecoes != null)
             {
-                if (config != null && config.FormaPagamentoPadraoConta != null )
+                MessageBoxResult d = MessageBox.Show("Deseja definir como paga todas as parcelas filtradas?", "Informação", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (d == MessageBoxResult.Yes)
                 {
-                    var selecoes = dgContasFiltradas.SelectedItems;
-                    foreach (ContaPagamento parcela in selecoes)
+                    if (config != null && config.FormaPagamentoPadraoConta != null)
                     {
-                        parcela.SituacaoParcelas = SituacaoParcela.Pago;
-                        parcela.ValorPago = parcela.ValorParcela;
-                        parcela.DataPagamento = DateTime.Now;
-                        parcela.FormaPagamento = config.FormaPagamentoPadraoConta;
-                        RepositorioContaPagamento.Alterar(parcela);
-                        SalvarFluxo(parcela);
+                        if (VerificaCaixa())
+                        {
+                            foreach (ContaPagamento parcela in selecoes)
+                            {
+                                parcela.SituacaoParcelas = SituacaoParcela.Pago;
+                                parcela.ValorPago = parcela.ValorParcela;
+                                parcela.DataPagamento = DateTime.Now;
+                                parcela.FormaPagamento = config.FormaPagamentoPadraoConta;
+                                RepositorioContaPagamento.Alterar(parcela);
+                                SalvarFluxo(parcela);
+                            }
+                            btFiltro_Click(sender, e);
+                        }
                     }
-                    btFiltro_Click(sender, e);
-                }
-                else
-                {
-                    MessageBox.Show("Por favor defina a forma de pagamento padrão em Configurações para continuar!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
+                    else
+                    {
+                        MessageBox.Show("Por favor defina a forma de pagamento padrão em Configurações para continuar!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+                        return;
+                    }
                 }
             }
+            else
+                MessageBox.Show("Você não possui parcelas filtradas!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void dgContasFiltradas_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -368,7 +377,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                 selecoes.Add(item);
                 valores += item.ValorParcela;
             }
-            if(selecoes.Count > 0)
+            if (selecoes.Count > 0)
             {
                 txtTotalFiltro.Text = string.Empty;
                 txtTotalFiltro.Text += String.Format("TOTAL {0:C}", valores);
@@ -385,7 +394,48 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                 dgContasFiltradas.SelectedItem = null;
                 btFiltro_Click(sender, e);
             }
-                
+
+        }
+
+        private void menuItemPagarSelecionados_Click(object sender, RoutedEventArgs e)
+        {
+            if (VerificaCaixa())
+            {
+                IList<ContaPagamento> linhasContaPagamento = new List<ContaPagamento>();
+                foreach (ContaPagamento item in dgContasFiltradas.SelectedItems)
+                {
+                    if(item.SituacaoParcelas != SituacaoParcela.Pendente && item.SituacaoParcelas != SituacaoParcela.Parcial)
+                    {
+                        MessageBox.Show("Parcelas que não estão pendentes ou parciais foram selecionadas! Por favor verifique!");
+                        return;
+                    }
+                    else
+                        linhasContaPagamento.Add(item);
+                }
+                    
+
+                ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhasContaPagamento, Session);
+                bool? res = janela.ShowDialog();
+                if ((bool)res)
+                {
+                    foreach (ContaPagamento parcelaAtualizada in linhasContaPagamento)
+                    {
+                        if (parcelaAtualizada.ID != 0)
+                        {
+                            RepositorioContaPagamento.Alterar(parcelaAtualizada);
+                            SalvarFluxo(parcelaAtualizada);
+                        }
+                        else
+                        {
+                            parcelaAtualizada.Numero++;
+                            parcelaAtualizada.Conta = linhasContaPagamento.First().Conta;
+                            RepositorioContaPagamento.Salvar(parcelaAtualizada);
+                        }
+                    }
+                    btFiltro_Click(sender, e);
+                }
+            }
+
         }
     }
 }

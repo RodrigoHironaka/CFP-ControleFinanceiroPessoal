@@ -210,6 +210,7 @@
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
+                            <MenuItem x:Name="menuItemPagarSelecionados" Header="Pagar Parcelas Selecionadas" Click="menuItemPagarSelecionados_Click" ></MenuItem>
                             <MenuItem x:Name="menuItemExportarExcel" Header="Exportar Excel" Click="menuItemExportarExcel_Click" ></MenuItem>
                         </ContextMenu>
                     </DataGrid.ContextMenu>

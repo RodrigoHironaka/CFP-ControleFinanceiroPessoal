@@ -385,7 +385,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (!String.IsNullOrEmpty(txtJurosValor.Text))
             {
-                txtJurosPorcentagem.Text = CalculaPorcentagemValor(Decimal.Parse(txtValorParcela.Text), Decimal.Parse(txtJurosValor.Text)).ToString("N2");
+                txtJurosPorcentagem.Text = CalculaPorcentagemValor(Decimal.Parse(txtValorParcela.Text), Decimal.Parse(txtJurosValor.Text)).ToString("N3");
                 CalculaValorReajustado();
             }
             else
