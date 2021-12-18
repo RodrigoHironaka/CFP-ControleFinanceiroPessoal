@@ -115,7 +115,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             var filtro = RepositorioContaPagamento.ObterPorParametros(predicado).ToList();
             dgContasFiltradas.ItemsSource = filtro.OrderBy(x =>x.DataVencimento);
             if (filtro.Count > 0)
-                txtTotalFiltro.Text = String.Format("Total: {0}", filtro.Sum(x => x.ValorParcela).ToString("N2"));
+                txtTotalFiltro.Text = String.Format("TOTAL {0:C}", filtro.Sum(x => x.ValorParcela));
         }
         #endregion
 
@@ -357,6 +357,35 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         private void menuItemExportarExcel_Click(object sender, RoutedEventArgs e)
         {
             Ferramentas.Exportar.ExportarExcel.ExpExcel(dgContasFiltradas);
+        }
+
+        private void dgContasFiltradas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            decimal valores = 0;
+            List<ContaPagamento> selecoes = new List<ContaPagamento>();
+            foreach (ContaPagamento item in dgContasFiltradas.SelectedItems)
+            {
+                selecoes.Add(item);
+                valores += item.ValorParcela;
+            }
+            if(selecoes.Count > 0)
+            {
+                txtTotalFiltro.Text = string.Empty;
+                txtTotalFiltro.Text += String.Format("TOTAL {0:C}", valores);
+            }
+            else
+                btFiltro_Click(sender, e);
+
+        }
+
+        private void dgContasFiltradas_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                dgContasFiltradas.SelectedItem = null;
+                btFiltro_Click(sender, e);
+            }
+                
         }
     }
 }

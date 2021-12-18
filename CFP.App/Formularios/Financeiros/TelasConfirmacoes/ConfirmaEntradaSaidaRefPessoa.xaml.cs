@@ -100,5 +100,10 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             Close();
         }
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }

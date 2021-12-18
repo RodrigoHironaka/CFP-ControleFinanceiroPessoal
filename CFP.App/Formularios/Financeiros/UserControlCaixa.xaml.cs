@@ -584,5 +584,27 @@ namespace CFP.App.Formularios.Financeiros
             janela.ShowDialog();
         }
 
+        private void DataGridAReceber_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            decimal valores = 0;
+            List<ContaPagamento> selecoes = new List<ContaPagamento>();
+            foreach (ContaPagamento item in DataGridAReceber.SelectedItems)
+            {
+                selecoes.Add(item);
+                valores += item.ValorParcela;
+            }
+            txtTotalAReceberPessoaSelecionados.Text = string.Empty;
+            txtTotalAReceberPessoaSelecionados.Text += String.Format("TOTAL ITENS {0:C}", valores);
+        }
+
+        private void DataGridAReceber_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                DataGridAReceber.SelectedItem = null;
+                txtTotalAReceberPessoaSelecionados.Text = string.Empty;
+                txtTotalAReceberPessoaSelecionados.Text += String.Format("TOTAL ITENS {0:C}", 0);
+            }
+        }
     }
 }

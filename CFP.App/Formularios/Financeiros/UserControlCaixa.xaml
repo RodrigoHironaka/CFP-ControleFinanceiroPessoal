@@ -308,7 +308,7 @@
                         </Grid.RowDefinitions>
                         <DataGrid x:Name="DataGridAReceber" Grid.Row="0" 
                                   AutoGenerateColumns="False" 
-                                  IsReadOnly="True" >
+                                  IsReadOnly="True" MouseUp="DataGridAReceber_MouseUp" KeyDown="DataGridAReceber_KeyDown" >
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Tipo" Binding="{Binding Conta.TipoConta}" />
                                 <DataGridTextColumn Header="Valor" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />

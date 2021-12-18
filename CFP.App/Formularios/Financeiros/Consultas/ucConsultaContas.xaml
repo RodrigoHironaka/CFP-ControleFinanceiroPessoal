@@ -195,7 +195,7 @@
                            AutoGenerateColumns="False"                                        
                            Background="white" 
                           IsReadOnly="True" 
-                          MouseDoubleClick="dgContasFiltradas_MouseDoubleClick" >
+                          MouseDoubleClick="dgContasFiltradas_MouseDoubleClick" MouseUp="dgContasFiltradas_MouseUp" KeyDown="dgContasFiltradas_KeyDown" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Tipo" Binding="{Binding Conta.TipoConta}" />
                         <DataGridTextColumn Header="Código" Binding="{Binding Conta.Codigo}" />

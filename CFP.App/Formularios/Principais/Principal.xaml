@@ -10,7 +10,8 @@
         WindowStartupLocation="CenterScreen" 
         WindowStyle="None" 
         Foreground="White" 
-        Loaded="Principal_Loaded" MouseLeftButtonDown="Principal_MouseLeftButtonDown">
+        Loaded="Principal_Loaded" 
+        MouseLeftButtonDown="Principal_MouseLeftButtonDown">
 
     <Window.Resources>
         <Storyboard x:Key="MenuOpen">
@@ -56,6 +57,7 @@
                         <Button x:Name="ButtonUsuarios" Content="Usuários" Click="ButtonUsuarios_Click" />
                         <Button x:Name="ButtonBackup" Content="Backup" Click="ButtonBackup_Click" />
                         <Separator/>
+                        <Button x:Name="ButtonPopUpMin" Content="Minimizar" Click="ButtonPopUpMin_Click"/>
                         <Button x:Name="ButtonPopUpMax" Content="Maximizar" Click="ButtonPopUpMax_Click"/>
                         <Button x:Name="ButtonPopUpSair" Content="Sair" Click="ButtonPopUpSair_Click"/>
                     </StackPanel>

@@ -10,7 +10,7 @@
         Title="NovasParcelas" 
         Height="250" Width="300" 
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None" Loaded="Window_Loaded">
+        WindowStyle="None" Loaded="Window_Loaded" MouseLeftButtonDown="Window_MouseLeftButtonDown" >
     <Grid >
         <Grid>
             <Grid.RowDefinitions>

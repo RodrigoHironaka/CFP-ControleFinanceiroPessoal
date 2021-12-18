@@ -554,5 +554,11 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             if (e.Key == Key.Space)
                 e.Handled = true;
         }
+
+
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
     }
 }

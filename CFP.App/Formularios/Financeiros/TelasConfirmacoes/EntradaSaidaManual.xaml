@@ -10,7 +10,7 @@
         Title="EntradaSaidaManual" 
         Height="280" Width="350" 
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None" Loaded="Window_Loaded">
+        WindowStyle="None" Loaded="Window_Loaded" MouseLeftButtonDown="Window_MouseLeftButtonDown" >
     <Grid >
         <Grid>
             <Grid.RowDefinitions>

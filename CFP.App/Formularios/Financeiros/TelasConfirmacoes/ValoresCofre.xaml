@@ -10,7 +10,7 @@
         Title="ValoresCofre" 
         Height="350" Width="400" 
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None" Loaded="Window_Loaded">
+        WindowStyle="None" Loaded="Window_Loaded" MouseLeftButtonDown="Window_MouseLeftButtonDown">
     <Grid >
         <Grid>
             <Grid.RowDefinitions>

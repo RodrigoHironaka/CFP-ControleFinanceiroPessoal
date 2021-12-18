@@ -11,7 +11,7 @@
         Height="450" Width="400" 
         WindowStartupLocation="CenterScreen"
         WindowStyle="None" 
-        Loaded="Window_Loaded" >
+        Loaded="Window_Loaded" MouseLeftButtonDown="Window_MouseLeftButtonDown" >
     <Grid x:Name="GridCOntrolsPagamento" Background="#FF1F3D68">
         <Grid>
             <Grid.RowDefinitions>
@@ -254,12 +254,12 @@
                              Height="50" Width="50" 
                              Background="#FF1F3D68" 
                              HorizontalAlignment="Center" 
-                             VerticalAlignment="Center"
+                             VerticalAlignment="Bottom"
                              BorderBrush="#FF1F3D68" 
                              RenderTransformOrigin="0.5,0.504" 
                              Click="btCancelar_Click" 
-                             TabIndex="8" >
-                             <materialDesign:PackIcon 
+                             TabIndex="8" Margin="0.8,0,1.2,-0.4" >
+                            <materialDesign:PackIcon 
                                 Kind="ExitToApp"  
                                 Width="50" 
                                 Height="50"/>

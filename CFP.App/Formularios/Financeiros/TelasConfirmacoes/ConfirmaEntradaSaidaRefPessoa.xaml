@@ -10,7 +10,7 @@
         Title="ConfirmaEntradaSaidaRefPessoa" 
         Height="200" Width="350" 
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None">
+        WindowStyle="None" MouseLeftButtonDown="Window_MouseLeftButtonDown" >
     <Grid >
         <Grid>
             <Grid.RowDefinitions>
