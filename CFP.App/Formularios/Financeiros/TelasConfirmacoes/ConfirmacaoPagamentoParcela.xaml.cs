@@ -182,7 +182,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         DateTime dataVencimento = DateTime.Now;
         private bool PreencheObjeto()
         {
-            //SalvarFluxo(contaPagamento, true);
             var qtdlinhaSelecionadas = linhaContaPagemento.Count();
             var valorPago = txtValorPago.Text != string.Empty ? Decimal.Parse(txtValorPago.Text) : 0;
             try
@@ -213,8 +212,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                         }
                         else
                         {
-                            res = parcela - valorPago;
-                            linha.ValorReajustado = txtValorReajustado.Text != string.Empty ? Math.Round(parcela, 2) : 0;
+                            res = valorPago != 0 ? parcela - valorPago : 0;
+                            linha.ValorReajustado = valorPago != 0 ? Math.Round(parcela, 2) : 0;
                             linha.ValorPago = txtValorPago.Text != string.Empty ? Math.Round(valorPago, 2) : 0;
                             linha.ValorRestante = Math.Round(res, 2);
                             dataVencimento = linha.DataVencimento.Value;
@@ -559,6 +558,16 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
+        }
+
+        private void txtValorParcela_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (editarParcela)
+            {
+                CalculaValorReajustado();
+                txtValorRestante.Clear();
+            }
+                
         }
     }
 }

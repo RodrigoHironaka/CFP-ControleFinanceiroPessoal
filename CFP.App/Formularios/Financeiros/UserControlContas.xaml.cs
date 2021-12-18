@@ -1244,7 +1244,25 @@ namespace CFP.App.Formularios.Financeiros
             {
                 List<ContaPagamento> lista = new List<ContaPagamento>();
                 lista.Add(selecao);
-
+                #region Teste
+                MessageBoxResult d = MessageBox.Show("Deseja alterar as outras parcelas?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (d == MessageBoxResult.Yes)
+                {
+                    DateTime ultimaData = (DateTime)selecao.DataVencimento;
+                    var teste = contaPagamento.Where(x => x.SituacaoParcelas == SituacaoParcela.Pendente && x.Numero > selecao.Numero).OrderBy(x => x.Numero).ToList();
+                    foreach (var item in contaPagamento.Where(x => x.SituacaoParcelas == SituacaoParcela.Pendente && x.Numero > selecao.Numero).OrderBy(x => x.Numero))
+                    {
+                        if(item.ID != selecao.ID)
+                        {
+                            item.ValorParcela = selecao.ValorParcela;
+                            item.DataVencimento = ultimaData.Date.AddMonths(1);
+                            ultimaData = (DateTime)item.DataVencimento;
+                        }
+                        
+                    }
+                    conta.ValorTotal = contaPagamento.Select(x => x.ValorParcela).Sum();
+                }
+                #endregion
                 if (Salvar())
                     SalvarFluxo(lista);
 
