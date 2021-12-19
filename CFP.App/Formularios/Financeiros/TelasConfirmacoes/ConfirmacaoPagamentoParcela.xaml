@@ -241,7 +241,7 @@
                                 HorizontalAlignment="Center"
                                 BorderBrush="#FF1F3D68" 
                                 Click="btConfirmar_Click" 
-                                TabIndex="7" Margin="1,0,0.2,-0.4" >
+                                TabIndex="7" Margin="1,0" >
                             <materialDesign:PackIcon 
                                  Kind="Check"  
                                  Width="50" 

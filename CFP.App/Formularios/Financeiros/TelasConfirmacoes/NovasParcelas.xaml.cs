@@ -72,7 +72,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             }
             else
             {
-
                 txtAlerta.Text = string.Empty;
                 try
                 {
@@ -94,7 +93,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                                 Conta = conta,
                                 Numero = (int)numero,
                                 ValorParcela = tipo != TipoPeriodo.Fixa ? !(i + 1 == qtdParcelas) ? valorParcela : valorParcela + valorDiferenca : valorTotal,
-                                DataVencimento = dataPrimeiroVencimento.AddMonths(i)
+                                DataVencimento = dataPrimeiroVencimento.AddMonths(i),
+                                ValorReajustado = tipo != TipoPeriodo.Fixa ? !(i + 1 == qtdParcelas) ? valorParcela : valorParcela + valorDiferenca : valorTotal
                             });
                         }
                         if (tipo != TipoPeriodo.Fixa)
@@ -134,7 +134,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValorTotal_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,]+");
         }
 
         private void txtValorTotal_PreviewKeyDown(object sender, KeyEventArgs e)

@@ -213,7 +213,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                         else
                         {
                             res = valorPago != 0 ? parcela - valorPago : 0;
-                            linha.ValorReajustado = valorPago != 0 ? Math.Round(parcela, 2) : 0;
+                            linha.ValorReajustado = Decimal.Parse(txtValorReajustado.Text); // valorPago != 0 ? Math.Round(parcela, 2) : 0;
                             linha.ValorPago = txtValorPago.Text != string.Empty ? Math.Round(valorPago, 2) : 0;
                             linha.ValorRestante = Math.Round(res, 2);
                             dataVencimento = linha.DataVencimento.Value;
@@ -498,27 +498,27 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtJurosPorcentagem_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,]+");
         }
 
         private void txtJurosValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,]+");
         }
 
         private void txtDescontoPorcentagem_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,]+");
         }
 
         private void txtDescontoValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,]+");
         }
 
         private void txtValorPago_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,]+");
         }
 
         private void txtJurosPorcentagem_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -660,7 +660,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValorParcela_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,]+");
         }
     }
 }

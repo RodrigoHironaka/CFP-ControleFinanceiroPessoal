@@ -1244,7 +1244,7 @@ namespace CFP.App.Formularios.Financeiros
             {
                 List<ContaPagamento> lista = new List<ContaPagamento>();
                 lista.Add(selecao);
-                #region Teste
+                #region pergunta se quer alterar outras parcelas
                 MessageBoxResult d = MessageBox.Show("Deseja alterar as outras parcelas?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (d == MessageBoxResult.Yes)
                 {
@@ -1255,10 +1255,14 @@ namespace CFP.App.Formularios.Financeiros
                         if(item.ID != selecao.ID)
                         {
                             item.ValorParcela = selecao.ValorParcela;
+                            item.ValorReajustado = selecao.ValorReajustado;
+                            item.JurosPorcentual = selecao.JurosPorcentual;
+                            item.JurosValor = selecao.JurosValor;
+                            item.DescontoPorcentual = selecao.DescontoPorcentual;
+                            item.DescontoValor = selecao.DescontoValor;
                             item.DataVencimento = ultimaData.Date.AddMonths(1);
                             ultimaData = (DateTime)item.DataVencimento;
                         }
-                        
                     }
                     conta.ValorTotal = contaPagamento.Select(x => x.ValorParcela).Sum();
                 }
