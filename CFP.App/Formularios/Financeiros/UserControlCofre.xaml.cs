@@ -160,10 +160,10 @@ namespace CFP.App.Formularios.Financeiros
             Ferramentas.Exportar.ExportarExcel.ExpExcel(DataGridCofre);
         }
 
-        private void menuItemExportarPdf_Click(object sender, RoutedEventArgs e)
-        {
-            ExportarPDF p = new ExportarPDF();
-            p.ExpPdf(DataGridCofre);
-        }
+        //private void menuItemExportarPdf_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ExportarPDF p = new ExportarPDF();
+        //    p.ExpPdf(DataGridCofre);
+        //}
     }
 }
