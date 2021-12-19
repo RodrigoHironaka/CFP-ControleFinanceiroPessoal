@@ -79,9 +79,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 cofre.TransacoesBancarias = (FormaPagamento)cmbTransacaoBancaria.SelectedItem;
                 cofre.Situacao = (EntradaSaida)cmbSituacao.SelectedIndex;
                 if (cofre.Situacao == EntradaSaida.Entrada)
-                    cofre.Valor = Decimal.Parse(txtValor.Text);
+                    cofre.Valor = Decimal.Parse(txtValor.Text) < 0 ? Decimal.Parse(txtValor.Text) * -1: Decimal.Parse(txtValor.Text);
                 else
-                    cofre.Valor = Decimal.Parse(txtValor.Text) * -1;
+                    cofre.Valor = Decimal.Parse(txtValor.Text) < 0 ? Decimal.Parse(txtValor.Text) : Decimal.Parse(txtValor.Text) * -1;
 
                 #region Verificando se valor é maior que o saldo final do Caixa quando for transferencia do caixa para o cofre
                 if (caixa != null && !String.IsNullOrEmpty(txtValor.Text))
@@ -210,7 +210,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
         }
 
         private void txtValor_PreviewKeyDown(object sender, KeyEventArgs e)
