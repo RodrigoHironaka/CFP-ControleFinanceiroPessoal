@@ -126,13 +126,13 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         #region Calculo Juros e Desconto (% e $)
         private decimal CalculaValorPorcentagem(decimal valor, decimal porcentagem)
         {
-            decimal resultado = Math.Round(valor * (porcentagem / 100), 2);
+            decimal resultado = Math.Round(valor * (porcentagem / 100), 3);
             return resultado;
         }
 
         private decimal CalculaPorcentagemValor(decimal valor, decimal valor2)
         {
-            decimal porcentagem = Math.Round((valor2 * 100) / valor, 2);
+            decimal porcentagem = Math.Round((valor2 * 100) / valor, 3);
             return porcentagem;
         }
 
@@ -385,7 +385,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (!String.IsNullOrEmpty(txtJurosValor.Text))
             {
-                txtJurosPorcentagem.Text = CalculaPorcentagemValor(Decimal.Parse(txtValorParcela.Text), Decimal.Parse(txtJurosValor.Text)).ToString("N3");
+                txtJurosPorcentagem.Text = CalculaPorcentagemValor(Decimal.Parse(txtValorParcela.Text), Decimal.Parse(txtJurosValor.Text)).ToString("N2");
                 CalculaValorReajustado();
             }
             else
@@ -439,10 +439,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             if(contaPagamento != null && contaPagamento.SituacaoParcelas == SituacaoParcela.Pago)
                 SalvarFluxo(linhaContaPagemento, true);
 
-            txtJurosValor_LostFocus(sender, e);
-            txtDescontoValor_LostFocus(sender, e);
-            txtJurosPorcentagem_LostFocus(sender, e);
-            txtDescontoPorcentagem_LostFocus(sender, e);
+            CalculaValorReajustado();
 
             if (PreencheObjeto())
             {
