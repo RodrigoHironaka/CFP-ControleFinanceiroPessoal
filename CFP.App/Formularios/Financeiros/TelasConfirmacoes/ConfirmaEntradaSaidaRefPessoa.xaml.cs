@@ -93,7 +93,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 fluxoCaixa.FormaPagamento = (FormaPagamento)cmbFormaPagamento.SelectedItem;
                 new RepositorioFluxoCaixa(Session).Salvar(fluxoCaixa);
             }
-            Close();
+            DialogResult = true;
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)

@@ -334,7 +334,7 @@ namespace CFP.App.Formularios.Financeiros
             {
                 fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
                 fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Transferencia para o cofre. Banco: {0}", _cofre.Banco);
-                
+
             }
             else
             {
@@ -530,7 +530,14 @@ namespace CFP.App.Formularios.Financeiros
                 ValorRefPessoas.Add(item);
             }
             ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(ValorRefPessoas, caixa, Session);
-            janela.ShowDialog();
+            bool? res = janela.ShowDialog();
+            if ((bool)res)
+            {
+                foreach (var item in ValorRefPessoas)
+                {
+                    DataGridAReceber.BorderBrush = Brushes.Green;
+                }
+            }
         }
 
         private void MenuItemAddItemSelecionado_Click(object sender, RoutedEventArgs e)
@@ -540,11 +547,15 @@ namespace CFP.App.Formularios.Financeiros
             {
                 ValorRefPessoasItens.Add(item);
             }
-           
-            if(ValorRefPessoasItens.Count > 0)
+
+            if (ValorRefPessoasItens.Count > 0)
             {
                 ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(ValorRefPessoasItens, caixa, Session);
-                janela.ShowDialog();
+                bool? res = janela.ShowDialog();
+                if ((bool)res)
+                {
+                    //alterar cor linha quando valores forem add no cofre ou caixa
+                }
             }
             else
             {
