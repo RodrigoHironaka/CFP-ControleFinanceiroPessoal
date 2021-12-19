@@ -78,7 +78,7 @@
                              FontFamily="Champagne &amp; Limousines" 
                              FontSize="18"
                              Foreground="#FF1F3D68"
-                             VerticalAlignment="Center" LostFocus="txtValorParcela_LostFocus" TextChanged="txtValorParcela_TextChanged"/>
+                             VerticalAlignment="Center" LostFocus="txtValorParcela_LostFocus" TextChanged="txtValorParcela_TextChanged" PreviewTextInput="txtValorParcela_PreviewTextInput"/>
                     </Grid>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>

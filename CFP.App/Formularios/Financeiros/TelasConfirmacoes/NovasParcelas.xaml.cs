@@ -134,12 +134,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValorTotal_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
-        }
-
-        private void txtQtd_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
         }
 
         private void txtValorTotal_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -187,6 +182,11 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     txtQtd.Focus();
                 }
             }
+        }
+
+        private void txtQtd_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
         }
     }
 }

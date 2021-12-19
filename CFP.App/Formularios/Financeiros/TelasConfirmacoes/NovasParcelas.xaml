@@ -101,7 +101,10 @@
                         FontSize="20"
                         Foreground="#FF1F3D68"
                         VerticalAlignment="Center" 
-                        HorizontalAlignment="Stretch" PreviewKeyDown="txtQtd_PreviewKeyDown" TextChanged="txtQtd_TextChanged"/>
+                        HorizontalAlignment="Stretch" PreviewKeyDown="txtQtd_PreviewKeyDown" 
+                        TextChanged="txtQtd_TextChanged" 
+                        PreviewTextInput="txtQtd_PreviewTextInput"
+                        MaxLength="3"/>
 
                     <DatePicker
                          x:Name="dtpVencimento"

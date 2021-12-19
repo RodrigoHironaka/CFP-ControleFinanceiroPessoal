@@ -34,13 +34,13 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            valorDigitado = txtValorInicial.Text.Trim();
+            valorDigitado = txtValorInicial.Text.Trim() != string.Empty ? txtValorInicial.Text.Trim() : "0";
             this.DialogResult = true;
         }
 
         private void txtValorInicial_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
         }
 
         private void txtValorInicial_PreviewKeyDown(object sender, KeyEventArgs e)

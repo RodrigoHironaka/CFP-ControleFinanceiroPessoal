@@ -503,7 +503,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtJurosValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
         }
 
         private void txtDescontoPorcentagem_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -513,12 +513,12 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtDescontoValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
         }
 
         private void txtValorPago_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,-]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
         }
 
         private void txtJurosPorcentagem_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -656,6 +656,11 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     txtValorPago.Focus();
                 }
             }
+        }
+
+        private void txtValorParcela_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9]+");
         }
     }
 }

@@ -307,7 +307,7 @@ namespace CFP.App
             }
             else
             {
-                ButtonPopUpMax.Content = "Minimizar";
+                ButtonPopUpMax.Content = "Rest. Tamanho";
                 gridConteudo.Margin = new Thickness(60, 50, 0, -708);
                 WindowState = WindowState.Maximized;
             }
