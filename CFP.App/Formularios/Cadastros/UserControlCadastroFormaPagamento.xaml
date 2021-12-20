@@ -146,18 +146,27 @@
                           Grid.Row="4"
                           Content="Realiza Transações Bancárias?"
                           FontFamily="Champagne &amp; Limousines" 
-                                FontSize="22"  
+                                FontSize="20"  
                                 Foreground="#FF1F3D68"
                                 Style="{StaticResource MaterialDesignFilterChipAccentCheckBox}" >
 
                 </CheckBox>
                 <CheckBox x:Name="chkUsadoParaCompras" 
-                          Grid.Row="5"
+                          Grid.Row="4"
                           Content="Possui Fatura Mensal?"
                           FontFamily="Champagne &amp; Limousines" 
-                                FontSize="22"  
+                                FontSize="20"  
                                 Foreground="#FF1F3D68"
-                                Style="{StaticResource MaterialDesignFilterChipAccentCheckBox}" >
+                                Style="{StaticResource MaterialDesignFilterChipAccentCheckBox}" Margin="297,14,0,14" >
+
+                </CheckBox>
+                <CheckBox x:Name="chkRemoveCofre" 
+                          Grid.Row="4"
+                          Content="Remove do Cofre?"
+                          FontFamily="Champagne &amp; Limousines" 
+                                FontSize="20"  
+                                Foreground="#FF1F3D68"
+                                Style="{StaticResource MaterialDesignFilterChipAccentCheckBox}" Margin="528,14,0,14" >
 
                 </CheckBox>
             </Grid>

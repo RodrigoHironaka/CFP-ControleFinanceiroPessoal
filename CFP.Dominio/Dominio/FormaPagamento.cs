@@ -16,5 +16,6 @@ namespace Dominio.Dominio
         public virtual Situacao Situacao { get; set; }
         public virtual SimNao TransacoesBancarias { get; set; }
         public virtual SimNao UsadoParaCompras { get; set; }
+        public virtual SimNao RemoveCofre { get; set; }
     }
 }

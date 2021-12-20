@@ -4,4 +4,10 @@ ALTER TABLE `configuracoes`
 	
 ALTER TABLE `cofres`
 	CHANGE COLUMN `Nome` `Nome` VARCHAR(200) NULL DEFAULT NULL COLLATE 'utf8_general_ci' AFTER `Situacao`;
+----------------------------------------------------------------------------------------------------------------
+20/12/2021
+ALTER TABLE `formaspagamento`
+	ADD COLUMN `RemoveCofre` INT(10) NULL DEFAULT NULL AFTER `UsadoParaCompras`;
+	
+UPDATE `formaspagamento` SET `RemoveCofre`= 0;
 

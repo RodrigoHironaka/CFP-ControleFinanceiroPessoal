@@ -117,6 +117,7 @@ namespace CFP.App.Formularios.Cadastros
                 formaPagamento.Situacao = (Situacao)cmbSituacao.SelectedIndex;
                 formaPagamento.TransacoesBancarias = (bool)chkTransacaoBancaria.IsChecked ? SimNao.Sim : SimNao.Não;
                 formaPagamento.UsadoParaCompras = (bool)chkUsadoParaCompras.IsChecked ? SimNao.Sim : SimNao.Não;
+                formaPagamento.RemoveCofre = (bool)chkRemoveCofre.IsChecked ? SimNao.Sim : SimNao.Não;
                 return true;
             }
             catch
@@ -139,7 +140,7 @@ namespace CFP.App.Formularios.Cadastros
                 cmbSituacao.SelectedIndex = formaPagamento.Situacao.GetHashCode();
                 chkTransacaoBancaria.IsChecked = formaPagamento.TransacoesBancarias == SimNao.Sim ? chkTransacaoBancaria.IsChecked = true : chkTransacaoBancaria.IsChecked = false;
                 chkUsadoParaCompras.IsChecked = formaPagamento.UsadoParaCompras == SimNao.Sim ? chkUsadoParaCompras.IsChecked = true : chkUsadoParaCompras.IsChecked = false;
-
+                chkRemoveCofre.IsChecked = formaPagamento.RemoveCofre == SimNao.Sim ? chkRemoveCofre.IsChecked = true : chkRemoveCofre.IsChecked = false;
             }
         }
         #endregion
