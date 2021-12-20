@@ -1,0 +1,75 @@
+
+        //#region Gerar Parcelas
+        //private void GerarParcelas(string vTotal, string qtd, DateTime primeiroVencimento)
+        //{
+        //    if (VerificaSituacaoParcelas())
+        //    {
+        //        RemoveTodosOsItensDaListaEBanco();
+        //        #region Gerando as Parcelas
+        //        Decimal valorTotal = txtValorTotal.Text != string.Empty ? Decimal.Parse(vTotal) : 0;
+        //        Int32 qtdParcelas = txtQtdParcelas.Text != string.Empty ? Int32.Parse(qtd) : 1;
+        //        DateTime dataPrimeiroVencimento = primeiroVencimento;
+        //        if (!valorTotal.Equals(0) || !qtdParcelas.Equals(0))
+        //        {
+
+        //            Decimal valorParcela = Math.Round(valorTotal / qtdParcelas, 2);
+        //            Decimal valorDiferenca = valorTotal - valorParcela * qtdParcelas;
+
+        //            PreencheDataGrid();
+        //            for (int i = 0; i < qtdParcelas; i++)
+        //            {
+        //                String numeroParcela = (i + 1).ToString().PadLeft(2, '0');
+        //                String valorParcelaCorrigido = !(i + 1 == qtdParcelas) ? valorParcela.ToString() : (valorParcela + valorDiferenca).ToString();
+        //                String dataVencimento = dataPrimeiroVencimento.AddMonths(i).ToShortDateString();
+
+        //                contaPagamento.Add(new ContaPagamento()
+        //                {
+        //                    SituacaoParcelas = SituacaoParcela.Pendente,
+        //                    Numero = Int32.Parse(numeroParcela),
+        //                    ValorParcela = Decimal.Parse(valorParcelaCorrigido),
+        //                    DataVencimento = Convert.ToDateTime(dataVencimento)
+        //                });
+        //                DataGridContaPagamento.Items.Refresh();
+        //            }
+        //            DataGridContaPagamento.Items.Refresh();
+        //        }
+        //        #endregion 
+        //    }
+        //    else
+        //    {
+        //        MessageBoxResult d = MessageBox.Show("Existem parcelas modificadas! Deseja REFAZER mesmo assim? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        //        if (d == MessageBoxResult.Yes)
+        //        {
+        //            RemoveTodosOsItensDaListaEBanco();
+        //            #region Gerando as Parcelas
+        //            Decimal valorTotal = txtValorTotal.Text != string.Empty ? Decimal.Parse(vTotal) : 0;
+        //            Int32 qtdParcelas = txtQtdParcelas.Text != string.Empty ? Int32.Parse(qtd) : 1;
+        //            DateTime dataPrimeiroVencimento = primeiroVencimento;
+        //            if (!valorTotal.Equals(0) || !qtdParcelas.Equals(0))
+        //            {
+
+        //                Decimal valorParcela = Math.Round(valorTotal / qtdParcelas, 2);
+        //                Decimal valorDiferenca = valorTotal - valorParcela * qtdParcelas;
+
+        //                PreencheDataGrid();
+        //                for (int i = 0; i < qtdParcelas; i++)
+        //                {
+        //                    String numeroParcela = (i + 1).ToString().PadLeft(2, '0');
+        //                    String valorParcelaCorrigido = !(i + 1 == qtdParcelas) ? valorParcela.ToString() : (valorParcela + valorDiferenca).ToString();
+        //                    String dataVencimento = dataPrimeiroVencimento.AddMonths(i).ToShortDateString();
+
+        //                    contaPagamento.Add(new ContaPagamento()
+        //                    {
+        //                        SituacaoParcelas = SituacaoParcela.Pendente,
+        //                        Numero = Int32.Parse(numeroParcela),
+        //                        ValorParcela = Decimal.Parse(valorParcelaCorrigido),
+        //                        DataVencimento = Convert.ToDateTime(dataVencimento)
+        //                    });
+        //                    DataGridContaPagamento.Items.Refresh();
+        //                }
+        //            }
+        //            #endregion
+        //        }
+        //    }
+        //}
+        //#endregion

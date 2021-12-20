@@ -455,9 +455,9 @@
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellEditingTemplate>
                                         </DataGridTemplateColumn>
-                                        <DataGridTextColumn Header="J(%)" Binding="{Binding JurosPorcentual, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="J(%)" Binding="{Binding JurosPorcentual, StringFormat='##0.000',  ConverterCulture='pt-BR'}" />
                                         <DataGridTextColumn Header="J($)" Binding="{Binding JurosValor, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
-                                        <DataGridTextColumn Header="Desc(%)" Binding="{Binding DescontoPorcentual, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
+                                        <DataGridTextColumn Header="Desc(%)" Binding="{Binding DescontoPorcentual, StringFormat='##0.000',  ConverterCulture='pt-BR'}" />
                                         <DataGridTextColumn Header="Desc($)" Binding="{Binding DescontoValor, StringFormat='##0.00',  ConverterCulture='pt-BR'}" />
                                         <DataGridTextColumn Header="V.Reajustado" Binding="{Binding ValorReajustado, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                         <DataGridTemplateColumn Header="Pagamento">

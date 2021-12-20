@@ -196,9 +196,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                         linha.ValorParcela = editarParcela != true ? linha.ValorParcela : decimal.Parse(txtValorParcela.Text);
                         linha.SituacaoParcelas = editarParcela != true ? SituacaoParcela.Pago : linha.SituacaoParcelas;
 
-                        linha.JurosPorcentual = txtJurosPorcentagem.Text != string.Empty ? Math.Round(Decimal.Parse(txtJurosPorcentagem.Text), 2) : 0;
+                        linha.JurosPorcentual = txtJurosPorcentagem.Text != string.Empty ? Math.Round(Decimal.Parse(txtJurosPorcentagem.Text), 3) : 0;
                         linha.JurosValor = linha.JurosPorcentual != 0 ? Math.Round(CalculaValorPorcentagem(linha.ValorParcela, linha.JurosPorcentual), 2) : 0;
-                        linha.DescontoPorcentual = txtDescontoPorcentagem.Text != string.Empty ? Math.Round(Decimal.Parse(txtDescontoPorcentagem.Text), 2) : 0;
+                        linha.DescontoPorcentual = txtDescontoPorcentagem.Text != string.Empty ? Math.Round(Decimal.Parse(txtDescontoPorcentagem.Text), 3) : 0;
                         linha.DescontoValor = linha.DescontoPorcentual != 0 ? Math.Round(CalculaValorPorcentagem(linha.ValorParcela, linha.DescontoPorcentual), 2) : 0;
                         var parcela = Math.Round(linha.ValorParcela + linha.JurosValor - linha.DescontoValor, 2);
 
@@ -385,7 +385,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (!String.IsNullOrEmpty(txtJurosValor.Text))
             {
-                txtJurosPorcentagem.Text = CalculaPorcentagemValor(Decimal.Parse(txtValorParcela.Text), Decimal.Parse(txtJurosValor.Text)).ToString("N2");
+                txtJurosPorcentagem.Text = CalculaPorcentagemValor(Decimal.Parse(txtValorParcela.Text), Decimal.Parse(txtJurosValor.Text)).ToString("N3");
                 CalculaValorReajustado();
             }
             else
@@ -413,7 +413,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (!String.IsNullOrEmpty(txtDescontoValor.Text))
             {
-                txtDescontoPorcentagem.Text = CalculaPorcentagemValor(Decimal.Parse(txtValorParcela.Text), Decimal.Parse(txtDescontoValor.Text)).ToString("N2");
+                txtDescontoPorcentagem.Text = CalculaPorcentagemValor(Decimal.Parse(txtValorParcela.Text), Decimal.Parse(txtDescontoValor.Text)).ToString("N3");
                 CalculaValorReajustado();
             }
             else
@@ -551,7 +551,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 e.Handled = true;
         }
 
-
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             DragMove();
@@ -563,8 +562,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             {
                 CalculaValorReajustado();
                 txtValorRestante.Clear();
-            }
-                
+            } 
         }
 
         private void txtValorParcela_TextChanged(object sender, TextChangedEventArgs e)

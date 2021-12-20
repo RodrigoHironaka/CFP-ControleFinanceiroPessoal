@@ -311,7 +311,7 @@
                                   IsReadOnly="True" MouseUp="DataGridAReceber_MouseUp" KeyDown="DataGridAReceber_KeyDown" >
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Tipo" Binding="{Binding Conta.TipoConta}" />
-                                <DataGridTextColumn Header="Valor" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                                <DataGridTextColumn Header="Valor" Binding="{Binding ValorReajustado, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                 <DataGridTextColumn Header="Pessoa" Binding="{Binding Conta.Pessoa}" />
                                 <DataGridTextColumn Header="Data" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
                                 <DataGridTextColumn Header="Conta" Binding="{Binding Conta.Nome}" />
