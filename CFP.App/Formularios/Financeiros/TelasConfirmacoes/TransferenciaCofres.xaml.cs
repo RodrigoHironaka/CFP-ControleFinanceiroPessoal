@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +28,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
     public partial class TransferenciaCofres : Window
     {
         ISession Session;
-        Cofre cofre = new Cofre();
         Configuracao config;
 
         #region Carrega combo
@@ -37,6 +37,12 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
                .OrderBy(x => x.Nome)
                .ToList();
+            cmbBancoEntrada.SelectedIndex = 0;
+
+            cmbBancoSaida.ItemsSource = new RepositorioBanco(Session)
+              .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+              .OrderBy(x => x.Nome)
+              .ToList();
             cmbBancoEntrada.SelectedIndex = 0;
         }
         #endregion
@@ -82,11 +88,28 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         }
         #endregion
 
-        public TransferenciaCofres(Cofre _cofre, ISession _session)
+        #region verificando saldo no banco
+        private bool SaldoBanco()
+        {
+            DateTime data = DateTime.Today;
+            var dataInicio = new DateTime(data.Year, data.Month, 1);
+            var dataFinal = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
+            var valorTotalBancoSaida = Repositorio.ObterPorParametros(x => x.Banco == cmbBancoSaida.SelectedItem && x.DataGeracao >= dataInicio && x.DataGeracao <= dataFinal).Select(x => x.Valor).ToList();
+            var res = valorTotalBancoSaida.Count > 0 ? valorTotalBancoSaida.Sum() : 0;
+            if (res < decimal.Parse(txtValorSaida.Text))
+            {
+                MessageBox.Show(String.Format("Saldo do banco {0} indisponível!", cmbBancoSaida.SelectedItem), "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return false;
+            }
+            return true;
+        }
+       
+        #endregion
+
+        public TransferenciaCofres(ISession _session)
         {
             InitializeComponent();
             Session = _session;
-            cofre = _cofre;
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -98,52 +121,68 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             ConfiguracoesSistema();
             CarregaCombo();
-            txtBancoSaida.Text = cofre.Banco.ToString();
-            txtValorSaida.Text = cofre.Valor.ToString();
-            txtValorEntrada.Text = cofre.Valor.ToString();
         }
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbBancoEntrada.SelectedIndex == -1)
+            if (cmbBancoEntrada.SelectedIndex == -1 || cmbBancoSaida.SelectedIndex == -1  || String.IsNullOrEmpty(txtValorSaida.Text))
             {
-                MessageBox.Show("Defina o banco de entrada para realizar a transferência", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Todos os campos são obrigatórios", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            #region Retirada do cofre
-            Cofre cofreRetirada = new Cofre
+            if (SaldoBanco())
             {
-                Codigo = Repositorio.RetornaUltimoCodigo() + 1,
-                Caixa = null,
-                Banco = cofre.Banco,
-                Valor = cofre.Valor * -1,
-                TransacoesBancarias = config.TransacaoBancariaPadrao,
-                Situacao = EntradaSaida.Saída,
-                Nome = String.Format("Transferência saída para o banco {0}", cmbBancoEntrada.SelectedItem),
-                DataGeracao = DateTime.Now,
-                UsuarioCriacao = MainWindow.UsuarioLogado
-            };
-            Repositorio.Salvar(cofreRetirada);
-            #endregion
+                #region Retirada do cofre
+                Cofre cofreRetirada = new Cofre
+                {
+                    Codigo = Repositorio.RetornaUltimoCodigo() + 1,
+                    Caixa = null,
+                    Banco = (Banco)cmbBancoSaida.SelectedItem,
+                    Valor = Decimal.Parse(txtValorSaida.Text) * -1,
+                    TransacoesBancarias = config.TransacaoBancariaPadrao,
+                    Situacao = EntradaSaida.Saída,
+                    Nome = String.Format("Transferência saída para o banco {0}", cmbBancoEntrada.SelectedItem),
+                    DataGeracao = DateTime.Now,
+                    UsuarioCriacao = MainWindow.UsuarioLogado
+                };
+                Repositorio.Salvar(cofreRetirada);
+                #endregion
 
-            #region Entrada no cofre
-            Cofre cofreEntrada = new Cofre
+                #region Entrada no cofre
+                Cofre cofreEntrada = new Cofre
+                {
+                    Codigo = Repositorio.RetornaUltimoCodigo() + 1,
+                    Caixa = null,
+                    Banco = (Banco)cmbBancoEntrada.SelectedItem,
+                    Valor = Decimal.Parse(txtValorSaida.Text),
+                    TransacoesBancarias = config.TransacaoBancariaPadrao,
+                    Situacao = EntradaSaida.Entrada,
+                    Nome = String.Format("Transferência entrada do banco {0}", cmbBancoSaida.SelectedItem),
+                    DataGeracao = DateTime.Now,
+                    UsuarioCriacao = MainWindow.UsuarioLogado
+                };
+                Repositorio.Salvar(cofreEntrada);
+                #endregion
+
+                DialogResult = true;
+            }
+            else
             {
-                Codigo = Repositorio.RetornaUltimoCodigo() + 1,
-                Caixa = null,
-                Banco = (Banco)cmbBancoEntrada.SelectedItem,
-                Valor = cofre.Valor,
-                TransacoesBancarias = config.TransacaoBancariaPadrao,
-                Situacao = EntradaSaida.Entrada,
-                Nome = String.Format("Transferência entrada do banco {0}", cofre.Banco),
-                DataGeracao = DateTime.Now,
-                UsuarioCriacao = MainWindow.UsuarioLogado
-            };
-            Repositorio.Salvar(cofreEntrada);
-            #endregion
+                txtValorSaida.Focus();
+                txtValorSaida.SelectAll();
+            }
+        }
 
-            DialogResult = true;
+        private void txtValorSaida_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
+        }
+
+        private void txtValorSaida_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,]+");
         }
     }
 }

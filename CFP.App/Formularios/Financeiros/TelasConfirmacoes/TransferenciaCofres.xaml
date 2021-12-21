@@ -40,19 +40,19 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="150"/>
                 </Grid.ColumnDefinitions>
-                <TextBox
-                  x:Name="txtBancoSaida"
+                <ComboBox
+                  x:Name="cmbBancoSaida"
                   Grid.Row="0"
                   materialDesign:HintAssist.Hint="De" 
-                  Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                  Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                   FontFamily="Champagne &amp; Limousines" 
                   FontSize="20"
                   Foreground="#FF1F3D68"
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Stretch"
-                  Margin="10 0 0 0" TabIndex="0" IsReadOnly="True"/>
+                  Margin="10 0 0 0" TabIndex="0" />
 
                 <TextBox
                   x:Name="txtValorSaida"
@@ -64,7 +64,9 @@
                   Foreground="#FF1F3D68"
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Stretch"
-                  Margin="10 0 10 0" TabIndex="1" IsReadOnly="True"/>
+                  Margin="10 0 10 0" TabIndex="1" 
+                    PreviewKeyDown="txtValorSaida_PreviewKeyDown" 
+                    PreviewTextInput="txtValorSaida_PreviewTextInput"/>
 
                 <ComboBox
                   x:Name="cmbBancoEntrada"
@@ -78,7 +80,7 @@
                   HorizontalAlignment="Stretch"
                   Margin="10 0 0 0" TabIndex="2"/>
 
-                <TextBox
+                <!--<TextBox
                   x:Name="txtValorEntrada"
                   Grid.Row="1" Grid.Column="1"
                   materialDesign:HintAssist.Hint="Valor Entrada" 
@@ -88,9 +90,9 @@
                   Foreground="#FF1F3D68"
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Stretch"
-                  Margin="10 0 10 0" TabIndex="3" IsReadOnly="True"/>
+                  Margin="10 0 10 0" TabIndex="3" PreviewKeyDown="txtValorEntrada_PreviewKeyDown" PreviewTextInput="txtValorEntrada_PreviewTextInput" IsReadOnly="True"/>-->
 
-                <Grid Grid.Row="2" Grid.Column="1">
+                <Grid Grid.Row="1" Grid.Column="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="70"/>

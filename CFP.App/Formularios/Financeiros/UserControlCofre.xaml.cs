@@ -72,7 +72,7 @@ namespace CFP.App.Formularios.Financeiros
 
             var filtro = Repositorio.ObterPorParametros(predicado).ToList();
             DataGridCofre.ItemsSource = filtro;
-            if(filtro.Count > 0)
+            if (filtro.Count > 0)
                 txtTotalFiltro.Text = String.Format("TOTAL: {0:C}", filtro.Sum(x => x.Valor));
         }
         #endregion
@@ -98,7 +98,7 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
-        public UserControlCofre( ISession _session)
+        public UserControlCofre(ISession _session)
         {
             InitializeComponent();
             Session = _session;
@@ -135,7 +135,7 @@ namespace CFP.App.Formularios.Financeiros
 
         private void DataGridCofre_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-          
+
         }
 
         private void btFiltro_Click(object sender, RoutedEventArgs e)
@@ -179,23 +179,10 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btTranferenciaCofres_Click(object sender, RoutedEventArgs e)
         {
-            Cofre selecao = (Cofre)DataGridCofre.SelectedItem;
-            DateTime data = DateTime.Today;
-            var dataInicio = new DateTime(data.Year, data.Month, 1);
-            var dataFinal = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
-            var valorTotalBanco = Repositorio.ObterPorParametros(x => x.Banco == selecao.Banco && x.DataGeracao >= dataInicio && x.DataGeracao <= dataFinal).Sum(x => x.Valor);
-
-            if (selecao != null && valorTotalBanco >= selecao.Valor && selecao.Valor > 0)
-            {
-                TransferenciaCofres janela = new TransferenciaCofres(selecao, Session);
-                bool? res = janela.ShowDialog();
-                if ((bool)res)
-                    btFiltro_Click(sender, e);
-            }
-            else
-            {
-                MessageBox.Show("Não é possível realizar a transferência!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
+            TransferenciaCofres janela = new TransferenciaCofres(Session);
+            bool? res = janela.ShowDialog();
+            if ((bool)res)
+                btFiltro_Click(sender, e);
         }
 
 
