@@ -68,10 +68,10 @@
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Bottom"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Realiza o pagamento rápido, definindo a forma de pagamento padrão nas configurações" Click="btPagar_Click">
+                    ToolTip="Realiza o pagamento rápido, definindo a forma de pagamento padrão nas configurações" Click="btPagar_Click" Margin="1.4,0,1.8,10">
                 <materialDesign:PackIcon 
                     Kind="CashCheck"  
                     Width="50" 
@@ -177,15 +177,26 @@
                      Foreground="DarkGray"
                      Margin="5 0 5 0"/>
 
+            <TextBlock x:Name="txtTotalFiltroReajustado" 
+                       Text="R$ 0.00"
+                       Grid.Column="10"
+                       Grid.ColumnSpan="3"
+                       Foreground="DarkGray"
+                       FontFamily="Champagne &amp; Limousines"
+                       FontSize="14"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Right"
+                       Margin="10"/>
+
             <TextBlock x:Name="txtTotalFiltro" 
                        Text="R$ 0.00"
                        Grid.Column="10"
                        Grid.ColumnSpan="3"
                        Foreground="DarkGray"
                        FontFamily="Champagne &amp; Limousines"
-                       FontSize="18"
+                       FontSize="14"
                        VerticalAlignment="Bottom"
-                       HorizontalAlignment="Center"
+                       HorizontalAlignment="Right"
                        Margin="10"/>
 
         </Grid>
@@ -201,7 +212,8 @@
                         <DataGridTextColumn Header="Código" Binding="{Binding Conta.Codigo}" />
                         <DataGridTextColumn Header="Descrição" Binding="{Binding Conta.Nome}" />
                         <DataGridTextColumn Header="Parcela" Binding="{Binding Numero}" />
-                        <DataGridTextColumn Header="Valor" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="V. Parcela" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="V. Reajustado" Binding="{Binding ValorReajustado, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                         <DataGridTextColumn Header="Vencimento" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
                         <DataGridTextColumn Header="Forma da Compra" Binding="{Binding Conta.FormaCompra}" />
                         <DataGridTextColumn Header="Nº Doc" Binding="{Binding Conta.NumeroDocumento}" />

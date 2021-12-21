@@ -530,14 +530,8 @@ namespace CFP.App.Formularios.Financeiros
                 ValorRefPessoas.Add(item);
             }
             ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(ValorRefPessoas, caixa, Session);
-            bool? res = janela.ShowDialog();
-            if ((bool)res)
-            {
-                foreach (var item in ValorRefPessoas)
-                {
-                    DataGridAReceber.BorderBrush = Brushes.Green;
-                }
-            }
+            janela.ShowDialog();
+           
         }
 
         private void MenuItemAddItemSelecionado_Click(object sender, RoutedEventArgs e)
@@ -551,11 +545,8 @@ namespace CFP.App.Formularios.Financeiros
             if (ValorRefPessoasItens.Count > 0)
             {
                 ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(ValorRefPessoasItens, caixa, Session);
-                bool? res = janela.ShowDialog();
-                if ((bool)res)
-                {
-                    //alterar cor linha quando valores forem add no cofre ou caixa
-                }
+                janela.ShowDialog();
+                
             }
             else
             {

@@ -120,10 +120,10 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         #region Preeenche Campos
         private void PreencheCampos()
         {
-            txtValor.Text = contasPagamento.Sum(x => x.ValorParcela).ToString("n2");
-            totalcontasPagamentoselecionadas = contasPagamento.Select(x => x.ValorParcela).Sum();
-            totalRefPessoaContaPagar = contasPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorParcela).Sum();
-            totalRefPessoaContaReceber = contasPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorParcela).Sum();
+            txtValor.Text = contasPagamento.Sum(x => x.ValorReajustado).ToString("n2");
+            totalcontasPagamentoselecionadas = contasPagamento.Select(x => x.ValorReajustado).Sum();
+            totalRefPessoaContaPagar = contasPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorReajustado).Sum();
+            totalRefPessoaContaReceber = contasPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum();
         }
         #endregion
 
@@ -157,13 +157,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             PreencheCampos();
         }
 
-        //public ConfirmaEntradaSaidaRefPessoaCofre(Caixa _caixa, ISession _session)
-        //{
-        //    InitializeComponent();
-        //    Session = _session;
-        //    caixa = _caixa;
-        //}
-
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(txtValor.Text) || string.IsNullOrEmpty(txtNome.Text) || cmbBanco.SelectedItem == null || cmbFormaPagamento.SelectedItem == null || string.IsNullOrEmpty(txtData.Text))
@@ -192,7 +185,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                                 Codigo = Repositorio.RetornaUltimoCodigo() + 1,
                                 Caixa = caixa,
                                 Banco = (Banco)cmbBanco.SelectedItem,
-                                Valor = item.ValorParcela * -1,
+                                Valor = item.ValorReajustado * -1,
                                 TransacoesBancarias = config.TransacaoBancariaPadrao,
                                 Situacao = EntradaSaida.Saída,
                                 Nome = String.Format("Transferência para caixa Ref a {0}, Conta: {1}", item.Conta.Pessoa, item.Conta.Codigo),

@@ -115,7 +115,11 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             var filtro = RepositorioContaPagamento.ObterPorParametros(predicado).ToList();
             dgContasFiltradas.ItemsSource = filtro.OrderBy(x => x.DataVencimento);
             if (filtro.Count > 0)
-                txtTotalFiltro.Text = String.Format("TOTAL {0:C}", filtro.Sum(x => x.ValorParcela));
+            {
+                txtTotalFiltro.Text = String.Format("PARC: {0:C}", filtro.Sum(x => x.ValorParcela));
+                txtTotalFiltroReajustado.Text = String.Format("REAJ: {0:C}", filtro.Sum(x => x.ValorReajustado));
+            }
+               
         }
         #endregion
 
@@ -225,7 +229,11 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             Session = _session;
             dgContasFiltradas.ItemsSource = _contaPagamentos.OrderBy(x => x.DataVencimento);
             if (_contaPagamentos.Count > 0)
-                txtTotalFiltro.Text = String.Format("Total: {0}", _contaPagamentos.Sum(x => x.ValorParcela).ToString("N2"));
+            {
+                txtTotalFiltro.Text = String.Format("PARC: {0:C}", _contaPagamentos.Sum(x => x.ValorParcela));
+                txtTotalFiltroReajustado.Text = String.Format("REAJ:: {0:C}", _contaPagamentos.Sum(x => x.ValorReajustado));
+            }
+                
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -308,7 +316,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                             foreach (ContaPagamento parcela in selecoes)
                             {
                                 parcela.SituacaoParcelas = SituacaoParcela.Pago;
-                                parcela.ValorPago = parcela.ValorParcela;
+                                parcela.ValorPago = parcela.ValorReajustado;
                                 parcela.DataPagamento = DateTime.Now;
                                 parcela.FormaPagamento = config.FormaPagamentoPadraoConta;
                                 RepositorioContaPagamento.Alterar(parcela);
@@ -371,16 +379,21 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         private void dgContasFiltradas_MouseUp(object sender, MouseButtonEventArgs e)
         {
             decimal valores = 0;
+            decimal valoresReajustado = 0;
             List<ContaPagamento> selecoes = new List<ContaPagamento>();
             foreach (ContaPagamento item in dgContasFiltradas.SelectedItems)
             {
                 selecoes.Add(item);
                 valores += item.ValorParcela;
+                valoresReajustado += item.ValorReajustado;
             }
             if (selecoes.Count > 0)
             {
                 txtTotalFiltro.Text = string.Empty;
-                txtTotalFiltro.Text += String.Format("TOTAL {0:C}", valores);
+                txtTotalFiltro.Text += String.Format("PARC: {0:C}", valores);
+                txtTotalFiltroReajustado.Text = string.Empty;
+                txtTotalFiltroReajustado.Text += String.Format("REAJ: {0:C}", valoresReajustado);
+                
             }
             else
                 btFiltro_Click(sender, e);

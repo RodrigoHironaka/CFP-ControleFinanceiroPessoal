@@ -77,13 +77,13 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 {
                     fluxoCaixa.TipoFluxo = EntradaSaida.Saída;
                     fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Saída no caixa ref. {0}", item.Conta.Pessoa.Nome);
-                    fluxoCaixa.Valor = item.ValorParcela * -1;
+                    fluxoCaixa.Valor = item.ValorReajustado * -1;
                 }
                 else
                 {
                     fluxoCaixa.TipoFluxo = EntradaSaida.Entrada;
                     fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Entrada no caixa ref. {0}.", item.Conta.Pessoa.Nome); 
-                    fluxoCaixa.Valor = item.ValorParcela ;
+                    fluxoCaixa.Valor = item.ValorReajustado;
                 }
                 fluxoCaixa.DataGeracao = DateTime.Now;
                 fluxoCaixa.Conta = item.Conta;

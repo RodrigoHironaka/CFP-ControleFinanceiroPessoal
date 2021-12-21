@@ -486,6 +486,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                             SituacaoParcelas = SituacaoParcela.Parcial,
                             Numero = new RepositorioConta(Session).ObterPorId(linhaContaPagemento.First().Conta.Id).ContaPagamentos.Count(),
                             ValorParcela = Decimal.Parse(txtValorRestante.Text),
+                            ValorReajustado = Decimal.Parse(txtValorRestante.Text),
                             DataVencimento = dataVencimento
                         });
                        

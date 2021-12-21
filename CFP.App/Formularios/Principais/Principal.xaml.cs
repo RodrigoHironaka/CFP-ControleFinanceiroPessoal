@@ -68,11 +68,11 @@ namespace CFP.App
                 x.DataVencimento <= ultimoDia.Date.AddHours(23).AddMinutes(59).AddSeconds(59) &&
                 x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id).ToList();
 
-            txtValorTotalPagar.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorParcela).Sum());
+            txtValorTotalPagar.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorReajustado).Sum());
 
-            txtValorTotalReceber.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorParcela).Sum());
+            txtValorTotalReceber.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum());
 
-            txtValorTotalCartoes.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorParcela).Sum());
+            txtValorTotalCartoes.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum());
 
             AlertaContas();
         }
