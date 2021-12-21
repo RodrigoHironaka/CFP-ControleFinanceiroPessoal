@@ -96,7 +96,7 @@
                     BorderBrush="#FF1F3D68"
                     ToolTip="Tansferir Receita para o cofre" Click="btTransferirCofre_Click">
                 <materialDesign:PackIcon 
-                    Kind="BankTransfer"  
+                    Kind="BankTransferIn"  
                     Width="50" 
                     Height="50"/>
             </Button>

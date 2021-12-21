@@ -169,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Formularios\Financeiros\TelasConfirmacoes\TransferenciaCofres.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Financeiros\TelasConfirmacoes\ValoresCofre.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -308,6 +312,9 @@
     </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\NovasParcelas.xaml.cs">
       <DependentUpon>NovasParcelas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Financeiros\TelasConfirmacoes\TransferenciaCofres.xaml.cs">
+      <DependentUpon>TransferenciaCofres.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\ValoresCofre.xaml.cs">
       <DependentUpon>ValoresCofre.xaml</DependentUpon>

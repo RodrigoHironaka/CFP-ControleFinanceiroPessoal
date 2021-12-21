@@ -73,7 +73,7 @@ namespace CFP.App.Formularios.Financeiros
             var filtro = Repositorio.ObterPorParametros(predicado).ToList();
             DataGridCofre.ItemsSource = filtro;
             if(filtro.Count > 0)
-                txtTotalFiltro.Text = String.Format("Total: {0}", filtro.Sum(x => x.Valor).ToString("N2"));
+                txtTotalFiltro.Text = String.Format("TOTAL: {0:C}", filtro.Sum(x => x.Valor));
         }
         #endregion
 
@@ -159,6 +159,45 @@ namespace CFP.App.Formularios.Financeiros
         {
             Ferramentas.Exportar.ExportarExcel.ExpExcel(DataGridCofre);
         }
+
+        private void DataGridCofre_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            decimal valores = 0;
+            List<Cofre> selecoes = new List<Cofre>();
+            foreach (Cofre item in DataGridCofre.SelectedItems)
+            {
+                selecoes.Add(item);
+                valores += item.Valor;
+            }
+            if (selecoes.Count > 0)
+            {
+                txtTotalFiltro.Text = string.Empty;
+                txtTotalFiltro.Text += String.Format("TOTAL: {0:C}", valores);
+
+            }
+        }
+
+        private void btTranferenciaCofres_Click(object sender, RoutedEventArgs e)
+        {
+            Cofre selecao = (Cofre)DataGridCofre.SelectedItem;
+            DateTime data = DateTime.Today;
+            var dataInicio = new DateTime(data.Year, data.Month, 1);
+            var dataFinal = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
+            var valorTotalBanco = Repositorio.ObterPorParametros(x => x.Banco == selecao.Banco && x.DataGeracao >= dataInicio && x.DataGeracao <= dataFinal).Sum(x => x.Valor);
+
+            if (selecao != null && valorTotalBanco >= selecao.Valor && selecao.Valor > 0)
+            {
+                TransferenciaCofres janela = new TransferenciaCofres(selecao, Session);
+                bool? res = janela.ShowDialog();
+                if ((bool)res)
+                    btFiltro_Click(sender, e);
+            }
+            else
+            {
+                MessageBox.Show("Não é possível realizar a transferência!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
 
         //private void menuItemExportarPdf_Click(object sender, RoutedEventArgs e)
         //{

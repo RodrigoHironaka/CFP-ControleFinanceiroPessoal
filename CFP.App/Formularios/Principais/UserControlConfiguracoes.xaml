@@ -253,7 +253,7 @@
                                     Height="auto"
                                     Grid.Column="0" Grid.Row="0"
                                     VerticalAlignment="Stretch"
-                                    ToolTip="Restaurar Banco de Dados" Margin="0,0,0,68.6" Grid.RowSpan="2" Click="btRestaurarBancoDados_Click">
+                                    ToolTip="Restaurar Banco de Dados" Click="btRestaurarBancoDados_Click">
                                 <materialDesign:PackIcon
                                     Kind="DatabaseImport"
                                     Width="50"
@@ -266,7 +266,8 @@
                                     Grid.Column="1" Grid.Row="0" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    ToolTip="Restaurar Banco de Dados" Click="btConfigBancoDados_Click">
+                                    ToolTip="Restaurar Banco de Dados" 
+                                    Click="btConfigBancoDados_Click">
                                 <materialDesign:PackIcon
                                     Kind="DatabaseEdit"
                                     Width="50"

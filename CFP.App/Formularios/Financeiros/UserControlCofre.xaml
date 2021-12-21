@@ -55,25 +55,39 @@
                         Grid.Column="6"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                        Margin="5"/>
+                        Margin="5,17,5,18.4" Height="35"/>
 
             <DatePicker x:Name="dtpFinal"
                         Grid.Column="8"
                         Grid.ColumnSpan="2"
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                        Margin="5"/>
+                        Margin="5,17,5,18.4" Height="35"/>
 
             <TextBlock x:Name="txtTotalFiltro" 
                        Grid.Column="11"
-                       Grid.ColumnSpan="3"
+                       Grid.ColumnSpan="2"
                        Foreground="White"
                        FontFamily="Champagne &amp; Limousines"
-                       FontSize="18"
+                       FontSize="12"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Margin="10"/>
             <!--#Endregion Filtro-->
 
+            <Button x:Name="btTranferenciaCofres"
+                    Grid.Column="13"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="60" Width="60" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Transferencia entre cofres" Click="btTranferenciaCofres_Click"  >
+                <materialDesign:PackIcon 
+                    Kind="BankTransfer"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
             <Button x:Name="btAdicionar"
                     Grid.Column="14"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
@@ -127,7 +141,7 @@
             <Grid Margin="30 30 30 40">
                 <DataGrid x:Name="DataGridCofre"  
                            AutoGenerateColumns="False"                                        
-                           Background="white" IsReadOnly="True" MouseDoubleClick="DataGridCofre_MouseDoubleClick" LoadingRow="DataGridCofre_LoadingRow">
+                           Background="white" IsReadOnly="True" MouseDoubleClick="DataGridCofre_MouseDoubleClick" LoadingRow="DataGridCofre_LoadingRow" MouseUp="DataGridCofre_MouseUp">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Situação" Binding="{Binding Situacao}" />
                         <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" />
