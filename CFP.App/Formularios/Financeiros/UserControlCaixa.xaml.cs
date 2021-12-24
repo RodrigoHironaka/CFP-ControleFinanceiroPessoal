@@ -231,19 +231,19 @@ namespace CFP.App.Formularios.Financeiros
             totalSaida = RepositorioFluxoCaixa.ObterTodos()
                 .Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Saída)
                 .Sum(x => x.Valor) * -1;
-            txtTotalSaida.Text = String.Format("TOTAL SAÍDA: R${0:n2}", totalSaida);
+            txtTotalSaida.Text = String.Format("TOTAL SAÍDA: {0:C}", totalSaida);
             #endregion
 
             #region Total Entrada
             totalEntrada = RepositorioFluxoCaixa.ObterTodos()
                 .Where(x => x.Caixa.Id == caixa.Id && x.TipoFluxo == EntradaSaida.Entrada)
                 .Sum(x => x.Valor);
-            txtTotalEntrada.Text = String.Format("TOTAL ENTRADA: R${0:n2}", totalEntrada);
+            txtTotalEntrada.Text = String.Format("TOTAL ENTRADA: {0:C}", totalEntrada);
             #endregion
 
             #region Saldo Final
             saldoFinal = caixa.ValorInicial + totalEntrada - totalSaida;
-            txtSaldoFinal.Text = String.Format("SALDO FINAL : R${0:n2}", saldoFinal);
+            txtSaldoFinal.Text = String.Format("SALDO FINAL : {0:C}", saldoFinal);
             #endregion
 
             #region Total A receber de pessoas referenciadas
@@ -257,7 +257,7 @@ namespace CFP.App.Formularios.Financeiros
                 x.Conta.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
                 .Select(x => x.ValorParcela)
                 .Sum();
-            txtTotalAReceberPessoa.Text = String.Format("TOTAL: R${0:n2}", aReceberPessoa);
+            txtTotalAReceberPessoa.Text = String.Format("TOTAL: {0:C}", aReceberPessoa);
             #endregion
 
             SalvaTotais();

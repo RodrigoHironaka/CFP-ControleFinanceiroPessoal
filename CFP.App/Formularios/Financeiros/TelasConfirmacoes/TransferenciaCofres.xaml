@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros.TelasConfirmacoes"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        ResizeMode="NoResize"
         Title="TransferenciaCofres" Height="250" Width="580"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None" Loaded="Window_Loaded">
     <Grid>

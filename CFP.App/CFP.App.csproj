@@ -161,6 +161,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Formularios\Financeiros\TelasConfirmacoes\DebitoAutomaticoBanco.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Financeiros\TelasConfirmacoes\EntradaSaidaManual.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -306,6 +310,9 @@
     </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmaValorInicialCaixa.xaml.cs">
       <DependentUpon>ConfirmaValorInicialCaixa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Financeiros\TelasConfirmacoes\DebitoAutomaticoBanco.xaml.cs">
+      <DependentUpon>DebitoAutomaticoBanco.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\EntradaSaidaManual.xaml.cs">
       <DependentUpon>EntradaSaidaManual.xaml</DependentUpon>

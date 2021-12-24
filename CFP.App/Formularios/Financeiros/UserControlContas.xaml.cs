@@ -1170,6 +1170,7 @@ namespace CFP.App.Formularios.Financeiros
             {
                 List<ContaPagamento> lista = new List<ContaPagamento>();
                 lista.Add(selecao);
+
                 #region pergunta se quer alterar outras parcelas
                 MessageBoxResult d = MessageBox.Show("Deseja alterar as outras parcelas?", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (d == MessageBoxResult.Yes)
@@ -1193,6 +1194,7 @@ namespace CFP.App.Formularios.Financeiros
                     conta.ValorTotal = contaPagamento.Select(x => x.ValorParcela).Sum();
                 }
                 #endregion
+
                 if (Salvar())
                     SalvarFluxo(lista);
 

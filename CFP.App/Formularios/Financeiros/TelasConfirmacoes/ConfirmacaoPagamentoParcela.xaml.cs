@@ -100,7 +100,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             decimal somaValorPago = 0;
             foreach (var linha in linhaContaPagemento)
             {
-                numParcela =  numParcela != string.Empty ? String.Format("{0}, {1}",numParcela, linha.Numero) : linha.Numero.ToString();
+                numParcela = numParcela != string.Empty ? String.Format("{0}, {1}", numParcela, linha.Numero) : linha.Numero.ToString();
                 somaValorParcela = somaValorParcela + linha.ValorParcela;
                 somaValorJuros += linha.JurosValor;
                 somaValorDesconto += linha.DescontoValor;
@@ -115,7 +115,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 txtJurosValor.Text = somaValorJuros != 0 ? somaValorJuros.ToString("N2") : string.Empty;
                 txtDescontoPorcentagem.Text = linha.DescontoPorcentual != 0 ? linha.DescontoPorcentual.ToString("N2") : string.Empty;
                 txtDescontoValor.Text = somaValorDesconto != 0 ? somaValorDesconto.ToString("N2") : string.Empty;
-                txtValorReajustado.Text = linha.ValorReajustado != 0 ? linha.ValorReajustado.ToString("N2") : txtValorParcela.Text;
+                CalculaValorReajustado();
+                //txtValorReajustado.Text = linha.ValorReajustado != 0 ? linha.ValorReajustado.ToString("N2") : txtValorParcela.Text;
                 txtValorPago.Text = somaValorPago != 0 ? somaValorPago.ToString("N2") : string.Empty;
                 txtValorRestante.Text = linha.ValorRestante != 0 ? linha.ValorRestante.ToString("N2") : string.Empty;
                 cmbFormaPagamento.SelectedItem = linha.FormaPagamento;
@@ -360,6 +361,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             CarregaCombos();
             PreencheCampos();
             ValidacoesCampos();
+            VerificaCaixa();
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -436,7 +438,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            if(contaPagamento != null && contaPagamento.SituacaoParcelas == SituacaoParcela.Pago)
+            if (contaPagamento != null && contaPagamento.SituacaoParcelas == SituacaoParcela.Pago)
                 SalvarFluxo(linhaContaPagemento, true);
 
             CalculaValorReajustado();
@@ -489,12 +491,26 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                             ValorReajustado = Decimal.Parse(txtValorRestante.Text),
                             DataVencimento = dataVencimento
                         });
-                       
+
+                    }
+
+                    var contasPagar = linhaContaPagemento.Where(x => x.SituacaoParcelas == SituacaoParcela.Pago && x.Conta.TipoConta == TipoConta.Pagar &&
+                        x.FormaPagamento.RemoveCofre == SimNao.Sim).ToList();
+                    if (contasPagar.Count > 0)
+                    {
+                        DebitoAutomaticoBanco janela = new DebitoAutomaticoBanco(contasPagar, Session, caixa);
+                        bool? res = janela.ShowDialog();
+                        if (!(bool)res)
+                        {
+                            btCancelar.IsEnabled = false;
+                            return;
+                        }
                     }
                     DialogResult = true;
                 }
-            }
 
+                
+            }
         }
 
         private void txtJurosPorcentagem_PreviewTextInput(object sender, TextCompositionEventArgs e)
@@ -559,11 +575,11 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValorParcela_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (editarParcela)
-            {
+            //if (editarParcela)
+            //{
                 CalculaValorReajustado();
                 txtValorRestante.Clear();
-            } 
+            //}
         }
 
         private void txtValorParcela_TextChanged(object sender, TextChangedEventArgs e)
@@ -660,6 +676,11 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         private void txtValorParcela_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = Regex.IsMatch(e.Text, @"[^0-9,]+");
+        }
+
+        private void txtDataPagamento_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CalculaValorReajustado();
         }
     }
 }

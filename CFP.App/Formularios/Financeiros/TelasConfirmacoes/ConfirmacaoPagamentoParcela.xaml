@@ -103,7 +103,7 @@
                              FontFamily="Champagne &amp; Limousines" 
                              FontSize="18"
                              Foreground="#FF1F3D68"
-                             VerticalAlignment="Center" TabIndex="0" />
+                             VerticalAlignment="Center" TabIndex="0" LostFocus="txtDataPagamento_LostFocus" />
                     </Grid>
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
