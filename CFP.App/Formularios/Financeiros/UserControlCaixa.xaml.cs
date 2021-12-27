@@ -1,4 +1,5 @@
-﻿using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
+﻿using CFP.App.Formularios.Cadastros;
+using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
 using CFP.App.Formularios.Pesquisas;
 using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
@@ -607,6 +608,12 @@ namespace CFP.App.Formularios.Financeiros
                 txtTotalAReceberPessoaSelecionados.Text = string.Empty;
                 txtTotalAReceberPessoaSelecionados.Text += String.Format("TOTAL ITENS {0:C}", 0);
             }
+        }
+
+        private void btRecebimentoRenda_Click(object sender, RoutedEventArgs e)
+        {
+            GridCadastro.Children.Clear();
+            GridCadastro.Children.Add(new UserControlPessoa(caixa,Session));
         }
     }
 }

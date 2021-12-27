@@ -1,4 +1,7 @@
 ﻿using CFP.App.Formularios.Pesquisas;
+using CFP.Dominio.Dominio;
+using CFP.Dominio.ObjetoValor;
+using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObjetoValor;
 using LinqKit;
@@ -24,6 +27,8 @@ namespace CFP.App.Formularios.Cadastros
     {
         ISession Session;
         Pessoa pessoa;
+        Caixa caixa;
+        Configuracao config;
 
         #region Carrega Combos
         private void CarregaCombos()
@@ -67,6 +72,32 @@ namespace CFP.App.Formularios.Cadastros
             }
             set { _repositorioTipoRendas = value; }
 
+        }
+
+        private RepositorioFluxoCaixa _repositorioFluxoCaixa;
+        public RepositorioFluxoCaixa RepositorioFluxoCaixa
+        {
+            get
+            {
+                if (_repositorioFluxoCaixa == null)
+                    _repositorioFluxoCaixa = new RepositorioFluxoCaixa(Session);
+
+                return _repositorioFluxoCaixa;
+            }
+            set { _repositorioFluxoCaixa = value; }
+        }
+
+        private RepositorioConfiguracao _repositorioConfiguracao;
+        public RepositorioConfiguracao RepositorioConfiguracao
+        {
+            get
+            {
+                if (_repositorioConfiguracao == null)
+                    _repositorioConfiguracao = new RepositorioConfiguracao(Session);
+
+                return _repositorioConfiguracao;
+            }
+            set { _repositorioConfiguracao = value; }
         }
         #endregion
 
@@ -292,11 +323,31 @@ namespace CFP.App.Formularios.Cadastros
         }
         #endregion
 
+        #region Pegando as Configuracoes
+        private void ConfiguracoesSistema()
+        {
+            Session.Clear();
+            config = RepositorioConfiguracao.ObterTodos().Where(x => x.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id).FirstOrDefault();
+            if (config == null || config.TransacaoBancariaPadrao == null)
+            {
+                MessageBox.Show("Por favor verifique suas configurações!\r\nPode ser que ela não esteja criada ou sua transação bancária padrão não esteja definida!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+        }
+        #endregion
+
         public UserControlPessoa(Pessoa _pessoa, ISession _session)
         {
             InitializeComponent();
             Session = _session;
             pessoa = _pessoa;
+        }
+
+        public UserControlPessoa(Caixa _caixa, ISession _session)
+        {
+            InitializeComponent();
+            Session = _session;
+            caixa = _caixa;
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -315,9 +366,14 @@ namespace CFP.App.Formularios.Cadastros
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            ConfiguracoesSistema();
             ControleAcessoInicial();
             CarregaCombos();
             PreencheDataGrid();
+            if (caixa == null)
+                miReceber.IsEnabled = false;
+            else
+                miReceber.IsEnabled = true;
         }
 
         private void txtCodigo_KeyDown(object sender, KeyEventArgs e)
@@ -505,6 +561,34 @@ namespace CFP.App.Formularios.Cadastros
                     MessageBox.Show("Valor colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                     txtRendaLiquida.Clear();
                     txtRendaLiquida.Focus();
+                }
+            }
+        }
+
+        private void miReceber_Click(object sender, RoutedEventArgs e)
+        {
+            var selecoes = lstRendas.SelectedItems;
+            if(selecoes.Count > 0)
+            {
+
+                MessageBoxResult d =  MessageBox.Show("Confirma o recebimento?", "Informação", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if(d == MessageBoxResult.Yes)
+                {
+                    //foreach (PessoaTipoRendas item in selecoes)
+                    //{
+                    //    FluxoCaixa fluxoCaixa = new FluxoCaixa
+                    //    {
+                    //        TipoFluxo = EntradaSaida.Entrada,
+                    //        Nome = String.Format("Recebimento Renda {0} de {1}.", item.TipoRenda.Nome, item.Pessoa.Nome),
+                    //        Valor = item.RendaLiquida,
+                    //        DataGeracao = DateTime.Now,
+                    //        Conta = null,
+                    //        UsuarioCriacao = MainWindow.UsuarioLogado,
+                    //        Caixa = caixa,
+                    //        FormaPagamento = config.TransacaoBancariaPadrao
+                    //    };
+                    //    RepositorioFluxoCaixa.Salvar(fluxoCaixa);
+                    //}
                 }
             }
         }

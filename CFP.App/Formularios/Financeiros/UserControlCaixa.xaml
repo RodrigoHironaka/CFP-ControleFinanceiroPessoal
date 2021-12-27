@@ -31,6 +31,22 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+
+            <Button x:Name="btRecebimentoRenda"
+                    Grid.Column="7"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="60" Width="60" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Confirma o recebimento da renda mensal" Click="btRecebimentoRenda_Click">
+                <materialDesign:PackIcon 
+                    Kind="CashMultiple"  
+                    Width="50" 
+                    Height="50"/>
+            </Button>
+
             <Button x:Name="btPesquisar"
                     Grid.Column="0"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 

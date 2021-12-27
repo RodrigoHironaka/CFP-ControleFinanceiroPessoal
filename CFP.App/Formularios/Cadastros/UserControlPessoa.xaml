@@ -203,6 +203,11 @@
                                 <GridViewColumn Header="Renda Liquida"  DisplayMemberBinding="{Binding RendaLiquida}"/>
                             </GridView>
                         </ListView.View>
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem x:Name="miReceber" Header="Receber Renda" Click="miReceber_Click" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                     </ListView>
                     <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
