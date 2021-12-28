@@ -195,7 +195,7 @@
                           Style="{StaticResource MaterialDesignChoiceChipAccentListBox}"
                               VerticalAlignment="Stretch"
                               HorizontalAlignment="Stretch"
-                              Margin="5 0 5 0">
+                              Margin="5 0 5 0" SelectionMode="Multiple">
                         <ListView.View>
                             <GridView x:Name="grdNomes">
                                 <GridViewColumn Header="Tipo de Renda"  DisplayMemberBinding="{Binding TipoRenda}"/>
@@ -205,7 +205,8 @@
                         </ListView.View>
                         <ListView.ContextMenu>
                             <ContextMenu>
-                                <MenuItem x:Name="miReceber" Header="Receber Renda" Click="miReceber_Click" />
+                                <MenuItem x:Name="miReceberTodos" Header="Receber Todos" Click="miReceberTodos_Click" />
+                                <MenuItem x:Name="miReceber" Header="Receber Renda Selecionada" Click="miReceber_Click" />
                             </ContextMenu>
                         </ListView.ContextMenu>
                     </ListView>

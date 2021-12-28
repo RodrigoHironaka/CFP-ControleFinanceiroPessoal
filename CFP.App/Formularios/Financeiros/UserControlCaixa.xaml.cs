@@ -51,6 +51,7 @@ namespace CFP.App.Formularios.Financeiros
             }
             else
                 ControleAcessoInicial();
+                
 
         }
         #endregion
@@ -106,6 +107,7 @@ namespace CFP.App.Formularios.Financeiros
             btNovoRegistroConta.IsEnabled = !btNovoRegistroConta.IsEnabled;
             btCofre.IsEnabled = !btCofre.IsEnabled;
             btTransferirCofre.IsEnabled = !btTransferirCofre.IsEnabled;
+            btRecebimentoRenda.IsEnabled = !btRecebimentoRenda.IsEnabled;
 
             //Desbloqueando
             btPesquisar.IsEnabled = true;
@@ -126,6 +128,7 @@ namespace CFP.App.Formularios.Financeiros
             btNovoRegistroConta.IsEnabled = true;
             btCofre.IsEnabled = true;
             btTransferirCofre.IsEnabled = true;
+            btRecebimentoRenda.IsEnabled = true;
 
         }
         #endregion
@@ -613,7 +616,7 @@ namespace CFP.App.Formularios.Financeiros
         private void btRecebimentoRenda_Click(object sender, RoutedEventArgs e)
         {
             GridCadastro.Children.Clear();
-            GridCadastro.Children.Add(new UserControlPessoa(caixa,Session));
+            GridCadastro.Children.Add(new UserControlPessoa(new Pessoa(),Session));
         }
     }
 }

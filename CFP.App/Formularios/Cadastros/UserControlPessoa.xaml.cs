@@ -1,4 +1,5 @@
-﻿using CFP.App.Formularios.Pesquisas;
+﻿using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
+using CFP.App.Formularios.Pesquisas;
 using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
@@ -27,8 +28,6 @@ namespace CFP.App.Formularios.Cadastros
     {
         ISession Session;
         Pessoa pessoa;
-        Caixa caixa;
-        Configuracao config;
 
         #region Carrega Combos
         private void CarregaCombos()
@@ -323,31 +322,11 @@ namespace CFP.App.Formularios.Cadastros
         }
         #endregion
 
-        #region Pegando as Configuracoes
-        private void ConfiguracoesSistema()
-        {
-            Session.Clear();
-            config = RepositorioConfiguracao.ObterTodos().Where(x => x.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id).FirstOrDefault();
-            if (config == null || config.TransacaoBancariaPadrao == null)
-            {
-                MessageBox.Show("Por favor verifique suas configurações!\r\nPode ser que ela não esteja criada ou sua transação bancária padrão não esteja definida!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-        }
-        #endregion
-
         public UserControlPessoa(Pessoa _pessoa, ISession _session)
         {
             InitializeComponent();
             Session = _session;
             pessoa = _pessoa;
-        }
-
-        public UserControlPessoa(Caixa _caixa, ISession _session)
-        {
-            InitializeComponent();
-            Session = _session;
-            caixa = _caixa;
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -366,14 +345,9 @@ namespace CFP.App.Formularios.Cadastros
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            ConfiguracoesSistema();
             ControleAcessoInicial();
             CarregaCombos();
             PreencheDataGrid();
-            if (caixa == null)
-                miReceber.IsEnabled = false;
-            else
-                miReceber.IsEnabled = true;
         }
 
         private void txtCodigo_KeyDown(object sender, KeyEventArgs e)
@@ -567,29 +541,40 @@ namespace CFP.App.Formularios.Cadastros
 
         private void miReceber_Click(object sender, RoutedEventArgs e)
         {
-            var selecoes = lstRendas.SelectedItems;
+            List<PessoaTipoRendas> selecoes = new List<PessoaTipoRendas>();
+            foreach (PessoaTipoRendas item in lstRendas.SelectedItems)
+                selecoes.Add(item);
+
             if(selecoes.Count > 0)
             {
-
-                MessageBoxResult d =  MessageBox.Show("Confirma o recebimento?", "Informação", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if(d == MessageBoxResult.Yes)
+                RecebimentoRenda janela = new RecebimentoRenda(selecoes, Session);
+                bool? res = janela.ShowDialog();
+                if ((bool)res)
                 {
-                    //foreach (PessoaTipoRendas item in selecoes)
-                    //{
-                    //    FluxoCaixa fluxoCaixa = new FluxoCaixa
-                    //    {
-                    //        TipoFluxo = EntradaSaida.Entrada,
-                    //        Nome = String.Format("Recebimento Renda {0} de {1}.", item.TipoRenda.Nome, item.Pessoa.Nome),
-                    //        Valor = item.RendaLiquida,
-                    //        DataGeracao = DateTime.Now,
-                    //        Conta = null,
-                    //        UsuarioCriacao = MainWindow.UsuarioLogado,
-                    //        Caixa = caixa,
-                    //        FormaPagamento = config.TransacaoBancariaPadrao
-                    //    };
-                    //    RepositorioFluxoCaixa.Salvar(fluxoCaixa);
-                    //}
+                    MessageBoxResult d = MessageBox.Show("Deseja sair desta tela?", "Pergunta", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if(d == MessageBoxResult.Yes)
+                        (this.Parent as Grid).Children.Remove(this);
                 }
+            }
+        }
+
+        private void miReceberTodos_Click(object sender, RoutedEventArgs e)
+        {
+            List<PessoaTipoRendas> selecoes = new List<PessoaTipoRendas>();
+            foreach (PessoaTipoRendas item in lstRendas.ItemsSource)
+                selecoes.Add(item);
+
+            if (selecoes.Count > 0)
+            {
+                RecebimentoRenda janela = new RecebimentoRenda(selecoes, Session);
+                bool? res = janela.ShowDialog();
+                if ((bool)res)
+                {
+                    MessageBoxResult d = MessageBox.Show("Deseja sair desta tela?", "Pergunta", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
+                        (this.Parent as Grid).Children.Remove(this);
+                }
+
             }
         }
     }
