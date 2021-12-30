@@ -162,7 +162,7 @@
                 </CheckBox>
                 <CheckBox x:Name="chkRemoveCofre" 
                           Grid.Row="4"
-                          Content="Remove do Cofre?"
+                          Content="Débito Automático?"
                           FontFamily="Champagne &amp; Limousines" 
                                 FontSize="20"  
                                 Foreground="#FF1F3D68"

@@ -567,7 +567,6 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
-
         #region PreencheDataGrid
         private ObservableCollection<ContaPagamento> contaPagamento;
         public void PreencheDataGrid()
@@ -904,6 +903,7 @@ namespace CFP.App.Formularios.Financeiros
                             return;
                         }
                     }
+                    
 
                     ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhasContaPagamento, Session);
                     bool? res = janela.ShowDialog();
@@ -932,6 +932,7 @@ namespace CFP.App.Formularios.Financeiros
                         CalculoTotalPorSituacaoParcela();
                         FiltroSituacaoParcelas();
                     }
+                   
                 }
             }
             else

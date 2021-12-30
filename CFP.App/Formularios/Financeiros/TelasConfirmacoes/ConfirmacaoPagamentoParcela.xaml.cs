@@ -344,6 +344,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             InitializeComponent();
             linhaContaPagemento = _contaPagamento;
             Session = _session;
+           
+            
         }
 
         public ConfirmacaoPagamentoParcela(Boolean _editarParcela, ContaPagamento _contaPagamento, ISession _session)
@@ -438,6 +440,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
+
             if (contaPagamento != null && contaPagamento.SituacaoParcelas == SituacaoParcela.Pago)
                 SalvarFluxo(linhaContaPagemento, true);
 
@@ -502,7 +505,19 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                         bool? res = janela.ShowDialog();
                         if (!(bool)res)
                         {
-                            btCancelar.IsEnabled = false;
+                            foreach (var item in linhaContaPagemento)
+                            {
+                                item.DataPagamento = null;
+                                item.DescontoPorcentual = 0;
+                                item.DescontoValor = 0;
+                                item.JurosPorcentual = 0;
+                                item.JurosValor = 0;
+                                item.ValorPago = 0;
+                                item.ValorReajustado = item.ValorParcela;
+                                item.ValorRestante = 0;
+                                item.SituacaoParcelas = SituacaoParcela.Pendente;
+                                item.FormaPagamento = null;
+                            }
                             return;
                         }
                     }
