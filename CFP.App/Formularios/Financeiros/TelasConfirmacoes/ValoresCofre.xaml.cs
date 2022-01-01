@@ -100,9 +100,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     if (cofre.Situacao == EntradaSaida.Saída)
                     {
                         DateTime data = DateTime.Today;
-                        var dataInicio = new DateTime(data.Year, data.Month, 1);
+                        //var dataInicio = new DateTime(data.Year, data.Month, 1);
                         var dataFinal = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
-                        var valor = Repositorio.ObterPorParametros(x => x.Banco == cmbBanco.SelectedItem && x.DataGeracao >= dataInicio && x.DataGeracao <= dataFinal).Sum(x => x.Valor);
+                        var valor = Repositorio.ObterPorParametros(x => x.Banco == cmbBanco.SelectedItem && x.DataGeracao <= dataFinal).Sum(x => x.Valor);
                         if (valor >= Decimal.Parse(txtValor.Text))
                             cofre.Caixa = caixa;
                         else

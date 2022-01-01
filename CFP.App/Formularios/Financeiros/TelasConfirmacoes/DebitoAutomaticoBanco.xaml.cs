@@ -99,9 +99,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         private bool SaldoBanco()
         {
             DateTime data = DateTime.Today;
-            var dataInicio = new DateTime(data.Year, data.Month, 1);
+            //var dataInicio = new DateTime(data.Year, data.Month, 1);
             var dataFinal = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
-            var valorTotalBancoSaida = Repositorio.ObterPorParametros(x => x.Banco == cmbBanco.SelectedItem && x.DataGeracao >= dataInicio && x.DataGeracao <= dataFinal).Select(x => x.Valor).ToList();
+            var valorTotalBancoSaida = Repositorio.ObterPorParametros(x => x.Banco == cmbBanco.SelectedItem && x.DataGeracao <= dataFinal).Select(x => x.Valor).ToList();
             var res = valorTotalBancoSaida.Count > 0 ? valorTotalBancoSaida.Sum() : 0;
             if (res < decimal.Parse(txtValor.Text))
             {
