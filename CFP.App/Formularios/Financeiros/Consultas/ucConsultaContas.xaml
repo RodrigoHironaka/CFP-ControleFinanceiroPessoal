@@ -143,6 +143,18 @@
                       VerticalAlignment="Bottom"
                       Foreground="DarkGray"
                       Margin="5 0 5 0"/>
+            
+            <CheckBox x:Name="chkRefPessoasTodos"
+                      Grid.Column="7"
+                      Style="{StaticResource MaterialDesignCheckBox}"
+                       FontFamily="Champagne &amp; Limousines"
+                      FontSize="12" 
+                      VerticalAlignment="Bottom"
+                      HorizontalAlignment="Left"
+                      Margin="5 0 5 10"
+                      ToolTip="Filtra todas as pessoas referenciadas" Click="chkRefPessoasTodos_Click" IsChecked="True">
+                
+            </CheckBox>
 
             <ComboBox x:Name="cmbSituacaoParcelas"
                       Grid.Column="7"
@@ -167,7 +179,7 @@
                       Margin="5 0 5 0" KeyDown="cmbSituacaoConta_KeyDown"/>
 
             <TextBox x:Name="txtPesquisa"
-                     Grid.Column="7"
+                     Grid.Column="8"
                      Grid.ColumnSpan="3" 
                      materialDesign:HintAssist.Hint="Pesquisa Geral" 
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 

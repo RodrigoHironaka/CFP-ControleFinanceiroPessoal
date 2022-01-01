@@ -30,7 +30,7 @@ namespace CFP.Ferramentas.Exportar
                 {
                     TextBlock b = grid.Columns[i].GetCellContent(grid.Items[j]) as TextBlock;
                     Microsoft.Office.Interop.Excel.Range myRange = (Microsoft.Office.Interop.Excel.Range)sheet1.Cells[j + 2, i + 1];
-                    myRange.Value2 = b.Text;
+                    myRange.Value2 = b != null ? b.Text : string.Empty;
                 }
             }
         }

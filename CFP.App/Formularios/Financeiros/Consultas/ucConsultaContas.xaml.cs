@@ -98,8 +98,13 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             if (cmbFormaCompra.SelectedItem != null)
                 predicado = predicado.And(x => x.Conta.FormaCompra == cmbFormaCompra.SelectedItem);
 
-            if (cmbPessoaReferenciada.SelectedItem != null)
-                predicado = predicado.And(x => x.Conta.Pessoa == cmbPessoaReferenciada.SelectedItem);
+            if (chkRefPessoasTodos.IsChecked != true)
+            {
+                if (cmbPessoaReferenciada.SelectedItem != null)
+                    predicado = predicado.And(x => x.Conta.Pessoa == cmbPessoaReferenciada.SelectedItem);
+                else
+                    predicado = predicado.And(x => x.Conta.Pessoa == null);
+            }
 
             if (dtpInicio.SelectedDate != null)
                 predicado = predicado.And(x => x.DataVencimento >= dtpInicio.SelectedDate);
@@ -449,6 +454,17 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                 }
             }
 
+        }
+
+        private void chkRefPessoasTodos_Click(object sender, RoutedEventArgs e)
+        {
+            if (chkRefPessoasTodos.IsChecked == true)
+            {
+                cmbPessoaReferenciada.IsEnabled = false;
+                cmbPessoaReferenciada.SelectedIndex = -1;
+            }
+            else
+                cmbPessoaReferenciada.IsEnabled = true;
         }
     }
 }
