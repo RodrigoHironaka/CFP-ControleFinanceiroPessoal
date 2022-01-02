@@ -82,12 +82,13 @@
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
                         FontSize="12"
-                        materialDesign:HintAssist.Hint="Incio" 
+                        materialDesign:HintAssist.Hint="Início" 
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                         KeyDown="dtpInicio_KeyDown"
                         VerticalAlignment="Top"
                         Foreground="DarkGray"
-                        Margin="5 -4 5 1"/>
+                        Margin="5 -4 5 1"
+                        />
 
             <DatePicker x:Name="dtpFinal"
                         Grid.Column="0"

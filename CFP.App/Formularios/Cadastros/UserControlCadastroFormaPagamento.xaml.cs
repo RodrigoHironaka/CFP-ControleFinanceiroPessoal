@@ -300,18 +300,25 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
         {
-            if (formaPagamento != null)
+            try
             {
-                MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + formaPagamento.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (d == MessageBoxResult.Yes)
+                if (formaPagamento != null)
                 {
-                    Repositorio.Excluir(formaPagamento);
-                    LimpaCampos();
-                    ControleAcessoInicial();
+                    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + formaPagamento.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                        Repositorio.Excluir(formaPagamento);
+                        LimpaCampos();
+                        ControleAcessoInicial();
 
+                    }
                 }
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Mensagem", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
         }
     }
 }

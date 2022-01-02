@@ -39,8 +39,8 @@
                     Height="60" 
                     Width="60"
                     Background="#FF1F3D68" 
-                    Margin="0,5,72,5" 
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click">
+                    Margin="0,5,72,0" 
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click" VerticalAlignment="Top">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 

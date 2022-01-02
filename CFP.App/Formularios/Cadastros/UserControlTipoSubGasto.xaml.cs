@@ -41,8 +41,7 @@ namespace CFP.App.Formularios.Cadastros
             cmbGrupoGasto.ItemsSource = new RepositorioGrupoGasto(Session)
                 .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
                 .OrderBy(x => x.Nome)
-                .ToList<GrupoGasto>();
-            cmbGrupoGasto.SelectedIndex = 0;
+                .ToList();
         }
         #endregion
 
@@ -242,7 +241,7 @@ namespace CFP.App.Formularios.Cadastros
             p.ShowDialog();
             if (p.objeto != null)
             {
-                subGrupoGasto = p.objeto;
+                subGrupoGasto = Repositorio.ObterPorId(p.objeto.Id);
                 PreencheCampos();
                 ControleAcessoCadastro();
                 CorPadrãoBotaoPesquisar();
