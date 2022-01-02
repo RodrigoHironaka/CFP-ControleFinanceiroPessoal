@@ -439,16 +439,25 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
         {
-            if (pessoa != null)
+            try
             {
-                MessageBoxResult d = MessageBox.Show("Deseja realmente excluir o registro: " + pessoa.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (d == MessageBoxResult.Yes)
+                if (pessoa != null)
                 {
-                    Repositorio.Excluir(pessoa);
-                    LimpaCampos();
-                    ControleAcessoInicial();
+                    MessageBoxResult d = MessageBox.Show("Deseja realmente excluir o registro: " + pessoa.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                        Repositorio.Excluir(pessoa);
+                        LimpaCampos();
+                        ControleAcessoInicial();
+                    }
                 }
             }
+            catch
+            {
+                MessageBox.Show("Não é possível excluir esse registro, ele esta sendo usado em outro lugar! Por favor inative o registro para não utilizar mais.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
         }
 
         private void btAdd_Click(object sender, RoutedEventArgs e)
@@ -501,7 +510,7 @@ namespace CFP.App.Formularios.Cadastros
             p.ShowDialog();
             if (p.objeto != null)
             {
-                pessoa = p.objeto;
+                pessoa = Repositorio.ObterPorId(p.objeto.Id);
                 PreencheDataGrid();
                 PreencheCampos();
                 ControleAcessoCadastro();

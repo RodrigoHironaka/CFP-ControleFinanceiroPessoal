@@ -256,7 +256,7 @@ namespace CFP.App.Formularios.Cadastros
             if (p.objeto != null)
             {
                 LimpaCampos();
-                usuario = p.objeto;
+                usuario = Repositorio.ObterPorId(p.objeto.Id);
                 PreencheCampos();
                 ControleAcessoCadastro();
                 CorPadrãoBotaoPesquisar();
@@ -329,15 +329,23 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
         {
-            if (usuario != null)
+            try
             {
-                MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + usuario.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (d == MessageBoxResult.Yes)
+                if (usuario != null)
                 {
-                    Repositorio.Excluir(usuario);
-                    LimpaCampos();
-                    ControleAcessoInicial();
+                    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + usuario.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                        Repositorio.Excluir(usuario);
+                        LimpaCampos();
+                        ControleAcessoInicial();
+                    }
                 }
+            }
+            catch
+            {
+                MessageBox.Show("Não é possível excluir esse registro, ele esta sendo usado em outro lugar! Por favor inative o registro para não utilizar mais.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
         }
 

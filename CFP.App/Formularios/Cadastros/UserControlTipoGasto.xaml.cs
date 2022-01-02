@@ -232,7 +232,7 @@ namespace CFP.App.Formularios.Cadastros
             p.ShowDialog();
             if (p.objeto != null)
             {
-                grupoGasto = p.objeto;
+                grupoGasto = Repositorio.ObterPorId(p.objeto.Id);
                 PreencheCampos();
                 ControleAcessoCadastro();
                 CorPadrãoBotaoPesquisar();
@@ -264,16 +264,23 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
         {
-            if (grupoGasto != null)
+            try
             {
-                MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + grupoGasto.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (d == MessageBoxResult.Yes)
+                if (grupoGasto != null)
                 {
-                    Repositorio.Excluir(grupoGasto);
-                    LimpaCampos();
-                    ControleAcessoInicial();
-
+                    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + grupoGasto.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                        Repositorio.Excluir(grupoGasto);
+                        LimpaCampos();
+                        ControleAcessoInicial();
+                    }
                 }
+            }
+            catch
+            {
+                MessageBox.Show("Não é possível excluir esse registro, ele esta sendo usado em outro lugar! Por favor inative o registro para não utilizar mais.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
         }
     }

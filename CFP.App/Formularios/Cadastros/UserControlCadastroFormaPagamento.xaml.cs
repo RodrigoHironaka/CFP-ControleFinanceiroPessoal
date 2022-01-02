@@ -268,7 +268,7 @@ namespace CFP.App.Formularios.Cadastros
             p.ShowDialog();
             if (p.objeto != null)
             {
-                formaPagamento = p.objeto;
+                formaPagamento = Repositorio.ObterPorId(p.objeto.Id);
                 PreencheCampos();
                 ControleAcessoCadastro();
                 CorPadrãoBotaoPesquisar();
@@ -307,6 +307,7 @@ namespace CFP.App.Formularios.Cadastros
                     MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + formaPagamento.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (d == MessageBoxResult.Yes)
                     {
+                        
                         Repositorio.Excluir(formaPagamento);
                         LimpaCampos();
                         ControleAcessoInicial();
@@ -314,9 +315,10 @@ namespace CFP.App.Formularios.Cadastros
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                MessageBox.Show(ex.ToString(), "Mensagem", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Não é possível excluir esse registro, ele esta sendo usado em outro lugar! Por favor inative o registro para não utilizar mais.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
             
         }

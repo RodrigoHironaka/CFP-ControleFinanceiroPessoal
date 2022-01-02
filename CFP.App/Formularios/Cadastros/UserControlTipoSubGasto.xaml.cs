@@ -273,16 +273,23 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
         {
-            if (subGrupoGasto != null)
+            try
             {
-                MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + subGrupoGasto.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (d == MessageBoxResult.Yes)
+                if (subGrupoGasto != null)
                 {
-                    Repositorio.Excluir(subGrupoGasto);
-                    LimpaCampos();
-                    ControleAcessoInicial();
-
+                    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + subGrupoGasto.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    if (d == MessageBoxResult.Yes)
+                    {
+                        Repositorio.Excluir(subGrupoGasto);
+                        LimpaCampos();
+                        ControleAcessoInicial();
+                    }
                 }
+            }
+            catch
+            {
+                MessageBox.Show("Não é possível excluir esse registro, ele esta sendo usado em outro lugar! Por favor inative o registro para não utilizar mais.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
         }
     }

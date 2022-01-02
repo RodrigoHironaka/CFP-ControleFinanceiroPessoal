@@ -35,11 +35,11 @@
                      VerticalAlignment="Top" KeyDown="txtCodigo_KeyDown" PreviewTextInput="txtCodigo_PreviewTextInput" PreviewKeyDown="txtCodigo_PreviewKeyDown"/>
             <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                    Height="60" 
+                    Height="Auto" 
                     Width="60"
                     Background="#FF1F3D68" 
-                    Margin="0,5,72,0" 
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" VerticalAlignment="Top" Click="btExcluir_Click">
+                    Margin="0,5,72,5.4" 
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
@@ -181,7 +181,7 @@
                         </StackPanel>
                     </GroupBox>
                 </Grid>
-              
+
                 <Grid x:Name="GridTotais" Grid.Column="1"  >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -236,9 +236,9 @@
                              IsReadOnly="True"
                             Margin="5 0 5 0"/>
                     </Grid >
-                   
 
-                    
+
+
                 </Grid>
 
 
