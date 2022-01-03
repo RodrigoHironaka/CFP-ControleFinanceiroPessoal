@@ -36,11 +36,11 @@
                      VerticalAlignment="Top" KeyDown="txtCodigo_KeyDown" PreviewTextInput="txtCodigo_PreviewTextInput" PreviewKeyDown="txtCodigo_PreviewKeyDown"/>
             <Button x:Name="btExcluir" 
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
-                    Height="60" 
+                    Height="Auto" 
                     Width="60"
                     Background="#FF1F3D68" 
-                    Margin="0,5,72,0" 
-                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click" VerticalAlignment="Top">
+                    Margin="0,5,72,5.4" 
+                    HorizontalAlignment="Right" BorderBrush="#FF1F3D68" Click="btExcluir_Click">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 

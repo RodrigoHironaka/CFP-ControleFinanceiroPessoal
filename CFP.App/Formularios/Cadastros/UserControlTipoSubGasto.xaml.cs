@@ -289,7 +289,7 @@ namespace CFP.App.Formularios.Cadastros
             catch
             {
                 MessageBox.Show("Não é possível excluir esse registro, ele esta sendo usado em outro lugar! Por favor inative o registro para não utilizar mais.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                Session.Clear();
             }
         }
     }

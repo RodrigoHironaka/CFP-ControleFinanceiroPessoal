@@ -846,16 +846,25 @@ namespace CFP.App.Formularios.Financeiros
         {
             if (VerificaSituacaoParcelas())
             {
-                if (conta != null)
+                try
                 {
-                    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + conta.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (d == MessageBoxResult.Yes)
+                    if (conta != null)
                     {
-                        Repositorio.Excluir(conta);
-                        LimpaCampos();
-                        ControleAcessoInicial();
+                        MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + conta.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (d == MessageBoxResult.Yes)
+                        {
+                            Repositorio.Excluir(conta);
+                            LimpaCampos();
+                            ControleAcessoInicial();
+                        }
                     }
                 }
+                catch
+                {
+                    MessageBox.Show("Não é possível excluir esse registro, ele esta sendo usado em outro lugar! Por favor inative o registro para não utilizar mais.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Session.Clear();
+                }
+
             }
             else
             {

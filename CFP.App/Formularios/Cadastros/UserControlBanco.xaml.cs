@@ -295,11 +295,10 @@ namespace CFP.App.Formularios.Cadastros
                     }
                 }
             }
-            catch (Exception ex) 
+            catch
             {
-                MessageBox.Show("Não é possível excluir esse registro, ele esta sendo usado em outro lugar! Por favor inative o registro para não utilizar mais." + ex.ToString(), "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-                
-                
+                MessageBox.Show("Não é possível excluir esse registro, ele esta sendo usado em outro lugar! Por favor inative o registro para não utilizar mais.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Session.Clear();
             }
            
         }
