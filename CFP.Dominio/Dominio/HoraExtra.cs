@@ -52,7 +52,12 @@ namespace Dominio.Dominio
         {
             get
             {
-                return (TotalManha + TotalTarde + TotalNoite) - TimeSpan.Parse("08:00:00");
+                if(TotalManha == TimeSpan.Zero)
+                    return TotalManha + TotalTarde + TotalNoite - TimeSpan.Parse("04:00:00");
+                else if(TotalTarde == TimeSpan.Zero)
+                    return TotalManha + TotalTarde + TotalNoite - TimeSpan.Parse("04:00:00");
+                else
+                    return TotalManha + TotalTarde + TotalNoite - TimeSpan.Parse("08:00:00");
 
             }
         }
