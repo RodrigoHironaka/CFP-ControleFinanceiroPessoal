@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="ArquivosXML.cs" />
     <Compile Include="Criptografia.cs" />
+    <Compile Include="Exportar\Excel.cs" />
     <Compile Include="Exportar\ExportarExcel.cs" />
     <Compile Include="Exportar\ExportarPDF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

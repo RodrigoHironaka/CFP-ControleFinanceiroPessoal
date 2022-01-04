@@ -93,7 +93,7 @@ namespace CFP.App.Formularios.Financeiros
         private void PrimeiroUltimoDiaMes()
         {
             DateTime data = DateTime.Today;
-            dtpInicio.SelectedDate = new DateTime(data.Year, data.Month, 1);
+            //dtpInicio.SelectedDate = new DateTime(data.Year, data.Month, 1);
             dtpFinal.SelectedDate = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
         }
         #endregion

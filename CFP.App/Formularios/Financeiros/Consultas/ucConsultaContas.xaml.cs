@@ -378,7 +378,12 @@ namespace CFP.App.Formularios.Financeiros.Consultas
 
         private void menuItemExportarExcel_Click(object sender, RoutedEventArgs e)
         {
+            //List<ContaPagamento> lista = new List<ContaPagamento>();
+            //foreach (ContaPagamento item in dgContasFiltradas.ItemsSource)
+            //    lista.Add(item);
+            //Ferramentas.Exportar.Excel<ContaPagamento>.ExportDataToExcel(lista);
             Ferramentas.Exportar.ExportarExcel.ExpExcel(dgContasFiltradas);
+
         }
 
         private void dgContasFiltradas_MouseUp(object sender, MouseButtonEventArgs e)
