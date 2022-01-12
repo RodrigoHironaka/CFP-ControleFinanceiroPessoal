@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFP.App", "CFP.App\CFP.App.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFP.Ferramentas", "CFP.Ferramentas\CFP.Ferramentas.csproj", "{B8AF5BEC-56CD-48A3-BEA1-0E6ECE64C00F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CFP.DTO", "CFP.DTO\CFP.DTO.csproj", "{886256AB-1E0A-40B4-A046-D448745FE1F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B8AF5BEC-56CD-48A3-BEA1-0E6ECE64C00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8AF5BEC-56CD-48A3-BEA1-0E6ECE64C00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8AF5BEC-56CD-48A3-BEA1-0E6ECE64C00F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{886256AB-1E0A-40B4-A046-D448745FE1F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{886256AB-1E0A-40B4-A046-D448745FE1F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{886256AB-1E0A-40B4-A046-D448745FE1F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{886256AB-1E0A-40B4-A046-D448745FE1F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

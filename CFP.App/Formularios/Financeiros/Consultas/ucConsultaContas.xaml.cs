@@ -1,6 +1,7 @@
 ﻿using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
 using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
+using CFP.DTO.Contas;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
@@ -10,6 +11,7 @@ using NHibernate;
 using Repositorio.Repositorios;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,7 +75,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         #region Preenche DataGrid
         public void PreencheDataGrid()
         {
-            var predicado = RepositorioContaPagamento.CriarPredicado();
+            var predicado = PredicateBuilder.True<ContaPagamento>();//RepositorioContaPagamento.CriarPredicado();
             predicado = predicado.And(x => x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado);
 
             if (cmbSituacaoConta.SelectedIndex != -1)
@@ -117,7 +119,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                     predicado = predicado.And(x => x.DataVencimento <= dtpFinal.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59));
             }
 
-            var filtro = RepositorioContaPagamento.ObterPorParametros(predicado).ToList();
+            var filtro = new ConsultaContasDTO().ToList(predicado, Session);//RepositorioContaPagamento.ObterPorParametros(predicado).ToList();
             dgContasFiltradas.ItemsSource = filtro.OrderBy(x => x.DataVencimento);
             if (filtro.Count > 0)
             {
@@ -378,12 +380,14 @@ namespace CFP.App.Formularios.Financeiros.Consultas
 
         private void menuItemExportarExcel_Click(object sender, RoutedEventArgs e)
         {
-            //List<ContaPagamento> lista = new List<ContaPagamento>();
-            //foreach (ContaPagamento item in dgContasFiltradas.ItemsSource)
-            //    lista.Add(item);
+           
+            List<ContaPagamento> lista = new List<ContaPagamento>();
+            foreach (ContaPagamento item in dgContasFiltradas.ItemsSource)
+                lista.Add(item);
             //Ferramentas.Exportar.Excel<ContaPagamento>.ExportDataToExcel(lista);
             Ferramentas.Exportar.ExportarExcel.ExpExcel(dgContasFiltradas);
-
+            //Ferramentas.Exportar.Excel.CreateExcel<ContaPagamento>(lista, "Autor Teste", "Titulo Teste");
+            //Ferramentas.Exportar.Excel.DataIntoExcel<ContaPagamento>(lista );
         }
 
         private void dgContasFiltradas_MouseUp(object sender, MouseButtonEventArgs e)
