@@ -81,7 +81,7 @@ namespace CFP.Ferramentas.Exportar
                     if (sfd.FileName != "")
                     {
                         ExcelBook.SaveAs(sfd.FileName); // Save it to the specified path
-                        MessageBox.Show("Arquivo exportado para:" + sfd.FileName, "Sucesso", MessageBoxButton.OK, MessageBoxImage.Hand);
+                        MessageBox.Show("Arquivo exportado para:" + sfd.FileName, "Sucesso", MessageBoxButton.OK, MessageBoxImage.None);
                     }
                 }
                 // The process of release that may not have been released

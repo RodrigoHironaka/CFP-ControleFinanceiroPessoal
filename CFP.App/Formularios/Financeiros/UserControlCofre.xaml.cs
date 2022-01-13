@@ -1,5 +1,6 @@
 ﻿using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
 using CFP.Dominio.ObjetoValor;
+using CFP.DTO.Cofres;
 using CFP.Ferramentas.Exportar;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
@@ -9,6 +10,7 @@ using NHibernate;
 using Repositorio.Repositorios;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +33,8 @@ namespace CFP.App.Formularios.Financeiros
     {
         ISession Session;
         Cofre cofre;
+        IList<Cofre> filtro = new List<Cofre>();
+        IList<CofreDTO> filtroExcel = new List<CofreDTO>();
 
         #region Repositorio
         private RepositorioCofre _repositorio;
@@ -70,7 +74,8 @@ namespace CFP.App.Formularios.Financeiros
                     predicado = predicado.And(x => x.DataGeracao <= dtpFinal.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59));
             }
 
-            var filtro = Repositorio.ObterPorParametros(predicado).ToList();
+            filtro = Repositorio.ObterPorParametros(predicado).ToList();
+            filtroExcel = new CofreDTO().ToList(predicado, Session);
             DataGridCofre.ItemsSource = filtro;
             if (filtro.Count > 0)
                 txtTotalFiltro.Text = String.Format("TOTAL: {0:C}", filtro.Sum(x => x.Valor));
@@ -157,7 +162,10 @@ namespace CFP.App.Formularios.Financeiros
 
         private void menuItemExportarExcel_Click(object sender, RoutedEventArgs e)
         {
-            Ferramentas.Exportar.ExportarExcel.ExpExcel(DataGridCofre);
+            DataTable newTB = new DataTable();
+            Excel<CofreDTO> ex = new Excel<CofreDTO>();
+            newTB = ex.ConvertToDataTable(filtroExcel);
+            ex.ExcelExport(newTB, "Consulta de Cofres (Bancos)");
         }
 
         private void DataGridCofre_MouseUp(object sender, MouseButtonEventArgs e)
