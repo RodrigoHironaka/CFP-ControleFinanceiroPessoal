@@ -11,3 +11,10 @@ ALTER TABLE `formaspagamento`
 	
 UPDATE `formaspagamento` SET `RemoveCofre`= 0;
 
+----------------------------------------------------------------------------------------------------------------
+13/01/2022
+ALTER TABLE `pessoas`
+	ADD COLUMN `UsarRendaParaCalculos` INT(10) NULL AFTER `UsuarioAlteracao`;
+
+UPDATE `pessoas` SET `UsarRendaParaCalculos`= 0;
+

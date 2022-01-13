@@ -211,6 +211,7 @@ namespace CFP.App.Formularios.Cadastros
             {
                 pessoa.Nome = txtNome.Text;
                 pessoa.Situacao = (Situacao)cmbSituacao.SelectedIndex;
+                pessoa.UsarRendaParaCalculos = (bool)chkTotalRendaParaCalculos.IsChecked ? SimNao.Sim : SimNao.Não;
                 pessoa.ValorTotalBruto = Decimal.Parse(txtTotalBruto.Text);
                 pessoa.ValorTotalLiquido = Decimal.Parse(txtTotalLiquido.Text);
                 pessoa.PessoaTipoRendas = (IList<PessoaTipoRendas>)lstRendas.ItemsSource;
@@ -247,6 +248,7 @@ namespace CFP.App.Formularios.Cadastros
                 txtCodigo.Text = pessoa.Id.ToString();
                 txtNome.Text = pessoa.Nome;
                 cmbSituacao.SelectedIndex = pessoa.Situacao.GetHashCode();
+                chkTotalRendaParaCalculos.IsChecked = pessoa.UsarRendaParaCalculos == SimNao.Sim ? chkTotalRendaParaCalculos.IsChecked = true : chkTotalRendaParaCalculos.IsChecked = false;
                 txtTotalBruto.Text = pessoa.ValorTotalBruto.ToString("N2");
                 txtTotalLiquido.Text = pessoa.ValorTotalLiquido.ToString("N2");
                 var listaPessoaRendas = pessoa.PessoaTipoRendas;

@@ -1,4 +1,5 @@
-﻿using Dominio.Dominio;
+﻿using CFP.Dominio.ObjetoValor;
+using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
 using NHibernate.Mapping.ByCode;
@@ -36,6 +37,7 @@ namespace Repositorio.Mapeamentos
                 m.Scale(2);
             });
             Property(x => x.Situacao, m => m.Type<EnumType<Situacao>>());
+            Property(x => x.UsarRendaParaCalculos, m => m.Type<EnumType<SimNao>>());
             ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));
             ManyToOne(x => x.UsuarioAlteracao, m => m.Column("UsuarioAlteracao"));
 
