@@ -2,6 +2,7 @@
 using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
 using CFP.DTO.Contas;
+using CFP.Ferramentas.Exportar;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
@@ -11,6 +12,8 @@ using NHibernate;
 using Repositorio.Repositorios;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -35,6 +38,8 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         ISession Session;
         Caixa caixa;
         Configuracao config;
+        IList<ContaPagamento> filtro = new List<ContaPagamento>();
+        IList<ConsultaContasDTO> filtroExcel = new List<ConsultaContasDTO>();
 
         #region Repositorio
         private RepositorioContaPagamento _repositorioContaPagamento;
@@ -118,8 +123,8 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                 else
                     predicado = predicado.And(x => x.DataVencimento <= dtpFinal.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59));
             }
-
-            var filtro = new ConsultaContasDTO().ToList(predicado, Session);//RepositorioContaPagamento.ObterPorParametros(predicado).ToList();
+            filtro = RepositorioContaPagamento.ObterPorParametros(predicado).ToList();
+            filtroExcel = new ConsultaContasDTO().ToList(predicado, Session);
             dgContasFiltradas.ItemsSource = filtro.OrderBy(x => x.DataVencimento);
             if (filtro.Count > 0)
             {
@@ -380,14 +385,10 @@ namespace CFP.App.Formularios.Financeiros.Consultas
 
         private void menuItemExportarExcel_Click(object sender, RoutedEventArgs e)
         {
-           
-            List<ContaPagamento> lista = new List<ContaPagamento>();
-            foreach (ContaPagamento item in dgContasFiltradas.ItemsSource)
-                lista.Add(item);
-            //Ferramentas.Exportar.Excel<ContaPagamento>.ExportDataToExcel(lista);
-            Ferramentas.Exportar.ExportarExcel.ExpExcel(dgContasFiltradas);
-            //Ferramentas.Exportar.Excel.CreateExcel<ContaPagamento>(lista, "Autor Teste", "Titulo Teste");
-            //Ferramentas.Exportar.Excel.DataIntoExcel<ContaPagamento>(lista );
+            DataTable newTB = new DataTable();
+            Excel<ConsultaContasDTO> ex = new Excel<ConsultaContasDTO>();
+            newTB = ex.ConvertToDataTable(filtroExcel);
+            ex.ExcelExport(newTB, "Consulta de Contas");
         }
 
         private void dgContasFiltradas_MouseUp(object sender, MouseButtonEventArgs e)
@@ -401,7 +402,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                 valores += item.ValorParcela;
                 valoresReajustado += item.ValorReajustado;
             }
-            if (selecoes.Count > 0)
+            if (filtro.Count > 0)
             {
                 txtTotalFiltro.Text = string.Empty;
                 txtTotalFiltro.Text += String.Format("PARC: {0:C}", valores);
