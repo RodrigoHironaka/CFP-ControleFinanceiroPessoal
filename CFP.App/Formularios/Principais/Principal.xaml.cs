@@ -61,18 +61,33 @@ namespace CFP.App
             DateTime data = DateTime.Today;
             DateTime primeiroDia = new DateTime(data.Year, data.Month, 1);
             DateTime ultimoDia = new DateTime(data.Year, data.Month, DateTime.DaysInMonth(data.Year, data.Month));
-            
+
             contaPagamento.Clear();
             contaPagamento = new RepositorioContaPagamento(Session).ObterTodos()
                 .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
                 x.DataVencimento <= ultimoDia.Date.AddHours(23).AddMinutes(59).AddSeconds(59) &&
                 x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id).ToList();
 
-            txtValorTotalPagar.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorReajustado).Sum());
+            #region Totais do resumo
+            Decimal totalPagar = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorReajustado).Sum();
+            Decimal totalReceber = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum();
+            Decimal totalCartao = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum();
 
-            txtValorTotalReceber.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum());
+            txtValorTotalPagar.Text = String.Format("{0:C}", totalPagar);
 
-            txtValorTotalCartoes.Text = String.Format("R$ {0}", contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum());
+            txtValorTotalReceber.Text = String.Format("{0:C}", totalReceber);
+
+            txtValorTotalCartoes.Text = String.Format("{0:C}", totalCartao);
+            #endregion
+
+            #region Calculo Restante do mes
+            List<decimal> valoresRendas = new RepositorioPessoa(Session).ObterPorParametros(x => x.UsarRendaParaCalculos == SimNao.Sim).Select(x => x.ValorTotalLiquido).ToList();
+            decimal ValorRenda = valoresRendas.Count != 0 ? valoresRendas.Sum() : 0;
+
+            decimal RestanteMes = ValorRenda + totalReceber - totalPagar;
+            
+            txtRestante.Text = String.Format("RESTANTE DO MÊS {0:C}", RestanteMes);
+            #endregion
 
             AlertaContas();
         }
@@ -278,23 +293,23 @@ namespace CFP.App
 
         private void btAPagar_Click(object sender, RoutedEventArgs e)
         {
-            var listaApagar = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).ToList();
+            //var listaApagar = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).ToList();
             GridPrincipal.Children.Clear();
-            GridPrincipal.Children.Add(new ucConsultaContas(listaApagar, Session));
+            GridPrincipal.Children.Add(new ucConsultaContas(0, Session));
         }
 
         private void btReceber_Click(object sender, RoutedEventArgs e)
         {
-            var listaAreceber = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).ToList();
+            //var listaAreceber = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).ToList();
             GridPrincipal.Children.Clear();
-            GridPrincipal.Children.Add(new ucConsultaContas(listaAreceber, Session));
+            GridPrincipal.Children.Add(new ucConsultaContas(1, Session));
         }
 
         private void btCartoes_Click(object sender, RoutedEventArgs e)
         {
-            var listaCartoes = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).ToList();
-            GridPrincipal.Children.Clear();
-            GridPrincipal.Children.Add(new ucConsultaContas(listaCartoes, Session));
+            //var listaCartoes = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).ToList();
+            //GridPrincipal.Children.Clear();
+            //GridPrincipal.Children.Add(new ucConsultaContas(listaCartoes, Session));
         }
 
         private void ButtonPopUpMax_Click(object sender, RoutedEventArgs e)

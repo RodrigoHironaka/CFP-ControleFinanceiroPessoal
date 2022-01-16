@@ -38,6 +38,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         ISession Session;
         Caixa caixa;
         Configuracao config;
+        int botaoResumo = -1;
         IList<ContaPagamento> filtro = new List<ContaPagamento>();
         IList<ConsultaContasDTO> filtroExcel = new List<ConsultaContasDTO>();
 
@@ -131,7 +132,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                 txtTotalFiltro.Text = String.Format("PARC: {0:C}", filtro.Sum(x => x.ValorParcela));
                 txtTotalFiltroReajustado.Text = String.Format("REAJ: {0:C}", filtro.Sum(x => x.ValorReajustado));
             }
-               
+
         }
         #endregion
 
@@ -229,23 +230,61 @@ namespace CFP.App.Formularios.Financeiros.Consultas
 
         #endregion
 
+        #region Filtro pelo botao resumo da tela principal
+        private void FiltraPorBotaoResumo()
+        {
+            if (botaoResumo > -1)
+            {
+                //botaoResumo 
+                // 0 = Pagar
+                // 1 = Receber
+                // 2 = Cartões
+                switch (botaoResumo)
+                {
+                    case 0:
+                        dtpInicio.SelectedDate = null;
+                        cmbTipoConta.SelectedItem = TipoConta.Pagar;
+                        PreencheDataGrid();
+                        break;
+                    case 1:
+                        dtpInicio.SelectedDate = null;
+                        cmbTipoConta.SelectedItem = TipoConta.Receber;
+                        PreencheDataGrid();
+                        break;
+                    case 2:
+                        //dtpInicio.SelectedDate = null;
+                        //cmbTipoConta.SelectedItem = TipoConta.Pagar;
+                        //PreencheDataGrid();
+                        break;
+
+                }
+            }
+        }
+        #endregion
+
         public ucConsultaContas(ISession _session)
         {
             InitializeComponent();
             Session = _session;
         }
 
-        public ucConsultaContas(List<ContaPagamento> _contaPagamentos, ISession _session)
+        //public ucConsultaContas(List<ContaPagamento> _contaPagamentos, ISession _session)
+        //{
+        //    InitializeComponent();
+        //    Session = _session;
+        //    dgContasFiltradas.ItemsSource = _contaPagamentos.OrderBy(x => x.DataVencimento);
+        //    if (_contaPagamentos.Count > 0)
+        //    {
+        //        txtTotalFiltro.Text = String.Format("PARC: {0:C}", _contaPagamentos.Sum(x => x.ValorParcela));
+        //        txtTotalFiltroReajustado.Text = String.Format("REAJ:: {0:C}", _contaPagamentos.Sum(x => x.ValorReajustado));
+        //    }
+        //}
+
+        public ucConsultaContas(int _botaoResumo, ISession _session)
         {
             InitializeComponent();
             Session = _session;
-            dgContasFiltradas.ItemsSource = _contaPagamentos.OrderBy(x => x.DataVencimento);
-            if (_contaPagamentos.Count > 0)
-            {
-                txtTotalFiltro.Text = String.Format("PARC: {0:C}", _contaPagamentos.Sum(x => x.ValorParcela));
-                txtTotalFiltroReajustado.Text = String.Format("REAJ:: {0:C}", _contaPagamentos.Sum(x => x.ValorReajustado));
-            }
-                
+            botaoResumo = _botaoResumo;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -253,6 +292,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             ConfiguracoesSistema();
             CarregaCombo();
             PrimeiroUltimoDiaMes();
+            FiltraPorBotaoResumo();
         }
 
         private void btFiltro_Click(object sender, RoutedEventArgs e)
@@ -408,11 +448,10 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                 txtTotalFiltro.Text += String.Format("PARC: {0:C}", valores);
                 txtTotalFiltroReajustado.Text = string.Empty;
                 txtTotalFiltroReajustado.Text += String.Format("REAJ: {0:C}", valoresReajustado);
-                
+
             }
             else
                 btFiltro_Click(sender, e);
-
         }
 
         private void dgContasFiltradas_KeyDown(object sender, KeyEventArgs e)
@@ -432,7 +471,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                 IList<ContaPagamento> linhasContaPagamento = new List<ContaPagamento>();
                 foreach (ContaPagamento item in dgContasFiltradas.SelectedItems)
                 {
-                    if(item.SituacaoParcelas != SituacaoParcela.Pendente && item.SituacaoParcelas != SituacaoParcela.Parcial)
+                    if (item.SituacaoParcelas != SituacaoParcela.Pendente && item.SituacaoParcelas != SituacaoParcela.Parcial)
                     {
                         MessageBox.Show("Parcelas que não estão pendentes ou parciais foram selecionadas! Por favor verifique!");
                         return;
@@ -440,7 +479,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                     else
                         linhasContaPagamento.Add(item);
                 }
-                    
+
 
                 ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhasContaPagamento, Session);
                 bool? res = janela.ShowDialog();
