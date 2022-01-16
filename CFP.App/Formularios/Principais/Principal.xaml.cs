@@ -109,7 +109,7 @@ namespace CFP.App
             TipoAlertaContas tipoAlerta = TipoAlertaContas.Aviso;
             ConfiguracoesSistema();
             alertas = new ObservableCollection<AlertaContas>();
-            foreach (var parcela in contaPagamento)
+            foreach (var parcela in contaPagamento.Where(x => x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial))
             {
                 if(DateTime.Now > parcela.DataVencimento.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59))
                 {

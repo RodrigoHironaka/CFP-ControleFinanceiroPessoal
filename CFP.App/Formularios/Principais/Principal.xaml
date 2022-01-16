@@ -366,7 +366,7 @@
                                     VerticalAlignment="Stretch" 
                                     ToolTip="Alertas em geral de contas e recebimentos"
                                     Background="#FF1F3D68"
-                                    BorderBrush="#FF1F3D68" Click="btAlertas_Click">
+                                    BorderBrush="#FF1F3D68" Click="btAlertas_Click" RenderTransformOrigin="0.502,0.502">
                                 <materialDesign:PackIcon
                                             Kind="Alert"
                                             Width="90"
