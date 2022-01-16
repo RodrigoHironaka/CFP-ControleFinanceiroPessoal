@@ -64,14 +64,13 @@ namespace CFP.App
 
             contaPagamento.Clear();
             contaPagamento = new RepositorioContaPagamento(Session).ObterTodos()
-                .Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) &&
-                x.DataVencimento <= ultimoDia.Date.AddHours(23).AddMinutes(59).AddSeconds(59) &&
+                .Where(x => x.DataVencimento <= ultimoDia.Date.AddHours(23).AddMinutes(59).AddSeconds(59) &&
                 x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id).ToList();
 
             #region Totais do resumo
-            Decimal totalPagar = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorReajustado).Sum();
-            Decimal totalReceber = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum();
-            Decimal totalCartao = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum();
+            Decimal totalPagar = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorReajustado).Sum();
+            Decimal totalReceber = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum();
+            Decimal totalCartao = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum();
 
             txtValorTotalPagar.Text = String.Format("{0:C}", totalPagar);
 
@@ -84,8 +83,8 @@ namespace CFP.App
             List<decimal> valoresRendas = new RepositorioPessoa(Session).ObterPorParametros(x => x.UsarRendaParaCalculos == SimNao.Sim).Select(x => x.ValorTotalLiquido).ToList();
             decimal ValorRenda = valoresRendas.Count != 0 ? valoresRendas.Sum() : 0;
 
-            decimal RestanteMes = ValorRenda + totalReceber - totalPagar;
-            
+            decimal RestanteMes = ValorRenda + contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum() - contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorReajustado).Sum();
+                       
             txtRestante.Text = String.Format("RESTANTE DO MÊS {0:C}", RestanteMes);
             #endregion
 
