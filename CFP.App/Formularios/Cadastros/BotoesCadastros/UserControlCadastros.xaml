@@ -174,7 +174,7 @@
             <Button x:Name="btCaixa"
                 Style="{StaticResource MaterialDesignFlatButton}" 
                     Height="auto" Width="auto"
-                    Grid.Column="1" Grid.Row="1" 
+                    Grid.Column="0" Grid.Row="1" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch" 
                     ToolTip="Visualização do Caixa"
@@ -186,7 +186,7 @@
                     Foreground="#FF1F3D68"/>
             </Button>
             <Label 
-                Grid.Column="1" Grid.Row="1" 
+                Grid.Column="0" Grid.Row="1" 
                 Content="Caixa" 
                 Foreground="#FF1F3D68" 
                 VerticalAlignment="Bottom"
@@ -197,7 +197,7 @@
             <Button x:Name="btCofre"
                  Style="{StaticResource MaterialDesignFlatButton}" 
                     Height="auto" Width="auto"
-                    Grid.Column="2" Grid.Row="1" 
+                    Grid.Column="1" Grid.Row="1" 
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch" 
                     ToolTip="Visualização do Cofre"
@@ -210,8 +210,32 @@
 
             </Button>
             <Label 
-                Grid.Column="2" Grid.Row="1" 
+                Grid.Column="1" Grid.Row="1" 
                 Content="Cofre" 
+                Foreground="#FF1F3D68" 
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Center"
+                FontFamily="Champagne &amp; Limousines" 
+                FontSize="18"/>
+
+            <Button x:Name="btCartaoCredito"
+                 Style="{StaticResource MaterialDesignFlatButton}" 
+                    Height="auto" Width="auto"
+                    Grid.Column="2" Grid.Row="1" 
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch" 
+                    ToolTip="Fatura cartão de crédito"
+                    Margin="10 0 10 0" Click="btCartaoCredito_Click" >
+                <materialDesign:PackIcon
+                    Kind="CreditCard"
+                    Width="70"
+                    Height="80"
+                    Foreground="#FF1F3D68"/>
+
+            </Button>
+            <Label 
+                Grid.Column="2" Grid.Row="1" 
+                Content="Cartão" 
                 Foreground="#FF1F3D68" 
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Center"
@@ -241,15 +265,6 @@
                 HorizontalAlignment="Center"
                 FontFamily="Champagne &amp; Limousines" 
                 FontSize="18"/>
-
-            <Button x:Name="BtCartoes"
-                 Style="{StaticResource MaterialDesignFlatButton}" 
-                    Height="auto" Width="auto"
-                    Grid.Column="4" Grid.Row="1" 
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch" 
-                    ToolTip="Cadastro de Contas"
-                    Margin="10 0 10 0" Click="BtCartoes_Click"/>
 
             <Button x:Name="btHorasTrabalho"
                  Style="{StaticResource MaterialDesignFlatButton}" 

@@ -102,16 +102,16 @@ namespace CFP.App.Formularios.ModeloBase.UserControls
             gridCadastros.Children.Add(new UserControlContas(new Conta(), Session));
         }
 
-        private void BtCartoes_Click(object sender, RoutedEventArgs e)
-        {
-            gridCadastros.Children.Clear();
-            gridCadastros.Children.Add(new CartoesCredito());
-        }
-
         private void btHorasTrabalho_Click(object sender, RoutedEventArgs e)
         {
             gridCadastros.Children.Clear();
             gridCadastros.Children.Add(new UserControlHoraExtra(new HoraExtra(),Session));
+        }
+
+        private void btCartaoCredito_Click(object sender, RoutedEventArgs e)
+        {
+            gridCadastros.Children.Clear();
+            gridCadastros.Children.Add(new CartoesCredito(Session));
         }
     }
 }

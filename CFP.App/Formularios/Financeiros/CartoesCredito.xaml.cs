@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CFP.App.Formularios.Financeiros.TelasConfirmacoes;
+using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,17 @@ namespace CFP.App.Formularios.Financeiros
     /// </summary>
     public partial class CartoesCredito : UserControl
     {
-        public CartoesCredito()
+        ISession Session;
+        public CartoesCredito(ISession _session)
         {
             InitializeComponent();
+            Session = _session;
+        }
+
+        private void btNovoRegistro_Click(object sender, RoutedEventArgs e)
+        {
+            AdicionaValoresFatura janela = new AdicionaValoresFatura(Session);
+            janela.ShowDialog();
         }
     }
 }

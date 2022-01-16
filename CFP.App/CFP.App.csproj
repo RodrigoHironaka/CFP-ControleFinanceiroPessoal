@@ -145,6 +145,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Financeiros\TelasConfirmacoes\AdicionaValoresFatura.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmacaoPagamentoParcela.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -302,6 +306,9 @@
     </Compile>
     <Compile Include="Formularios\Financeiros\Consultas\ucConsultaContas.xaml.cs">
       <DependentUpon>ucConsultaContas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Financeiros\TelasConfirmacoes\AdicionaValoresFatura.xaml.cs">
+      <DependentUpon>AdicionaValoresFatura.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\ConfirmacaoPagamentoParcela.xaml.cs">
       <DependentUpon>ConfirmacaoPagamentoParcela.xaml</DependentUpon>

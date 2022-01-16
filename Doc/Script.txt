@@ -18,3 +18,11 @@ ALTER TABLE `pessoas`
 
 UPDATE `pessoas` SET `UsarRendaParaCalculos`= 0;
 
+16/01/2022
+ALTER TABLE `formaspagamento`
+	ADD COLUMN `DiaVencimento` INT NULL DEFAULT NULL AFTER `UsuarioAlteracao`;
+update `formaspagamento` SET `DiaVencimento` = 0;
+	
+
+
+

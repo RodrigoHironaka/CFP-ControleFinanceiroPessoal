@@ -45,6 +45,16 @@ namespace CFP.App.Formularios.Cadastros
         }
         #endregion
 
+        #region Verifica se possui fatura mensal
+        private void PossuiFatura()
+        {
+            if (chkUsadoParaCompras.IsChecked == false)
+                txtDiaVencimento.IsEnabled = false;
+            else
+                txtDiaVencimento.IsEnabled = true;
+        }
+        #endregion
+
         #region Controle de acessos Inicial e Cadastro
         private void ControleAcessoInicial()
         {
@@ -76,6 +86,7 @@ namespace CFP.App.Formularios.Cadastros
             txtNome.Focus();
             txtNome.Select(txtNome.Text.Length, 0);
 
+            PossuiFatura();
         }
         #endregion
 
@@ -115,6 +126,7 @@ namespace CFP.App.Formularios.Cadastros
                 formaPagamento.QtdParcelas = Int32.Parse(txtQtdParcelas.Text);
                 formaPagamento.DiasParaVencimento = Int32.Parse(txtDiasVencimento.Text);
                 formaPagamento.Situacao = (Situacao)cmbSituacao.SelectedIndex;
+                formaPagamento.DiaVencimento = Int32.Parse(txtDiaVencimento.Text);
                 formaPagamento.TransacoesBancarias = (bool)chkTransacaoBancaria.IsChecked ? SimNao.Sim : SimNao.Não;
                 formaPagamento.UsadoParaCompras = (bool)chkUsadoParaCompras.IsChecked ? SimNao.Sim : SimNao.Não;
                 formaPagamento.RemoveCofre = (bool)chkRemoveCofre.IsChecked ? SimNao.Sim : SimNao.Não;
@@ -138,6 +150,7 @@ namespace CFP.App.Formularios.Cadastros
                 txtQtdParcelas.Text = formaPagamento.QtdParcelas.ToString();
                 txtDiasVencimento.Text = formaPagamento.DiasParaVencimento.ToString();
                 cmbSituacao.SelectedIndex = formaPagamento.Situacao.GetHashCode();
+                txtDiaVencimento.Text = formaPagamento.DiaVencimento != 0 ? formaPagamento.DiaVencimento.ToString() : string.Empty;
                 chkTransacaoBancaria.IsChecked = formaPagamento.TransacoesBancarias == SimNao.Sim ? chkTransacaoBancaria.IsChecked = true : chkTransacaoBancaria.IsChecked = false;
                 chkUsadoParaCompras.IsChecked = formaPagamento.UsadoParaCompras == SimNao.Sim ? chkUsadoParaCompras.IsChecked = true : chkUsadoParaCompras.IsChecked = false;
                 chkRemoveCofre.IsChecked = formaPagamento.RemoveCofre == SimNao.Sim ? chkRemoveCofre.IsChecked = true : chkRemoveCofre.IsChecked = false;
@@ -182,6 +195,7 @@ namespace CFP.App.Formularios.Cadastros
         {
             ControleAcessoInicial();
             CarregaCombos();
+
         }
 
         //ao teclar em enter é verificado se campo codigo esta digitado e libera campos para inclusao ou alteração
@@ -307,7 +321,7 @@ namespace CFP.App.Formularios.Cadastros
                     MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + formaPagamento.Nome + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (d == MessageBoxResult.Yes)
                     {
-                        
+
                         Repositorio.Excluir(formaPagamento);
                         LimpaCampos();
                         ControleAcessoInicial();
@@ -320,7 +334,12 @@ namespace CFP.App.Formularios.Cadastros
                 MessageBox.Show("Não é possível excluir esse registro, ele esta sendo usado em outro lugar! Por favor inative o registro para não utilizar mais.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Session.Clear();
             }
-            
+
+        }
+
+        private void chkUsadoParaCompras_Click(object sender, RoutedEventArgs e)
+        {
+            PossuiFatura();
         }
     }
 }
