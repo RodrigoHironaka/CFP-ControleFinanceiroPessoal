@@ -81,6 +81,8 @@
     <Compile Include="Configuracao\NHibernateHelper.cs" />
     <Compile Include="Mapeamento\BancoMAP.cs" />
     <Compile Include="Mapeamento\CaixaMAP.cs" />
+    <Compile Include="Mapeamento\CartaoCreditoItensMAP.cs" />
+    <Compile Include="Mapeamento\CartaoCreditoMAP.cs" />
     <Compile Include="Mapeamento\CofreMAP.cs" />
     <Compile Include="Mapeamento\ConfiguracaoMAP.cs" />
     <Compile Include="Mapeamento\ContaArquivoMAP.cs" />
@@ -99,6 +101,8 @@
     <Compile Include="Repositorio\RepositorioBanco.cs" />
     <Compile Include="Repositorio\RepositorioBase.cs" />
     <Compile Include="Repositorio\RepositorioCaixa.cs" />
+    <Compile Include="Repositorio\RepositorioCartaoCredito.cs" />
+    <Compile Include="Repositorio\RepositorioCartaoCreditoItens.cs" />
     <Compile Include="Repositorio\RepositorioCofre.cs" />
     <Compile Include="Repositorio\RepositorioConfiguracao.cs" />
     <Compile Include="Repositorio\RepositorioConta.cs" />

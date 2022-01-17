@@ -131,7 +131,7 @@
                         <DataGridTextColumn Header="Descricão" Binding="{Binding Numero}" />
                         <DataGridTextColumn Header="Grupo" Binding="{Binding SubGrupoGasto}"/>
                         <DataGridTextColumn Header="Valor($)" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-
+                        <DataGridTextColumn Header="Ref Pessoa" Binding="{Binding Pessoa}" />
 
                     </DataGrid.Columns>
                     <!--<DataGrid.ContextMenu>

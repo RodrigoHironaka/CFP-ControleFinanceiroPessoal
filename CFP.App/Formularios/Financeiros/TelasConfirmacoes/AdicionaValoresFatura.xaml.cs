@@ -25,6 +25,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
     public partial class AdicionaValoresFatura : Window
     {
         ISession Session;
+
         #region Carrega combo
         private void CarregaCombo()
         {
@@ -39,8 +40,14 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                .OrderBy(x => x.Nome)
                .ToList();
             cmbCartao.SelectedIndex = 0;
+
+           cmbRefPessoa.ItemsSource = new RepositorioPessoa(Session)
+          .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+          .OrderBy(x => x.Nome)
+          .ToList();
         }
         #endregion
+
         public AdicionaValoresFatura(ISession _session)
         {
             InitializeComponent();
