@@ -82,6 +82,7 @@
     <Compile Include="Dominio\TipoRenda.cs" />
     <Compile Include="Dominio\Usuario.cs" />
     <Compile Include="IEntidade\IEntidade.cs" />
+    <Compile Include="ObjetoValor\Meses.cs" />
     <Compile Include="ObjetoValor\PeriodoDia.cs" />
     <Compile Include="ObjetoValor\SituacaoFatura.cs" />
     <Compile Include="ObjetoValor\TipoAlertaContas.cs" />

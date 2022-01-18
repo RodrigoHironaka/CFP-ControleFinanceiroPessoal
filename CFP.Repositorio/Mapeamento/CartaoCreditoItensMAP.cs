@@ -31,7 +31,6 @@ namespace CFP.Repositorio.Mapeamento
                 m.Scale(2);
             });
 
-            ManyToOne(x => x.Cartao, m => m.Column("Cartao"));
             ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
             ManyToOne(x => x.SubGrupoGasto, m => m.Column("SubGrupoGasto"));
             ManyToOne(x => x.CartaoCredito, m => m.Column("CartaoCredito"));

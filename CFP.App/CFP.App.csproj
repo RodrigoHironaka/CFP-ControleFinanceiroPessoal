@@ -145,6 +145,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Formularios\Financeiros\TelasConfirmacoes\AbrirFecharFaturaCartaoCredito.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Formularios\Financeiros\TelasConfirmacoes\AdicionaValoresFatura.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -233,6 +237,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Formularios\Pesquisas\PesquisaCartoesCredito.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Formularios\Pesquisas\PesquisaContas.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -307,6 +315,9 @@
     <Compile Include="Formularios\Financeiros\Consultas\ucConsultaContas.xaml.cs">
       <DependentUpon>ucConsultaContas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\Financeiros\TelasConfirmacoes\AbrirFecharFaturaCartaoCredito.xaml.cs">
+      <DependentUpon>AbrirFecharFaturaCartaoCredito.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Financeiros\TelasConfirmacoes\AdicionaValoresFatura.xaml.cs">
       <DependentUpon>AdicionaValoresFatura.xaml</DependentUpon>
     </Compile>
@@ -372,6 +383,9 @@
     </Compile>
     <Compile Include="Formularios\Pesquisas\PesquisaCaixas.xaml.cs">
       <DependentUpon>PesquisaCaixas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Pesquisas\PesquisaCartoesCredito.xaml.cs">
+      <DependentUpon>PesquisaCartoesCredito.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Pesquisas\PesquisaContas.xaml.cs">
       <DependentUpon>PesquisaContas.xaml</DependentUpon>
