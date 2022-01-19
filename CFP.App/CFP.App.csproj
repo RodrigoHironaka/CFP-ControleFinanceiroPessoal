@@ -133,7 +133,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Formularios\Financeiros\CartoesCredito.xaml">
+    <Page Include="Formularios\Financeiros\UserControlCartoesCredito.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -306,8 +306,8 @@
     <Compile Include="Formularios\Cadastros\UserControlUsuario.xaml.cs">
       <DependentUpon>UserControlUsuario.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\Financeiros\CartoesCredito.xaml.cs">
-      <DependentUpon>CartoesCredito.xaml</DependentUpon>
+    <Compile Include="Formularios\Financeiros\UserControlCartoesCredito.xaml.cs">
+      <DependentUpon>UserControlCartoesCredito.xaml</DependentUpon>
     </Compile>
     <Compile Include="Formularios\Financeiros\Consultas\ucAlertaContas.xaml.cs">
       <DependentUpon>ucAlertaContas.xaml</DependentUpon>

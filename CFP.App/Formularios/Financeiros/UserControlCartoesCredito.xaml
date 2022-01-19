@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.Financeiros"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="1020">
+             d:DesignHeight="550" d:DesignWidth="1020" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
@@ -108,7 +108,7 @@
                     VerticalAlignment="Bottom"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Novo Registro" Margin="1.6,0,1.6,5.4" Click="btNovoRegistro_Click">
+                    ToolTip="Adicionar nova compra a fatura" Margin="1.6,0,1.6,5.4" Click="btNovoRegistro_Click">
                 <materialDesign:PackIcon 
                     Kind="Add"  
                     Width="50" 
@@ -122,7 +122,7 @@
                     VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Tansferir Receita para o cofre">
+                    ToolTip="Excluir Fatura" Click="btExcluir_Click">
                 <materialDesign:PackIcon 
                     Kind="Trash"  
                     Width="50" 
@@ -136,7 +136,7 @@
                     VerticalAlignment="Center"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Botão para sair da tela">
+                    ToolTip="Botão para sair da tela" Click="btSair_Click">
                 <materialDesign:PackIcon 
                     Kind="ExitToApp"  
                     Width="50" 
@@ -163,20 +163,20 @@
                                           IsReadOnly="True"
                                           TabIndex="6" Margin="0,0,0,0">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Data" Binding="{Binding DataEmissao, StringFormat=d,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Descricão" Binding="{Binding Numero}" />
+                        <DataGridTextColumn Header="Parcela" Binding="{Binding NumeroParcela}" />
+                        <DataGridTextColumn Header="Data" Binding="{Binding DataCompra, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Descricão" Binding="{Binding Nome}" />
                         <DataGridTextColumn Header="Grupo" Binding="{Binding SubGrupoGasto}"/>
-                        <DataGridTextColumn Header="Valor($)" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Valor($)" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                         <DataGridTextColumn Header="Ref Pessoa" Binding="{Binding Pessoa}" />
 
                     </DataGrid.Columns>
-                    <!--<DataGrid.ContextMenu>
+                    <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem x:Name="MenuItemPagarParcela" Header="Pagar Parcela Selecionada" Click="MenuItemPagarParcela_Click"/>
-                            <MenuItem x:Name="MenuItemEditarParcela" Header="Editar Parcela" Click="MenuItemEditarParcela_Click"/>
-                            <MenuItem x:Name="MenuItemCancelarParcela" Header="Cancelar Parcela" Click="MenuItemCancelarParcela_Click"/>
+                            <MenuItem x:Name="miEditarItemFatura" Header="Editar Item" Click="miEditarItemFatura_Click" />
+                            <MenuItem x:Name="miRemoverItemFatura" Header="Remover Item" Click="miRemoverItemFatura_Click" />
                         </ContextMenu>
-                    </DataGrid.ContextMenu>-->
+                    </DataGrid.ContextMenu>
                 </DataGrid>
             </Grid>
         </Grid>

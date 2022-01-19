@@ -1,4 +1,6 @@
-﻿using CFP.Repositorio.Repositorio;
+﻿using CFP.Dominio.Dominio;
+using CFP.Repositorio.Repositorio;
+using Dominio.Dominio;
 using Dominio.ObjetoValor;
 using NHibernate;
 using Repositorio.Repositorios;
@@ -25,6 +27,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
     public partial class AdicionaValoresFatura : Window
     {
         ISession Session;
+        CartaoCredito cartaoCredito;
+        CartaoCreditoItens cartaoCreditoItens;
 
         #region Carrega combo
         private void CarregaCombo()
@@ -35,23 +39,73 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
            .ToList();
             cmbGrupo.SelectedIndex = 0;
 
-            cmbCartao.ItemsSource = new RepositorioFormaPagamento(Session)
-               .ObterPorParametros(x => x.Situacao == Situacao.Ativo && x.UsadoParaCompras == Dominio.ObjetoValor.SimNao.Sim)
-               .OrderBy(x => x.Nome)
-               .ToList();
-            cmbCartao.SelectedIndex = 0;
-
            cmbRefPessoa.ItemsSource = new RepositorioPessoa(Session)
           .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
           .OrderBy(x => x.Nome)
           .ToList();
+
         }
         #endregion
 
-        public AdicionaValoresFatura(ISession _session)
+        #region Preenche Objeto
+        private bool PreencheObjeto()
+        {
+            try
+            {
+                //tab Geral
+                cartaoCreditoItens.SubGrupoGasto = (SubGrupoGasto)cmbGrupo.SelectedItem;
+                cartaoCreditoItens.Nome = txtNome.Text;
+                cartaoCreditoItens.Valor = Decimal.Parse(txtValor.Text);
+                //cartaoCreditoItens.Qtd = Int32.Parse(txtQtd.Text);
+                cartaoCreditoItens.DataCompra = txtData.SelectedDate;
+                cartaoCreditoItens.Pessoa = (Pessoa)cmbRefPessoa.SelectedItem;
+                cartaoCreditoItens.CartaoCredito = cartaoCredito;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+                //return false;
+            }
+        }
+        #endregion
+
+        #region Repositorio
+        private RepositorioCartaoCreditoItens _repositorio;
+        public RepositorioCartaoCreditoItens Repositorio
+        {
+            get
+            {
+                if (_repositorio == null)
+                    _repositorio = new RepositorioCartaoCreditoItens(Session);
+
+                return _repositorio;
+            }
+            set { _repositorio = value; }
+        }
+        #endregion
+
+        #region Preenche Campos
+        private void PreencheCampos()
+        {
+            if (cartaoCreditoItens != null)
+            {
+                cmbGrupo.SelectedItem = cartaoCreditoItens.SubGrupoGasto;
+                txtNome.Text = cartaoCreditoItens.Nome;
+                txtValor.Text = cartaoCreditoItens.Valor.ToString("N2");
+                //txtQtd.Text = cartaoCreditoItens.Qtd.ToString();
+                txtData.SelectedDate = cartaoCreditoItens.DataCompra;
+                cmbRefPessoa.SelectedItem = cartaoCreditoItens.Pessoa;
+            }
+        }
+        #endregion
+
+        public AdicionaValoresFatura(CartaoCreditoItens _cartaoCreditoItens, CartaoCredito _cartaoCredito, ISession _session)
         {
             InitializeComponent();
             Session = _session;
+            cartaoCreditoItens = _cartaoCreditoItens;
+            cartaoCredito = _cartaoCredito;
         }
 
         private void txtValor_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -109,7 +163,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CarregaCombo();
-            txtData.SelectedDate = DateTime.Now;
+            if (cartaoCreditoItens.Id > 0)
+                PreencheCampos();
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -121,6 +176,36 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (string.IsNullOrEmpty(txtQtd.Text) || txtQtd.Text.Equals("0"))
                 txtQtd.Text = "1";
+        }
+
+        private void btConfirmar_Click(object sender, RoutedEventArgs e)
+        {
+            if(cmbGrupo.SelectedIndex == -1 
+                || string.IsNullOrEmpty(txtNome.Text) 
+                || string.IsNullOrEmpty(txtValor.Text) 
+                || txtData.SelectedDate == null)
+            {
+                MessageBox.Show("Todos os campos são obrigatórios!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (PreencheObjeto())
+            {
+                if (cartaoCreditoItens.Id == 0)
+                {
+                    cartaoCreditoItens.DataGeracao = DateTime.Now;
+                    cartaoCreditoItens.UsuarioCriacao = MainWindow.UsuarioLogado;
+                    Repositorio.Salvar(cartaoCreditoItens);
+                }
+                else
+                {
+                    cartaoCreditoItens.DataAlteracao = DateTime.Now;
+                    cartaoCreditoItens.UsuarioAlteracao = MainWindow.UsuarioLogado;
+                    Repositorio.Alterar(cartaoCreditoItens);
+
+                }
+                DialogResult = true;
+            }
         }
     }
 }

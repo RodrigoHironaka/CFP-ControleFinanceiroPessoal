@@ -82,7 +82,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             try
             {
-                //tab Geral
                 cartaoCredito.MesReferencia = (int)cmbMes.SelectedItem;
                 cartaoCredito.AnoReferencia = (int)cmbAno.SelectedItem;
                 cartaoCredito.Cartao = (FormaPagamento)cmbCartao.SelectedItem;
@@ -93,7 +92,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             catch (Exception ex)
             {
                 throw new Exception(ex.ToString());
-                //return false;
             }
         }
 
@@ -112,7 +110,13 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             CarregaCombos();
             if(cartaoCredito.Id > 0)
+            {
                 PreencheCampos();
+                cmbMes.IsEnabled = false;
+                cmbAno.IsEnabled = false;
+                cmbCartao.IsEnabled = false;
+            }
+                
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)

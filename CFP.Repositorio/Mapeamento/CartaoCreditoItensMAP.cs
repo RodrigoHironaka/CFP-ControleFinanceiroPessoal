@@ -20,7 +20,7 @@ namespace CFP.Repositorio.Mapeamento
             });
 
             Property(x => x.Nome, m => m.Length(100));
-            Property(x => x.Qtd);
+            Property(x => x.NumeroParcelas, m => m.Length(30));
             Property(x => x.DataCompra);
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);

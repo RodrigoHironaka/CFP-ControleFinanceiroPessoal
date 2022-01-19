@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="ConfirmacaoPagamentoParcela" 
-        Height="350" Width="500" 
+        Height="300" Width="500" 
         WindowStartupLocation="CenterScreen"
         WindowStyle="None" Loaded="Window_Loaded" >
     <Grid>
@@ -47,7 +47,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <ComboBox 
+                <!--<ComboBox 
                     x:Name="cmbCartao"
                     Grid.Column="0"  Grid.Row="0"
                     materialDesign:HintAssist.Hint="Cartão" 
@@ -57,14 +57,14 @@
                     Foreground="#FF1F3D68" 
                     VerticalAlignment="Center"
                     HorizontalAlignment="Stretch"
-                    Margin="20 0 20 0" TabIndex="0" />
+                    Margin="20 0 20 0" TabIndex="0" />-->
 
                 <Button x:Name="btConfirmar"
                     Grid.Column="1"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="50" Width="50" 
                     Background="#FF1F3D68" 
-                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" TabIndex="6" >
+                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" TabIndex="6" Click="btConfirmar_Click" >
                     <materialDesign:PackIcon 
                     Kind="Check"  
                     Width="50" 
@@ -97,7 +97,7 @@
 
                 <ComboBox 
                     x:Name="cmbGrupo"
-                    Grid.ColumnSpan="3"  Grid.Row="2"
+                    Grid.ColumnSpan="1"  Grid.Row="0"
                     materialDesign:HintAssist.Hint="Grupo" 
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                     FontFamily="Champagne &amp; Limousines" 
@@ -107,7 +107,7 @@
                     HorizontalAlignment="Stretch"
                     Margin="20 0 20 0" TabIndex="2" />
 
-                <Grid Grid.ColumnSpan="3" Grid.Row="3">
+                <Grid Grid.ColumnSpan="3" Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200"/>
                         <ColumnDefinition Width="*"/>
@@ -156,7 +156,7 @@
 
                 <ComboBox 
                     x:Name="cmbRefPessoa"
-                    Grid.ColumnSpan="3"  Grid.Row="4"
+                    Grid.ColumnSpan="3"  Grid.Row="3"
                     materialDesign:HintAssist.Hint="Pessoa Referenciada" 
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                     FontFamily="Champagne &amp; Limousines" 
