@@ -215,14 +215,15 @@ namespace CFP.App
                 lblNomeUsuario.Text = UsuarioLogado.Nome.ToUpper();
                 Principal.Visibility = Visibility.Visible;
                 login.Close();
+                ConfiguracoesSistema();
+                ResumoTela();
             }
             else
             {
                 Close();
             }
             #endregion
-            ConfiguracoesSistema();
-            ResumoTela();
+           
         }
 
         private void ButtonConfiguracoes_Click(object sender, RoutedEventArgs e)

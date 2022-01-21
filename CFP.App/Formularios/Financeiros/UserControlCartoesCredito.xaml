@@ -90,10 +90,10 @@
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
                     Height="60" Width="60" 
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Bottom"
                     Background="#FF1F3D68" 
                     BorderBrush="#FF1F3D68"
-                    ToolTip="Abrir ou Fechar Fatura" Click="btAbrirFecharFatura_Click">
+                    ToolTip="Abrir ou Fechar Fatura" Click="btAbrirFecharFatura_Click" Margin="1.8,0,1.4,5.4">
                 <materialDesign:PackIcon 
                     Kind="Invoice"  
                     Width="50" 
