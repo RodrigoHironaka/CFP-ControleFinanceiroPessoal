@@ -14,7 +14,7 @@ namespace Repositorio.Repositorios
     {
         public RepositorioConta(ISession session) : base(session) { }
 
-        public void CriarNovaContaPadrao(Usuario usuario, string nome, SubGrupoGasto subGrupoGasto, FormaPagamento formaPagamento, List<ContaPagamento> contaPagamento)
+        public void NovaContaRefCartaoCredito(Usuario usuario, string nome, SubGrupoGasto subGrupoGasto, FormaPagamento formaPagamento, CartaoCredito faturaCartao, ISession session)
         {
             Conta conta = new Conta();
             conta.Codigo = RetornaUltimoCodigo() + 1;
@@ -29,11 +29,27 @@ namespace Repositorio.Repositorios
             conta.NumeroDocumento = null;
             conta.FormaCompra = formaPagamento;
             conta.Observacao = string.Empty;
+            conta.QtdParcelas = 1;
+            conta.ValorTotal = 0;
+            conta.FaturaCartaoCredito = faturaCartao;
 
-            //tab Pagamento
+            int dia = new RepositorioFormaPagamento(session).ObterPorParametros(x => x.Id == faturaCartao.Cartao.Id).Select(x => x.DiaVencimento).First();
+            int mes = faturaCartao.MesReferencia == 12 ? 1 : faturaCartao.MesReferencia + 1;
+            int ano = faturaCartao.MesReferencia == 12 ? DateTime.Now.Year + 1 : DateTime.Now.Year;
+            string DataVencimento = String.Format("{0:00}/{1:00}/{2:0000}", dia, mes, ano); 
+            List<ContaPagamento> contaPagamento = new List<ContaPagamento>();
+            contaPagamento.Add(new ContaPagamento()
+            {
+                Numero = 1,
+                ValorParcela = 0,
+                ValorReajustado = 0,
+                DataVencimento = DateTime.ParseExact(DataVencimento, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
+                SituacaoParcelas = CFP.Dominio.ObjetoValor.SituacaoParcela.Pendente,
+                Conta = conta
+            });
             conta.ContaPagamentos = contaPagamento;
 
-            Salvar(conta);
+            SalvarLote(conta);
         }
     }
 }

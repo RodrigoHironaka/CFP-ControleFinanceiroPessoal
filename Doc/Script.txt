@@ -24,7 +24,7 @@ ALTER TABLE `formaspagamento`
 	ADD COLUMN `DiaVencimento` INT NULL DEFAULT NULL AFTER `UsuarioAlteracao`;
 update `formaspagamento` SET `DiaVencimento` = 0;
 
-create table CartaoCreditoItens (Id BIGINT not null, Nome VARCHAR(100), Valor DECIMAL(10, 2), NumeroParcela VARCHAR(30), DataCompra DATETIME, SubGrupoGasto BIGINT, Pessoa BIGINT, CartaoCredito BIGINT, DataGeracao DATETIME, DataAlteracao DATETIME, UsuarioCriacao BIGINT, UsuarioAlteracao BIGINT, primary key (Id)) ENGINE=InnoDB;
+create table CartaoCreditoItens (Id BIGINT not null, Nome VARCHAR(100), Valor DECIMAL(10, 2), NumeroParcelas VARCHAR(30), DataCompra DATETIME, SubGrupoGasto BIGINT, Pessoa BIGINT, CartaoCredito BIGINT, DataGeracao DATETIME, DataAlteracao DATETIME, UsuarioCriacao BIGINT, UsuarioAlteracao BIGINT, primary key (Id)) ENGINE=InnoDB;
 create table CartoesCredito (Id BIGINT not null, Nome TEXT, DataGeracao DATETIME, DataAlteracao DATETIME, MesReferencia INTEGER, AnoReferencia INTEGER, ValorFatura DECIMAL(10, 2), SituacaoFatura INTEGER, Cartao BIGINT, UsuarioCriacao BIGINT, UsuarioAlteracao BIGINT, primary key (Id)) ENGINE=InnoDB;
 alter table CartaoCreditoItens add index (SubGrupoGasto), add constraint FK_888A592D foreign key (SubGrupoGasto) references SubGrupoGastos (Id);
 alter table CartaoCreditoItens add index (Pessoa), add constraint FK_29C723AB foreign key (Pessoa) references Pessoas (Id);
@@ -35,6 +35,9 @@ alter table CartoesCredito add index (Cartao), add constraint FK_85E690E0 foreig
 alter table CartoesCredito add index (UsuarioCriacao), add constraint FK_FB3847D0 foreign key (UsuarioCriacao) references Usuarios (Id);
 alter table CartoesCredito add index (UsuarioAlteracao), add constraint FK_7B72D78E foreign key (UsuarioAlteracao) references Usuarios (Id);
 
+ALTER TABLE `contas`
+	ADD COLUMN `FaturaCartaoCredito` BIGINT NULL DEFAULT NULL AFTER `UsuarioAlteracao`;
+alter table Contas add index (FaturaCartaoCredito), add constraint FK_5DDB1A8A foreign key (FaturaCartaoCredito) references CartoesCredito(Id);
 
 
 

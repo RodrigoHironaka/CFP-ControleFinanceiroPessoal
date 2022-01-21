@@ -42,6 +42,10 @@ namespace Repositorio.Repositorios
                 }
             }
         }
+        public void SalvarLote(T entidade)
+        {
+            Session.Save(entidade);
+        }
 
         public void Alterar(T entidade)
         {
@@ -62,6 +66,11 @@ namespace Repositorio.Repositorios
 
         }
 
+        public void AlterarLote(T entidade)
+        {
+          Session.Merge<T>(entidade);
+        }
+
         public void Excluir(T entidade)
         {
             using (var trans = Session.BeginTransaction())
@@ -77,6 +86,11 @@ namespace Repositorio.Repositorios
                     throw ex;
                 }
             }
+        }
+
+        public void ExcluirLote(T entidade)
+        {
+           Session.Delete(entidade);
         }
 
         public T ObterPorId(Int64 id)

@@ -56,12 +56,25 @@ namespace CFP.App.Formularios.Financeiros
             }
             set { _repositorioCartaoCreditoItens = value; }
         }
+
+        private RepositorioConta _repositorioConta;
+        public RepositorioConta RepositorioConta
+        {
+            get
+            {
+                if (_repositorioConta == null)
+                    _repositorioConta = new RepositorioConta(Session);
+
+                return _repositorioConta;
+            }
+            set { _repositorioConta = value; }
+        }
         #endregion
 
         #region PreencheDataGrid
         private void PreencheDataGrid()
         {
-            cartaoCredito.CartaoCreditos = RepositorioCartaoCreditoItens.ObterPorParametros(x => x.CartaoCredito.Id == cartaoCredito.Id).ToList();
+            cartaoCredito.CartaoCreditos = RepositorioCartaoCreditoItens.ObterTodos().Where(x => x.CartaoCredito.Id == cartaoCredito.Id).ToList();
             dgCartaoCredito.ItemsSource = cartaoCredito.CartaoCreditos;
             if (cartaoCredito.CartaoCreditos.Count > 0)
                 txtTotalFatura.Text = String.Format("TOTAL: {0:C}", cartaoCredito.CartaoCreditos.Sum(x => x.Valor));
@@ -81,7 +94,7 @@ namespace CFP.App.Formularios.Financeiros
                 btNovoRegistro.IsEnabled = false;
                 btExcluir.IsEnabled = false;
             }
-            
+
         }
         #endregion
 
@@ -96,7 +109,11 @@ namespace CFP.App.Formularios.Financeiros
             AdicionaValoresFatura janela = new AdicionaValoresFatura(new CartaoCreditoItens(), cartaoCredito, Session);
             bool? res = janela.ShowDialog();
             if ((bool)res)
+            {
+                cartaoCredito = Repositorio.ObterPorId(cartaoCredito.Id);
                 PreencheDataGrid();
+            }
+                
         }
 
         private void btAbrirFecharFatura_Click(object sender, RoutedEventArgs e)
@@ -107,15 +124,16 @@ namespace CFP.App.Formularios.Financeiros
                 bool? res = janela.ShowDialog();
                 if ((bool)res)
                 {
-                    cartaoCredito = janela.cartaoCredito;
+                    cartaoCredito = Repositorio.ObterPorId(janela.cartaoCredito.Id);
                     txtFatura.Text = cartaoCredito.ToString();
                     lblSituacao.Text = cartaoCredito.SituacaoFatura.ToString();
-                    new RepositorioConta(Session).CriarNovaContaPadrao(MainWindow.UsuarioLogado, String.Format("Fatura {0}", cartaoCredito.DescricaoCompleta), null, cartaoCredito.Cartao, null);
+                    AcessoBotoes(true);
+                    PreencheDataGrid();
                 }
             }
             else
             {
-                if(cartaoCredito.SituacaoFatura != SituacaoFatura.Fechada)
+                if (cartaoCredito.SituacaoFatura != SituacaoFatura.Fechada)
                 {
                     MessageBoxResult d = MessageBox.Show("Deseja fechar o fatura?", "Pergunta", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (d == MessageBoxResult.Yes)
@@ -132,7 +150,6 @@ namespace CFP.App.Formularios.Financeiros
                 {
                     MessageBox.Show("Essa fatura já esta fechada!", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-               
             }
         }
 
@@ -195,7 +212,7 @@ namespace CFP.App.Formularios.Financeiros
                 cartaoCredito.CartaoCreditos.Remove(selecao);// removendo da lista para ao excluir nao acontecer erro de de cascade
                 if (selecao != null)
                 {
-                    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + selecao.Nome + " - "+ selecao.Valor +" ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + selecao.Nome + " - " + selecao.Valor + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
                     if (d == MessageBoxResult.Yes)
                     {
                         RepositorioCartaoCreditoItens.Excluir(selecao);
@@ -212,24 +229,34 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btExcluir_Click(object sender, RoutedEventArgs e)
         {
-            try
+            using (var trans = Session.BeginTransaction())
             {
-                if (cartaoCredito != null)
+                try
                 {
-                    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + cartaoCredito.DescricaoCompleta + "? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (d == MessageBoxResult.Yes)
+                    if (cartaoCredito != null)
                     {
-                        Repositorio.Excluir(cartaoCredito);
-                        btLimpaPesquisa_Click(sender, e);
-                        AcessoBotoes(false);
+                        MessageBoxResult d = MessageBox.Show("Para excluir a fatura é necessário excluir a conta criada! Deseja realmente excluir os registros: " + cartaoCredito.DescricaoCompleta + "? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (d == MessageBoxResult.Yes)
+                        {
+                            var conta = RepositorioConta.ObterPorParametros(x => x.FaturaCartaoCredito == cartaoCredito).FirstOrDefault();
+                            if (conta != null)
+                                RepositorioConta.ExcluirLote(conta);
+
+                            Repositorio.ExcluirLote(cartaoCredito);
+                            trans.Commit();
+                        }
                     }
+                    btLimpaPesquisa_Click(sender, e);
+                    AcessoBotoes(false);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Não foi possível excluir esse registro! Erro:" + ex.ToString(), "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    trans.Rollback();
+                    Session.Clear();
                 }
             }
-            catch(Exception ex)
-            {
-                MessageBox.Show("Não foi possível excluir esse registro! Erro:" + ex.ToString(), "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-                Session.Clear();
-            }
+
         }
     }
 }

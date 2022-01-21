@@ -22,6 +22,7 @@ namespace Dominio.Dominio
         public virtual Int64? NumeroDocumento { get; set; }
         public virtual SubGrupoGasto SubGrupoGasto { get; set; }
         public virtual FormaPagamento FormaCompra { get; set; }
+        public virtual CartaoCredito FaturaCartaoCredito { get; set; }
         public virtual Pessoa Pessoa { get; set; }
         public virtual string Observacao { get; set; }
         public virtual IList<ContaPagamento> ContaPagamentos { get; set; }

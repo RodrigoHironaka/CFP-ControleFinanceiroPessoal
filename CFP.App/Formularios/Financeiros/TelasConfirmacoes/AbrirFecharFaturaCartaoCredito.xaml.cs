@@ -66,7 +66,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         #region Preenche Campos
         private void PreencheCampos()
         {
-            if(cartaoCredito != null)
+            if (cartaoCredito != null)
             {
                 cmbMes.SelectedIndex = cartaoCredito.MesReferencia.GetHashCode() - 1;
                 cmbAno.SelectedItem = cartaoCredito.AnoReferencia;
@@ -95,7 +95,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             }
         }
 
-       
+
         #endregion
 
         public AbrirFecharFaturaCartaoCredito(CartaoCredito _cartaCredito, String nomeTela, ISession _session)
@@ -109,14 +109,14 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CarregaCombos();
-            if(cartaoCredito.Id > 0)
+            if (cartaoCredito.Id > 0)
             {
                 PreencheCampos();
                 cmbMes.IsEnabled = false;
                 cmbAno.IsEnabled = false;
                 cmbCartao.IsEnabled = false;
             }
-                
+
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -126,24 +126,37 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            if (PreencheObjeto())
+            using (var trans = Session.BeginTransaction())
             {
-                if (cartaoCredito.Id == 0) 
+                try
                 {
-                    cartaoCredito.DataGeracao = DateTime.Now;
-                    cartaoCredito.UsuarioCriacao = MainWindow.UsuarioLogado;
-                    cartaoCredito.SituacaoFatura = SituacaoFatura.Aberta;
-                    Repositorio.Salvar(cartaoCredito);
+                    if (PreencheObjeto())
+                    {
+                        if (cartaoCredito.Id == 0)
+                        {
+                            cartaoCredito.DataGeracao = DateTime.Now;
+                            cartaoCredito.UsuarioCriacao = MainWindow.UsuarioLogado;
+                            cartaoCredito.SituacaoFatura = SituacaoFatura.Aberta;
+                            Repositorio.SalvarLote(cartaoCredito);
+                            new RepositorioConta(Session).NovaContaRefCartaoCredito(MainWindow.UsuarioLogado, String.Format("Fatura {0}", cartaoCredito.DescricaoCompleta), null, cartaoCredito.Cartao, cartaoCredito, Session);
+                        }
+                        else
+                        {
+                            cartaoCredito.DataAlteracao = DateTime.Now;
+                            cartaoCredito.UsuarioAlteracao = MainWindow.UsuarioLogado;
+                            cartaoCredito.SituacaoFatura = SituacaoFatura.Fechada;
+                            Repositorio.AlterarLote(cartaoCredito);
+
+                        }
+                        trans.Commit();
+                        DialogResult = true;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    cartaoCredito.DataAlteracao = DateTime.Now;
-                    cartaoCredito.UsuarioAlteracao = MainWindow.UsuarioLogado;
-                    cartaoCredito.SituacaoFatura = SituacaoFatura.Fechada;
-                    Repositorio.Alterar(cartaoCredito);
-                    
+                    MessageBox.Show(ex.ToString());
+                    trans.Rollback();
                 }
-                DialogResult = true;
             }
         }
     }
