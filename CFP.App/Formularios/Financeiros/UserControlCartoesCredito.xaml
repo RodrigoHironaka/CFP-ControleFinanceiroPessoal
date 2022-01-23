@@ -163,7 +163,7 @@
                                           IsReadOnly="True"
                                           TabIndex="6" Margin="0,0,0,0">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Parcela" Binding="{Binding NumeroParcela}" />
+                        <DataGridTextColumn Header="Parcela" Binding="{Binding NumeroParcelas}" />
                         <DataGridTextColumn Header="Data" Binding="{Binding DataCompra, StringFormat=d,  ConverterCulture='pt-BR'}" />
                         <DataGridTextColumn Header="Descricão" Binding="{Binding Nome}" />
                         <DataGridTextColumn Header="Grupo" Binding="{Binding SubGrupoGasto}"/>

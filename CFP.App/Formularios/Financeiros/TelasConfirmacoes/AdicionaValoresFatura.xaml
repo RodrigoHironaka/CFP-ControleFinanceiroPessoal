@@ -62,9 +62,9 @@
                 <Button x:Name="btConfirmar"
                     Grid.Column="1"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
-                    Height="50" Width="50" 
+                    Height="Auto" Width="50" 
                     Background="#FF1F3D68" 
-                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" TabIndex="6" Click="btConfirmar_Click" >
+                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" TabIndex="6" Click="btConfirmar_Click" Margin="7.6,3,7.2,2.2" >
                     <materialDesign:PackIcon 
                     Kind="Check"  
                     Width="50" 
@@ -109,10 +109,26 @@
 
                 <Grid Grid.ColumnSpan="3" Grid.Row="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="200"/>
                     </Grid.ColumnDefinitions>
+                    <ComboBox 
+                    x:Name="cmbTipoCalculo"
+                        Grid.Column="2"
+                        materialDesign:HintAssist.Hint="Calc" 
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                        FontFamily="Champagne &amp; Limousines" 
+                        FontSize="18"
+                        Foreground="#FF1F3D68" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        Margin="10 0 0 0" TabIndex="2" >
+                        <ListBoxItem Content="DIV" ContentStringFormat=""/>
+                        <ListBoxItem Content="REP"/>
+                    </ComboBox>
+
                     <TextBox
                             x:Name="txtValor"
                             Grid.Column="0"
@@ -124,7 +140,7 @@
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Stretch"
                             Margin="20 0 10 0" TabIndex="3" PreviewKeyDown="txtValor_PreviewKeyDown" PreviewTextInput="txtValor_PreviewTextInput" TextChanged="txtValor_TextChanged" />
-                    
+
                     <TextBox
                             x:Name="txtQtd"
                             Grid.Column="1"
@@ -135,14 +151,14 @@
                             Foreground="#FF1F3D68"
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Stretch"
-                            Margin="10 0 10 0" 
+                            Margin="0 0 10 0" 
                             Text="1" TabIndex="4" 
                             MaxLength="3"
                             PreviewKeyDown="txtQtd_PreviewKeyDown" PreviewTextInput="txtQtd_PreviewTextInput" TextChanged="txtQtd_TextChanged" LostFocus="txtQtd_LostFocus"/>
 
                     <DatePicker
                                 x:Name="txtData"
-                                Grid.Column="2"
+                                Grid.Column="3"
                                 materialDesign:HintAssist.Hint="Data da Compra" 
                                 Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
                                 FontFamily="Champagne &amp; Limousines" 
@@ -150,7 +166,7 @@
                                 Foreground="#FF1F3D68"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Stretch"
-                    Margin="10 0 20 0" TabIndex="5" />
+                    Margin="0 0 20 0" TabIndex="5" />
 
                 </Grid>
 

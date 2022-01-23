@@ -39,10 +39,10 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
            .ToList();
             cmbGrupo.SelectedIndex = 0;
 
-           cmbRefPessoa.ItemsSource = new RepositorioPessoa(Session)
-          .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
-          .OrderBy(x => x.Nome)
-          .ToList();
+            cmbRefPessoa.ItemsSource = new RepositorioPessoa(Session)
+           .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+           .OrderBy(x => x.Nome)
+           .ToList();
 
         }
         #endregion
@@ -56,7 +56,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 cartaoCreditoItens.SubGrupoGasto = (SubGrupoGasto)cmbGrupo.SelectedItem;
                 cartaoCreditoItens.Nome = txtNome.Text;
                 cartaoCreditoItens.Valor = Decimal.Parse(txtValor.Text);
-                //cartaoCreditoItens.Qtd = Int32.Parse(txtQtd.Text);
+                cartaoCreditoItens.NumeroParcelas = String.Format("{0}/1", txtQtd.Text);
                 cartaoCreditoItens.DataCompra = txtData.SelectedDate;
                 cartaoCreditoItens.Pessoa = (Pessoa)cmbRefPessoa.SelectedItem;
                 cartaoCreditoItens.CartaoCredito = cartaoCredito;
@@ -83,6 +83,32 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             }
             set { _repositorio = value; }
         }
+
+        private RepositorioConta _repositorioConta;
+        public RepositorioConta RepositorioConta
+        {
+            get
+            {
+                if (_repositorioConta == null)
+                    _repositorioConta = new RepositorioConta(Session);
+
+                return _repositorioConta;
+            }
+            set { _repositorioConta = value; }
+        }
+
+        private RepositorioContaPagamento _repositorioContaPagamento;
+        public RepositorioContaPagamento RepositorioContaPagamento
+        {
+            get
+            {
+                if (_repositorioContaPagamento == null)
+                    _repositorioContaPagamento = new RepositorioContaPagamento(Session);
+
+                return _repositorioContaPagamento;
+            }
+            set { _repositorioContaPagamento = value; }
+        }
         #endregion
 
         #region Preenche Campos
@@ -96,6 +122,37 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 //txtQtd.Text = cartaoCreditoItens.Qtd.ToString();
                 txtData.SelectedDate = cartaoCreditoItens.DataCompra;
                 cmbRefPessoa.SelectedItem = cartaoCreditoItens.Pessoa;
+            }
+        }
+        #endregion
+
+        #region Calculando novo valor da parcela referente ao cartao de credito
+        public void CalculaItensAdicionadosFaturaParaConta()
+        {
+            var contaPagamento = new ContaPagamento();
+            contaPagamento = RepositorioContaPagamento.ObterPorParametros(x => x.Conta.FaturaCartaoCredito == cartaoCredito).First();
+            contaPagamento.ValorParcela = cartaoCredito.CartaoCreditos.Sum(x => x.Valor) + Decimal.Parse(txtValor.Text);
+            contaPagamento.ValorReajustado = contaPagamento.ValorParcela;
+            RepositorioContaPagamento.AlterarLote(contaPagamento);
+            var conta = new Conta();
+            conta = RepositorioConta.ObterPorId(contaPagamento.Conta.Id);
+            conta.ValorTotal = contaPagamento.ValorParcela;
+            RepositorioConta.AlterarLote(conta);
+        }
+        #endregion
+
+        #region Verifica qtd de parcelas
+        public void VerificaQtdParcelas()
+        {
+            if (txtQtd.Text.Equals("1"))
+            {
+                cmbTipoCalculo.IsEnabled = false;
+                cmbTipoCalculo.SelectedIndex = -1;
+            }
+            else
+            {
+                cmbTipoCalculo.IsEnabled = true;
+                cmbTipoCalculo.SelectedIndex = 0;
             }
         }
         #endregion
@@ -165,6 +222,10 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             CarregaCombo();
             if (cartaoCreditoItens.Id > 0)
                 PreencheCampos();
+            else
+            {
+                VerificaQtdParcelas();
+            }
         }
 
         private void btCancelar_Click(object sender, RoutedEventArgs e)
@@ -176,36 +237,72 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (string.IsNullOrEmpty(txtQtd.Text) || txtQtd.Text.Equals("0"))
                 txtQtd.Text = "1";
+            VerificaQtdParcelas();
         }
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            if(cmbGrupo.SelectedIndex == -1 
-                || string.IsNullOrEmpty(txtNome.Text) 
-                || string.IsNullOrEmpty(txtValor.Text) 
+            if (cmbGrupo.SelectedIndex == -1
+                || string.IsNullOrEmpty(txtNome.Text)
+                || string.IsNullOrEmpty(txtValor.Text)
                 || txtData.SelectedDate == null)
             {
-                MessageBox.Show("Todos os campos são obrigatórios!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Os campos Grupo, Nome, Valor e Data da Compra são obrigatórios!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (PreencheObjeto())
+            using (var trans = Session.BeginTransaction())
             {
-                if (cartaoCreditoItens.Id == 0)
+                try
                 {
-                    cartaoCreditoItens.DataGeracao = DateTime.Now;
-                    cartaoCreditoItens.UsuarioCriacao = MainWindow.UsuarioLogado;
-                    Repositorio.Salvar(cartaoCreditoItens);
-                }
-                else
-                {
-                    cartaoCreditoItens.DataAlteracao = DateTime.Now;
-                    cartaoCreditoItens.UsuarioAlteracao = MainWindow.UsuarioLogado;
-                    Repositorio.Alterar(cartaoCreditoItens);
+                    if (txtQtd.Text.Equals("1"))
+                    {
+                        if (PreencheObjeto())
+                        {
+                            if (cartaoCreditoItens.Id == 0)
+                            {
+                                cartaoCreditoItens.DataGeracao = DateTime.Now;
+                                cartaoCreditoItens.UsuarioCriacao = MainWindow.UsuarioLogado;
+                                Repositorio.SalvarLote(cartaoCreditoItens);
+                                CalculaItensAdicionadosFaturaParaConta();
+                            }
+                            else
+                            {
+                                cartaoCreditoItens.DataAlteracao = DateTime.Now;
+                                cartaoCreditoItens.UsuarioAlteracao = MainWindow.UsuarioLogado;
+                                Repositorio.AlterarLote(cartaoCreditoItens);
+                                CalculaItensAdicionadosFaturaParaConta();
 
+                            }
+                            trans.Commit();
+                            DialogResult = true;
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Int32.Parse(txtQtd.Text); i++)
+                        {
+                            if(cmbTipoCalculo.SelectedIndex == 0) //dividir o valor pela quantidade
+                            {
+
+                            }
+                            else //replicar o valor pela quantidade
+                            {
+
+                            }
+                        }
+                    }
                 }
-                DialogResult = true;
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    trans.Rollback();
+                }
             }
+
+
+
+
         }
     }
 }
