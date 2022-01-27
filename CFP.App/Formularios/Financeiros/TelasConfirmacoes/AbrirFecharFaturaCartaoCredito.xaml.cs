@@ -1,6 +1,7 @@
 ﻿using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
+using CFP.Servicos.Financeiro;
 using Dominio.Dominio;
 using Dominio.ObjetoValor;
 using NHibernate;
@@ -149,7 +150,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                             cartaoCredito.UsuarioCriacao = MainWindow.UsuarioLogado;
                             cartaoCredito.SituacaoFatura = SituacaoFatura.Aberta;
                             Repositorio.SalvarLote(cartaoCredito);
-                            new RepositorioConta(Session).NovaContaRefCartaoCredito(MainWindow.UsuarioLogado, String.Format("Fatura {0}", cartaoCredito.DescricaoCompleta), null, cartaoCredito.Cartao, cartaoCredito, Session);
+                            ContaServicos.NovaContaRefCartaoCredito(MainWindow.UsuarioLogado, cartaoCredito, Session);
                         }
                         else
                         {

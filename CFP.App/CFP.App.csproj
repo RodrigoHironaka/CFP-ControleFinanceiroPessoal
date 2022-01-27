@@ -475,6 +475,10 @@
       <Project>{b1c6ef45-06f7-4605-9e63-fa14cee9224d}</Project>
       <Name>CFP.Repositorio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CFP.Servicos\CFP.Servicos.csproj">
+      <Project>{1CB5378C-FA75-46AE-92F8-6BD9E6FE42EA}</Project>
+      <Name>CFP.Servicos</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Logo.png" />

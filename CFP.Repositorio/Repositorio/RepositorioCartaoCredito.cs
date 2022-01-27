@@ -1,4 +1,6 @@
 ﻿using CFP.Dominio.Dominio;
+using CFP.Dominio.ObjetoValor;
+using Dominio.Dominio;
 using NHibernate;
 using Repositorio.Repositorios;
 using System;

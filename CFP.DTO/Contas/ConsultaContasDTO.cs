@@ -59,8 +59,8 @@ namespace CFP.DTO.Contas
                 CodigoConta = x.Conta.Codigo,
                 NomeConta = x.Conta.Nome,
                 FormaCompra = x.Conta.FormaCompra.Nome,
-                NumeroDocumento = (long)x.Conta.NumeroDocumento,
-                PessoaNome = x.Conta.Pessoa.Nome
+                NumeroDocumento = x.Conta.NumeroDocumento != null ? (long)x.Conta.NumeroDocumento : 0,
+                PessoaNome = x.Conta.Pessoa != null ? x.Conta.Pessoa.Nome : null
             };
             return consulta;
         }

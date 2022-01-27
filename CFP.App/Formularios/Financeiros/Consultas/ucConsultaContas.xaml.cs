@@ -115,7 +115,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             }
 
             if (dtpInicio.SelectedDate != null)
-                predicado = predicado.And(x => x.DataVencimento >= dtpInicio.SelectedDate);
+                predicado = predicado.And(x => x.DataVencimento >= dtpInicio.SelectedDate.Value);
 
             if (dtpFinal.SelectedDate != null)
             {

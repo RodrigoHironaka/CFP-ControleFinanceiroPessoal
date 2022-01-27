@@ -166,7 +166,7 @@
                                 Foreground="#FF1F3D68"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Stretch"
-                    Margin="0 0 20 0" TabIndex="5" />
+                    Margin="10 0 20 0" TabIndex="5" />
 
                 </Grid>
 
