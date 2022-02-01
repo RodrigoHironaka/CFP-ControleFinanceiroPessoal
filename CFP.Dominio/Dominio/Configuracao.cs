@@ -20,6 +20,7 @@ namespace CFP.Dominio.Dominio
         public virtual FormaPagamento FormaPagamentoPadraoConta { get; set; }
         public virtual FormaPagamento TransacaoBancariaPadrao { get; set; }
         public virtual Int32 DiasAlertaVencimento { get; set; }
+        public virtual SubGrupoGasto GrupoGastoFaturaPadrao { get; set; }
         #endregion
 
     }

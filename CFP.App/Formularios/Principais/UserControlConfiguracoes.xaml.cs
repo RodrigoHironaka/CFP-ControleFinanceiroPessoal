@@ -76,6 +76,7 @@ namespace CFP.App.Formularios.Principais
                 configuracao.FormaPagamentoPadraoConta = (FormaPagamento)cmbFormaPagamentoPadrão.SelectedItem;
                 configuracao.TransacaoBancariaPadrao = (FormaPagamento)cmbTransacaoBancariaPadrao.SelectedItem;
                 configuracao.DiasAlertaVencimento = txtQtdDiasAlertaVencimento.Text != string.Empty ? Int32.Parse(txtQtdDiasAlertaVencimento.Text) : 0;
+                configuracao.GrupoGastoFaturaPadrao = (SubGrupoGasto)cmbGrupoGastoFaturaPadrao.SelectedItem;
                 configuracao.UsuarioCriacao = MainWindow.UsuarioLogado;
                 return true;
             }
@@ -101,6 +102,7 @@ namespace CFP.App.Formularios.Principais
                 txtCaminhoBackup.Text = configuracao.CaminhoBackup;
                 cmbFormaPagamentoPadrão.SelectedItem = configuracao.FormaPagamentoPadraoConta;
                 cmbTransacaoBancariaPadrao.SelectedItem = configuracao.TransacaoBancariaPadrao;
+                cmbGrupoGastoFaturaPadrao.SelectedItem = configuracao.GrupoGastoFaturaPadrao;
                 txtQtdDiasAlertaVencimento.Text = configuracao.DiasAlertaVencimento.ToString() != string.Empty ? configuracao.DiasAlertaVencimento.ToString() : string.Empty;
 
             }
@@ -142,6 +144,11 @@ namespace CFP.App.Formularios.Principais
             cmbTransacaoBancariaPadrao.ItemsSource = new RepositorioFormaPagamento(Session)
                 .ObterPorParametros(x => x.Situacao == Situacao.Ativo && x.TransacoesBancarias == SimNao.Sim)
                 .OrderBy(x => x.Nome)
+                .ToList();
+
+            cmbGrupoGastoFaturaPadrao.ItemsSource = new RepositorioSubGrupoGasto(Session)
+                .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+                 .OrderBy(x => x.GrupoGasto.Nome).ThenBy(x => x.Nome)
                 .ToList();
         }
         #endregion

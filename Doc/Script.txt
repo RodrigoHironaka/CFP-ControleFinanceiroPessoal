@@ -39,5 +39,7 @@ ALTER TABLE `contas`
 	ADD COLUMN `FaturaCartaoCredito` BIGINT NULL DEFAULT NULL AFTER `UsuarioAlteracao`;
 alter table Contas add index (FaturaCartaoCredito), add constraint FK_5DDB1A8A foreign key (FaturaCartaoCredito) references CartoesCredito(Id);
 
+ALTER TABLE `configuracoes`
+	ADD COLUMN `GrupoGastoFaturaPadrao` INT(10) NULL AFTER `DiasAlertaVencimento`;
 
 

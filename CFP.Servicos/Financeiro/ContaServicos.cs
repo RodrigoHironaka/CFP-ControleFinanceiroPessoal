@@ -1,5 +1,6 @@
 ﻿using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
+using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
@@ -22,7 +23,7 @@ namespace CFP.Servicos.Financeiro
             conta.UsuarioCriacao = usuario;
             conta.Nome = String.Format("Fatura {0}", faturaCartao.DescricaoCompleta);
             conta.TipoConta = TipoConta.Pagar;
-            conta.SubGrupoGasto = null;
+            conta.SubGrupoGasto = new RepositorioConfiguracao(session).ObterTodos().Select(x => x.GrupoGastoFaturaPadrao).FirstOrDefault();
             conta.TipoPeriodo = TipoPeriodo.Unica;
             conta.Situacao = SituacaoConta.Aberto;
             conta.DataEmissao = DateTime.Now;

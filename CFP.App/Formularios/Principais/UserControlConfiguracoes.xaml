@@ -215,6 +215,19 @@
                                       VerticalAlignment="Stretch"/>
                                
                             </Grid>
+                            <Grid x:Name="Row5" Grid.Row="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="150"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox x:Name="cmbGrupoGastoFaturaPadrao"    
+                                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                      materialDesign:HintAssist.Hint="Grupo Padrão para Fatura de Cartões"
+                                      FontFamily="Champagne &amp; Limousines"
+                                      FontSize="15" 
+                                      VerticalAlignment="Stretch"/>
+
+                            </Grid>
                         </Grid>
 
                     </GroupBox>
