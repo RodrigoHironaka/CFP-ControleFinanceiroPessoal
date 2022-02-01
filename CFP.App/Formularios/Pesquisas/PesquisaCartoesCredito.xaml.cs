@@ -85,7 +85,7 @@ namespace CFP.App.Formularios.Pesquisas
                 cv.Filter = o =>
                 {
                     CartaoCredito p = o as CartaoCredito;
-                    return p.Nome.Contains(txtPesquisa.Text)
+                    return p.Id.ToString().Contains(txtPesquisa.Text)
                             || p.DescricaoCompleta.ToString().Contains(txtPesquisa.Text);
                 };
             }

@@ -172,7 +172,7 @@
 
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
-                        <ContextMenu>
+                        <ContextMenu x:Name="ctxFuncoes">
                             <MenuItem x:Name="miEditarItemFatura" Header="Editar Item" Click="miEditarItemFatura_Click" />
                             <MenuItem x:Name="miRemoverItemFatura" Header="Remover Item" Click="miRemoverItemFatura_Click" />
                         </ContextMenu>

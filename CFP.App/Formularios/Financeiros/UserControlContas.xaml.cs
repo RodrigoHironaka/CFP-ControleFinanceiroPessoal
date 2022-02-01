@@ -1173,6 +1173,12 @@ namespace CFP.App.Formularios.Financeiros
 
         private void MenuItemEditarParcela_Click(object sender, RoutedEventArgs e)
         {
+            if(conta.FaturaCartaoCredito != null)
+            {
+                MessageBox.Show("Essa parcela esta relacionada a fatura de cartão de crédito!\nVá para a tela de Cartões de Crédito.", "Informação", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                return;
+            }
+
             ContaPagamento selecao = (ContaPagamento)DataGridContaPagamento.SelectedItem;
             ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(true, selecao, Session);
             bool? res = janela.ShowDialog();

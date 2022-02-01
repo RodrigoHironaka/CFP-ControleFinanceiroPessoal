@@ -3,6 +3,7 @@ using CFP.App.Formularios.Pesquisas;
 using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
+using Dominio.Dominio;
 using NHibernate;
 using Repositorio.Repositorios;
 using System;
@@ -98,6 +99,21 @@ namespace CFP.App.Formularios.Financeiros
         }
         #endregion
 
+        #region Calculando novo valor da parcela referente ao cartao de credito
+        public void CalculaItensAdicionadosFaturaParaConta(CartaoCreditoItens obj)
+        {
+            var contaPagamento = new ContaPagamento();
+            contaPagamento = new RepositorioContaPagamento(Session).ObterPorParametros(x => x.Conta.FaturaCartaoCredito == obj.CartaoCredito).First();
+            contaPagamento.ValorParcela = obj.CartaoCredito.CartaoCreditos.Sum(x => x.Valor);
+            contaPagamento.ValorReajustado = contaPagamento.ValorParcela;
+            new RepositorioContaPagamento(Session).AlterarLote(contaPagamento);
+            var conta = new Conta();
+            conta = RepositorioConta.ObterPorId(contaPagamento.Conta.Id);
+            conta.ValorTotal = contaPagamento.ValorParcela;
+            RepositorioConta.AlterarLote(conta);
+        }
+        #endregion
+
         public CartoesCredito(ISession _session)
         {
             InitializeComponent();
@@ -113,7 +129,6 @@ namespace CFP.App.Formularios.Financeiros
                 cartaoCredito = Repositorio.ObterPorId(cartaoCredito.Id);
                 PreencheDataGrid();
             }
-                
         }
 
         private void btAbrirFecharFatura_Click(object sender, RoutedEventArgs e)
@@ -181,6 +196,8 @@ namespace CFP.App.Formularios.Financeiros
                     AcessoBotoes(true);
                 else
                     AcessoBotoes(false);
+                   
+                    
 
             }
         }
@@ -198,32 +215,41 @@ namespace CFP.App.Formularios.Financeiros
         private void miEditarItemFatura_Click(object sender, RoutedEventArgs e)
         {
             CartaoCreditoItens selecao = (CartaoCreditoItens)dgCartaoCredito.SelectedItem;
-            AdicionaValoresFatura janela = new AdicionaValoresFatura(selecao, cartaoCredito, Session);
-            bool? res = janela.ShowDialog();
-            if ((bool)res)
-                PreencheDataGrid();
+            if(selecao != null && cartaoCredito.SituacaoFatura != SituacaoFatura.Fechada)
+            {
+                AdicionaValoresFatura janela = new AdicionaValoresFatura(selecao, cartaoCredito, Session);
+                bool? res = janela.ShowDialog();
+                if ((bool)res)
+                    PreencheDataGrid();
+            }
         }
 
         private void miRemoverItemFatura_Click(object sender, RoutedEventArgs e)
         {
-            try
+            using (var trans = Session.BeginTransaction())
             {
-                CartaoCreditoItens selecao = (CartaoCreditoItens)dgCartaoCredito.SelectedItem;
-                cartaoCredito.CartaoCreditos.Remove(selecao);// removendo da lista para ao excluir nao acontecer erro de de cascade
-                if (selecao != null)
+                try
                 {
-                    MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + selecao.Nome + " - " + selecao.Valor + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                    if (d == MessageBoxResult.Yes)
+                    CartaoCreditoItens selecao = (CartaoCreditoItens)dgCartaoCredito.SelectedItem;
+                    cartaoCredito.CartaoCreditos.Remove(selecao);// removendo da lista para ao excluir nao acontecer erro de de cascade
+                    if (selecao != null && cartaoCredito.SituacaoFatura != SituacaoFatura.Fechada)
                     {
-                        RepositorioCartaoCreditoItens.Excluir(selecao);
-                        PreencheDataGrid();
+                        MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + selecao.Nome + " - " + selecao.Valor + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (d == MessageBoxResult.Yes)
+                        {
+                            RepositorioCartaoCreditoItens.ExcluirLote(selecao);
+                            CalculaItensAdicionadosFaturaParaConta(selecao);
+                            trans.Commit();
+                            PreencheDataGrid();
+                        }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Não foi possível excluir esse registro! Erro:" + ex.ToString(), "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-                Session.Clear();
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Não foi possível excluir esse registro! Erro:" + ex.ToString(), "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    Session.Clear();
+                    trans.Rollback();
+                }
             }
         }
 

@@ -22,12 +22,12 @@ namespace CFP.Dominio.Dominio
         {
             get
             {
-                return string.Format("{0} - {1}/{2}", Cartao, MesReferencia, AnoReferencia);
+                return string.Format("{0} - {1:00}/{2}", Cartao, MesReferencia, AnoReferencia);
             }
         }
         public override string ToString()
         {
-            return string.Format("{0} - {1}/{2}", Cartao, MesReferencia, AnoReferencia);
+            return string.Format("{0} - {1:00}/{2}", Cartao, MesReferencia, AnoReferencia);
         }
     }
 }

@@ -27,6 +27,8 @@ namespace CFP.Servicos.Financeiro
             };
             new RepositorioCartaoCredito(session).SalvarLote(CartaoCredito);
             ContaServicos.NovaContaRefCartaoCredito(usuarioLogado, CartaoCredito, session);
+
+            
         }
     }
 }

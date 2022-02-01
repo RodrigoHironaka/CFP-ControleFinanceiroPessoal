@@ -127,17 +127,19 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            var DescricaoDigitada = String.Format("{0} - {1}/{2}", cmbCartao.SelectedItem, (Int32)cmbMes.SelectedValue, cmbAno.SelectedItem);
-            var faturasExistentes = Repositorio.ObterTodos().Select(x => x.DescricaoCompleta);
-            foreach (var descricaoFatura in faturasExistentes)
+            if (cartaoCredito.Id == 0)
             {
-                if (DescricaoDigitada == descricaoFatura)
+                var DescricaoDigitada = String.Format("{0} - {1}/{2}", cmbCartao.SelectedItem, (Int32)cmbMes.SelectedValue, cmbAno.SelectedItem);
+                var faturasExistentes = Repositorio.ObterTodos().Select(x => x.DescricaoCompleta);
+                foreach (var descricaoFatura in faturasExistentes)
                 {
-                    MessageBox.Show("Já existe uma fatura desse período criada!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return;
+                    if (DescricaoDigitada == descricaoFatura)
+                    {
+                        MessageBox.Show("Já existe uma fatura desse período criada!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
                 }
             }
-            
             using (var trans = Session.BeginTransaction())
             {
                 try
