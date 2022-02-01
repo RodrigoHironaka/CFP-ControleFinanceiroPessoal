@@ -227,6 +227,7 @@ namespace CFP.App.Formularios.Financeiros
         private decimal totalEntrada = 0;
         private decimal saldoFinal = 0;
         private decimal aReceberPessoa = 0;
+        private decimal aReceberPessoaCartoes = 0;
         private void TotalizadoresEntradaSaida()
         {
             PreencheDataGrid();
@@ -261,7 +262,18 @@ namespace CFP.App.Formularios.Financeiros
                 x.Conta.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
                 .Select(x => x.ValorParcela)
                 .Sum();
-            txtTotalAReceberPessoa.Text = String.Format("TOTAL: {0:C}", aReceberPessoa);
+
+            aReceberPessoaCartoes = new RepositorioCartaoCreditoItens(Session)
+                .ObterTodos()
+                .Where(x => x.Pessoa != null &&
+                 x.CartaoCredito.SituacaoFatura == SituacaoFatura.Aberta &&
+                 x.CartaoCredito.MesReferencia <= DateTime.Now.Month &&
+                 x.CartaoCredito.AnoReferencia <= DateTime.Now.Year &&
+                 x.CartaoCredito.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
+                 .Select(x => x.Valor).Sum();
+
+             txtTotalAReceberPessoa.Text = String.Format("TOTAL: {0:C}", aReceberPessoa);
+            
             #endregion
 
             SalvaTotais();
@@ -297,7 +309,7 @@ namespace CFP.App.Formularios.Financeiros
             DataGridFluxoCaixa.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.Caixa.Id == caixa.Id);
             #endregion
 
-            #region Lista dos valores a receber no mês de pessoas referenciadas
+            #region Lista dos valores a receber no mês de pessoas referenciadas Contas
             DataGridAReceber.ItemsSource = new RepositorioContaPagamento(Session)
                 .ObterPorParametros(x => x.Conta.Pessoa != null &&
                 (x.SituacaoParcelas == SituacaoParcela.Pendente ||
@@ -307,13 +319,17 @@ namespace CFP.App.Formularios.Financeiros
                  x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado)
                  .OrderBy(x => x.DataVencimento)
                  .ToList();
-            //DataGridAReceber.ItemsSource = new RepositorioCartaoCreditoItens(Session)
-            //  .ObterPorParametros(x => x.Pessoa != null &&
-            //   x.CartaoCredito.SituacaoFatura != SituacaoFatura.Fechada &&
-            //   x.CartaoCredito.MesReferencia <= DateTime.Now.Month &&
-            //   x.CartaoCredito.AnoReferencia <= DateTime.Now.Year &&
-            //   x.CartaoCredito.UsuarioCriacao == MainWindow.UsuarioLogado)
-            //   .ToList();
+            #endregion
+
+            #region Lista dos valores a receber no mês de pessoas referenciadas Cartoes
+            dgReceberPessoaRefCartao.ItemsSource = new RepositorioCartaoCreditoItens(Session)
+                .ObterPorParametros(x => x.Pessoa != null &&
+                 x.CartaoCredito.SituacaoFatura == SituacaoFatura.Aberta &&
+                 x.CartaoCredito.MesReferencia <= DateTime.Now.Month &&
+                 x.CartaoCredito.AnoReferencia <= DateTime.Now.Year &&
+                 x.CartaoCredito.UsuarioCriacao == MainWindow.UsuarioLogado)
+                 .OrderBy(x => x.DataCompra)
+                 .ToList();
             #endregion
         }
         #endregion
@@ -624,6 +640,29 @@ namespace CFP.App.Formularios.Financeiros
         {
             GridCadastro.Children.Clear();
             GridCadastro.Children.Add(new UserControlPessoa(new Pessoa(),Session));
+        }
+
+        private void dgReceberPessoaRefCartao_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                dgReceberPessoaRefCartao.SelectedItem = null;
+                txtTotalAReceberPessoaSelecionados.Text = string.Empty;
+                txtTotalAReceberPessoaSelecionados.Text += String.Format("TOTAL ITENS {0:C}", 0);
+            }
+        }
+
+        private void dgReceberPessoaRefCartao_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            decimal valores = 0;
+            List<CartaoCreditoItens> selecoes = new List<CartaoCreditoItens>();
+            foreach (CartaoCreditoItens item in dgReceberPessoaRefCartao.SelectedItems)
+            {
+                selecoes.Add(item);
+                valores += item.Valor;
+            }
+            txtTotalAReceberPessoaSelecionados.Text = string.Empty;
+            txtTotalAReceberPessoaSelecionados.Text += String.Format("TOTAL ITENS {0:C}", valores);
         }
     }
 }
