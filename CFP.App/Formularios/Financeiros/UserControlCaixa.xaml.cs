@@ -307,6 +307,13 @@ namespace CFP.App.Formularios.Financeiros
                  x.Conta.UsuarioCriacao == MainWindow.UsuarioLogado)
                  .OrderBy(x => x.DataVencimento)
                  .ToList();
+            //DataGridAReceber.ItemsSource = new RepositorioCartaoCreditoItens(Session)
+            //  .ObterPorParametros(x => x.Pessoa != null &&
+            //   x.CartaoCredito.SituacaoFatura != SituacaoFatura.Fechada &&
+            //   x.CartaoCredito.MesReferencia <= DateTime.Now.Month &&
+            //   x.CartaoCredito.AnoReferencia <= DateTime.Now.Year &&
+            //   x.CartaoCredito.UsuarioCriacao == MainWindow.UsuarioLogado)
+            //   .ToList();
             #endregion
         }
         #endregion

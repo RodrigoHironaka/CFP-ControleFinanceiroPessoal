@@ -482,6 +482,22 @@
                         </StackPanel>
                     </ListViewItem>
 
+                    <ListViewItem x:Name="ListVIewItemCartoes" 
+                                  Height="60" >
+                        <StackPanel Orientation="Horizontal" 
+                                ToolTip="Cartões de Créditos">
+                            <materialDesign:PackIcon 
+                                Kind="CreditCard" 
+                                Width="25" 
+                                Height="25" 
+                                Margin="10" 
+                                VerticalAlignment="Center"/>
+                            <TextBlock Text="Cartões" 
+                                       VerticalAlignment="Center" 
+                                       Margin="20 10"/>
+                        </StackPanel>
+                    </ListViewItem>
+
                     <ListViewItem x:Name="ListVIewItemCaixa" Height="60" >
                         <StackPanel Orientation="Horizontal" 
                                 ToolTip="Caixa">

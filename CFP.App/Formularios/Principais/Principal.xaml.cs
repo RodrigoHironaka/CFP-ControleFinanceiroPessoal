@@ -190,10 +190,15 @@ namespace CFP.App
                     break;
                 case 3:
                     GridPrincipal.Children.Clear();
+                    GridPrincipal.Children.Add(new CartoesCredito(Session));
+                    ListVIewItemCartoes.IsSelected = false;
+                    break;
+                case 4:
+                    GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(new UserControlCaixa(Session));
                     ListVIewItemCaixa.IsSelected = false;
                     break;
-                case 4:
+                case 5:
                     GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(new UserControlCadastros());
                     ListVIewItemCadastro.IsSelected = false;
@@ -340,6 +345,11 @@ namespace CFP.App
         private void ButtonPopUpMin_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+        }
+
+        private void ListVIewItemCartoes_Selected(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

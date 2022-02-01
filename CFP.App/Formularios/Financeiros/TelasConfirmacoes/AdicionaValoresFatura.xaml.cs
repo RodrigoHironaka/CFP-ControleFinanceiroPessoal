@@ -139,6 +139,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             RepositorioContaPagamento.AlterarLote(contaPagamento);
             var conta = new Conta();
             conta = RepositorioConta.ObterPorId(contaPagamento.Conta.Id);
+            //conta.Observacao += obj.Pessoa != null ? String.Format("{0},",obj.Pessoa.Nome): null;
             conta.ValorTotal = contaPagamento.ValorParcela;
             RepositorioConta.AlterarLote(conta);
         }
