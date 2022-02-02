@@ -272,8 +272,11 @@ namespace CFP.App.Formularios.Financeiros
                  x.CartaoCredito.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id)
                  .Select(x => x.Valor).Sum();
 
-             txtTotalAReceberPessoa.Text = String.Format("TOTAL: {0:C}", aReceberPessoa);
-            
+            if(tabItemContas.IsSelected == true)
+                txtTotalAReceberPessoa.Text = String.Format("TOTAL: {0:C}", aReceberPessoa);
+            else
+                txtTotalAReceberPessoa.Text = String.Format("TOTAL: {0:C}", aReceberPessoaCartoes);
+
             #endregion
 
             SalvaTotais();
@@ -663,6 +666,27 @@ namespace CFP.App.Formularios.Financeiros
             }
             txtTotalAReceberPessoaSelecionados.Text = string.Empty;
             txtTotalAReceberPessoaSelecionados.Text += String.Format("TOTAL ITENS {0:C}", valores);
+        }
+
+        private void tabItemContas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TotalizadoresEntradaSaida();
+        }
+
+        private void tabItemCartoes_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            TotalizadoresEntradaSaida();
+        }
+
+        private void miAddTudoCaixaCartoes_Click(object sender, RoutedEventArgs e)
+        {
+            //List<CartaoCreditoItens> ValorRefPessoas = new List<CartaoCreditoItens>();
+            //foreach (CartaoCreditoItens item in dgReceberPessoaRefCartao.ItemsSource)
+            //{
+            //    ValorRefPessoas.Add(item);
+            //}
+            //ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(ValorRefPessoas, caixa, Session);
+            //janela.ShowDialog();
         }
     }
 }

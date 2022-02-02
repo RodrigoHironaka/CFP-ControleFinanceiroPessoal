@@ -323,7 +323,7 @@
                             <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
                         <TabControl x:Name="tabPessoasRef" Margin="0,0,0,0">
-                            <TabItem x:Name="tabItemContas" Header="Contas" Height="22" VerticalAlignment="Top" >
+                            <TabItem x:Name="tabItemContas" Header="Contas" Height="22" VerticalAlignment="Top" IsSelected="True" MouseLeftButtonDown="tabItemContas_MouseLeftButtonDown">
                                 <DataGrid x:Name="DataGridAReceber" Grid.Row="0" 
                                   AutoGenerateColumns="False" 
                                   IsReadOnly="True" MouseUp="DataGridAReceber_MouseUp" KeyDown="DataGridAReceber_KeyDown" >
@@ -344,22 +344,23 @@
                                     </DataGrid.ContextMenu>
                                 </DataGrid>
                             </TabItem>
-                            <TabItem x:Name="tabItemCartoes" Header="Cartões" >
+                            <TabItem x:Name="tabItemCartoes" Header="Cartões" MouseLeftButtonDown="tabItemCartoes_MouseLeftButtonDown" >
                                 <DataGrid x:Name="dgReceberPessoaRefCartao" Grid.Row="0" 
                                   AutoGenerateColumns="False" 
                                   IsReadOnly="True" KeyDown="dgReceberPessoaRefCartao_KeyDown" MouseUp="dgReceberPessoaRefCartao_MouseUp" >
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Cartão" Binding="{Binding CartaoCredito.DescricaoCompleta}" />
+                                        <DataGridTextColumn Header="Pessoa" Binding="{Binding NumeroParcelas}" />
                                         <DataGridTextColumn Header="Valor" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                         <DataGridTextColumn Header="Pessoa" Binding="{Binding Pessoa}" />
                                         <DataGridTextColumn Header="Data Compra" Binding="{Binding DataCompra, StringFormat=d,  ConverterCulture='pt-BR'}" />
                                     </DataGrid.Columns>
                                     <DataGrid.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem x:Name="miAddTudoCaixa" Header="Adicionar todos ao caixa" />
-                                            <MenuItem x:Name="miAddItemSelecionado" Header="Adicionar items selecionados ao caixa" />
-                                            <MenuItem x:Name="miAddTudoCofre" Header="Adicionar todos ao cofre" />
-                                            <MenuItem x:Name="miAddItemSelecionadoCofre" Header="Adicionar items selecionados ao cofre" />
+                                            <MenuItem x:Name="miAddTudoCaixaCartoes" Header="Adicionar todos ao caixa" Click="miAddTudoCaixaCartoes_Click" />
+                                            <MenuItem x:Name="miAddItemSelecionadoCartoes" Header="Adicionar items selecionados ao caixa" />
+                                            <MenuItem x:Name="miAddTudoCofreCartoes" Header="Adicionar todos ao cofre" />
+                                            <MenuItem x:Name="miAddItemSelecionadoCofreCartoes" Header="Adicionar items selecionados ao cofre" />
                                         </ContextMenu>
                                     </DataGrid.ContextMenu>
                                 </DataGrid>

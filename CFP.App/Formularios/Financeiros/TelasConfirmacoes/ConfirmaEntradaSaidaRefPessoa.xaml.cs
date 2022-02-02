@@ -40,6 +40,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         ISession Session;
         Caixa caixa;
+
         List<ContaPagamento> valoresRefPessoas = new List<ContaPagamento>();
 
         public ConfirmaEntradaSaidaRefPessoa(List<ContaPagamento> _valoresRefPessoas, Caixa _caixa, ISession _session)
@@ -70,7 +71,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 return;
             }
 
-            foreach (var item in valoresRefPessoas)
+            foreach (ContaPagamento item in valoresRefPessoas)
             {
                 FluxoCaixa fluxoCaixa = new FluxoCaixa();
                 if (item.Conta.TipoConta == TipoConta.Receber)
@@ -82,7 +83,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 else
                 {
                     fluxoCaixa.TipoFluxo = EntradaSaida.Entrada;
-                    fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Entrada no caixa ref. {0}.", item.Conta.Pessoa.Nome); 
+                    fluxoCaixa.Nome = fluxoCaixa.Nome = String.Format("Entrada no caixa ref. {0}.", item.Conta.Pessoa.Nome);
                     fluxoCaixa.Valor = item.ValorReajustado;
                 }
                 fluxoCaixa.DataGeracao = DateTime.Now;
