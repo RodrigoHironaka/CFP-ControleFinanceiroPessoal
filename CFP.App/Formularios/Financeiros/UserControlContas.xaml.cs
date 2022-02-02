@@ -384,16 +384,19 @@ namespace CFP.App.Formularios.Financeiros
 
                 #region Lista Pagamentos
                 var listaContaPagamentos = conta.ContaPagamentos;
-                foreach (var item in listaContaPagamentos)
+                if(listaContaPagamentos != null)
                 {
-                    contaPagamento.Add(item);
+                    foreach (var item in listaContaPagamentos)
+                        contaPagamento.Add(item);
                 }
+                
                 #endregion
                 #region Lista Arquivos
                 var listaContaArquivos = conta.ContaArquivos;
-                foreach (var arquivo in listaContaArquivos)
+                if(listaContaArquivos != null)
                 {
-                    contaArquivos.Add(arquivo);
+                    foreach (var arquivo in listaContaArquivos)
+                        contaArquivos.Add(arquivo);
                 }
                 #endregion
             }
