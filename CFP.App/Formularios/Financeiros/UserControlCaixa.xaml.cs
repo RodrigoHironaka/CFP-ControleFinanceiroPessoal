@@ -680,13 +680,45 @@ namespace CFP.App.Formularios.Financeiros
 
         private void miAddTudoCaixaCartoes_Click(object sender, RoutedEventArgs e)
         {
-            //List<CartaoCreditoItens> ValorRefPessoas = new List<CartaoCreditoItens>();
-            //foreach (CartaoCreditoItens item in dgReceberPessoaRefCartao.ItemsSource)
-            //{
-            //    ValorRefPessoas.Add(item);
-            //}
-            //ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(ValorRefPessoas, caixa, Session);
-            //janela.ShowDialog();
+            List<CartaoCreditoItens> ValorRefPessoas = new List<CartaoCreditoItens>();
+            foreach (CartaoCreditoItens item in dgReceberPessoaRefCartao.ItemsSource)
+            {
+                ValorRefPessoas.Add(item);
+            }
+            ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(ValorRefPessoas, caixa, Session);
+            janela.ShowDialog();
+        }
+
+        private void miAddItemSelecionadoCartoes_Click(object sender, RoutedEventArgs e)
+        {
+            List<CartaoCreditoItens> ValorRefPessoasItens = new List<CartaoCreditoItens>();
+            foreach (CartaoCreditoItens item in dgReceberPessoaRefCartao.SelectedItems)
+            {
+                ValorRefPessoasItens.Add(item);
+            }
+
+            if (ValorRefPessoasItens.Count > 0)
+            {
+                ConfirmaEntradaSaidaRefPessoa janela = new ConfirmaEntradaSaidaRefPessoa(ValorRefPessoasItens, caixa, Session);
+                janela.ShowDialog();
+
+            }
+            else
+            {
+                MessageBox.Show("Nenhum item selecionado!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+        }
+
+        private void miAddTudoCofreCartoes_Click(object sender, RoutedEventArgs e)
+        {
+            List<CartaoCreditoItens> ValorRefPessoas = new List<CartaoCreditoItens>();
+            foreach (CartaoCreditoItens item in dgReceberPessoaRefCartao.ItemsSource)
+            {
+                ValorRefPessoas.Add(item);
+            }
+            ConfirmaEntradaSaidaRefPessoaCofre janela = new ConfirmaEntradaSaidaRefPessoaCofre(ValorRefPessoas, caixa, Session);
+            janela.ShowDialog();
         }
     }
 }
