@@ -188,45 +188,101 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
             if (PreencheObjeto())
             {
-                try
+                using (var trans = Session.BeginTransaction())
                 {
-                    if (cofre.Id == 0)
+                    try
                     {
-                        cofre.Codigo = Repositorio.RetornaUltimoCodigo() + 1;
-                        cofre.UsuarioCriacao = MainWindow.UsuarioLogado;
-                        Repositorio.Salvar(cofre);
-                    }
-                    if (chkEnviarCaixa.IsChecked == true)
-                    {
-                        if (contasPagamento.Count > 0)
+                        if (cofre.Id == 0)
                         {
-                            #region Retirada do cofre definido pelo usuario
-                            foreach (var item in contasPagamento)
+                            cofre.Codigo = Repositorio.RetornaUltimoCodigo() + 1;
+                            cofre.UsuarioCriacao = MainWindow.UsuarioLogado;
+                            Repositorio.SalvarLote(cofre);
+                        }
+                        if (chkEnviarCaixa.IsChecked == true)
+                        {
+                            if (contasPagamento.Count > 0)
                             {
-                                Cofre cofreRetirada = new Cofre
+                                #region Retirada do cofre definido pelo usuario
+                                foreach (var item in contasPagamento)
                                 {
-                                    Codigo = Repositorio.RetornaUltimoCodigo() + 1,
-                                    Caixa = caixa,
-                                    Banco = (Banco)cmbBanco.SelectedItem,
-                                    Valor = item.ValorReajustado * -1,
-                                    TransacoesBancarias = config.TransacaoBancariaPadrao,
-                                    Situacao = EntradaSaida.Saída,
-                                    Nome = String.Format("Transferência para caixa Ref a {0}, Conta: {1}", item.Conta.Pessoa, item.Conta.Codigo),
-                                    DataGeracao = (DateTime)txtData.SelectedDate,
-                                    UsuarioCriacao = MainWindow.UsuarioLogado
-                                };
-                                Repositorio.Salvar(cofreRetirada);
+                                    Cofre cofreRetirada = new Cofre
+                                    {
+                                        Codigo = Repositorio.RetornaUltimoCodigo() + 1,
+                                        Caixa = caixa,
+                                        Banco = (Banco)cmbBanco.SelectedItem,
+                                        Valor = item.ValorReajustado * -1,
+                                        TransacoesBancarias = config.TransacaoBancariaPadrao,
+                                        Situacao = EntradaSaida.Saída,
+                                        Nome = String.Format("Transferência para caixa Ref a {0}, Conta: {1}", item.Conta.Pessoa, item.Conta.Codigo),
+                                        DataGeracao = (DateTime)txtData.SelectedDate,
+                                        UsuarioCriacao = MainWindow.UsuarioLogado
+                                    };
+                                    Repositorio.SalvarLote(cofreRetirada);
+                                }
+                                #endregion
+
+                                #region Entrada no caixa com base na saída do cofre
+
+                                if (totalRefPessoaContaPagar > 0)
+                                {
+                                    FluxoCaixa fluxoCaixa = new FluxoCaixa
+                                    {
+                                        TipoFluxo = EntradaSaida.Entrada,
+                                        Nome = "Transferência do cofre através do referenciamento de pessoas (Entrada).",
+                                        Valor = totalRefPessoaContaPagar,
+                                        DataGeracao = (DateTime)txtData.SelectedDate,
+                                        Conta = null,
+                                        UsuarioCriacao = MainWindow.UsuarioLogado,
+                                        Caixa = caixa,
+                                        FormaPagamento = config.TransacaoBancariaPadrao
+                                    };
+                                    RepositorioFluxoCaixa.SalvarLote(fluxoCaixa);
+                                }
+
+                                if (totalRefPessoaContaReceber > 0)
+                                {
+                                    FluxoCaixa fluxoCaixa = new FluxoCaixa
+                                    {
+                                        TipoFluxo = EntradaSaida.Saída,
+                                        Nome = "Transferência do cofre através do referenciamento de pessoas (Saída).",
+                                        Valor = totalRefPessoaContaReceber * -1,
+                                        DataGeracao = (DateTime)txtData.SelectedDate,
+                                        Conta = null,
+                                        UsuarioCriacao = MainWindow.UsuarioLogado,
+                                        Caixa = caixa,
+                                        FormaPagamento = config.TransacaoBancariaPadrao
+                                    };
+                                    RepositorioFluxoCaixa.SalvarLote(fluxoCaixa);
+                                }
+                                #endregion
+
                             }
-                            #endregion
-
-                            #region Entrada no caixa com base na saída do cofre
-
-                            if (totalRefPessoaContaPagar > 0)
+                            else
                             {
+                                #region Retirada do cofre definido pelo usuario
+                                foreach (var item in cartaoCreditoItens)
+                                {
+                                    Cofre cofreRetirada = new Cofre
+                                    {
+                                        Codigo = Repositorio.RetornaUltimoCodigo() + 1,
+                                        Caixa = caixa,
+                                        Banco = (Banco)cmbBanco.SelectedItem,
+                                        Valor = item.Valor * -1,
+                                        TransacoesBancarias = config.TransacaoBancariaPadrao,
+                                        Situacao = EntradaSaida.Saída,
+                                        Nome = String.Format("Transferência para caixa Ref a {0}, Fatura: {1}", item.Pessoa, item.CartaoCredito.DescricaoCompleta),
+                                        DataGeracao = (DateTime)txtData.SelectedDate,
+                                        UsuarioCriacao = MainWindow.UsuarioLogado
+                                    };
+                                    Repositorio.SalvarLote(cofreRetirada);
+                                }
+                                #endregion
+
+                                #region Entrada no caixa com base na saída do cofre
                                 FluxoCaixa fluxoCaixa = new FluxoCaixa
                                 {
                                     TipoFluxo = EntradaSaida.Entrada,
-                                    Nome = "Transferência do cofre através do referenciamento de pessoas (Entrada).",
+                                    Nome = "Transferência do cofre através do referenciamento de pessoas (Fatura Cartão).",
                                     Valor = totalRefPessoaContaPagar,
                                     DataGeracao = (DateTime)txtData.SelectedDate,
                                     Conta = null,
@@ -234,70 +290,21 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                                     Caixa = caixa,
                                     FormaPagamento = config.TransacaoBancariaPadrao
                                 };
-                                RepositorioFluxoCaixa.Salvar(fluxoCaixa);
+                                RepositorioFluxoCaixa.SalvarLote(fluxoCaixa);
+
+
+                                #endregion
                             }
-
-                            if (totalRefPessoaContaReceber > 0)
-                            {
-                                FluxoCaixa fluxoCaixa = new FluxoCaixa
-                                {
-                                    TipoFluxo = EntradaSaida.Saída,
-                                    Nome = "Transferência do cofre através do referenciamento de pessoas (Saída).",
-                                    Valor = totalRefPessoaContaReceber * -1,
-                                    DataGeracao = (DateTime)txtData.SelectedDate,
-                                    Conta = null,
-                                    UsuarioCriacao = MainWindow.UsuarioLogado,
-                                    Caixa = caixa,
-                                    FormaPagamento = config.TransacaoBancariaPadrao
-                                };
-                                RepositorioFluxoCaixa.Salvar(fluxoCaixa);
-                            }
-                            #endregion
-
-                        }
-                        else
-                        {
-                            #region Retirada do cofre definido pelo usuario
-                            foreach (var item in cartaoCreditoItens)
-                            {
-                                Cofre cofreRetirada = new Cofre
-                                {
-                                    Codigo = Repositorio.RetornaUltimoCodigo() + 1,
-                                    Caixa = caixa,
-                                    Banco = (Banco)cmbBanco.SelectedItem,
-                                    Valor = item.Valor * -1,
-                                    TransacoesBancarias = config.TransacaoBancariaPadrao,
-                                    Situacao = EntradaSaida.Saída,
-                                    Nome = String.Format("Transferência para caixa Ref a {0}, Fatura: {1}", item.Pessoa, item.CartaoCredito.DescricaoCompleta),
-                                    DataGeracao = (DateTime)txtData.SelectedDate,
-                                    UsuarioCriacao = MainWindow.UsuarioLogado
-                                };
-                                Repositorio.Salvar(cofreRetirada);
-                            }
-                            #endregion
-
-                            #region Entrada no caixa com base na saída do cofre
-                            FluxoCaixa fluxoCaixa = new FluxoCaixa
-                            {
-                                TipoFluxo = EntradaSaida.Entrada,
-                                Nome = "Transferência do cofre através do referenciamento de pessoas (Fatura Cartão).",
-                                Valor = totalRefPessoaContaPagar,
-                                DataGeracao = (DateTime)txtData.SelectedDate,
-                                Conta = null,
-                                UsuarioCriacao = MainWindow.UsuarioLogado,
-                                Caixa = caixa,
-                                FormaPagamento = config.TransacaoBancariaPadrao
-                            };
-                            RepositorioFluxoCaixa.Salvar(fluxoCaixa);
-
-
-                            #endregion
+                            trans.Commit();
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
+                    catch (Exception ex)
+                    {
+                        trans.Rollback();
+                        throw ex;
+                    }
+
+
                 }
             }
             Close();

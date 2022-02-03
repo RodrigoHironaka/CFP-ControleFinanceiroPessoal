@@ -440,9 +440,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-
-            if (contaPagamento != null && contaPagamento.SituacaoParcelas == SituacaoParcela.Pago)
-                SalvarFluxo(linhaContaPagemento, true);
+            //if (contaPagamento != null && contaPagamento.SituacaoParcelas == SituacaoParcela.Pago)
+            //    SalvarFluxo(linhaContaPagemento, true);
 
             CalculaValorReajustado();
 

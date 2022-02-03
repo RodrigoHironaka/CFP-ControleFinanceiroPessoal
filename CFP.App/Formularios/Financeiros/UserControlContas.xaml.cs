@@ -384,16 +384,16 @@ namespace CFP.App.Formularios.Financeiros
 
                 #region Lista Pagamentos
                 var listaContaPagamentos = conta.ContaPagamentos;
-                if(listaContaPagamentos != null)
+                if (listaContaPagamentos != null)
                 {
                     foreach (var item in listaContaPagamentos)
                         contaPagamento.Add(item);
                 }
-                
+
                 #endregion
                 #region Lista Arquivos
                 var listaContaArquivos = conta.ContaArquivos;
-                if(listaContaArquivos != null)
+                if (listaContaArquivos != null)
                 {
                     foreach (var arquivo in listaContaArquivos)
                         contaArquivos.Add(arquivo);
@@ -915,7 +915,7 @@ namespace CFP.App.Formularios.Financeiros
                             return;
                         }
                     }
-                    
+
 
                     ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhasContaPagamento, Session);
                     bool? res = janela.ShowDialog();
@@ -944,7 +944,7 @@ namespace CFP.App.Formularios.Financeiros
                         CalculoTotalPorSituacaoParcela();
                         FiltroSituacaoParcelas();
                     }
-                   
+
                 }
             }
             else
@@ -1176,13 +1176,20 @@ namespace CFP.App.Formularios.Financeiros
 
         private void MenuItemEditarParcela_Click(object sender, RoutedEventArgs e)
         {
-            if(conta.FaturaCartaoCredito != null)
+            ContaPagamento selecao = (ContaPagamento)DataGridContaPagamento.SelectedItem;
+
+            if (selecao.SituacaoParcelas == SituacaoParcela.Pago)
             {
-                MessageBox.Show("Essa parcela esta relacionada a fatura de cartão de crédito!\nVá para a tela de Cartões de Crédito.", "Informação", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                MessageBox.Show("Não é possível editar esta parcela! Situação - " + selecao.SituacaoParcelas + ".", "Informação", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 return;
             }
 
-            ContaPagamento selecao = (ContaPagamento)DataGridContaPagamento.SelectedItem;
+            if (conta.FaturaCartaoCredito != null)
+            {
+                MessageBox.Show("Essa parcela esta relacionada a fatura de cartão de crédito!\nVá para a tela de Cartões de Crédito para realizar as alterações.", "Informação", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                return;
+            }
+
             ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(true, selecao, Session);
             bool? res = janela.ShowDialog();
             if ((bool)res)
@@ -1198,7 +1205,7 @@ namespace CFP.App.Formularios.Financeiros
                     var teste = contaPagamento.Where(x => x.SituacaoParcelas == SituacaoParcela.Pendente && x.Numero > selecao.Numero).OrderBy(x => x.Numero).ToList();
                     foreach (var item in contaPagamento.Where(x => x.SituacaoParcelas == SituacaoParcela.Pendente && x.Numero > selecao.Numero).OrderBy(x => x.Numero))
                     {
-                        if(item.ID != selecao.ID)
+                        if (item.ID != selecao.ID)
                         {
                             item.ValorParcela = selecao.ValorParcela;
                             item.ValorReajustado = selecao.ValorReajustado;

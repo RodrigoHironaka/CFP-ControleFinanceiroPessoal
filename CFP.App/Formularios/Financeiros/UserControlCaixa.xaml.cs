@@ -309,7 +309,7 @@ namespace CFP.App.Formularios.Financeiros
             #endregion
 
             #region Lista inteira Fluxo de Caixa
-            DataGridFluxoCaixa.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.Caixa.Id == caixa.Id);
+            DataGridFluxoCaixa.ItemsSource = RepositorioFluxoCaixa.ObterPorParametros(x => x.Caixa.Id == caixa.Id).OrderByDescending(x => x.Id);
             #endregion
 
             #region Lista dos valores a receber no mês de pessoas referenciadas Contas
