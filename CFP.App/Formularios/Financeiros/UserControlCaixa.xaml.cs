@@ -720,5 +720,25 @@ namespace CFP.App.Formularios.Financeiros
             ConfirmaEntradaSaidaRefPessoaCofre janela = new ConfirmaEntradaSaidaRefPessoaCofre(ValorRefPessoas, caixa, Session);
             janela.ShowDialog();
         }
+
+        private void miAddItemSelecionadoCofreCartoes_Click(object sender, RoutedEventArgs e)
+        {
+            List<CartaoCreditoItens> ValorRefPessoasItens = new List<CartaoCreditoItens>();
+            foreach (CartaoCreditoItens item in dgReceberPessoaRefCartao.SelectedItems)
+            {
+                ValorRefPessoasItens.Add(item);
+            }
+
+            if (ValorRefPessoasItens.Count > 0)
+            {
+                ConfirmaEntradaSaidaRefPessoaCofre janela = new ConfirmaEntradaSaidaRefPessoaCofre(ValorRefPessoasItens, caixa, Session);
+                janela.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Nenhum item selecionado!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+        }
     }
 }

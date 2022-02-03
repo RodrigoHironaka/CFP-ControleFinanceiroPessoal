@@ -360,7 +360,7 @@
                                             <MenuItem x:Name="miAddTudoCaixaCartoes" Header="Adicionar todos ao caixa" Click="miAddTudoCaixaCartoes_Click" />
                                             <MenuItem x:Name="miAddItemSelecionadoCartoes" Header="Adicionar items selecionados ao caixa" Click="miAddItemSelecionadoCartoes_Click" />
                                             <MenuItem x:Name="miAddTudoCofreCartoes" Header="Adicionar todos ao cofre" Click="miAddTudoCofreCartoes_Click" />
-                                            <MenuItem x:Name="miAddItemSelecionadoCofreCartoes" Header="Adicionar items selecionados ao cofre" />
+                                            <MenuItem x:Name="miAddItemSelecionadoCofreCartoes" Header="Adicionar items selecionados ao cofre" Click="miAddItemSelecionadoCofreCartoes_Click" />
                                         </ContextMenu>
                                     </DataGrid.ContextMenu>
                                 </DataGrid>
