@@ -116,6 +116,11 @@ namespace CFP.App
                     msg = "Parcela já passou da data de vencimento! VERIFIQUE!";
                     tipoAlerta = TipoAlertaContas.Atrasado;
                 }
+                else if (DateTime.Now.Date == parcela.DataVencimento.Value.Date)
+                {
+                    msg = "Parcela vence hoje! NÃO DEIXE ATRASAR!";
+                    tipoAlerta = TipoAlertaContas.Atrasado;
+                }
                 else
                 {
                     var dias = DateTime.Parse(parcela.DataVencimento.ToString()).Subtract(DateTime.Now).Days;
@@ -123,7 +128,7 @@ namespace CFP.App
                     {
                         if (dias > 0 && dias <= config.DiasAlertaVencimento)
                         {
-                            msg = "Parcela esta próxima do vencimento, fique de olho!";
+                            msg = "Parcela esta próxima do vencimento! FIQUE DE OLHO!";
                             tipoAlerta = TipoAlertaContas.Aviso;
                         }
                         else
