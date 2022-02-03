@@ -70,7 +70,7 @@ namespace CFP.App
             #region Totais do resumo
             Decimal totalPagar = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Não).Select(x => x.ValorReajustado).Sum();
             Decimal totalReceber = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Receber && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Não).Select(x => x.ValorReajustado).Sum();
-            Decimal totalCartao = new RepositorioCartaoCreditoItens(Session).ObterPorParametros(x =>x.CartaoCredito.SituacaoFatura == SituacaoFatura.Aberta && x.CartaoCredito.MesReferencia <= DateTime.Now.Month).Select(x => x.Valor).Sum();//contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum();
+            Decimal totalCartao = new RepositorioCartaoCreditoItens(Session).ObterTodos().Where(x =>x.CartaoCredito.SituacaoFatura == SituacaoFatura.Aberta && x.CartaoCredito.MesReferencia <= DateTime.Now.Month).Select(x => x.Valor).Sum();
 
             txtValorTotalPagar.Text = String.Format("{0:C}", totalPagar);
 
@@ -233,7 +233,6 @@ namespace CFP.App
                 Close();
             }
             #endregion
-           
         }
 
         private void ButtonConfiguracoes_Click(object sender, RoutedEventArgs e)
