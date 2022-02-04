@@ -301,7 +301,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="tabItemFluxo" Header="Fluxo de Caixa">
-                    <Grid x:Name="GridFluxo" Grid.Row="1" Margin="30 10 30 30">
+                    <Grid x:Name="GridFluxo" Grid.Row="1" Margin="20">
                         <DataGrid x:Name="DataGridFluxoCaixa"  
                            AutoGenerateColumns="False"                                        
                            Background="white"
@@ -317,7 +317,7 @@
                     </Grid>
                 </TabItem>
                 <TabItem x:Name="tabItemRef" Header="Ref Pessoas">
-                    <Grid Margin="200 10 200 30">
+                    <Grid Margin="20">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="40"/>

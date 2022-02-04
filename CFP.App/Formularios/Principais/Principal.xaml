@@ -104,12 +104,15 @@
                             <!--A pagar -->
                             <Button x:Name="btAPagar"
                                     Style="{StaticResource MaterialDesignFloatingActionDarkButton}" 
-                                    Height="Auto" Width="90"
+                                    Height="91" Width="90"
                                     Grid.Column="0"  Grid.RowSpan="2" 
                                     HorizontalAlignment="Stretch" 
                                     ToolTip="Resumo Conta a Pagar"
                                     Background="#FF1F3D68"
-                                    BorderBrush="#FF1F3D68" Click="btAPagar_Click" Margin="5,3,5,2.2">
+                                    BorderBrush="#FF1F3D68" 
+                                    Click="btAPagar_Click" 
+                                    Margin="5,0,5,1.5" 
+                                    VerticalAlignment="Stretch">
                                 <materialDesign:PackIcon
                                             Kind="AccountCash"
                                             Width="90"
