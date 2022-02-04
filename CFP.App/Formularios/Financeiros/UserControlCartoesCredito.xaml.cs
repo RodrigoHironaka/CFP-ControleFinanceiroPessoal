@@ -120,6 +120,22 @@ namespace CFP.App.Formularios.Financeiros
             Session = _session;
         }
 
+        public CartoesCredito(CartaoCredito _cartaoCredito, ISession _session)
+        {
+            InitializeComponent();
+            Session = _session;
+            cartaoCredito = Repositorio.ObterPorId(_cartaoCredito.Id);
+            PreencheDataGrid();
+            txtFatura.Text = cartaoCredito.ToString();
+            lblSituacao.Text = cartaoCredito.SituacaoFatura.ToString();
+            if (cartaoCredito.SituacaoFatura != SituacaoFatura.Fechada)
+                AcessoBotoes(true);
+            else
+                AcessoBotoes(false);
+
+            
+        }
+
         private void btNovoRegistro_Click(object sender, RoutedEventArgs e)
         {
             AdicionaValoresFatura janela = new AdicionaValoresFatura(new CartaoCreditoItens(), cartaoCredito, Session);
@@ -201,7 +217,10 @@ namespace CFP.App.Formularios.Financeiros
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            AcessoBotoes(false);
+            if (cartaoCredito != null && cartaoCredito.SituacaoFatura != SituacaoFatura.Fechada)
+                AcessoBotoes(true);
+            else
+                AcessoBotoes(false);
         }
 
         private void btSair_Click(object sender, RoutedEventArgs e)

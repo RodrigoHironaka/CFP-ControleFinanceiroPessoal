@@ -542,5 +542,17 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             dtpFinal.SelectedDate = new DateTime(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month, DateTime.DaysInMonth(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month));
 
         }
+
+        private void menuItemVerItensFatura_Click(object sender, RoutedEventArgs e)
+        {
+            var selecao = (ContaPagamento)dgContasFiltradas.SelectedItem;
+            if(selecao != null && selecao.Conta.FaturaCartaoCredito != null)
+            {
+                var cartaoCredito = new RepositorioCartaoCredito(Session).ObterPorId(selecao.Conta.FaturaCartaoCredito.Id);
+                gridOutrasInterfaces.Children.Clear();
+                gridOutrasInterfaces.Children.Add(new CartoesCredito(cartaoCredito, Session));
+
+            }
+        }
     }
 }

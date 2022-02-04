@@ -249,7 +249,7 @@
 
         </Grid>
         <Grid x:Name="GridCampos" Grid.Row="1"  Background="LightGray" >
-            <Grid  Margin="10,10,10,20" HorizontalAlignment="Stretch"  >
+            <Grid  Margin="10,10,10,10" HorizontalAlignment="Stretch"  >
                 <DataGrid x:Name="dgContasFiltradas"  
                            AutoGenerateColumns="False"                                        
                            Background="white" 
@@ -272,10 +272,12 @@
                         <ContextMenu>
                             <MenuItem x:Name="menuItemPagarSelecionados" Header="Pagar Parcelas Selecionadas" Click="menuItemPagarSelecionados_Click" ></MenuItem>
                             <MenuItem x:Name="menuItemExportarExcel" Header="Exportar Excel" Click="menuItemExportarExcel_Click" ></MenuItem>
+                            <MenuItem x:Name="menuItemVerItensFatura" Header="Ver Itens da Fatura" Click="menuItemVerItensFatura_Click" ></MenuItem>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>
             </Grid>
         </Grid>
+        <Grid x:Name="gridOutrasInterfaces" Grid.RowSpan="2" ></Grid>
     </Grid>
 </UserControl>
