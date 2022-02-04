@@ -1184,7 +1184,7 @@ namespace CFP.App.Formularios.Financeiros
                 return;
             }
 
-            if (conta.FaturaCartaoCredito != null)
+            if (conta.FaturaCartaoCredito != null && conta.TipoConta == TipoConta.Pagar)
             {
                 MessageBox.Show("Essa parcela esta relacionada a fatura de cartão de crédito!\nVá para a tela de Cartões de Crédito para realizar as alterações.", "Informação", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                 return;

@@ -196,9 +196,6 @@ namespace CFP.App.Formularios.Financeiros
                     AcessoBotoes(true);
                 else
                     AcessoBotoes(false);
-                   
-                    
-
             }
         }
 
@@ -215,7 +212,7 @@ namespace CFP.App.Formularios.Financeiros
         private void miEditarItemFatura_Click(object sender, RoutedEventArgs e)
         {
             CartaoCreditoItens selecao = (CartaoCreditoItens)dgCartaoCredito.SelectedItem;
-            if(selecao != null && cartaoCredito.SituacaoFatura != SituacaoFatura.Fechada)
+            if (selecao != null && cartaoCredito.SituacaoFatura != SituacaoFatura.Fechada)
             {
                 AdicionaValoresFatura janela = new AdicionaValoresFatura(selecao, cartaoCredito, Session);
                 bool? res = janela.ShowDialog();
@@ -231,9 +228,10 @@ namespace CFP.App.Formularios.Financeiros
                 try
                 {
                     CartaoCreditoItens selecao = (CartaoCreditoItens)dgCartaoCredito.SelectedItem;
-                    cartaoCredito.CartaoCreditos.Remove(selecao);// removendo da lista para ao excluir nao acontecer erro de de cascade
                     if (selecao != null && cartaoCredito.SituacaoFatura != SituacaoFatura.Fechada)
                     {
+                        cartaoCredito.CartaoCreditos.Remove(selecao);// removendo da lista para ao excluir nao acontecer erro de de cascade
+
                         MessageBoxResult d = MessageBox.Show(" Deseja realmente excluir o registro: " + selecao.Nome + " - " + selecao.Valor + " ? ", " Atenção ", MessageBoxButton.YesNo, MessageBoxImage.Question);
                         if (d == MessageBoxResult.Yes)
                         {

@@ -28,5 +28,9 @@ namespace Dominio.Dominio
         public virtual IList<ContaPagamento> ContaPagamentos { get; set; }
         public virtual IList<ContaArquivo> ContaArquivos { get; set; }
 
+        public override string ToString()
+        {
+            return String.Format("{0} - {1}", Codigo, Nome);
+        }
     }
 }

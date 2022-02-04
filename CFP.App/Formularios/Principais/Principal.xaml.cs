@@ -70,8 +70,8 @@ namespace CFP.App
             #region Totais do resumo
             Decimal totalPagar = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Não).Select(x => x.ValorReajustado).Sum();
             Decimal totalReceber = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Receber && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Não).Select(x => x.ValorReajustado).Sum();
-            Decimal totalCartao = new RepositorioCartaoCreditoItens(Session).ObterTodos().Where(x =>x.CartaoCredito.SituacaoFatura == SituacaoFatura.Aberta && x.CartaoCredito.MesReferencia <= DateTime.Now.Month).Select(x => x.Valor).Sum();
-
+            Decimal totalCartao = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum();
+           
             txtValorTotalPagar.Text = String.Format("{0:C}", totalPagar);
 
             txtValorTotalReceber.Text = String.Format("{0:C}", totalReceber);
@@ -113,12 +113,18 @@ namespace CFP.App
             {
                 if(DateTime.Now > parcela.DataVencimento.Value.Date.AddHours(23).AddMinutes(59).AddSeconds(59))
                 {
-                    msg = "Parcela já passou da data de vencimento! VERIFIQUE!";
+                    if (parcela.Conta.TipoConta == TipoConta.Pagar)
+                        msg = "Parcela já passou da data de vencimento! VERIFIQUE!";
+                    else
+                        msg = "Recebimento já passou da data! VÁ RECEBER!";
                     tipoAlerta = TipoAlertaContas.Atrasado;
                 }
                 else if (DateTime.Now.Date == parcela.DataVencimento.Value.Date)
                 {
-                    msg = "Parcela vence hoje! NÃO DEIXE ATRASAR!";
+                    if(parcela.Conta.TipoConta == TipoConta.Pagar)
+                        msg = "Parcela vence hoje! NÃO DEIXE ATRASAR!";
+                    else
+                        msg = "Recebimento para hoje! NÃO ESQUEÇA!";
                     tipoAlerta = TipoAlertaContas.Atrasado;
                 }
                 else
@@ -128,7 +134,10 @@ namespace CFP.App
                     {
                         if (dias > 0 && dias <= config.DiasAlertaVencimento)
                         {
-                            msg = "Parcela esta próxima do vencimento! FIQUE DE OLHO!";
+                            if (parcela.Conta.TipoConta == TipoConta.Pagar)
+                                msg = "Parcela esta próxima do vencimento! FIQUE DE OLHO!";
+                            else
+                                msg = "Esta chegando o dia para receber! PREPARE-SE!";
                             tipoAlerta = TipoAlertaContas.Aviso;
                         }
                         else
@@ -302,23 +311,20 @@ namespace CFP.App
 
         private void btAPagar_Click(object sender, RoutedEventArgs e)
         {
-            //var listaApagar = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).ToList();
             GridPrincipal.Children.Clear();
             GridPrincipal.Children.Add(new ucConsultaContas(0, Session));
         }
 
         private void btReceber_Click(object sender, RoutedEventArgs e)
         {
-            //var listaAreceber = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).ToList();
             GridPrincipal.Children.Clear();
             GridPrincipal.Children.Add(new ucConsultaContas(1, Session));
         }
 
         private void btCartoes_Click(object sender, RoutedEventArgs e)
         {
-            //var listaCartoes = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).ToList();
-            //GridPrincipal.Children.Clear();
-            //GridPrincipal.Children.Add(new ucConsultaContas(listaCartoes, Session));
+            GridPrincipal.Children.Clear();
+            GridPrincipal.Children.Add(new ucConsultaContas(Session));
         }
 
         private void ButtonPopUpMax_Click(object sender, RoutedEventArgs e)

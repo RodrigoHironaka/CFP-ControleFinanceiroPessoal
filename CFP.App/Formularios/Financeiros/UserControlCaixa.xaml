@@ -340,6 +340,7 @@
                                             <MenuItem x:Name="MenuItemAddItemSelecionado" Header="Adicionar items selecionados ao caixa" Click="MenuItemAddItemSelecionado_Click"/>
                                             <MenuItem x:Name="MenuItemAddTudoCofre" Header="Adicionar todos ao cofre" Click="MenuItemAddTudoCofre_Click"/>
                                             <MenuItem x:Name="MenuItemAddItemSelecionadoCofre" Header="Adicionar items selecionados ao cofre" Click="MenuItemAddItemSelecionadoCofre_Click" />
+                                            <MenuItem x:Name="MenuItemCriarContaReceber" Header="Criar Conta a Receber" Click="MenuItemCriarContaReceber_Click" />
                                         </ContextMenu>
                                     </DataGrid.ContextMenu>
                                 </DataGrid>
@@ -361,6 +362,7 @@
                                             <MenuItem x:Name="miAddItemSelecionadoCartoes" Header="Adicionar items selecionados ao caixa" Click="miAddItemSelecionadoCartoes_Click" />
                                             <MenuItem x:Name="miAddTudoCofreCartoes" Header="Adicionar todos ao cofre" Click="miAddTudoCofreCartoes_Click" />
                                             <MenuItem x:Name="miAddItemSelecionadoCofreCartoes" Header="Adicionar items selecionados ao cofre" Click="miAddItemSelecionadoCofreCartoes_Click" />
+                                            <MenuItem x:Name="miCriarContaReceberCartoes" Header="Criar Conta a Receber" Click="miCriarContaReceberCartoes_Click"/>
                                         </ContextMenu>
                                     </DataGrid.ContextMenu>
                                 </DataGrid>

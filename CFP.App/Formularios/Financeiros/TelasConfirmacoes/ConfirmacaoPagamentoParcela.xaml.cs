@@ -240,13 +240,18 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             {
                 txtValorParcela.IsReadOnly = false;
                 txtDataVencimento.IsEnabled = true;
-                txtTituloTela.Text = "Editar Parcela";
+                var converter = new BrushConverter();
+                gridCor.Background = (Brush)converter.ConvertFromString("#FF1368BD");
+                txtTituloTela.Text = "EDITAR PARCELA";
             }
             else
             {
                 txtValorParcela.IsReadOnly = true;
                 txtDataVencimento.IsEnabled = false;
-                txtTituloTela.Text = "Pagar Parcela";
+
+                var converter = new BrushConverter();
+                gridCor.Background = (Brush)converter.ConvertFromString("#FF1F3D68");
+                txtTituloTela.Text = "PAGAR/RECEBER PARCELA";
             }
         }
         #endregion

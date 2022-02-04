@@ -392,27 +392,31 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         {
             if (VerificaCaixa())
             {
+                var selecao = (ContaPagamento)dgContasFiltradas.SelectedItem;
                 IList<ContaPagamento> linhasContaPagamento = new List<ContaPagamento>();
-                linhasContaPagamento.Add((ContaPagamento)dgContasFiltradas.SelectedItem);
-                ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhasContaPagamento, Session);
-                bool? res = janela.ShowDialog();
-                if ((bool)res)
+                if (selecao != null)
                 {
-                    foreach (ContaPagamento parcelaAtualizada in linhasContaPagamento)
+                    linhasContaPagamento.Add(selecao);
+                    ConfirmacaoPagamentoParcela janela = new ConfirmacaoPagamentoParcela(linhasContaPagamento, Session);
+                    bool? res = janela.ShowDialog();
+                    if ((bool)res)
                     {
-                        if (parcelaAtualizada.ID != 0)
+                        foreach (ContaPagamento parcelaAtualizada in linhasContaPagamento)
                         {
-                            RepositorioContaPagamento.Alterar(parcelaAtualizada);
-                            SalvarFluxo(parcelaAtualizada);
+                            if (parcelaAtualizada.ID != 0)
+                            {
+                                RepositorioContaPagamento.Alterar(parcelaAtualizada);
+                                SalvarFluxo(parcelaAtualizada);
+                            }
+                            else
+                            {
+                                parcelaAtualizada.Numero++;
+                                parcelaAtualizada.Conta = linhasContaPagamento.First().Conta;
+                                RepositorioContaPagamento.Salvar(parcelaAtualizada);
+                            }
                         }
-                        else
-                        {
-                            parcelaAtualizada.Numero++;
-                            parcelaAtualizada.Conta = linhasContaPagamento.First().Conta;
-                            RepositorioContaPagamento.Salvar(parcelaAtualizada);
-                        }
+                        btFiltro_Click(sender, e);
                     }
-                    btFiltro_Click(sender, e);
                 }
             }
         }
@@ -514,6 +518,29 @@ namespace CFP.App.Formularios.Financeiros.Consultas
             }
             else
                 cmbPessoaReferenciada.IsEnabled = true;
+        }
+
+        private void btAvancarMes_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime dataInicioAtual = dtpInicio.SelectedDate.Value;
+            DateTime dataFinalAtual = dtpFinal.SelectedDate.Value;
+            DateTime dataFinalUltimoDia = dataFinalAtual.AddMonths(1);
+
+            dtpInicio.SelectedDate = dataInicioAtual.AddMonths(1);
+            dtpFinal.SelectedDate = new DateTime(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month, DateTime.DaysInMonth(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month));
+        
+            
+        }
+
+        private void btVoltarMes_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime dataInicioAtual = dtpInicio.SelectedDate.Value;
+            DateTime dataFinalAtual = dtpFinal.SelectedDate.Value;
+            DateTime dataFinalUltimoDia = dataFinalAtual.AddMonths(-1);
+
+            dtpInicio.SelectedDate = dataInicioAtual.AddMonths(-1);
+            dtpFinal.SelectedDate = new DateTime(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month, DateTime.DaysInMonth(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month));
+
         }
     }
 }

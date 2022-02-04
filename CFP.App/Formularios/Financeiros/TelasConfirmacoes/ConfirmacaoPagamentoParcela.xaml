@@ -18,7 +18,7 @@
                 <RowDefinition Height="280"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Background="#FF1F3D68">
+            <Grid x:Name="gridCor" Grid.Row="0" Background="#FF1F3D68">
                 <TextBlock x:Name="txtTituloTela"
                             FontFamily="Champagne &amp; Limousines" 
                             FontSize="18"

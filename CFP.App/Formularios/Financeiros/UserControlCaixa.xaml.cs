@@ -4,6 +4,7 @@ using CFP.App.Formularios.Pesquisas;
 using CFP.Dominio.Dominio;
 using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
+using CFP.Servicos.Financeiro;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
@@ -739,6 +740,58 @@ namespace CFP.App.Formularios.Financeiros
                 MessageBox.Show("Nenhum item selecionado!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
+        }
+
+        private void MenuItemCriarContaReceber_Click(object sender, RoutedEventArgs e)
+        {
+            using (var trans = Session.BeginTransaction())
+            {
+                try
+                {
+                    List<ContaPagamento> selecoesContas = new List<ContaPagamento>();
+                    foreach (ContaPagamento item in DataGridAReceber.SelectedItems)
+                        selecoesContas.Add(item);
+
+                    if (selecoesContas.Count > 0)
+                    {
+                        foreach (var selecao in selecoesContas)
+                            ContaServicos.NovaContaReceber(MainWindow.UsuarioLogado, selecao.Conta.Pessoa, selecao.Conta.FormaCompra, selecao.ValorReajustado, selecao.Conta.SubGrupoGasto, selecao.Conta.ToString(), Session);
+                    }
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    trans.Rollback();
+                }
+            }
+           
+        }
+
+        private void miCriarContaReceberCartoes_Click(object sender, RoutedEventArgs e)
+        {
+            using (var trans = Session.BeginTransaction())
+            {
+                try
+                {
+                    List<CartaoCreditoItens> selecoesCartoes = new List<CartaoCreditoItens>();
+                    foreach (CartaoCreditoItens item in dgReceberPessoaRefCartao.SelectedItems)
+                        selecoesCartoes.Add(item);
+
+                    if (selecoesCartoes != null)
+                    {
+                        foreach (var selecao in selecoesCartoes)
+                            ContaServicos.NovaContaReceber(MainWindow.UsuarioLogado, selecao.Pessoa, selecao.CartaoCredito.Cartao, selecao.Valor, selecao.SubGrupoGasto, selecao.CartaoCredito.DescricaoCompleta, Session, selecao.CartaoCredito);
+                    }
+                    trans.Commit();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.ToString());
+                    trans.Rollback();
+                }
+            }
+           
         }
     }
 }

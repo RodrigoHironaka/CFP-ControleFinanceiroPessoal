@@ -78,28 +78,63 @@
                     Height="50"/>
             </Button>
 
-            <DatePicker x:Name="dtpInicio"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
+            <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <DatePicker x:Name="dtpInicio"
+                            Grid.Column="0" 
                         FontSize="12"
                         materialDesign:HintAssist.Hint="Início" 
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                         KeyDown="dtpInicio_KeyDown"
                         VerticalAlignment="Top"
-                        Foreground="DarkGray"
-                        Margin="5 -4 5 1"
-                        />
+                        Foreground="DarkGray"/>
 
-            <DatePicker x:Name="dtpFinal"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
+                <DatePicker x:Name="dtpFinal"
+                            Grid.Column="0" 
                         FontSize="12"
                         materialDesign:HintAssist.Hint="Final" 
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                         KeyDown="dtpFinal_KeyDown"
                         VerticalAlignment="Bottom"
-                        Foreground="DarkGray"
-                        Margin="5 0 5 1"/>
+                        Foreground="DarkGray"/>
+                
+                <Button x:Name="btAvancarMes"
+                    Grid.Column="1"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="30" Width="30" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Avançar Mês"
+                        Margin="0 7 0 0" Click="btAvancarMes_Click">
+                    <materialDesign:PackIcon 
+                    Kind="NavigateNext"  
+                    Width="20" 
+                    Height="20"/>
+                </Button>
+                <Button x:Name="btVoltarMes"
+                    Grid.Column="1"
+                    Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
+                    Height="30" Width="30" 
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Background="#FF1F3D68" 
+                    BorderBrush="#FF1F3D68"
+                    ToolTip="Voltar Mês" 
+                        Margin="0 0 0 7" Click="btVoltarMes_Click">
+                    <materialDesign:PackIcon 
+                    Kind="NavigateBefore"  
+                    Width="20" 
+                    Height="20"/>
+                </Button>
+            </Grid>
+           
+
+            
 
             <ComboBox x:Name="cmbTipoConta"
                       Grid.Column="2"
@@ -231,7 +266,7 @@
                         <DataGridTextColumn Header="Forma da Compra" Binding="{Binding Conta.FormaCompra}" />
                         <DataGridTextColumn Header="Nº Doc" Binding="{Binding Conta.NumeroDocumento}" />
                         <DataGridTextColumn Header="Pessoa Ref" Binding="{Binding Conta.Pessoa}" />
-                        <DataGridTextColumn Header="Situacao Parcela" Binding="{Binding SituacaoParcelas}" />
+                        <DataGridTextColumn Header="Situação Parcela" Binding="{Binding SituacaoParcelas}" />
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
