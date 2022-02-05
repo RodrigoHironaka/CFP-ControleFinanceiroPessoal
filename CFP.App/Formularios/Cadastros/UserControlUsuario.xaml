@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:CFP.App.Formularios.Cadastros"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800" Loaded="UserControl_Loaded">
+             d:DesignHeight="550" d:DesignWidth="1020" Loaded="UserControl_Loaded">
     <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
-            <RowDefinition Height="530"/>
+            <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="#FF1F3D68">
@@ -76,15 +76,16 @@
                        FontSize="12"
                       Foreground="#FF1F3D68"
                        Margin="5,5,0,0"/>
-            <Grid x:Name="GridControls" Margin="70 40 70 40">
+            <Grid x:Name="GridControls" Margin="20 30">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBox
                     x:Name="txtNome"

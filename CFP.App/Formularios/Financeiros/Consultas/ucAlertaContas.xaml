@@ -29,7 +29,7 @@
                     Width="30" 
                     Height="30"/>
         </Button>
-        <Grid Margin="20 50">
+        <Grid Margin="20 50 20 20">
 
         <DataGrid x:Name="dgAlertaContas"  
                            AutoGenerateColumns="False"                                        

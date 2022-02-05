@@ -279,7 +279,7 @@
                                     Grid.Column="1" Grid.Row="0" 
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
-                                    ToolTip="Restaurar Banco de Dados" 
+                                    ToolTip="Editar Banco de Dados" 
                                     Click="btConfigBancoDados_Click">
                                 <materialDesign:PackIcon
                                     Kind="DatabaseEdit"
@@ -303,12 +303,12 @@
                     <GroupBox x:Name="semNome"
                           Margin="5"
                           Grid.Row="1"
-                          Header="Sem nome"
+                          Header="Outros"
                           FontFamily="Champagne &amp; Limousines" 
                           FontSize="15" 
                           Foreground="#FF1F3D68"
                           Style="{StaticResource MaterialDesignGroupBox}"
-                          Background="Transparent">
+                          Background="Transparent" IsEnabled="False">
 
                     </GroupBox>
                 </Grid>

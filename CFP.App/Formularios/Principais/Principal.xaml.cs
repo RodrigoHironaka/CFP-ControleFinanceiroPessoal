@@ -332,13 +332,11 @@ namespace CFP.App
             if (WindowState == WindowState.Maximized )
             {
                 ButtonPopUpMax.Content = "Maximizar";
-                gridConteudo.Margin = new Thickness(60, 50, 0, -490);
                 WindowState = WindowState.Normal;
             }
             else
             {
                 ButtonPopUpMax.Content = "Rest. Tamanho";
-                gridConteudo.Margin = new Thickness(60, 50, 0, -708);
                 WindowState = WindowState.Maximized;
             }
         }
