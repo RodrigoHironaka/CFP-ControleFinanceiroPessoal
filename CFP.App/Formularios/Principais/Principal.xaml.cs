@@ -69,7 +69,7 @@ namespace CFP.App
 
             #region Totais do resumo
             Decimal totalPagar = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Não).Select(x => x.ValorReajustado).Sum();
-            Decimal totalReceber = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Receber && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Não).Select(x => x.ValorReajustado).Sum();
+            Decimal totalReceber = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum();
             Decimal totalCartao = contaPagamento.Where(x => (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial) && x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum();
            
             txtValorTotalPagar.Text = String.Format("{0:C}", totalPagar);
