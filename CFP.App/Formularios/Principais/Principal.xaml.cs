@@ -83,7 +83,7 @@ namespace CFP.App
             List<decimal> valoresRendas = new RepositorioPessoa(Session).ObterPorParametros(x => x.UsarRendaParaCalculos == SimNao.Sim).Select(x => x.ValorTotalLiquido).ToList();
             decimal ValorRenda = valoresRendas.Count != 0 ? valoresRendas.Sum() : 0;
 
-            decimal RestanteMes = ValorRenda + contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum() - contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorReajustado).Sum();
+            decimal RestanteMes = ValorRenda + totalReceber - totalPagar - totalCartao;//contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum() - contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorReajustado).Sum();
                        
             txtRestante.Text = String.Format("RESTANTE DO MÊS {0:C}", RestanteMes);
             #endregion
