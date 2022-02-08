@@ -238,11 +238,19 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (editarParcela)
             {
-                txtValorParcela.IsReadOnly = false;
-                txtDataVencimento.IsEnabled = true;
-                var converter = new BrushConverter();
-                gridCor.Background = (Brush)converter.ConvertFromString("#FF1368BD");
-                txtTituloTela.Text = "EDITAR PARCELA";
+                if(contaPagamento.Conta.FaturaCartaoCredito == null)
+                {
+                    txtValorParcela.IsReadOnly = false;
+                    txtDataVencimento.IsEnabled = true;
+                    var converter = new BrushConverter();
+                    gridCor.Background = (Brush)converter.ConvertFromString("#FF1368BD");
+                    txtTituloTela.Text = "EDITAR PARCELA";
+                }
+                else
+                {
+                    txtValorParcela.IsEnabled = false;
+                }
+                
             }
             else
             {
@@ -344,6 +352,16 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         }
         #endregion
 
+        #region Data escolhida é menor q dataAtual
+        private bool VerificaData(DateTime data)
+        {
+            if(data < DateTime.Now)
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
         public ConfirmacaoPagamentoParcela(IList<ContaPagamento> _contaPagamento, ISession _session)
         {
             InitializeComponent();
@@ -447,6 +465,27 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             //if (contaPagamento != null && contaPagamento.SituacaoParcelas == SituacaoParcela.Pago)
             //    SalvarFluxo(linhaContaPagemento, true);
+
+            if (!String.IsNullOrEmpty(txtDataPagamento.Text))
+            {
+                if(!VerificaData(txtDataPagamento.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59)))
+                {
+                    MessageBoxResult d = MessageBox.Show("A data escolhida é menor que a data atual!\nDeseja continuar?", " Informação ", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    if (d == MessageBoxResult.No)
+                        return;
+                }
+            }
+                
+            if (!String.IsNullOrEmpty(txtDataVencimento.Text))
+            {
+                if (!VerificaData(txtDataVencimento.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59)))
+                {
+                    MessageBoxResult d = MessageBox.Show("A data escolhida é menor que a data atual!\nDeseja continuar?", " Informação ", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    if (d == MessageBoxResult.No)
+                        return;
+                }
+            }
+                
 
             CalculaValorReajustado();
 

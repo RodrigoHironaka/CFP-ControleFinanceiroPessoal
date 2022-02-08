@@ -67,7 +67,10 @@ namespace CFP.App.Formularios.Pesquisas
 
         private void CarregaDados()
         {
-            DataGridPesquisa.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado);
+            if(chkAbertos.IsChecked == true)
+                DataGridPesquisa.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado && x.Situacao == SituacaoConta.Aberto);
+            else
+                DataGridPesquisa.ItemsSource = Repositorio.ObterPorParametros(x => x.UsuarioCriacao == MainWindow.UsuarioLogado);
         }
 
         private void PesquisarDados()
@@ -84,8 +87,9 @@ namespace CFP.App.Formularios.Pesquisas
                 {
                     Conta p = o as Conta;
                     return p.Nome.Contains(txtPesquisa.Text)
-                            || p.Id.ToString().Contains(txtPesquisa.Text)
-                            || p.NumeroDocumento.ToString().Contains(txtPesquisa.Text);
+                            || p.Codigo.ToString().Contains(txtPesquisa.Text)
+                            || p.NumeroDocumento.ToString().Contains(txtPesquisa.Text)
+                            || p.Situacao.ToString().Contains(txtPesquisa.Text);
                 };
             }
         }
@@ -108,6 +112,11 @@ namespace CFP.App.Formularios.Pesquisas
         private void DataGridPesquisa_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             SelecionaeFecha();
+        }
+
+        private void chkAbertos_Click(object sender, RoutedEventArgs e)
+        {
+            CarregaDados();
         }
     }
 }

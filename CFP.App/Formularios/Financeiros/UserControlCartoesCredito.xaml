@@ -161,7 +161,7 @@
                                           AutoGenerateColumns="False" 
                                           VerticalScrollBarVisibility="Auto" 
                                           IsReadOnly="True"
-                                          TabIndex="6" Margin="0,0,0,0">
+                                          TabIndex="6" Margin="0,0,0,0" MouseUp="dgCartaoCredito_MouseUp">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Parcela" Binding="{Binding NumeroParcelas}" />
                         <DataGridTextColumn Header="Data" Binding="{Binding DataCompra, StringFormat=d,  ConverterCulture='pt-BR'}" />

@@ -326,10 +326,11 @@ namespace CFP.App.Formularios.Financeiros
             #endregion
 
             #region Lista dos valores a receber no mês de pessoas referenciadas Cartoes
+            int mes = DateTime.Now.Month - 1;
             dgReceberPessoaRefCartao.ItemsSource = new RepositorioCartaoCreditoItens(Session)
                 .ObterPorParametros(x => x.Pessoa != null &&
                  x.CartaoCredito.SituacaoFatura == SituacaoFatura.Aberta &&
-                 x.CartaoCredito.MesReferencia <= DateTime.Now.Month &&
+                 x.CartaoCredito.MesReferencia <= mes &&
                  x.CartaoCredito.AnoReferencia <= DateTime.Now.Year &&
                  x.CartaoCredito.UsuarioCriacao == MainWindow.UsuarioLogado)
                  .OrderBy(x => x.DataCompra)

@@ -301,5 +301,22 @@ namespace CFP.App.Formularios.Financeiros
             }
 
         }
+
+        private void dgCartaoCredito_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            decimal valores = 0;
+            List<CartaoCreditoItens> selecoes = new List<CartaoCreditoItens>();
+            foreach (CartaoCreditoItens item in dgCartaoCredito.SelectedItems)
+            {
+                selecoes.Add(item);
+                valores += item.Valor;
+            }
+            if (selecoes.Count > 0)
+            {
+                txtTotalFatura.Text = string.Empty;
+                txtTotalFatura.Text += String.Format("TOTAL: {0:C}", valores);
+
+            }
+        }
     }
 }

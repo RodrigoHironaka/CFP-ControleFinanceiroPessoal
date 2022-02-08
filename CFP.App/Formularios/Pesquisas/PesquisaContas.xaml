@@ -8,14 +8,19 @@
         mc:Ignorable="d"
         Title="Pesquisas" Height="450" Width="800" WindowStyle="ToolWindow"  WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" >
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <DataGrid x:Name="DataGridPesquisa"
+                  Grid.Row="1"
                   Style="{StaticResource MaterialDesignDataGrid}"
                   HorizontalAlignment="Left" 
-                  Height="356" 
-                  Margin="0,64,-2,0"
-                  VerticalAlignment="Top"
+                  VerticalAlignment="Stretch"
                   Width="794"
-                  AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="DataGridPesquisa_MouseDoubleClick"
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True" 
+                  MouseDoubleClick="DataGridPesquisa_MouseDoubleClick"
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Situacao}" Header="Situação"/>
@@ -26,7 +31,13 @@
 
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox x:Name="txtPesquisa"
+        <Grid  Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="txtPesquisa"
+                 Grid.Column="0"
                  materiadesign:HintAssist.Hint="Pesquisa"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                  FontFamily="Champagne &amp; Limousines" 
@@ -35,6 +46,16 @@
                  VerticalAlignment="Top"
                  MaxLength="70" TextChanged="txtPesquisa_TextChanged"
                  />
+            <CheckBox x:Name="chkAbertos" Content="Somente Abertos" 
+                  Grid.Column="1"
+                  HorizontalAlignment="Center" 
+                  VerticalAlignment="Center"
+                  Style="{StaticResource MaterialDesignAccentCheckBox}"
+                 FontFamily="Champagne &amp; Limousines" 
+                 FontSize="16" 
+                      IsChecked="True" Click="chkAbertos_Click"/>
+        </Grid>
+       
 
     </Grid>
 </Window>
