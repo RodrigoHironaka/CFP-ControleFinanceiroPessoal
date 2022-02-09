@@ -8,12 +8,49 @@
         mc:Ignorable="d"
         Title="Pesquisas" Height="450" Width="800" WindowStyle="ToolWindow"  WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" >
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="280"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="txtPesquisa"
+                 materiadesign:HintAssist.Hint="Pesquisa"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 FontFamily="Champagne &amp; Limousines" 
+                 FontSize="22" 
+                 Foreground="#FF1F3D68" 
+                 VerticalAlignment="Stretch"
+                 MaxLength="70" TextChanged="txtPesquisa_TextChanged"
+                 Grid.Column="0"/>
+            <ComboBox  x:Name="cmbCartao"
+                       materiadesign:HintAssist.Hint="Cartão" 
+                       Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
+                       FontFamily="Champagne &amp; Limousines" 
+                       FontSize="20" 
+                       Foreground="#FF1F3D68"
+                       VerticalAlignment="Stretch"
+                       Grid.Column="1" SelectionChanged="cmbCartao_SelectionChanged"/>
+            <CheckBox x:Name="chkAbertos" Content="Somente Abertos" 
+                  Grid.Column="2"
+                  HorizontalAlignment="Center" 
+                  VerticalAlignment="Center"
+                  Style="{StaticResource MaterialDesignAccentCheckBox}"
+                  FontFamily="Champagne &amp; Limousines" 
+                  FontSize="16" 
+                  IsChecked="True" Click="chkAbertos_Click"/>
+
+        </Grid>
         <DataGrid x:Name="DataGridPesquisa"
+                  Grid.Row="1" 
                   Style="{StaticResource MaterialDesignDataGrid}"
-                  HorizontalAlignment="Left" 
-                  Height="356" 
-                  Margin="0,64,-2,0"
-                  VerticalAlignment="Top"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Stretch"
                   Width="794"
                   AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="DataGridPesquisa_MouseDoubleClick"
                   >
@@ -23,15 +60,6 @@
                 <DataGridTextColumn Binding="{Binding SituacaoFatura}" Header="Situação"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBox x:Name="txtPesquisa"
-                 materiadesign:HintAssist.Hint="Pesquisa"
-                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                 FontFamily="Champagne &amp; Limousines" 
-                 FontSize="22" 
-                 Foreground="#FF1F3D68" 
-                 VerticalAlignment="Top"
-                 MaxLength="70" TextChanged="txtPesquisa_TextChanged"
-                 />
-
+        
     </Grid>
 </Window>

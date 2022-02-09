@@ -1,4 +1,5 @@
 ﻿using CFP.Dominio.Dominio;
+using CFP.Dominio.ObjetoValor;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObjetoValor;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,6 +58,17 @@ namespace CFP.App.Formularios.Pesquisas
         }
         #endregion
 
+        #region Carrega Combos
+        private void CarregaCombos()
+        {
+            cmbCartao.ItemsSource = new RepositorioFormaPagamento(Session)
+                .ObterPorParametros(x => x.Situacao == Situacao.Ativo && x.UsadoParaCompras == SimNao.Sim)
+                .OrderBy(x => x.Nome)
+                .ToList<FormaPagamento>();
+
+        }
+        #endregion
+
         public CartaoCredito objeto;
 
         private void SelecionaeFecha()
@@ -69,7 +82,14 @@ namespace CFP.App.Formularios.Pesquisas
 
         private void CarregaDados()
         {
-            DataGridPesquisa.ItemsSource = Repositorio.ObterTodos();
+            var predicado = Repositorio.CriarPredicado();
+            if (cmbCartao.SelectedIndex != -1)
+                predicado = predicado.And(x => x.Cartao == cmbCartao.SelectedItem);
+
+            if (chkAbertos.IsChecked == true)
+                predicado = predicado.And(x => x.SituacaoFatura == SituacaoFatura.Aberta);
+
+            DataGridPesquisa.ItemsSource = Repositorio.ObterPorParametros(predicado);
         }
 
         private void PesquisarDados()
@@ -98,6 +118,7 @@ namespace CFP.App.Formularios.Pesquisas
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            CarregaCombos();
             CarregaDados();
         }
 
@@ -109,6 +130,16 @@ namespace CFP.App.Formularios.Pesquisas
         private void DataGridPesquisa_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             SelecionaeFecha();
+        }
+
+        private void chkAbertos_Click(object sender, RoutedEventArgs e)
+        {
+            CarregaDados();
+        }
+
+        private void cmbCartao_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CarregaDados();
         }
     }
 }
