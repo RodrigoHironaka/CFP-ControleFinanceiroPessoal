@@ -194,6 +194,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 }
                 else
                     descricao = cartaoCredito.DescricaoCompleta;
+                   
 
                 if (listaFaturas.Count != 0)
                 {

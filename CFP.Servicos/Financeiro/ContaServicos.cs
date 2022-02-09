@@ -38,15 +38,16 @@ namespace CFP.Servicos.Financeiro
 
             int dia = new RepositorioFormaPagamento(session).ObterPorParametros(x => x.Id == faturaCartao.Cartao.Id).Select(x => x.DiaVencimento).First();
             int mes = faturaCartao.MesReferencia == 12 ? 1 : faturaCartao.MesReferencia + 1;
-            int ano = faturaCartao.MesReferencia == 12 ? DateTime.Now.Year + 1 : DateTime.Now.Year;
-            string DataVencimento = String.Format("{0:00}/{1:00}/{2:0000}", dia, mes, ano);
+            int ano = mes == 1 ? faturaCartao.AnoReferencia + 1 : faturaCartao.AnoReferencia;
+            var vencimento = DateTime.Parse(String.Format("{0:00}/{1:00}/{2:0000}", dia, mes, ano));
+
             List<ContaPagamento> contaPagamento = new List<ContaPagamento>();
             contaPagamento.Add(new ContaPagamento()
             {
                 Numero = 1,
                 ValorParcela = 0,
                 ValorReajustado = 0,
-                DataVencimento = DateTime.ParseExact(DataVencimento, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
+                DataVencimento = vencimento, //DateTime.ParseExact(DataVencimento, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture),
                 SituacaoParcelas = SituacaoParcela.Pendente,
                 Conta = conta
             });
@@ -57,7 +58,7 @@ namespace CFP.Servicos.Financeiro
 
         public static void NovaContaReceber(Usuario usuario, Pessoa pessoa, FormaPagamento formaCompra, Decimal valor, SubGrupoGasto subGrupoGasto, String descricaoConta, ISession session, CartaoCredito fatura = null)
         {
-            
+
             Conta conta = new Conta();
             conta.Codigo = new RepositorioConta(session).RetornaUltimoCodigo() + 1;
             conta.UsuarioCriacao = usuario;
