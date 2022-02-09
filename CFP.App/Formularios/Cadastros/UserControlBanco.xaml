@@ -112,6 +112,15 @@
                      FontSize="22" 
                      Foreground="#FF1F3D68"  
                      VerticalAlignment="Top" Margin="0,59,0,0"/>
+
+                <CheckBox x:Name="chkUsarValorTotalParaCalculos" 
+                          Content="Usar para Calculos?"
+                          FontFamily="Champagne &amp; Limousines" 
+                                FontSize="20"  
+                                Foreground="#FF1F3D68"
+                                Style="{StaticResource MaterialDesignFilterChipAccentCheckBox}" Margin="0,232,0,125.6" >
+
+                </CheckBox>
             </Grid>
         </Grid>
     </Grid>

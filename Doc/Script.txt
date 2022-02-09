@@ -42,4 +42,8 @@ alter table Contas add index (FaturaCartaoCredito), add constraint FK_5DDB1A8A f
 ALTER TABLE `configuracoes`
 	ADD COLUMN `GrupoGastoFaturaPadrao` INT(10) NULL AFTER `DiasAlertaVencimento`;
 
+08/02/2022
+ALTER TABLE `bancos`
+	ADD COLUMN `UsarValorParaCalculos` INT(10) NULL AFTER `UsuarioAlteracao`;
 
+update `bancos` SET `UsarValorParaCalculos` = 0;

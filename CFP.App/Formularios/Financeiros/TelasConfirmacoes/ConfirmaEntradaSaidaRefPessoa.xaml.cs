@@ -38,6 +38,17 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         }
         #endregion
 
+        #region Data escolhida é menor q dataAtual
+        private bool VerificaData(DateTime data)
+        {
+            if (data < DateTime.Now)
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
+
         ISession Session;
         Caixa caixa;
 
@@ -90,6 +101,16 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             {
                 MessageBox.Show("Todos os campos são obrigatórios. Por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
+            }
+
+            if (!String.IsNullOrEmpty(txtData.Text))
+            {
+                if (!VerificaData(txtData.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59)))
+                {
+                    MessageBoxResult d = MessageBox.Show("A data escolhida é menor que a data atual!\nDeseja continuar?", " Informação ", MessageBoxButton.YesNo, MessageBoxImage.Information);
+                    if (d == MessageBoxResult.No)
+                        return;
+                }
             }
 
             if (valoresRefPessoas.Count > 0)

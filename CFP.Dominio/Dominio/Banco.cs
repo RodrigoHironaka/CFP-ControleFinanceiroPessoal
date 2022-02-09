@@ -1,4 +1,5 @@
 ﻿using CFP.Dominio.Dominio;
+using CFP.Dominio.ObjetoValor;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
 using System;
@@ -17,7 +18,7 @@ namespace Dominio.Dominio
         }
         public virtual TipoContaBanco TipoContaBanco { get; set; }
         public virtual Situacao Situacao { get; set; }
-
+        public virtual SimNao UsarValorParaCalculos { get; set; }
         public virtual Pessoa PessoaBanco { get; set; }
     }
 }

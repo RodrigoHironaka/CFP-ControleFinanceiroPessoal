@@ -50,7 +50,8 @@
                   Foreground="#FF1F3D68"
                   VerticalAlignment="Center" 
                   HorizontalAlignment="Stretch"
-                  Margin="10 0 10 0" TabIndex="1" />
+                  Margin="10 0 10 0" TabIndex="1" 
+                  IsReadOnly="True"/>
                 
                 <Grid Grid.Column="1">
                     <Grid.ColumnDefinitions>

@@ -1,4 +1,5 @@
 ﻿using CFP.App.Formularios.Pesquisas;
+using CFP.Dominio.ObjetoValor;
 using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
@@ -131,6 +132,7 @@ namespace CFP.App.Formularios.Cadastros
                 banco.Situacao = (Situacao)cmbSituacao.SelectedIndex;
                 banco.TipoContaBanco = (TipoContaBanco)cmbTipoConta.SelectedIndex;
                 banco.PessoaBanco = (Pessoa)cmbPessoa.SelectedItem;
+                banco.UsarValorParaCalculos = (bool)chkUsarValorTotalParaCalculos.IsChecked ? SimNao.Sim : SimNao.Não;
                 return true;
             }
             catch
@@ -151,6 +153,7 @@ namespace CFP.App.Formularios.Cadastros
                 cmbSituacao.SelectedIndex = banco.Situacao.GetHashCode();
                 cmbTipoConta.SelectedIndex = banco.TipoContaBanco.GetHashCode();
                 cmbPessoa.SelectedItem = banco.PessoaBanco;
+                chkUsarValorTotalParaCalculos.IsChecked = banco.UsarValorParaCalculos == SimNao.Sim ? chkUsarValorTotalParaCalculos.IsChecked = true : chkUsarValorTotalParaCalculos.IsChecked = false;
             }
         }
         #endregion

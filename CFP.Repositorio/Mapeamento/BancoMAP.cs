@@ -1,4 +1,5 @@
-﻿using Dominio.Dominio;
+﻿using CFP.Dominio.ObjetoValor;
+using Dominio.Dominio;
 using Dominio.ObejtoValor;
 using Dominio.ObjetoValor;
 using NHibernate.Mapping.ByCode;
@@ -28,6 +29,7 @@ namespace Repositorio.Mapeamentos
             Property(x => x.DataAlteracao);
             Property(x => x.TipoContaBanco, m => m.Type<EnumType<TipoContaBanco>>());
             Property(x => x.Situacao, m => m.Type<EnumType<Situacao>>());
+            Property(x => x.UsarValorParaCalculos, m => m.Type<EnumType<SimNao>>());
 
             ManyToOne(x => x.PessoaBanco, m => m.Column("Pessoa"));
             ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));

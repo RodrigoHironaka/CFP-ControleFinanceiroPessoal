@@ -80,10 +80,15 @@ namespace CFP.App
             #endregion
 
             #region Calculo Restante do mes
+            Decimal totalPagarFixo = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Não).Select(x => x.ValorReajustado).Sum();
+            Decimal totalReceberFixo = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum();
+            Decimal totalCartaoFixo = contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum();
+            Decimal totalBancosFixo = new RepositorioCofre(Session).ObterTodos().Where(x => x.Banco.UsarValorParaCalculos == SimNao.Sim).Select(x => x.Valor).Sum();
+
             List<decimal> valoresRendas = new RepositorioPessoa(Session).ObterPorParametros(x => x.UsarRendaParaCalculos == SimNao.Sim).Select(x => x.ValorTotalLiquido).ToList();
             decimal ValorRenda = valoresRendas.Count != 0 ? valoresRendas.Sum() : 0;
 
-            decimal RestanteMes = ValorRenda + totalReceber - totalPagar - totalCartao;//contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum() - contaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar).Select(x => x.ValorReajustado).Sum();
+            decimal RestanteMes = ValorRenda + totalBancosFixo + totalReceberFixo - totalPagarFixo - totalCartaoFixo;
                        
             txtRestante.Text = String.Format("RESTANTE DO MÊS {0:C}", RestanteMes);
             #endregion
