@@ -86,16 +86,16 @@ namespace CFP.App.Formularios.Financeiros.Consultas
 
             if (cmbSituacaoConta.SelectedIndex != -1)
                 predicado = predicado.And(x => x.Conta.Situacao == (SituacaoConta)cmbSituacaoConta.SelectedIndex);
-            else
-                predicado = predicado.And(x => x.Conta.Situacao == SituacaoConta.Aberto);
+            //else
+            //    predicado = predicado.And(x => x.Conta.Situacao == SituacaoConta.Aberto);
 
             if (!String.IsNullOrEmpty(txtPesquisa.Text))
                 predicado = predicado.And(x => x.Conta.Nome.Contains(txtPesquisa.Text) || x.ValorParcela.ToString().Contains(txtPesquisa.Text) || x.Conta.Codigo.ToString().Contains(txtPesquisa.Text) || x.Conta.NumeroDocumento.ToString().Contains(txtPesquisa.Text));
 
             if (cmbSituacaoParcelas.SelectedIndex != -1)
                 predicado = predicado.And(x => x.SituacaoParcelas == (SituacaoParcela)cmbSituacaoParcelas.SelectedIndex);
-            else
-                predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial);
+            //else
+            //    predicado = predicado.And(x => x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial);
 
             if (cmbTipoConta.SelectedIndex != -1)
                 predicado = predicado.And(x => x.Conta.TipoConta == (TipoConta)cmbTipoConta.SelectedIndex);
