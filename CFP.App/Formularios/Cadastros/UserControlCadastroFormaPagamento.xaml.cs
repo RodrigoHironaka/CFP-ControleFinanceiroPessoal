@@ -126,7 +126,7 @@ namespace CFP.App.Formularios.Cadastros
                 formaPagamento.QtdParcelas = Int32.Parse(txtQtdParcelas.Text);
                 formaPagamento.DiasParaVencimento = Int32.Parse(txtDiasVencimento.Text);
                 formaPagamento.Situacao = (Situacao)cmbSituacao.SelectedIndex;
-                formaPagamento.DiaVencimento = Int32.Parse(txtDiaVencimento.Text);
+                formaPagamento.DiaVencimento = txtDiaVencimento.Text != string.Empty ? Int32.Parse(txtDiaVencimento.Text) : 0;
                 formaPagamento.TransacoesBancarias = (bool)chkTransacaoBancaria.IsChecked ? SimNao.Sim : SimNao.Não;
                 formaPagamento.UsadoParaCompras = (bool)chkUsadoParaCompras.IsChecked ? SimNao.Sim : SimNao.Não;
                 formaPagamento.RemoveCofre = (bool)chkRemoveCofre.IsChecked ? SimNao.Sim : SimNao.Não;
