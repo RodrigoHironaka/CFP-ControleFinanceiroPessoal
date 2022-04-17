@@ -270,7 +270,7 @@
                 </Border>
 
                 <!--Restante-->
-                <Border x:Name="bRestante" Margin="5" 
+                <!--<Border x:Name="bRestante" Margin="5" 
                             Grid.Row="1"
                                 Grid.Column="0" Grid.ColumnSpan="4" 
                                 Background="#FF1F3D68" 
@@ -287,7 +287,7 @@
                                        Foreground="White"
                                        Margin="5,5,0,0"
                                    ToolTip="Valor que sobra no mês! Cálculo feito: Rendas da pessoa escolhida + total a receber - total a pagar"/>
-                </Border>
+                </Border>-->
 
                 <!--Alerta Atraso-->
                 <Border x:Name="bAlertas" Margin="5"  
@@ -346,8 +346,8 @@
 
                     </Grid>
                 </Border>
-
-            </Grid>
+                </Grid>
+            <Grid x:Name="GridPrincipal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
         </Grid>
 
@@ -478,7 +478,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="GridPrincipal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <!--<Grid x:Name="GridPrincipal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>-->
 
     </Grid>
 </Window>

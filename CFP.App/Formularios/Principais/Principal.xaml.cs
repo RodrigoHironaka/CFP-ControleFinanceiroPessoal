@@ -33,7 +33,7 @@ namespace CFP.App
     {
         Configuracao config;
         List<ContaPagamento> contaPagamento = new List<ContaPagamento>();
-
+        
         #region Usuario Logado
         public static Usuario UsuarioLogado;
         #endregion
@@ -80,21 +80,21 @@ namespace CFP.App
             #endregion
 
             #region Calculo Restante do mes
-            List<ContaPagamento> novoContaPagamento = new List<ContaPagamento>();
-            novoContaPagamento = new RepositorioContaPagamento(Session).ObterTodos()
-               .Where(x => x.DataVencimento >= primeiroDia.Date && x.DataVencimento <= ultimoDia.Date.AddHours(23).AddMinutes(59).AddSeconds(59) &&
-               x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id).ToList();
-            Decimal totalPagarFixo = novoContaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Não).Select(x => x.ValorReajustado).Sum();
-            Decimal totalReceberFixo = novoContaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum();
-            Decimal totalCartaoFixo = novoContaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum();
-            Decimal totalBancosFixo = new RepositorioCofre(Session).ObterTodos().Where(x => x.Banco.UsarValorParaCalculos == SimNao.Sim).Select(x => x.Valor).Sum();
+            //List<ContaPagamento> novoContaPagamento = new List<ContaPagamento>();
+            //novoContaPagamento = new RepositorioContaPagamento(Session).ObterTodos()
+            //   .Where(x => x.DataVencimento >= primeiroDia.Date && x.DataVencimento <= ultimoDia.Date.AddHours(23).AddMinutes(59).AddSeconds(59) &&
+            //   x.Conta.UsuarioCriacao.Id == UsuarioLogado.Id).ToList();
+            //Decimal totalPagarFixo = novoContaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Não).Select(x => x.ValorReajustado).Sum();
+            //Decimal totalReceberFixo = novoContaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Receber).Select(x => x.ValorReajustado).Sum();
+            //Decimal totalCartaoFixo = novoContaPagamento.Where(x => x.Conta.TipoConta == TipoConta.Pagar && x.Conta.FormaCompra.UsadoParaCompras == SimNao.Sim).Select(x => x.ValorReajustado).Sum();
+            //totalBancosFixo = totalBancosFixo.Equals(0) ? new RepositorioCofre(Session).ObterTodos().Where(x => x.Banco.UsarValorParaCalculos == SimNao.Sim).Select(x => x.Valor).Sum() : totalBancosFixo;
 
-            List<decimal> valoresRendas = new RepositorioPessoa(Session).ObterPorParametros(x => x.UsarRendaParaCalculos == SimNao.Sim).Select(x => x.ValorTotalLiquido).ToList();
-            decimal ValorRenda = valoresRendas.Count != 0 ? valoresRendas.Sum() : 0;
+            //List<decimal> valoresRendas = new RepositorioPessoa(Session).ObterPorParametros(x => x.UsarRendaParaCalculos == SimNao.Sim).Select(x => x.ValorTotalLiquido).ToList();
+            //decimal ValorRenda = valoresRendas.Count != 0 ? valoresRendas.Sum() : 0;
 
-            decimal RestanteMes = ValorRenda + totalBancosFixo + totalReceberFixo - totalCartaoFixo - totalPagarFixo;
+            //decimal RestanteMes = ValorRenda + totalBancosFixo + totalReceberFixo - totalCartaoFixo - totalPagarFixo;
                        
-            txtRestante.Text = String.Format("RESTANTE DO MÊS {0:C}", RestanteMes);
+            //txtRestante.Text = String.Format("RESTANTE DO MÊS {0:C}", RestanteMes);
             #endregion
 
             AlertaContas();
@@ -205,6 +205,7 @@ namespace CFP.App
                     GridPrincipal.Children.Clear();
                     GridPrincipal.Children.Add(new ucConsultaContas(Session));
                     ListVIewItemConsultaConta.IsSelected = false;
+                    
                     break;
                 case 2:
                     GridPrincipal.Children.Clear();
