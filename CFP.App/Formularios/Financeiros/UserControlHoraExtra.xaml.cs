@@ -76,7 +76,6 @@ namespace CFP.App.Formularios.Financeiros
         #endregion
 
         #region Preenche Objeto para Salvar
-        //DateTime meioDia = Convert.ToDateTime("12:00:00");
         private bool PreencheObjeto()
         {
             try
@@ -99,6 +98,13 @@ namespace CFP.App.Formularios.Financeiros
                         horaExtra.HoraFinalNoite = txtHoraFinal.SelectedTime != null ? txtHoraFinal.SelectedTime.Value.TimeOfDay : TimeSpan.Zero;
                         break;
                 }
+
+                if (horaExtra.TotalManha == TimeSpan.Zero)
+                    horaExtra.HoraFinalDia = horaExtra.TotalManha + horaExtra.TotalTarde + horaExtra.TotalNoite - config.HorasTrabalhadasPorPeriodo;
+                else if (horaExtra.TotalTarde == TimeSpan.Zero)
+                    horaExtra.HoraFinalDia = horaExtra.TotalManha + horaExtra.TotalTarde + horaExtra.TotalNoite - config.HorasTrabalhadasPorPeriodo;
+                else
+                    horaExtra.HoraFinalDia = horaExtra.TotalManha + horaExtra.TotalTarde + horaExtra.TotalNoite - config.HorasTrabalhadasPorDia;
                 return true;
             }
             catch (Exception)
@@ -142,18 +148,7 @@ namespace CFP.App.Formularios.Financeiros
         #region PreencheDataGrid
         private void PreencheDataGrid()
         {
-            var registros = Repositorio.ObterTodos().OrderBy(x => x.DataHoraExtra).ToList();
-            foreach (var item in registros)
-            {
-                if (item.TotalManha == TimeSpan.Zero)
-                    item.HoraFinalDia = item.TotalManha + item.TotalTarde + item.TotalNoite - config.HorasTrabalhadasPorPeriodo;
-                else if (item.TotalTarde == TimeSpan.Zero)
-                    item.HoraFinalDia = item.TotalManha + item.TotalTarde + item.TotalNoite - config.HorasTrabalhadasPorPeriodo;
-                else
-                    item.HoraFinalDia = item.TotalManha + item.TotalTarde + item.TotalNoite - config.HorasTrabalhadasPorDia;
-            }
-
-            dgHoraExtra.ItemsSource = registros;
+            dgHoraExtra.ItemsSource = Repositorio.ObterTodos().OrderBy(x => x.DataHoraExtra).ToList();
         }
         #endregion
 
@@ -164,8 +159,6 @@ namespace CFP.App.Formularios.Financeiros
         //    btExcluir.IsEnabled = !btExcluir.IsEnabled;
         //}
         #endregion
-
-       
 
         public UserControlHoraExtra(HoraExtra _horaExtra, ISession _session)
         {
