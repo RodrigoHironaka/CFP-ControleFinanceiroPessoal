@@ -77,6 +77,8 @@ namespace CFP.App.Formularios.Principais
                 configuracao.TransacaoBancariaPadrao = (FormaPagamento)cmbTransacaoBancariaPadrao.SelectedItem;
                 configuracao.DiasAlertaVencimento = txtQtdDiasAlertaVencimento.Text != string.Empty ? Int32.Parse(txtQtdDiasAlertaVencimento.Text) : 0;
                 configuracao.GrupoGastoFaturaPadrao = (SubGrupoGasto)cmbGrupoGastoFaturaPadrao.SelectedItem;
+                configuracao.HorasTrabalhadasPorPeriodo = txtHoraPorPeriodo.SelectedTime.Value.TimeOfDay != TimeSpan.Zero ? txtHoraPorPeriodo.SelectedTime.Value.TimeOfDay : TimeSpan.Zero;
+                configuracao.HorasTrabalhadasPorDia = txtHoraPorDia.SelectedTime.Value.TimeOfDay != TimeSpan.Zero ? txtHoraPorDia.SelectedTime.Value.TimeOfDay : TimeSpan.Zero;
                 configuracao.UsuarioCriacao = MainWindow.UsuarioLogado;
                 return true;
             }
@@ -104,7 +106,8 @@ namespace CFP.App.Formularios.Principais
                 cmbTransacaoBancariaPadrao.SelectedItem = configuracao.TransacaoBancariaPadrao;
                 cmbGrupoGastoFaturaPadrao.SelectedItem = configuracao.GrupoGastoFaturaPadrao;
                 txtQtdDiasAlertaVencimento.Text = configuracao.DiasAlertaVencimento.ToString() != string.Empty ? configuracao.DiasAlertaVencimento.ToString() : string.Empty;
-
+                txtHoraPorPeriodo.Text = configuracao.HorasTrabalhadasPorPeriodo != TimeSpan.Zero ? configuracao.HorasTrabalhadasPorPeriodo.ToString() : string.Empty;
+                txtHoraPorDia.Text = configuracao.HorasTrabalhadasPorDia != TimeSpan.Zero ? configuracao.HorasTrabalhadasPorDia.ToString() : string.Empty;
             }
         }
         #endregion

@@ -21,6 +21,8 @@ namespace CFP.Dominio.Dominio
         public virtual FormaPagamento TransacaoBancariaPadrao { get; set; }
         public virtual Int32 DiasAlertaVencimento { get; set; }
         public virtual SubGrupoGasto GrupoGastoFaturaPadrao { get; set; }
+        public virtual TimeSpan HorasTrabalhadasPorPeriodo { get; set;}
+        public virtual TimeSpan HorasTrabalhadasPorDia { get; set; }
         #endregion
 
     }

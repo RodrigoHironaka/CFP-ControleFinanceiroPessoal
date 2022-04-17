@@ -112,6 +112,7 @@
                                 <RowDefinition Height="40"/>
                                 <RowDefinition Height="40"/>
                                 <RowDefinition Height="40"/>
+                                <RowDefinition Height="40"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
@@ -192,20 +193,19 @@
                                       VerticalAlignment="Stretch"/>
                                 </Grid>
                                 <TextBox x:Name="txtQtdDiasAlertaVencimento"
-                                     Grid.Column="1" 
+                                     Grid.Column="1" Margin="5 0 0 0"
                                      materialDesign:HintAssist.Hint="Dias Alerta Venc"
                                      Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
                                      FontFamily="Champagne &amp; Limousines" 
                                      FontSize="15" 
                                      Foreground="#FF1F3D68"  
                                      VerticalAlignment="Stretch"
-                                     Margin="0"
                                      Text="5" PreviewTextInput="txtQtdDiasAlertaVencimento_PreviewTextInput" PreviewKeyDown="txtQtdDiasAlertaVencimento_PreviewKeyDown"/>
                             </Grid>
                             <Grid x:Name="Row4" Grid.Row="3">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="0"/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox x:Name="cmbTransacaoBancariaPadrao"    
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
@@ -213,12 +213,12 @@
                                       FontFamily="Champagne &amp; Limousines"
                                       FontSize="15" 
                                       VerticalAlignment="Stretch"/>
-                               
+
                             </Grid>
                             <Grid x:Name="Row5" Grid.Row="4">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="0"/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox x:Name="cmbGrupoGastoFaturaPadrao"    
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
@@ -228,7 +228,34 @@
                                       VerticalAlignment="Stretch"/>
 
                             </Grid>
-                        </Grid>
+
+                            <Grid x:Name="Row6" Grid.Row="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:TimePicker x:Name="txtHoraPorPeriodo"
+                                                           Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                                                           materialDesign:HintAssist.Hint="Hora Período"
+                                                           FontFamily="Champagne &amp; Limousines" 
+                                                           FontSize="14"
+                                                           Foreground="#FF1F3D68" 
+                                                           VerticalAlignment="Stretch"
+                                                           HorizontalAlignment="Stretch"
+                                                           Is24Hours="True" SelectedTimeFormat="Long"/>
+                                <materialDesign:TimePicker x:Name="txtHoraPorDia"
+                                                           Grid.Column="1" Margin="5 0 0 0"
+                                                           Style="{StaticResource MaterialDesignFloatingHintTimePicker}"
+                                                           materialDesign:HintAssist.Hint="Hora Por Dia"
+                                                           FontFamily="Champagne &amp; Limousines" 
+                                                           FontSize="14"
+                                                           Foreground="#FF1F3D68" 
+                                                           VerticalAlignment="Stretch"
+                                                           HorizontalAlignment="Stretch"
+                                                           Is24Hours="True" SelectedTimeFormat="Long"/>
+                            </Grid>
+                            </Grid>
 
                     </GroupBox>
 

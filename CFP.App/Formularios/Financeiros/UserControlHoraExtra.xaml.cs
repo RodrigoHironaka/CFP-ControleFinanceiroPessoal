@@ -20,6 +20,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using LinqKit;
+using CFP.Dominio.Dominio;
 
 namespace CFP.App.Formularios.Financeiros
 {
@@ -30,6 +31,15 @@ namespace CFP.App.Formularios.Financeiros
     {
         ISession Session;
         HoraExtra horaExtra;
+        Configuracao config;
+
+        #region Pegando as Configuracoes
+        private void ConfiguracoesSistema()
+        {
+            Session.Clear();
+            config = new RepositorioConfiguracao(Session).ObterPorParametros(x => x.UsuarioCriacao.Id == MainWindow.UsuarioLogado.Id).FirstOrDefault();
+        }
+        #endregion
 
         #region Carrega Combos
         private void CarregaCombos()
@@ -43,10 +53,10 @@ namespace CFP.App.Formularios.Financeiros
            .ToList();
             cmbPessoa.SelectedIndex = 0;
 
-           cmbFiltroPessoa.ItemsSource = new RepositorioPessoa(Session)
-          .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
-          .OrderBy(x => x.Nome)
-          .ToList();
+            cmbFiltroPessoa.ItemsSource = new RepositorioPessoa(Session)
+           .ObterPorParametros(x => x.Situacao == Situacao.Ativo)
+           .OrderBy(x => x.Nome)
+           .ToList();
         }
         #endregion
 
@@ -132,7 +142,18 @@ namespace CFP.App.Formularios.Financeiros
         #region PreencheDataGrid
         private void PreencheDataGrid()
         {
-            dgHoraExtra.ItemsSource = Repositorio.ObterTodos().OrderBy(x => x.DataHoraExtra);
+            var registros = Repositorio.ObterTodos().OrderBy(x => x.DataHoraExtra).ToList();
+            foreach (var item in registros)
+            {
+                if (item.TotalManha == TimeSpan.Zero)
+                    item.HoraFinalDia = item.TotalManha + item.TotalTarde + item.TotalNoite - config.HorasTrabalhadasPorPeriodo;
+                else if (item.TotalTarde == TimeSpan.Zero)
+                    item.HoraFinalDia = item.TotalManha + item.TotalTarde + item.TotalNoite - config.HorasTrabalhadasPorPeriodo;
+                else
+                    item.HoraFinalDia = item.TotalManha + item.TotalTarde + item.TotalNoite - config.HorasTrabalhadasPorDia;
+            }
+
+            dgHoraExtra.ItemsSource = registros;
         }
         #endregion
 
@@ -143,6 +164,9 @@ namespace CFP.App.Formularios.Financeiros
         //    btExcluir.IsEnabled = !btExcluir.IsEnabled;
         //}
         #endregion
+
+       
+
         public UserControlHoraExtra(HoraExtra _horaExtra, ISession _session)
         {
             InitializeComponent();
@@ -152,13 +176,14 @@ namespace CFP.App.Formularios.Financeiros
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            ConfiguracoesSistema();
             CarregaCombos();
             PreencheDataGrid();
         }
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
         {
-            if(String.IsNullOrEmpty(txtDescricao.Text) || String.IsNullOrEmpty(txtDataHoraExtra.Text) || 
+            if (String.IsNullOrEmpty(txtDescricao.Text) || String.IsNullOrEmpty(txtDataHoraExtra.Text) ||
                 String.IsNullOrEmpty(txtHoraInicio.Text) || String.IsNullOrEmpty(txtHoraFinal.Text) ||
                 cmbPessoa.SelectedIndex == -1 || cmbPeriodoDia.SelectedIndex == -1)
             {
@@ -185,6 +210,7 @@ namespace CFP.App.Formularios.Financeiros
                 btFiltro_Click(sender, e);
                 txtCodigo.Text = horaExtra.Id.ToString();
             }
+            PreencheDataGrid();
         }
 
         private void dgHoraExtra_MouseDoubleClick(object sender, MouseButtonEventArgs e)

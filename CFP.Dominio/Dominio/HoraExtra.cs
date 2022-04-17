@@ -17,6 +17,7 @@ namespace Dominio.Dominio
         public virtual TimeSpan HoraFinalTarde { get; set; }
         public virtual TimeSpan HoraInicioNoite { get; set; }
         public virtual TimeSpan HoraFinalNoite { get; set; }
+        public virtual TimeSpan HoraFinalDia { get; set; }
         public virtual TimeSpan TotalManha
         {
             get
@@ -48,18 +49,18 @@ namespace Dominio.Dominio
                     return TimeSpan.Zero;
             }
         }
-        public virtual TimeSpan HoraFinalDia
-        {
-            get
-            {
-                if(TotalManha == TimeSpan.Zero)
-                    return TotalManha + TotalTarde + TotalNoite - TimeSpan.Parse("04:00:00");
-                else if(TotalTarde == TimeSpan.Zero)
-                    return TotalManha + TotalTarde + TotalNoite - TimeSpan.Parse("04:00:00");
-                else
-                    return TotalManha + TotalTarde + TotalNoite - TimeSpan.Parse("08:00:00");
+        //public virtual TimeSpan HoraFinalDia
+        //{
+        //    get
+        //    {
+        //        if(TotalManha == TimeSpan.Zero)
+        //            return TotalManha + TotalTarde + TotalNoite - TimeSpan.Parse("04:00:00");
+        //        else if(TotalTarde == TimeSpan.Zero)
+        //            return TotalManha + TotalTarde + TotalNoite - TimeSpan.Parse("04:00:00");
+        //        else
+        //            return TotalManha + TotalTarde + TotalNoite - TimeSpan.Parse("08:00:00");
 
-            }
-        }
+        //    }
+        //}
     }
 }

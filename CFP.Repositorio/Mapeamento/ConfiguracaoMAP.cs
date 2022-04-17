@@ -25,6 +25,8 @@ namespace CFP.Repositorio.Mapeamento
             Property(x => x.DiasAlertaVencimento);
             Property(x => x.DataGeracao);
             Property(x => x.DataAlteracao);
+            Property(x => x.HorasTrabalhadasPorPeriodo);
+            Property(x => x.HorasTrabalhadasPorDia);
             ManyToOne(x => x.FormaPagamentoPadraoConta, m => m.Column("FormaPagamentoPadraoConta"));
             ManyToOne(x => x.TransacaoBancariaPadrao, m => m.Column("TransacaoBancariaPadrao"));
             ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));

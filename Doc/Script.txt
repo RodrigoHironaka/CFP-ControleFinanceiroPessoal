@@ -47,3 +47,8 @@ ALTER TABLE `bancos`
 	ADD COLUMN `UsarValorParaCalculos` INT(10) NULL AFTER `UsuarioAlteracao`;
 
 update `bancos` SET `UsarValorParaCalculos` = 0;
+-------------------------------------------------------------------------------------
+17/04/2022
+ALTER TABLE `configuracoes`
+	ADD COLUMN `HorasTrabalhadasPorPeriodo` BIGINT(19) NULL DEFAULT NULL AFTER `GrupoGastoFaturaPadrao`,
+	ADD COLUMN `HorasTrabalhadasPorDia` BIGINT(19) NULL DEFAULT NULL AFTER `HorasTrabalhadasPorPeriodo`;
