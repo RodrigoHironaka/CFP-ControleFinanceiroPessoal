@@ -169,7 +169,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             int mes = cartaoCredito.MesReferencia, ano = cartaoCredito.AnoReferencia;
             var descricao = string.Empty;
 
-            var listaFaturas = new RepositorioCartaoCredito(Session).ObterTodos().Where(x => x.Id >= cartaoCredito.Id && x.SituacaoFatura == SituacaoFatura.Aberta).ToList();
+            var listaFaturas = new RepositorioCartaoCredito(Session).ObterTodos().Where(x => x.Cartao.Id == cartaoCredito.Cartao.Id  && x.SituacaoFatura == SituacaoFatura.Aberta).ToList();
 
             if (cmbTipoCalculo.SelectedIndex == 0)
             {

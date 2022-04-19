@@ -52,3 +52,5 @@ update `bancos` SET `UsarValorParaCalculos` = 0;
 ALTER TABLE `configuracoes`
 	ADD COLUMN `HorasTrabalhadasPorPeriodo` BIGINT(19) NULL DEFAULT NULL AFTER `GrupoGastoFaturaPadrao`,
 	ADD COLUMN `HorasTrabalhadasPorDia` BIGINT(19) NULL DEFAULT NULL AFTER `HorasTrabalhadasPorPeriodo`;
+ALTER TABLE `horasextra`
+	ADD COLUMN `HoraFinalDia` BIGINT(19) NULL DEFAULT NULL AFTER `HoraFinalNoite`;
