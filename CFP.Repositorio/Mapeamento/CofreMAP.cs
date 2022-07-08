@@ -30,6 +30,7 @@ namespace Repositorio.Mapeamentos
                 m.Precision(10);
                 m.Scale(2);
             });
+            Property(x => x.DataRegistro);
             Property(x => x.Situacao, m => m.Type<EnumType<EntradaSaida>>());
             ManyToOne(x => x.Caixa, m => m.Column("Caixa"));
             ManyToOne(x => x.Banco, m => m.Column("Banco"));

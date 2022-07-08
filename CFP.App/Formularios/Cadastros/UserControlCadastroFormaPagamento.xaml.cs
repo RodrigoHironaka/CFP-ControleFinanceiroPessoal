@@ -126,7 +126,7 @@ namespace CFP.App.Formularios.Cadastros
                 formaPagamento.QtdParcelas = Int32.Parse(txtQtdParcelas.Text);
                 formaPagamento.DiasParaVencimento = Int32.Parse(txtDiasVencimento.Text);
                 formaPagamento.Situacao = (Situacao)cmbSituacao.SelectedIndex;
-                formaPagamento.DiaVencimento = txtDiaVencimento.Text != string.Empty ? Int32.Parse(txtDiaVencimento.Text) : 0;
+                formaPagamento.DiaVencimento = txtDiaVencimento.Text != string.Empty ? Int32.Parse(txtDiaVencimento.Text) : 1;
                 formaPagamento.TransacoesBancarias = (bool)chkTransacaoBancaria.IsChecked ? SimNao.Sim : SimNao.Não;
                 formaPagamento.UsadoParaCompras = (bool)chkUsadoParaCompras.IsChecked ? SimNao.Sim : SimNao.Não;
                 formaPagamento.RemoveCofre = (bool)chkRemoveCofre.IsChecked ? SimNao.Sim : SimNao.Não;
@@ -150,7 +150,7 @@ namespace CFP.App.Formularios.Cadastros
                 txtQtdParcelas.Text = formaPagamento.QtdParcelas.ToString();
                 txtDiasVencimento.Text = formaPagamento.DiasParaVencimento.ToString();
                 cmbSituacao.SelectedIndex = formaPagamento.Situacao.GetHashCode();
-                txtDiaVencimento.Text = formaPagamento.DiaVencimento != 0 ? formaPagamento.DiaVencimento.ToString() : string.Empty;
+                txtDiaVencimento.Text = formaPagamento.UsadoParaCompras == SimNao.Sim ? formaPagamento.DiaVencimento.ToString() : string.Empty;
                 chkTransacaoBancaria.IsChecked = formaPagamento.TransacoesBancarias == SimNao.Sim ? chkTransacaoBancaria.IsChecked = true : chkTransacaoBancaria.IsChecked = false;
                 chkUsadoParaCompras.IsChecked = formaPagamento.UsadoParaCompras == SimNao.Sim ? chkUsadoParaCompras.IsChecked = true : chkUsadoParaCompras.IsChecked = false;
                 chkRemoveCofre.IsChecked = formaPagamento.RemoveCofre == SimNao.Sim ? chkRemoveCofre.IsChecked = true : chkRemoveCofre.IsChecked = false;
@@ -291,6 +291,16 @@ namespace CFP.App.Formularios.Cadastros
 
         private void btSalvar_Click(object sender, RoutedEventArgs e)
         {
+            if (!String.IsNullOrEmpty(txtDiaVencimento.Text))
+            {
+                Int32 dia = Int32.Parse(txtDiaVencimento.Text);
+                if (dia <= 0 || dia > 31)
+                {
+                    MessageBox.Show("O dia precisa estar entre dia 1 e dia 31", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
+
             if (PreencheObjeto())
             {
                 if ((formaPagamento.Id == 0) && (String.IsNullOrEmpty(txtCodigo.Text)))
@@ -340,6 +350,11 @@ namespace CFP.App.Formularios.Cadastros
         private void chkUsadoParaCompras_Click(object sender, RoutedEventArgs e)
         {
             PossuiFatura();
+        }
+
+        private void txtDiaVencimento_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
         }
     }
 }

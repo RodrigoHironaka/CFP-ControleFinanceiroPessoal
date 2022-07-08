@@ -156,7 +156,7 @@
                          FontSize="22" 
                          Foreground="#FF1F3D68"  
                          VerticalAlignment="Center"
-                         MaxLength="70" Margin="10 0 0 0" IsEnabled="False">
+                         MaxLength="2" Margin="10 0 0 0" IsEnabled="False" PreviewTextInput="txtDiaVencimento_PreviewTextInput">
                     </TextBox>
 
                 </Grid >

@@ -79,6 +79,7 @@
     <Compile Include="Exportar\ExportarExcel.cs" />
     <Compile Include="Exportar\ExportarPDF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Texto.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CFP.Dominio\CFP.Dominio.csproj">

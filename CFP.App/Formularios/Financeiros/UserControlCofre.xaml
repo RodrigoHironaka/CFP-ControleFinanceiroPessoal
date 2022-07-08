@@ -143,12 +143,13 @@
                            AutoGenerateColumns="False"                                        
                            Background="white" IsReadOnly="True" MouseDoubleClick="DataGridCofre_MouseDoubleClick" LoadingRow="DataGridCofre_LoadingRow" MouseUp="DataGridCofre_MouseUp">
                     <DataGrid.Columns>
+                        <DataGridTextColumn Header="Data" Binding="{Binding DataRegistro, StringFormat=d,  ConverterCulture='pt-BR'}" />
                         <DataGridTextColumn Header="Situação" Binding="{Binding Situacao}" />
                         <DataGridTextColumn Header="Código" Binding="{Binding Codigo}" />
+                        <DataGridTextColumn Header="Valor Guardado" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                         <DataGridTextColumn Header="Descrição" Binding="{Binding Nome}" />
                         <DataGridTextColumn Header="Banco" Binding="{Binding Banco}" />
-                        <DataGridTextColumn Header="Valor Guardado" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Data Geração" Binding="{Binding DataGeracao, StringFormat=d,  ConverterCulture='pt-BR'}" />
+                       
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>
                         <ContextMenu>

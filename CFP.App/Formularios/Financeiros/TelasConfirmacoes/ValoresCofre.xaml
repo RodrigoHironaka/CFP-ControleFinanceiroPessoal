@@ -28,20 +28,21 @@
                   Margin="15"/>
 
             </Grid>
-                <Grid Grid.Row="1" Background="LightSlateGray"/>
+                <Grid Grid.Row="1" Background="LightSlateGray" Margin="0,0.4,0,-9.6"/>
         </Grid>
-        <Border Margin="10 50 10 10"  
+        <Border Margin="10,50,10,0.4"  
                     Background="LightGray" 
                     Opacity="0.9"
                     CornerRadius="30"
                     BorderBrush="#FF1F3D68">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="47"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="220"/>
@@ -63,25 +64,25 @@
                 <Button x:Name="btConfirmar"
                     Grid.Column="1"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
-                    Height="50" Width="50" 
+                    Height="48" Width="48" 
                     Background="#FF1F3D68" 
-                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btConfirmar_Click" TabIndex="3">
+                    HorizontalAlignment="Center" VerticalAlignment="Center" 
+                    BorderBrush="#FF1F3D68" Click="btConfirmar_Click" TabIndex="3">
                     <materialDesign:PackIcon 
                     Kind="Check"  
-                    Width="50" 
-                    Height="50"/>
+                    Height="48" Width="48"  />
                 </Button>
 
                 <Button x:Name="btCancelar"
                     Grid.Column="2"
                     Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}" 
-                    Height="50" Width="50" 
+                    Height="48" Width="48" 
                     Background="#FF1F3D68" 
-                    HorizontalAlignment="Center" BorderBrush="#FF1F3D68" Click="btCancelar_Click" TabIndex="4">
+                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                    BorderBrush="#FF1F3D68" Click="btCancelar_Click" TabIndex="4">
                     <materialDesign:PackIcon 
                     Kind="ExitToApp"  
-                    Width="50" 
-                    Height="50"/>
+                    Height="45" Width="45"  />
                 </Button>
 
                 <TextBox
@@ -96,6 +97,18 @@
                   HorizontalAlignment="Stretch"
                   Margin="20 0 20 0" TabIndex="1"/>
 
+                <DatePicker
+                    x:Name="txtData"
+                    Grid.ColumnSpan="3" Grid.Row="3"
+                    materialDesign:HintAssist.Hint="Data" 
+                    Style="{StaticResource MaterialDesignFloatingHintDatePicker}" 
+                    FontFamily="Champagne &amp; Limousines" 
+                    FontSize="18" 
+                    Foreground="#FF1F3D68"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch"
+                    Margin="20 0 20 0" TabIndex="2" />
+
                 <ComboBox 
                     x:Name="cmbBanco"
                     Grid.ColumnSpan="3" Grid.Row="2"
@@ -106,10 +119,11 @@
                     Foreground="#FF1F3D68" 
                     VerticalAlignment="Center"
                     HorizontalAlignment="Stretch"
-                    Margin="20 0 20 0" TabIndex="2"/>
+                    Margin="20 0 20 0" TabIndex="3"/>
+
                 <ComboBox 
                     x:Name="cmbTransacaoBancaria"
-                    Grid.ColumnSpan="3" Grid.Row="3"
+                    Grid.ColumnSpan="3" Grid.Row="4"
                     materialDesign:HintAssist.Hint="Tipo Transação" 
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                     FontFamily="Champagne &amp; Limousines" 
@@ -117,10 +131,11 @@
                     Foreground="#FF1F3D68" 
                     VerticalAlignment="Center"
                     HorizontalAlignment="Stretch"
-                    Margin="20 0 20 0" TabIndex="2"/>
+                    Margin="20 0 20 0" TabIndex="4"/>
+                
                 <ComboBox 
                     x:Name="cmbSituacao"
-                    Grid.ColumnSpan="3" Grid.Row="4"
+                    Grid.ColumnSpan="3" Grid.Row="5"
                     materialDesign:HintAssist.Hint="Situação do Cofre" 
                     Style="{StaticResource MaterialDesignFloatingHintComboBox}" 
                     FontFamily="Champagne &amp; Limousines" 
@@ -128,7 +143,7 @@
                     Foreground="#FF1F3D68" 
                     VerticalAlignment="Center"
                     HorizontalAlignment="Stretch"
-                    Margin="20 0 20 0" TabIndex="2"
+                    Margin="20 0 20 0" TabIndex="5"
                     ToolTip="Essa Situacao é referente ao cofre, se for Entrada quando vier do Caixa, voce esta retirando do caixa e se for saída vc esta acrescentando no caixa"/>
             </Grid>
         </Border>

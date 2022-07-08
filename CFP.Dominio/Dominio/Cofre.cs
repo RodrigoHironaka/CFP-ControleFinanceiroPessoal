@@ -15,6 +15,7 @@ namespace Dominio.Dominio
         public virtual Caixa Caixa { get; set; }
         public virtual Banco Banco { get; set; }
         public virtual Decimal Valor { get; set; }
+        public virtual DateTime? DataRegistro { get; set; }
         public virtual FormaPagamento TransacoesBancarias { get; set; }
         public virtual EntradaSaida Situacao { get; set; }
     }

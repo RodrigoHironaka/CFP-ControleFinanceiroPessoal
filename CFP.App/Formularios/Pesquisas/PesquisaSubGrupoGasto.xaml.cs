@@ -1,4 +1,5 @@
 ﻿using CFP.Dominio.Dominio;
+using CFP.Ferramentas;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObjetoValor;
@@ -82,11 +83,12 @@ namespace CFP.App.Formularios.Pesquisas
             else
             {
                 //senão filtra o objeto (neste caso 'Usuario') por Nome e Id
+                String pesq = txtPesquisa.Text.ToLower();
                 cv.Filter = o =>
                 {
                     SubGrupoGasto p = o as SubGrupoGasto;
-                    return p.Nome.Contains(txtPesquisa.Text)
-                            || p.Id.ToString().Contains(txtPesquisa.Text);
+                    return Texto.RemoveAcento(p.Nome).Contains(pesq)
+                            || p.Id.ToString().Contains(pesq);
                 };
             }
         }
@@ -99,6 +101,7 @@ namespace CFP.App.Formularios.Pesquisas
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CarregaDados();
+            txtPesquisa.Focus();
         }
 
         private void txtPesquisa_TextChanged(object sender, TextChangedEventArgs e)

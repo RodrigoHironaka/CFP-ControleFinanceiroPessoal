@@ -197,7 +197,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                    
                 if (listaFaturas.Count != 0)
                 {
-                    foreach (var fatura in listaFaturas)
+                    foreach (var fatura in listaFaturas.OrderBy(x => x.DescricaoCompleta))
                     {
                         if (descricao != fatura.DescricaoCompleta)
                         {
@@ -322,22 +322,11 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"[^0-9,]+");
+            e.Handled = Regex.IsMatch(e.Text, @"-[^0-9,]+");
         }
 
         private void txtValor_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(txtValor.Text))
-            {
-                Decimal valido;
-                var valor = decimal.TryParse(txtValor.Text, out valido);
-                if (!valor)
-                {
-                    MessageBox.Show("Texto colado é inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    txtValor.Clear();
-                    txtValor.Focus();
-                }
-            }
         }
 
         private void txtQtd_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -427,6 +416,20 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (e.Key == Key.Escape || e.Key == Key.Delete)
                 cmbRefPessoa.SelectedIndex = -1;
+        }
+
+        private void txtValor_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(txtValor.Text))
+            {
+                var valor = decimal.TryParse(txtValor.Text, out decimal valido);
+                if (!valor)
+                {
+                    MessageBox.Show("Valor inválido! Por favor verifique.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    txtValor.Clear();
+                    txtValor.SelectAll();
+                }
+            }
         }
     }
 }

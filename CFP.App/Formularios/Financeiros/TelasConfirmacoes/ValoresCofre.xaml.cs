@@ -78,6 +78,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 cofre.Banco = (Banco)cmbBanco.SelectedItem;
                 cofre.TransacoesBancarias = (FormaPagamento)cmbTransacaoBancaria.SelectedItem;
                 cofre.Situacao = (EntradaSaida)cmbSituacao.SelectedIndex;
+                cofre.DataRegistro = txtData.SelectedDate;
                 if (cofre.Situacao == EntradaSaida.Entrada)
                     cofre.Valor = Decimal.Parse(txtValor.Text) < 0 ? Decimal.Parse(txtValor.Text) * -1: Decimal.Parse(txtValor.Text);
                 else
@@ -132,6 +133,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             cmbBanco.SelectedValue = cofre.Banco;
             cmbTransacaoBancaria.SelectedValue = cofre.TransacoesBancarias;
             cmbSituacao.SelectedValue = cofre.Situacao;
+            txtData.SelectedDate = cofre.DataRegistro;
         }
         #endregion
 
@@ -161,11 +163,12 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtValor.Text) || string.IsNullOrEmpty(txtNome.Text) || cmbTransacaoBancaria.SelectedItem == null || cmbTransacaoBancaria.SelectedItem == null || cmbSituacao.SelectedIndex == -1)
+            if (string.IsNullOrEmpty(txtValor.Text) || string.IsNullOrEmpty(txtNome.Text) || cmbTransacaoBancaria.SelectedItem == null || cmbTransacaoBancaria.SelectedItem == null || cmbSituacao.SelectedIndex == -1 || (txtData.SelectedDate == null || txtData.SelectedDate == DateTime.MinValue))
             {
                 MessageBox.Show("Todos os campos são Obrigatórios. Por favor verifique!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
+
             if (PreencheObjeto())
             {
                 if (cofre.Id == 0)
@@ -192,6 +195,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            txtData.SelectedDate = DateTime.Now.Date;
             CarregaCombo();
         }
 

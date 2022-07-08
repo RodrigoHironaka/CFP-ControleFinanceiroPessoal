@@ -80,13 +80,14 @@ namespace CFP.App.Formularios.Pesquisas
             else
             {
                 //senão filtra o objeto (neste caso 'FormaPagamento') por Nome e Id
+                String pesq = txtPesquisa.Text.ToLower();
                 cv.Filter = o =>
                 {
                     Caixa p = o as Caixa;
-                    return p.Codigo.ToString().Contains(txtPesquisa.Text)
-                            || p.Situacao.ToString().Contains(txtPesquisa.Text)
-                            || p.DataAbertura.ToString().Contains(txtPesquisa.Text)
-                            || p.DataFechamento.ToString().Contains(txtPesquisa.Text);
+                    return p.Codigo.ToString().Contains(pesq)
+                            || p.Situacao.ToString().ToLower().Contains(pesq)
+                            || p.DataAbertura.ToString().Contains(pesq)
+                            || p.DataFechamento.ToString().Contains(pesq);
                 };
             }
         }
@@ -99,6 +100,7 @@ namespace CFP.App.Formularios.Pesquisas
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CarregaDados();
+            txtPesquisa.Focus();
         }
 
         private void txtPesquisa_TextChanged(object sender, TextChangedEventArgs e)

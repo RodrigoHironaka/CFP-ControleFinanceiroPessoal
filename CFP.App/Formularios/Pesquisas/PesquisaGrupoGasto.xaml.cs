@@ -1,4 +1,5 @@
-﻿using Dominio.Dominio;
+﻿using CFP.Ferramentas;
+using Dominio.Dominio;
 using Dominio.ObjetoValor;
 using LinqKit;
 using NHibernate;
@@ -80,11 +81,12 @@ namespace CFP.App.Formularios.Pesquisas
             else
             {
                 //senão filtra o objeto (neste caso 'FormaPagamento') por Nome e Id
+                String pesq = txtPesquisa.Text.ToLower();
                 cv.Filter = o =>
                 {
                     GrupoGasto p = o as GrupoGasto;
-                    return p.Nome.Contains(txtPesquisa.Text)
-                            || p.Id.ToString().Contains(txtPesquisa.Text);
+                    return Texto.RemoveAcento(p.Nome).Contains(pesq)
+                            || p.Id.ToString().Contains(pesq);
                 };
             }
         }
@@ -97,6 +99,7 @@ namespace CFP.App.Formularios.Pesquisas
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             CarregaDados();
+            txtPesquisa.Focus();
         }
 
         private void txtPesquisa_TextChanged(object sender, TextChangedEventArgs e)

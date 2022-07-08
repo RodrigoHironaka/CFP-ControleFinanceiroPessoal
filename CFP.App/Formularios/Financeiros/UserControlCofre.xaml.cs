@@ -74,7 +74,7 @@ namespace CFP.App.Formularios.Financeiros
                     predicado = predicado.And(x => x.DataGeracao <= dtpFinal.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59));
             }
 
-            filtro = Repositorio.ObterPorParametros(predicado).ToList();
+            filtro = Repositorio.ObterPorParametros(predicado).OrderByDescending(x => x.Codigo).ToList();
             filtroExcel = new CofreDTO().ToList(predicado, Session);
             DataGridCofre.ItemsSource = filtro;
             if (filtro.Count > 0)
