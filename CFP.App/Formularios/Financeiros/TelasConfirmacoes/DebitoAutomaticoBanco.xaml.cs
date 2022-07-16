@@ -151,6 +151,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                         Situacao = EntradaSaida.Saída,
                         Nome = String.Format("Débito Automático do {0} para o caixa! Conta {1} Parcela - {2}", cmbBanco.SelectedItem, item.Conta.Nome, item.Numero),
                         DataGeracao = DateTime.Now,
+                        DataRegistro = DateTime.Now,
                         UsuarioCriacao = MainWindow.UsuarioLogado
                     };
                     Repositorio.Salvar(cofreRetirada);
