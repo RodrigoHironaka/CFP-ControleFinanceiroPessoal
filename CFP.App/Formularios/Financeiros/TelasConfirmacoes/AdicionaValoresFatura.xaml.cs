@@ -322,11 +322,12 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValor_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = Regex.IsMatch(e.Text, @"-[^0-9,]+");
+            e.Handled = Regex.IsMatch(e.Text, @"[^-0-9,]+");
         }
 
         private void txtValor_TextChanged(object sender, TextChangedEventArgs e)
         {
+            
         }
 
         private void txtQtd_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -420,6 +421,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValor_LostFocus(object sender, RoutedEventArgs e)
         {
+            var valorDig = txtValor.Text;
             if (!String.IsNullOrEmpty(txtValor.Text))
             {
                 var valor = decimal.TryParse(txtValor.Text, out decimal valido);
@@ -429,6 +431,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     txtValor.Clear();
                     txtValor.SelectAll();
                 }
+
             }
         }
     }

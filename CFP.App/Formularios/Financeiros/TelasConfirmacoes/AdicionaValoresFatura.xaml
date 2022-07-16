@@ -129,7 +129,7 @@
                         <ListBoxItem Content="REP"/>
                     </ComboBox>
 
-                    <TextBox 
+                    <TextBox
                             x:Name="txtValor"
                             Grid.Column="0"
                             materialDesign:HintAssist.Hint="Valor" 
@@ -139,7 +139,11 @@
                             Foreground="#FF1F3D68"
                             VerticalAlignment="Center" 
                             HorizontalAlignment="Stretch"
-                            Margin="20 0 10 0" TabIndex="2" PreviewKeyDown="txtValor_PreviewKeyDown" PreviewTextInput="txtValor_PreviewTextInput" TextChanged="txtValor_TextChanged" LostFocus="txtValor_LostFocus" />
+                            Margin="20 0 10 0" TabIndex="2" 
+                            PreviewKeyDown="txtValor_PreviewKeyDown" 
+                            PreviewTextInput="txtValor_PreviewTextInput" 
+                            TextChanged="txtValor_TextChanged" 
+                            LostFocus="txtValor_LostFocus" />
 
                     <TextBox
                             x:Name="txtQtd"

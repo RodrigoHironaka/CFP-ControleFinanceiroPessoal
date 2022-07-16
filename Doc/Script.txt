@@ -54,3 +54,10 @@ ALTER TABLE `configuracoes`
 	ADD COLUMN `HorasTrabalhadasPorDia` BIGINT(19) NULL DEFAULT NULL AFTER `HorasTrabalhadasPorPeriodo`;
 ALTER TABLE `horasextra`
 	ADD COLUMN `HoraFinalDia` BIGINT(19) NULL DEFAULT NULL AFTER `HoraFinalNoite`;
+
+08/07/2022
+ALTER TABLE `cofres`
+	ADD COLUMN `DataRegistro` DATETIME NULL DEFAULT NULL AFTER `Valor`;
+
+UPDATE cofres SET DataRegistro = DataGeracao;
+-------------------------------------------------------------------------------------

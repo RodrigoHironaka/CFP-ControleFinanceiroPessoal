@@ -195,7 +195,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            txtData.SelectedDate = DateTime.Now.Date;
+            if(cofre.Id == 0)
+                txtData.SelectedDate = DateTime.Now.Date;
             CarregaCombo();
         }
 
