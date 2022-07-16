@@ -169,7 +169,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             int mes = cartaoCredito.MesReferencia, ano = cartaoCredito.AnoReferencia;
             var descricao = string.Empty;
 
-            var listaFaturas = new RepositorioCartaoCredito(Session).ObterTodos().Where(x => x.Cartao.Id == cartaoCredito.Cartao.Id &&  x.SituacaoFatura == SituacaoFatura.Aberta).ToList();
+            var listaFaturas = new RepositorioCartaoCredito(Session).ObterTodos().Where(x => x.Cartao.Id == cartaoCredito.Cartao.Id && x.SituacaoFatura == SituacaoFatura.Aberta).ToList();
 
             if (cmbTipoCalculo.SelectedIndex == 0)
             {
@@ -194,61 +194,59 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 }
                 else
                     descricao = cartaoCredito.DescricaoCompleta;
-                   
+
                 if (listaFaturas.Count != 0)
                 {
-                    foreach (var fatura in listaFaturas.OrderBy(x => x.DescricaoCompleta))
+                    var fatura = (CartaoCredito)listaFaturas.Where(x => x.DescricaoCompleta == descricao).FirstOrDefault();
+                    if (!listaFaturas.Select(x => x.DescricaoCompleta).Contains(descricao))
                     {
-                        if (descricao != fatura.DescricaoCompleta)
+                        CartaoCredito novaFaturaCartaoCredito = new CartaoCredito()
                         {
-                            CartaoCredito novaFaturaCartaoCredito = new CartaoCredito()
-                            {
-                                MesReferencia = mes,
-                                AnoReferencia = ano,
-                                Cartao = cartaoCredito.Cartao,
-                                ValorFatura = 0,
-                                SituacaoFatura = SituacaoFatura.Aberta,
-                                DataGeracao = DateTime.Now,
-                                UsuarioCriacao = MainWindow.UsuarioLogado
-                            };
-                            new RepositorioCartaoCredito(Session).SalvarLote(novaFaturaCartaoCredito);
-                            ContaServicos.NovaContaRefCartaoCredito(MainWindow.UsuarioLogado, novaFaturaCartaoCredito, Session);
+                            MesReferencia = mes,
+                            AnoReferencia = ano,
+                            Cartao = cartaoCredito.Cartao,
+                            ValorFatura = 0,
+                            SituacaoFatura = SituacaoFatura.Aberta,
+                            DataGeracao = DateTime.Now,
+                            UsuarioCriacao = MainWindow.UsuarioLogado
+                        };
+                        new RepositorioCartaoCredito(Session).SalvarLote(novaFaturaCartaoCredito);
+                        ContaServicos.NovaContaRefCartaoCredito(MainWindow.UsuarioLogado, novaFaturaCartaoCredito, Session);
 
-                            var cartaoCreditoItens = new CartaoCreditoItens()
-                            {
-                                Valor = !(i == qtdParcelas) ? valorParcela : valorParcela + valorDiferenca,
-                                Nome = txtNome.Text,
-                                NumeroParcelas = String.Format("{0}/{1}", i, qtdParcelas),
-                                DataCompra = txtData.SelectedDate,
-                                SubGrupoGasto = (SubGrupoGasto)cmbGrupo.SelectedItem,
-                                Pessoa = (Pessoa)cmbRefPessoa.SelectedItem,
-                                CartaoCredito = novaFaturaCartaoCredito,
-                                UsuarioCriacao = MainWindow.UsuarioLogado,
-                                DataGeracao = DateTime.Now
-                            };
-                            Repositorio.SalvarLote(cartaoCreditoItens);
-                            CalculaItensAdicionadosFaturaParaConta(cartaoCreditoItens);
-                        }
-                        else
+                        var cartaoCreditoItens = new CartaoCreditoItens()
                         {
-                            var cartaoCreditoItens = new CartaoCreditoItens()
-                            {
-                                Valor = valorParcela,
-                                Nome = txtNome.Text,
-                                NumeroParcelas = String.Format("{0}/{1}", i, qtdParcelas),
-                                DataCompra = txtData.SelectedDate,
-                                SubGrupoGasto = (SubGrupoGasto)cmbGrupo.SelectedItem,
-                                Pessoa = (Pessoa)cmbRefPessoa.SelectedItem,
-                                CartaoCredito = fatura,
-                                UsuarioCriacao = MainWindow.UsuarioLogado,
-                                DataGeracao = DateTime.Now
-                            };
-                            Repositorio.SalvarLote(cartaoCreditoItens);
-                            CalculaItensAdicionadosFaturaParaConta(cartaoCreditoItens);
-                        }
-                        listaFaturas.Remove(fatura);
-                        break;
+                            Valor = !(i == qtdParcelas) ? valorParcela : valorParcela + valorDiferenca,
+                            Nome = txtNome.Text,
+                            NumeroParcelas = String.Format("{0}/{1}", i, qtdParcelas),
+                            DataCompra = txtData.SelectedDate,
+                            SubGrupoGasto = (SubGrupoGasto)cmbGrupo.SelectedItem,
+                            Pessoa = (Pessoa)cmbRefPessoa.SelectedItem,
+                            CartaoCredito = novaFaturaCartaoCredito,
+                            UsuarioCriacao = MainWindow.UsuarioLogado,
+                            DataGeracao = DateTime.Now
+                        };
+                        Repositorio.SalvarLote(cartaoCreditoItens);
+                        CalculaItensAdicionadosFaturaParaConta(cartaoCreditoItens);
                     }
+                    else
+                    {
+                       
+                        var cartaoCreditoItens = new CartaoCreditoItens()
+                        {
+                            Valor = valorParcela,
+                            Nome = txtNome.Text,
+                            NumeroParcelas = String.Format("{0}/{1}", i, qtdParcelas),
+                            DataCompra = txtData.SelectedDate,
+                            SubGrupoGasto = (SubGrupoGasto)cmbGrupo.SelectedItem,
+                            Pessoa = (Pessoa)cmbRefPessoa.SelectedItem,
+                            CartaoCredito = fatura,
+                            UsuarioCriacao = MainWindow.UsuarioLogado,
+                            DataGeracao = DateTime.Now
+                        };
+                        Repositorio.SalvarLote(cartaoCreditoItens);
+                        CalculaItensAdicionadosFaturaParaConta(cartaoCreditoItens);
+                    }
+                    listaFaturas.Remove(fatura);
                 }
                 else
                 {
@@ -327,7 +325,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValor_TextChanged(object sender, TextChangedEventArgs e)
         {
-            
+
         }
 
         private void txtQtd_PreviewKeyDown(object sender, KeyEventArgs e)
