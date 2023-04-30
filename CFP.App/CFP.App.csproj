@@ -18,7 +18,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\HIRO\Desktop\Instalador_CFP\instaladorcfp4.8\</PublishUrl>
+    <PublishUrl>C:\Users\HIRO\Desktop\Instalador_CFP\instaldorcfp4.8_2\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -31,7 +31,7 @@
     <ProductName>CFP</ProductName>
     <PublisherName>Rodrigo Hironaka</PublisherName>
     <SuiteName>CFP</SuiteName>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>

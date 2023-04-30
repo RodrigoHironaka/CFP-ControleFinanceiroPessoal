@@ -51,7 +51,7 @@ namespace SGE.Repositorio.Configuracao
 
         private static void BuildSchema(Configuration config)
         {
-            new SchemaExport(config).SetOutputFile(@"D:\Projetos\ControleFinanceiroPessoal\Doc\cfp.sql").SetDelimiter(";").Create(false, false);
+            new SchemaExport(config).SetOutputFile(@"C:\_Projetos\ControleFinanceiroPessoal\Doc\cfp.sql").SetDelimiter(";").Create(false, false);
         }
 
 
