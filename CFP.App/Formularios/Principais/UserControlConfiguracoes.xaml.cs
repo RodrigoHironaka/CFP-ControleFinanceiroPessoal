@@ -4,6 +4,7 @@ using CFP.Ferramentas;
 using CFP.Repositorio.Repositorio;
 using Dominio.Dominio;
 using Dominio.ObjetoValor;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using NHibernate;
