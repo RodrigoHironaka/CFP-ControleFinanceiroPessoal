@@ -8,10 +8,9 @@
         mc:Ignorable="d" Width="1080" Height="550"
         ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" 
-        WindowStyle="None" 
         Foreground="White" 
         Loaded="Principal_Loaded" 
-        MouseLeftButtonDown="Principal_MouseLeftButtonDown">
+        MouseLeftButtonDown="Principal_MouseLeftButtonDown" WindowStyle="None">
 
     <Window.Resources>
         <Storyboard x:Key="MenuOpen">
@@ -468,7 +467,7 @@
                                 Height="25" 
                                 Margin="10" 
                                 VerticalAlignment="Center"/>
-                            <TextBlock Text="Caixa" 
+                            <TextBlock Text="Cadastros" 
                                        VerticalAlignment="Center" 
                                        Margin="20 10"/>
                         </StackPanel>

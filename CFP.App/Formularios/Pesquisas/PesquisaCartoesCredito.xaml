@@ -56,7 +56,7 @@
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding DescricaoCompleta}" Header="Descrição"/>
-                <DataGridTextColumn Header="Valor Fatura($)" Binding="{Binding ValorFatura, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                <!--<DataGridTextColumn Header="Valor Fatura($)" Binding="{Binding ValorFatura, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />-->
                 <DataGridTextColumn Binding="{Binding SituacaoFatura}" Header="Situação"/>
             </DataGrid.Columns>
         </DataGrid>

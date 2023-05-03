@@ -166,9 +166,9 @@
                         <DataGridTextColumn Header="Parcela" Binding="{Binding NumeroParcelas}" />
                         <DataGridTextColumn Header="Data" Binding="{Binding DataCompra, StringFormat=d,  ConverterCulture='pt-BR'}" />
                         <DataGridTextColumn Header="Descricão" Binding="{Binding Nome}" />
-                        <DataGridTextColumn Header="Grupo" Binding="{Binding SubGrupoGasto}"/>
+                        <DataGridTextColumn Header="Grupo" Binding="{Binding SubGrupoGasto.DescricaoCompleta}"/>
                         <DataGridTextColumn Header="Valor($)" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Ref Pessoa" Binding="{Binding Pessoa}" />
+                        <DataGridTextColumn Header="Ref Pessoa" Binding="{Binding Pessoa.Nome}" />
 
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>

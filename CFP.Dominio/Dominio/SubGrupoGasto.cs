@@ -16,5 +16,13 @@ namespace CFP.Dominio.Dominio
         }
         public virtual GrupoGasto GrupoGasto { get; set; }
         public virtual Situacao Situacao { get; set; }
+
+        public virtual String DescricaoCompleta
+        {
+            get
+            {
+               return String.Format("{0}/{1}", GrupoGasto.Nome, Nome);
+            }
+        }
     }
 }

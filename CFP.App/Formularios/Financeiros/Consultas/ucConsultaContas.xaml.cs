@@ -522,25 +522,29 @@ namespace CFP.App.Formularios.Financeiros.Consultas
 
         private void btAvancarMes_Click(object sender, RoutedEventArgs e)
         {
-            DateTime dataInicioAtual = dtpInicio.SelectedDate.Value;
-            DateTime dataFinalAtual = dtpFinal.SelectedDate.Value;
-            DateTime dataFinalUltimoDia = dataFinalAtual.AddMonths(1);
+            if (!String.IsNullOrEmpty(dtpInicio.Text) && !String.IsNullOrEmpty(dtpFinal.Text))
+            {
+                DateTime dataInicioAtual = dtpInicio.SelectedDate.Value;
+                DateTime dataFinalAtual = dtpFinal.SelectedDate.Value;
+                DateTime dataFinalUltimoDia = dataFinalAtual.AddMonths(1);
 
-            dtpInicio.SelectedDate = dataInicioAtual.AddMonths(1);
-            dtpFinal.SelectedDate = new DateTime(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month, DateTime.DaysInMonth(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month));
-        
-            
+                dtpInicio.SelectedDate = dataInicioAtual.AddMonths(1);
+                dtpFinal.SelectedDate = new DateTime(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month, DateTime.DaysInMonth(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month));
+
+            }
         }
 
         private void btVoltarMes_Click(object sender, RoutedEventArgs e)
         {
-            DateTime dataInicioAtual = dtpInicio.SelectedDate.Value;
-            DateTime dataFinalAtual = dtpFinal.SelectedDate.Value;
-            DateTime dataFinalUltimoDia = dataFinalAtual.AddMonths(-1);
+            if (!String.IsNullOrEmpty(dtpInicio.Text) && !String.IsNullOrEmpty(dtpFinal.Text))
+            {
+                DateTime dataInicioAtual = dtpInicio.SelectedDate.Value;
+                DateTime dataFinalAtual = dtpFinal.SelectedDate.Value;
+                DateTime dataFinalUltimoDia = dataFinalAtual.AddMonths(-1);
 
-            dtpInicio.SelectedDate = dataInicioAtual.AddMonths(-1);
-            dtpFinal.SelectedDate = new DateTime(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month, DateTime.DaysInMonth(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month));
-
+                dtpInicio.SelectedDate = dataInicioAtual.AddMonths(-1);
+                dtpFinal.SelectedDate = new DateTime(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month, DateTime.DaysInMonth(dataFinalUltimoDia.Year, dataFinalUltimoDia.Month));
+            }
         }
 
         private void menuItemVerItensFatura_Click(object sender, RoutedEventArgs e)

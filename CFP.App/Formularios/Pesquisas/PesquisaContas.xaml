@@ -27,8 +27,6 @@
                 <DataGridTextColumn Binding="{Binding Codigo}" Header="Código"/>
                 <DataGridTextColumn Binding="{Binding Nome}" Header="Nome"/>
                 <DataGridTextColumn Binding="{Binding ValorTotal}" Header="Valor"/>
-                <DataGridTextColumn Binding="{Binding NumeroDocumento}" Header="Número Documento"/>
-
             </DataGrid.Columns>
         </DataGrid>
         <Grid  Grid.Row="0">

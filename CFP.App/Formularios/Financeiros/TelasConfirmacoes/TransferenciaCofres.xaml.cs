@@ -144,6 +144,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     Situacao = EntradaSaida.Saída,
                     Nome = String.Format("Transferência saída para o banco {0}", cmbBancoEntrada.SelectedItem),
                     DataGeracao = DateTime.Now,
+                    DataRegistro = DateTime.Now,
                     UsuarioCriacao = MainWindow.UsuarioLogado
                 };
                 Repositorio.Salvar(cofreRetirada);
@@ -160,6 +161,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     Situacao = EntradaSaida.Entrada,
                     Nome = String.Format("Transferência entrada do banco {0}", cmbBancoSaida.SelectedItem),
                     DataGeracao = DateTime.Now,
+                    DataRegistro = DateTime.Now,
                     UsuarioCriacao = MainWindow.UsuarioLogado
                 };
                 Repositorio.Salvar(cofreEntrada);

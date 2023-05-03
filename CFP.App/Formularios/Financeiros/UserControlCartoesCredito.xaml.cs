@@ -138,12 +138,6 @@ namespace CFP.App.Formularios.Financeiros
 
         private void btNovoRegistro_Click(object sender, RoutedEventArgs e)
         {
-            if(cartaoCredito.AnoReferencia >= DateTime.Now.Year && cartaoCredito.MesReferencia != DateTime.Now.Month)
-            {
-                MessageBox.Show("Voce ainda não pode adicionar itens a essa fatura manualmente, ainda não esta no mês de referência!", "Atencao", MessageBoxButton.OK, MessageBoxImage.Information);
-                return;
-            }
-
             AdicionaValoresFatura janela = new AdicionaValoresFatura(new CartaoCreditoItens(), cartaoCredito, Session);
             bool? res = janela.ShowDialog();
             if ((bool)res)

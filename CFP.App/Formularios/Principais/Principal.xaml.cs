@@ -346,6 +346,8 @@ namespace CFP.App
             }
             else
             {
+                MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+                MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
                 ButtonPopUpMax.Content = "Rest. Tamanho";
                 WindowState = WindowState.Maximized;
             }
