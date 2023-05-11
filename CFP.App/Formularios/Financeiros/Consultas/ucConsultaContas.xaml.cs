@@ -414,6 +414,23 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                                 parcelaAtualizada.Conta = linhasContaPagamento.First().Conta;
                                 RepositorioContaPagamento.Salvar(parcelaAtualizada);
                             }
+
+                            if (parcelaAtualizada.Conta.FaturaCartaoCredito != null)
+                            {
+                                parcelaAtualizada.Conta.FaturaCartaoCredito = new RepositorioCartaoCredito(Session).ObterPorId(parcelaAtualizada.Conta.FaturaCartaoCredito.Id);
+                                if (parcelaAtualizada.ValorPago > 0 && parcelaAtualizada.Conta.FaturaCartaoCredito.TotalFatura != parcelaAtualizada.ValorPago)
+                                {
+                                    var novoRegistroFatura = new CartaoCreditoItens();
+                                    novoRegistroFatura.Nome = "Pagamento parcial da fatura";
+                                    novoRegistroFatura.CartaoCredito = parcelaAtualizada.Conta.FaturaCartaoCredito;
+                                    novoRegistroFatura.DataCompra = DateTime.Now;
+                                    novoRegistroFatura.UsuarioCriacao = MainWindow.UsuarioLogado;
+                                    novoRegistroFatura.SubGrupoGasto = new RepositorioConfiguracao(Session).ObterTodos().First().GrupoGastoFaturaPadrao;
+                                    novoRegistroFatura.Valor = parcelaAtualizada.ValorPago * -1;
+                                    novoRegistroFatura.NumeroParcelas = "1/1";
+                                    new RepositorioCartaoCreditoItens(Session).Salvar(novoRegistroFatura);
+                                }
+                            }
                         }
                         btFiltro_Click(sender, e);
                     }
