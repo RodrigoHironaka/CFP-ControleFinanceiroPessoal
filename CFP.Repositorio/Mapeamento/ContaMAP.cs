@@ -43,7 +43,7 @@ namespace Repositorio.Mapeamentos
          
             ManyToOne(x => x.FormaCompra, m => m.Column("FormaCompra"));
             ManyToOne(x => x.Pessoa, m => m.Column("Pessoa"));
-            ManyToOne(x => x.FaturaCartaoCredito, m => m.Column("FaturaCartaoCredito"));
+            ManyToOne(x => x.FaturaCartaoCredito, m => { m.Column("FaturaCartaoCredito"); m.Lazy(LazyRelation.NoLazy); });
             ManyToOne(x => x.UsuarioCriacao, m => m.Column("UsuarioCriacao"));
             ManyToOne(x => x.UsuarioAlteracao, m => m.Column("UsuarioAlteracao"));
             ManyToOne(x => x.SubGrupoGasto, m => m.Column("SubGrupoGasto"));

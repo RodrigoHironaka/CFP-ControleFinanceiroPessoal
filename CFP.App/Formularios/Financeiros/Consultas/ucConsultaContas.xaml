@@ -259,13 +259,12 @@
                         <DataGridTextColumn Header="Tipo" Binding="{Binding Conta.TipoConta}" />
                         <DataGridTextColumn Header="Código" Binding="{Binding Conta.Codigo}" />
                         <DataGridTextColumn Header="Descrição" Binding="{Binding Conta.Nome}" />
-                        <DataGridTextColumn Header="Parcela" Binding="{Binding Numero}" />
                         <DataGridTextColumn Header="V. Parcela" Binding="{Binding ValorParcela, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                         <DataGridTextColumn Header="V. Reajustado" Binding="{Binding ValorReajustado, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="V. Pago" Binding="{Binding ValorPago, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
+                        <DataGridTextColumn Header="Forma da Pagamento" Binding="{Binding FormaPagamento.Nome}" />
                         <DataGridTextColumn Header="Vencimento" Binding="{Binding DataVencimento, StringFormat=d,  ConverterCulture='pt-BR'}" />
-                        <DataGridTextColumn Header="Forma da Compra" Binding="{Binding Conta.FormaCompra}" />
-                        <DataGridTextColumn Header="Nº Doc" Binding="{Binding Conta.NumeroDocumento}" />
-                        <DataGridTextColumn Header="Pessoa Ref" Binding="{Binding Conta.Pessoa}" />
+                        <DataGridTextColumn Header="Pessoa Ref" Binding="{Binding Conta.Pessoa.Nome}" />
                         <DataGridTextColumn Header="Situação Parcela" Binding="{Binding SituacaoParcelas}" />
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>

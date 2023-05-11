@@ -18,8 +18,9 @@ namespace CFP.DTO.Contas
         public Int32 NumeroParcela { get; set; }
         public Decimal ValorParcela { get; set; }
         public Decimal ValorReajustado { get; set; }
+        public Decimal ValorPago { get; set; }
         public DateTime? DataVencimento { get; set; }
-        public String FormaCompra { get; set; }
+        public String FormaPagamento { get; set; }
         public Int64 NumeroDocumento { get; set; }
         public String PessoaNome { get; set; }
         public String SituacaoParcelas { get; set; }
@@ -53,12 +54,13 @@ namespace CFP.DTO.Contas
                 NumeroParcela = x.Numero,
                 ValorParcela = x.ValorParcela,
                 ValorReajustado = x.ValorReajustado,
+                ValorPago = x.ValorPago,
                 DataVencimento = x.DataVencimento,
                 SituacaoParcelas = Enum.GetName(typeof(SituacaoParcela), x.SituacaoParcelas),
                 TipoConta = Enum.GetName(typeof(TipoConta), x.Conta.TipoConta), 
                 CodigoConta = x.Conta.Codigo,
                 NomeConta = x.Conta.Nome,
-                FormaCompra = x.Conta.FormaCompra.Nome,
+                FormaPagamento = x.FormaPagamento.Nome,
                 NumeroDocumento = x.Conta.NumeroDocumento != null ? (long)x.Conta.NumeroDocumento : 0,
                 PessoaNome = x.Conta.Pessoa != null ? x.Conta.Pessoa.Nome : null
             };

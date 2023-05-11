@@ -196,7 +196,7 @@
                             KeyDown="txtValorPago_KeyDown" 
                             TabIndex="5" 
                             PreviewTextInput="txtValorPago_PreviewTextInput" 
-                            PreviewKeyDown="txtValorPago_PreviewKeyDown" TextChanged="txtValorPago_TextChanged"/>
+                            PreviewKeyDown="txtValorPago_PreviewKeyDown" TextChanged="txtValorPago_TextChanged" Cursor="IBeam"/>
                     </Grid>
                     <Grid Grid.Row="5">
                         <Grid.ColumnDefinitions>

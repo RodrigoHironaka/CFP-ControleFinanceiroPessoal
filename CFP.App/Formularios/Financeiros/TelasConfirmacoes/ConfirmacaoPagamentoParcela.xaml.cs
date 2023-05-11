@@ -36,6 +36,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         Boolean editarParcela;
         FluxoCaixa fluxoCaixa;
         Caixa caixa;
+        Decimal valorReaj = 0;
 
         #region Carrega Combos
         private void CarregaCombos()
@@ -116,7 +117,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 txtDescontoPorcentagem.Text = linha.DescontoPorcentual != 0 ? linha.DescontoPorcentual.ToString("N2") : string.Empty;
                 txtDescontoValor.Text = somaValorDesconto != 0 ? somaValorDesconto.ToString("N2") : string.Empty;
                 CalculaValorReajustado();
-                //txtValorReajustado.Text = linha.ValorReajustado != 0 ? linha.ValorReajustado.ToString("N2") : txtValorParcela.Text;
                 txtValorPago.Text = somaValorPago != 0 ? somaValorPago.ToString("N2") : string.Empty;
                 txtValorRestante.Text = linha.ValorRestante != 0 ? linha.ValorRestante.ToString("N2") : string.Empty;
                 cmbFormaPagamento.SelectedItem = linha.FormaPagamento;
@@ -142,7 +142,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             decimal vparcela = txtValorParcela.Text != string.Empty ? Decimal.Parse(txtValorParcela.Text) : 0;
             decimal vjuros = txtJurosValor.Text != string.Empty ? Decimal.Parse(txtJurosValor.Text) : 0;
             decimal vdesconto = txtDescontoValor.Text != string.Empty ? Decimal.Parse(txtDescontoValor.Text) : 0;
-            txtValorReajustado.Text = (vparcela + vjuros - vdesconto).ToString("N2");
+            decimal vpago = txtValorPago.Text != string.Empty ? Decimal.Parse(txtValorPago.Text) : 0;
+            valorReaj = vparcela + vjuros - vdesconto;
+            txtValorReajustado.Text = (vparcela + vjuros - vdesconto - vpago).ToString("N2");
         }
         #endregion
 
@@ -238,7 +240,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (editarParcela)
             {
-                if(contaPagamento.Conta.FaturaCartaoCredito == null)
+                if (contaPagamento.Conta.FaturaCartaoCredito == null)
                 {
                     txtValorParcela.IsReadOnly = false;
                     txtDataVencimento.IsEnabled = true;
@@ -250,7 +252,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                 {
                     txtValorParcela.IsEnabled = false;
                 }
-                
+
             }
             else
             {
@@ -355,7 +357,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         #region Data escolhida é menor q dataAtual
         private bool VerificaData(DateTime data)
         {
-            if(data < DateTime.Now)
+            if (data < DateTime.Now)
             {
                 return false;
             }
@@ -367,8 +369,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
             InitializeComponent();
             linhaContaPagemento = _contaPagamento;
             Session = _session;
-           
-            
+
+
         }
 
         public ConfirmacaoPagamentoParcela(Boolean _editarParcela, ContaPagamento _contaPagamento, ISession _session)
@@ -454,28 +456,24 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         {
             if (e.Key == Key.Enter || e.Key == Key.Tab)
             {
-                if (!String.IsNullOrEmpty(txtValorPago.Text))
-                    CalculaValorRestante(Decimal.Parse(txtValorPago.Text), Decimal.Parse(txtValorReajustado.Text));
-                else
-                    txtValorRestante.Clear();
+                var valorPago = !String.IsNullOrEmpty(txtValorPago.Text) ? Decimal.Parse(txtValorPago.Text) : 0;
+                    CalculaValorReajustado();
+                    CalculaValorRestante(valorPago, valorReaj);
             }
         }
 
         private void btConfirmar_Click(object sender, RoutedEventArgs e)
         {
-            //if (contaPagamento != null && contaPagamento.SituacaoParcelas == SituacaoParcela.Pago)
-            //    SalvarFluxo(linhaContaPagemento, true);
-
             if (!String.IsNullOrEmpty(txtDataPagamento.Text))
             {
-                if(!VerificaData(txtDataPagamento.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59)))
+                if (!VerificaData(txtDataPagamento.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59)))
                 {
                     MessageBoxResult d = MessageBox.Show("A data escolhida é menor que a data atual!\nDeseja continuar?", " Informação ", MessageBoxButton.YesNo, MessageBoxImage.Information);
                     if (d == MessageBoxResult.No)
                         return;
                 }
             }
-                
+
             if (!String.IsNullOrEmpty(txtDataVencimento.Text))
             {
                 if (!VerificaData(txtDataVencimento.SelectedDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59)))
@@ -485,7 +483,6 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                         return;
                 }
             }
-                
 
             CalculaValorReajustado();
 
@@ -511,9 +508,9 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                         return;
                     }
                     else
-                        CalculaValorRestante(Decimal.Parse(txtValorPago.Text), Decimal.Parse(txtValorReajustado.Text));
+                        CalculaValorRestante(Decimal.Parse(txtValorPago.Text), valorReaj);
 
-                    if (Decimal.Parse(txtValorReajustado.Text) < decimal.Parse(txtValorPago.Text))
+                    if (valorReaj < decimal.Parse(txtValorPago.Text))
                     {
                         MessageBox.Show("O valor pago digitado é maior que a parcela!", "Mensagem", MessageBoxButton.OK, MessageBoxImage.Information);
                         txtValorPago.SelectAll();
@@ -567,7 +564,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
                     DialogResult = true;
                 }
 
-                
+
             }
         }
 
@@ -633,11 +630,8 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
 
         private void txtValorParcela_LostFocus(object sender, RoutedEventArgs e)
         {
-            //if (editarParcela)
-            //{
-                CalculaValorReajustado();
-                txtValorRestante.Clear();
-            //}
+            CalculaValorReajustado();
+            txtValorRestante.Clear();
         }
 
         private void txtValorParcela_TextChanged(object sender, TextChangedEventArgs e)

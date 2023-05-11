@@ -309,9 +309,9 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="E/S" Binding="{Binding TipoFluxo}" />
                                 <DataGridTextColumn Header="Data" Binding="{Binding DataGeracao, StringFormat=d,  ConverterCulture='pt-BR'}" />
-                                <DataGridTextColumn Header="Descrição" Binding="{Binding Nome}" />
                                 <DataGridTextColumn Header="Valor" Binding="{Binding Valor, StringFormat='#,##0.00',  ConverterCulture='pt-BR'}" />
                                 <DataGridTextColumn Header="Forma de Pagamento" Binding="{Binding FormaPagamento}" />
+                                <DataGridTextColumn Header="Descrição" Binding="{Binding Nome}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

@@ -130,7 +130,7 @@ namespace CFP.App.Formularios.Financeiros.TelasConfirmacoes
         public void CalculaItensAdicionadosFaturaParaConta(CartaoCreditoItens obj)
         {
             var contaPagamento = new ContaPagamento();
-            contaPagamento = RepositorioContaPagamento.ObterPorParametros(x => x.Conta.FaturaCartaoCredito == obj.CartaoCredito).First();
+            contaPagamento = RepositorioContaPagamento.ObterPorParametros(x => x.Conta.FaturaCartaoCredito == obj.CartaoCredito && (x.SituacaoParcelas == SituacaoParcela.Pendente || x.SituacaoParcelas == SituacaoParcela.Parcial)).First();
             if (cartaoCreditoItens.Id > 0)
                 contaPagamento.ValorParcela = obj.CartaoCredito.CartaoCreditos.Sum(x => x.Valor);
             else

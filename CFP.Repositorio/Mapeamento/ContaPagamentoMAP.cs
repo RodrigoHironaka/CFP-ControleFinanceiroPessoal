@@ -58,7 +58,7 @@ namespace Repositorio.Mapeamentos
             });
             Property(x => x.SituacaoParcelas, m => m.Type<EnumType<SituacaoConta>>());
             ManyToOne(x => x.FormaPagamento, m => m.Column("FormaPagamento"));
-            ManyToOne(x => x.Conta, m => m.Column("Conta"));
+            ManyToOne(x => x.Conta, m => { m.Column("Conta"); m.Lazy(LazyRelation.NoLazy); });
 
 
         }

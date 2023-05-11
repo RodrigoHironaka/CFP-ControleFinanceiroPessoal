@@ -18,6 +18,14 @@ namespace CFP.Dominio.Dominio
         public virtual FormaPagamento Cartao { get; set; }
         public virtual IList<CartaoCreditoItens> CartaoCreditos { get; set; }
 
+        public virtual Decimal TotalFatura 
+        {
+            get
+            {
+                return CartaoCreditos.Sum(x => x.Valor);
+            }
+        }
+
         public virtual string DescricaoCompleta
         {
             get

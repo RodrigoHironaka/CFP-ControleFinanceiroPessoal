@@ -499,9 +499,27 @@ namespace CFP.App.Formularios.Financeiros.Consultas
                         else
                         {
                             parcelaAtualizada.Numero++;
-                            parcelaAtualizada.Conta = linhasContaPagamento.First().Conta;
+                            parcelaAtualizada.Conta = linhasContaPagamento.Where(x => x.ValorPago != x.ValorReajustado).First().Conta;
                             RepositorioContaPagamento.Salvar(parcelaAtualizada);
                         }
+
+                        if (parcelaAtualizada.Conta.FaturaCartaoCredito != null)
+                        {
+                            parcelaAtualizada.Conta.FaturaCartaoCredito = new RepositorioCartaoCredito(Session).ObterPorId(parcelaAtualizada.Conta.FaturaCartaoCredito.Id);
+                            if ( parcelaAtualizada.ValorPago > 0 && parcelaAtualizada.Conta.FaturaCartaoCredito.TotalFatura != parcelaAtualizada.ValorPago)
+                            {
+                                var novoRegistroFatura = new CartaoCreditoItens();
+                                novoRegistroFatura.Nome = "Pagamento parcial da fatura";
+                                novoRegistroFatura.CartaoCredito = parcelaAtualizada.Conta.FaturaCartaoCredito;
+                                novoRegistroFatura.DataCompra = DateTime.Now;
+                                novoRegistroFatura.UsuarioCriacao = MainWindow.UsuarioLogado;
+                                novoRegistroFatura.SubGrupoGasto = new RepositorioConfiguracao(Session).ObterTodos().First().GrupoGastoFaturaPadrao;
+                                novoRegistroFatura.Valor = parcelaAtualizada.ValorPago * -1;
+                                novoRegistroFatura.NumeroParcelas = "1/1";
+                                new RepositorioCartaoCreditoItens(Session).Salvar(novoRegistroFatura);
+                            }
+                        }
+                       
                     }
                     btFiltro_Click(sender, e);
                 }
@@ -550,7 +568,7 @@ namespace CFP.App.Formularios.Financeiros.Consultas
         private void menuItemVerItensFatura_Click(object sender, RoutedEventArgs e)
         {
             var selecao = (ContaPagamento)dgContasFiltradas.SelectedItem;
-            if(selecao != null && selecao.Conta.FaturaCartaoCredito != null)
+            if (selecao != null && selecao.Conta.FaturaCartaoCredito != null)
             {
                 var cartaoCredito = new RepositorioCartaoCredito(Session).ObterPorId(selecao.Conta.FaturaCartaoCredito.Id);
                 gridOutrasInterfaces.Children.Clear();

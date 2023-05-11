@@ -111,7 +111,6 @@ namespace CFP.App.Formularios.Financeiros
             btRecebimentoRenda.IsEnabled = !btRecebimentoRenda.IsEnabled;
 
             //Desbloqueando
-            btPesquisar.IsEnabled = true;
             txtCodigo.IsEnabled = true;
 
             txtCodigo.Focus();
@@ -121,7 +120,6 @@ namespace CFP.App.Formularios.Financeiros
         private void ControleAcessoCadastro()
         {
             //Bloqueando
-            btPesquisar.IsEnabled = !btPesquisar.IsEnabled;
             txtCodigo.IsEnabled = !txtCodigo.IsEnabled;
 
             //Desbloqueando
@@ -206,6 +204,7 @@ namespace CFP.App.Formularios.Financeiros
                     btCofre.Visibility = Visibility.Visible;
                     btTransferirCofre.Visibility = Visibility.Visible;
                     btAbrirFecharCaixa.Visibility = Visibility.Visible;
+                    btRecebimentoRenda.Visibility = Visibility.Visible;
                     break;
                 case SituacaoCaixa.Fechado:
                     btPesquisar.IsEnabled = true;
@@ -217,6 +216,7 @@ namespace CFP.App.Formularios.Financeiros
                     btCofre.Visibility = Visibility.Hidden;
                     btTransferirCofre.Visibility = Visibility.Hidden;
                     btAbrirFecharCaixa.Visibility = Visibility.Hidden;
+                    btRecebimentoRenda.Visibility = Visibility.Hidden;
                     break;
 
             }
